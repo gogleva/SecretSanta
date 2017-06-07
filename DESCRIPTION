@@ -1,8 +1,8 @@
 Package: SecretSanta
-Title: What the Package Does (one line, title case)
+Title: predict, annotate, classify, visualise secretomes
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Authors@R: person("Anna", "Gogleva", email = "anna.gogleva@slcu.cam.ac.uk", role = c("aut", "cre"))
+Description: Automeated secretome rediction and annotation based on input aminoacid sequences
 Depends: R (>= 3.3.1)
 License: What license is it under?
 Encoding: UTF-8
