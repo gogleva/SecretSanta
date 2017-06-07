@@ -2,7 +2,7 @@
 % Please edit documentation in R/hi.R
 \name{hi}
 \alias{hi}
-\title{Hi}
+\title{Hi function}
 \usage{
 hi(user_name)
 }

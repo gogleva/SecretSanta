@@ -2,15 +2,17 @@
 % Please edit documentation in R/predictSP.R
 \name{predictSP}
 \alias{predictSP}
-\title{PredictSP}
+\title{PredictSP function}
 \usage{
-predictSP(proteins)
+predictSP(proteins, version)
 }
 \arguments{
 \item{proteins}{input file/data frame with proteins}
+
+\item{version}{spcify SignalP version to run}
 }
 \description{
-This function takes input amino acid sequences and predict signla peptides in them
+This function call SignalP for prediction of signal peptides for amino acid sequences
 }
 \examples{
 predictSP()
