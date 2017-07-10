@@ -25,5 +25,7 @@ How to implement prediction:
 - wrap functions?
 - docker environment?
 - external dependency?
+- use webservices?
+
 
 Where/How to store the data - interface to a database?
