@@ -1,4 +1,4 @@
-# SecretSanta
+ls# SecretSanta
 Species: Oomycetes, Fungi, (Plants)
 
 - predict
@@ -16,4 +16,14 @@ Species: Oomycetes, Fungi, (Plants)
 - TMHMM on mature peptides
 - (K/H)DEL removal
 
-How to implement: wrap functions? docker environment? external dependency?
+
+Things to consider:
+
+test functions
+
+How to implement prediction:
+- wrap functions?
+- docker environment?
+- external dependency?
+
+Where/How to store the data - interface to a database?
