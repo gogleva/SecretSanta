@@ -4,7 +4,7 @@ Version: 0.0.0.9000
 Authors@R: person("Anna", "Gogleva", email = "anna.gogleva@slcu.cam.ac.uk", role = c("aut", "cre"))
 Description: Functions and integarted workflow for automated secretome prediction
   and annotation based on input aminoacid sequences.
-Depends: R (>= 3.3.1)
+Depends: R (>= 3.4.0)
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
@@ -12,4 +12,5 @@ RoxygenNote: 6.0.1.9000
 Suggests: 
   ggplot2,
   ggvis
+  
 
