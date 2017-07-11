@@ -15,5 +15,3 @@ Suggests:
 Imports:  
   httr,
   rvest
-  
-

@@ -1,4 +1,4 @@
-#' parse_signalP_web function
+#' Parse_signalP_web function
 #'
 #' This function scraps web output of SignalP tool and returns output in short format organised in a dataframe
 #' @param some_url url used to produce the output
@@ -7,7 +7,7 @@
 #' @examples
 #' parse_signalP_web()
 
-parse_signalP_web <- function(some_url){
+Parse_signalP_web <- function(some_url){
   webpage <- xml2::read_html(some_url)
   raw_data_html <- rvest::html_nodes(webpage, 'pre')
   data <- rvest::html_text(raw_data_html)

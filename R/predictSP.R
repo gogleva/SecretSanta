@@ -12,4 +12,3 @@
 predictSP <- function(proteins, version, mode) {
   print(paste("hi", proteins, "let's get started!", sep = " "))
 }
-

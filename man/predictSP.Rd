@@ -4,12 +4,14 @@
 \alias{predictSP}
 \title{PredictSP function}
 \usage{
-predictSP(proteins, version)
+predictSP(proteins, version, mode)
 }
 \arguments{
 \item{proteins}{input file/data frame with proteins}
 
-\item{version}{spcify SignalP version to run}
+\item{version}{specify SignalP version to run}
+
+\item{mode}{SignalP running mode, web or standalone (require local installation)}
 }
 \description{
 This function call SignalP for prediction of signal peptides for amino acid sequences
