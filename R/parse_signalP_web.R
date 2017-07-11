@@ -1,14 +1,14 @@
 #' Parse_signalP_web function
 #'
 #' This function scraps web output of SignalP tool and returns output in short format organised in a dataframe
-#' @param some_url url used to produce the output
+#' @param url url used to produce the output
 #' @keywords signal peptide, proteins, signal peptide prediction, HMM, web scrapping
 #' @export
 #' @examples
-#' parse_signalP_web()
+#' Parse_signalP_web()
 
-Parse_signalP_web <- function(some_url){
-  webpage <- xml2::read_html(some_url)
+Parse_signalP_web <- function(url){
+  webpage <- xml2::read_html(url)
   raw_data_html <- rvest::html_nodes(webpage, 'pre')
   data <- rvest::html_text(raw_data_html)
   raw <- unlist(strsplit(data, '\n'))
@@ -17,3 +17,4 @@ Parse_signalP_web <- function(some_url){
   d2 <- as.data.frame(do.call("rbind", d2)) 
   d2
 }
+
