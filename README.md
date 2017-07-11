@@ -27,5 +27,8 @@ How to implement prediction:
 - external dependency?
 - use webservices?
 
+- 1) run the prediction
+- 2) scrape the data -> with rvest package, almost done
+
 
 Where/How to store the data - interface to a database?
