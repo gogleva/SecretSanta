@@ -1,34 +1,25 @@
-#' decideSP function
-#'
-#' This function gathers output and decides witch signalP wrapper to run
-#' @param version  specify SignalP version to run
-#' @param mode  SignalP running mode, web or standalone (require local installation)
-#' @keywords signal peptide, proteins, signal peptide prediction, HMM
-#' @export
-#' @examples
-#' decideSP()
-
-
-decideSP <- function(version, mode) {
-  pass
-}
-
-#' PredictSP function
+#' signalp function
 #'
 #' This function calls local SignalP
 #' @param proteins input file/data frame with proteins
 #' @param version  specify SignalP version to run
-#' @param mode  SignalP running mode, web or standalone (require local installation)
-#' @keywords signal peptide, proteins, signal peptide prediction, HMM
+#' @param mode  running mode, web or local
+#' @keywords signalp
 #' @export
 #' @examples
-#' predictSP()
+#' signalp()
 
 
-predictSP <- function(proteins, version, mode) {
-  print(paste("hi", proteins, "let's get started!", sep = " "))
+signalp <- function(proteins, version, mode) {
+  #print(paste("hi", proteins, "let's get started!", sep = " "))
+  if (mode == "local") {
+  print("running signalP locally")  
   system("/home/anna/anna/soft/signalp_2.0/signalp-2.0/signalp -h")
+  } else if (mode == "web") {
+    print("running signalP on the server")
+  }
 }
+
 
 #' Submit_signalP_web function
 #'
