@@ -2,5 +2,6 @@
 
 export(Parse_signalP_web)
 export(Submit_signalP_web)
+export(decideSP)
 export(hi)
 export(predictSP)

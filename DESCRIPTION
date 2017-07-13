@@ -12,6 +12,7 @@ RoxygenNote: 6.0.1.9000
 Suggests: 
   ggplot2,
   ggvis
-Imports:  
+Imports: 
   httr,
-  rvest
+  rvest,
+  testthat
