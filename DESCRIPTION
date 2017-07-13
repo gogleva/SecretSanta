@@ -5,7 +5,7 @@ Authors@R: person("Anna", "Gogleva", email = "anna.gogleva@slcu.cam.ac.uk", role
 Description: Functions and integarted workflow for automated secretome prediction
   and annotation based on input amino acid sequences.
 Depends: R (>= 3.4.0)
-License: What license is it under?
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1.9000
