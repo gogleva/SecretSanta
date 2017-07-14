@@ -21,20 +21,6 @@ signalp <- function(proteins, version, mode) {
 }
 
 
-#' Submit_signalP_web function
-#'
-#' This function submits input to SignalP web tool and returns the actual url which could be used by Parse_signalP_web
-#' @param fasta fasta file with protein sequences
-#' @param mode  specify output format
-#' @keywords signal peptide, proteins, signal peptide prediction, HMM, web scrapping
-#' @export
-#' @examples
-#' Submit_signalP_web()
- 
-Submit_signalP_web <- function(fasta, mode) {
-  pass
-}
-
 #' Parse_signalP_web function
 #'
 #' This function scraps web output of SignalP tool and returns output in short format organised in a dataframe
