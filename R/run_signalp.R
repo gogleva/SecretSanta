@@ -7,18 +7,18 @@
 #' @keywords signalp
 #' @export
 #' @examples
-#' signalp()
-
+#' signalp(proteins = "/SecretSanta/inst/extdata/sample_prot.fasta", mode = 'local', version = 2)
 
 signalp <- function(proteins, version, mode) {
-  #print(paste("hi", proteins, "let's get started!", sep = " "))
   if (mode == "local") {
   print("running signalP locally")  
-  system("/home/anna/anna/soft/signalp_2.0/signalp-2.0/signalp -h")
+  print(paste("/home/anna/anna/soft/signalp_2.0/signalp-2.0/signalp -t euk", proteins))
   } else if (mode == "web") {
     print("running signalP on the server")
   }
 }
+
+
 
 
 #' Submit_signalP_web function
