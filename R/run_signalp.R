@@ -14,11 +14,11 @@ signalp <- function(proteins, version, mode) {
   print("running signalP locally")  
   print(paste("/home/anna/anna/soft/signalp_2.0/signalp-2.0/signalp -t euk", proteins))
   } else if (mode == "web") {
+    # to do: function posting file to web server
+    # to do: function scarpping the output
     print("running signalP on the server")
   }
 }
-
-
 
 
 #' Submit_signalP_web function
