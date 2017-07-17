@@ -17,9 +17,9 @@ signalp(proteins, version)
 4.1 - http://www.cbs.dtu.dk/services/SignalP-4.1/ \cr}
 }
 \description{
-This function calls local SignalP. Please ensure that respective version of SignalP is downloaded and installed + added to PATH
+This function calls local SignalP. 
+Please ensure that respective version of SignalP is downloaded and installed + added to $PATH variable
 }
 \examples{
-signalp(proteins = "/SecretSanta/inst/extdata/sample_prot.fasta", version = 2)
+result <- signalp(proteins = "/SecretSanta/inst/extdata/sample_prot.fasta", 4)
 }
-\keyword{signalp}

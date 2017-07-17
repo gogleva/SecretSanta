@@ -15,11 +15,3 @@ This function scraps web output of SignalP tool and returns output in short form
 \examples{
 Parse_signalP_web()
 }
-\keyword{HMM,}
-\keyword{peptide}
-\keyword{peptide,}
-\keyword{prediction,}
-\keyword{proteins,}
-\keyword{scrapping}
-\keyword{signal}
-\keyword{web}
