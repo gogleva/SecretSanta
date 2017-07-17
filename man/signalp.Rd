@@ -4,7 +4,7 @@
 \alias{signalp}
 \title{signalp function}
 \usage{
-signalp(proteins, version)
+signalp(proteins, version, organism_type)
 }
 \arguments{
 \item{proteins}{input file/data frame with proteins}
@@ -15,10 +15,13 @@ signalp(proteins, version)
 3.0 - http://www.cbs.dtu.dk/services/SignalP-3.0/ \cr
 4.0 - http://www.cbs.dtu.dk/services/SignalP-4.0/ \cr
 4.1 - http://www.cbs.dtu.dk/services/SignalP-4.1/ \cr}
+
+\item{organism_type}{euk, gram+, gram-}
 }
 \description{
 This function calls local SignalP. 
-Please ensure that respective version of SignalP is downloaded and installed + added to $PATH variable
+Please ensure that respective version of SignalP is downloaded, installed and respective path is added to $PATH variable.
+For details see ...
 }
 \examples{
 result <- signalp(proteins = "/SecretSanta/inst/extdata/sample_prot.fasta", 4)
