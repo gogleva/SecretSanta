@@ -14,8 +14,9 @@
 #' signalp(proteins = "/SecretSanta/inst/extdata/sample_prot.fasta", version = 2)
 
 signalp <- function(proteins, version) {
-  print("running signalP locally")  
-  system(paste("signalp -t euk", proteins))
+  message("running signalP locally...")
+  result <- system(paste("signalp -t euk", proteins))
+  
 }
 
 
