@@ -1,6 +1,7 @@
 #' signalp function
 #'
-#' This function calls local SignalP. Please ensure that respective version of SignalP is downloaded and installed + added to $PATH
+#' This function calls local SignalP. 
+#' Please ensure that respective version of SignalP is downloaded and installed + added to $PATH variable
 #' @param proteins input file/data frame with proteins
 #' @param version  specify SignalP version to run; versions available: \cr
 #'                 1.1 - http://www.cbs.dtu.dk/services/SignalP-1.1/ \cr
@@ -14,7 +15,7 @@
 
 signalp <- function(proteins, version) {
   print("running signalP locally")  
-  print(paste("/home/anna/anna/soft/signalp_2.0/signalp-2.0/signalp -t euk", proteins))
+  system(paste("signalp -t euk", proteins))
 }
 
 
