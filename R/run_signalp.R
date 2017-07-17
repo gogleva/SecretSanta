@@ -11,12 +11,13 @@
 #'                 4.1 - http://www.cbs.dtu.dk/services/SignalP-4.1/ \cr
 #' @export
 #' @examples
-#' signalp(proteins = "/SecretSanta/inst/extdata/sample_prot.fasta", version = 2)
+#' result <- signalp(proteins = "/SecretSanta/inst/extdata/sample_prot.fasta", 4)
 
 signalp <- function(proteins, version) {
   message("running signalP locally...")
-  result <- system(paste("signalp -t euk", proteins))
-  
+  result <- read.table(text = (system(paste("signalp -t euk", proteins), intern = TRUE)))
+  names(result) <- c("gene_id", "Cmax", "Cpos", "Ymax", "Ypos", "Smax", "Spos", "Smean", "D", "Status", "Dmaxcut", "Networks-used" )
+  return(result)                     
 }
 
 
