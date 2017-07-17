@@ -17,18 +17,14 @@
 
 signalp <- function(proteins, version, organism_type) {
   message("running signalP locally...")
-  result <- as.tibble(read.table(text = (system(paste("signalp -t",
-                                                      organism_type,
-                                                      "-m mature.fasta",
-                                                      proteins),
-                                                intern = TRUE))))
+  result <- as.tibble(read.table(text = (system(paste("signalp -t", organism_type, "-m mature.fasta", proteins), intern = TRUE))))
   names(result) <- c("gene_id", "Cmax", "Cpos",
                      "Ymax", "Ypos", "Smax",
                      "Spos", "Smean", "D",
                      "Status", "Dmaxcut", "Networks-used")
-  # returns tibble
-  return(result)                     
-}
+  # returns tibble for candidate secreted proteins only
+  return(result %>% filter(Status == 'Y'))
+  }
 
 
 
