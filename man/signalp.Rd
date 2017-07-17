@@ -4,19 +4,22 @@
 \alias{signalp}
 \title{signalp function}
 \usage{
-signalp(proteins, version, mode)
+signalp(proteins, version)
 }
 \arguments{
 \item{proteins}{input file/data frame with proteins}
 
-\item{version}{specify SignalP version to run}
-
-\item{mode}{running mode, web or local}
+\item{version}{specify SignalP version to run; versions available: \cr
+1.1 - http://www.cbs.dtu.dk/services/SignalP-1.1/ \cr
+2.0 - http://www.cbs.dtu.dk/services/SignalP-2.0/ \cr
+3.0 - http://www.cbs.dtu.dk/services/SignalP-3.0/ \cr
+4.0 - http://www.cbs.dtu.dk/services/SignalP-4.0/ \cr
+4.1 - http://www.cbs.dtu.dk/services/SignalP-4.1/ \cr}
 }
 \description{
-This function calls local SignalP
+This function calls local SignalP. Please ensure that respective version of SignalP is downloaded and installed + added to PATH
 }
 \examples{
-signalp()
+signalp(proteins = "/SecretSanta/inst/extdata/sample_prot.fasta", version = 2)
 }
 \keyword{signalp}
