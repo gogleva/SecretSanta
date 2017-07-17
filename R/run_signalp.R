@@ -3,21 +3,14 @@
 #' This function calls local SignalP
 #' @param proteins input file/data frame with proteins
 #' @param version  specify SignalP version to run
-#' @param mode  running mode, web or local
 #' @keywords signalp
 #' @export
 #' @examples
 #' signalp(proteins = "/SecretSanta/inst/extdata/sample_prot.fasta", mode = 'local', version = 2)
 
-signalp <- function(proteins, version, mode) {
-  if (mode == "local") {
+signalp <- function(proteins, version) {
   print("running signalP locally")  
   print(paste("/home/anna/anna/soft/signalp_2.0/signalp-2.0/signalp -t euk", proteins))
-  } else if (mode == "web") {
-    # to do: function posting file to web server
-    # to do: function scarpping the output
-    print("running signalP on the server")
-  }
 }
 
 
