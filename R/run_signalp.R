@@ -15,7 +15,12 @@
 
 signalp <- function(proteins, version, organism_type) {
   message("running signalP locally...")
-  result <- as.tibble(read.table(text = (system(paste("signalp -t", organism_type, "-m mature.fasta", proteins), intern = TRUE))))
+  signalp_version <- paste('signalp', version, sep = '')
+  result <- tibble::as.tibble(read.table(text = (system(paste(signalp_version,
+                                                      "-t",
+                                                      organism_type,
+                                                      "-m mature.fasta",
+                                                      proteins), intern = TRUE))))
   names(result) <- c("gene_id", "Cmax", "Cpos",
                      "Ymax", "Ypos", "Smax",
                      "Spos", "Smean", "D",
@@ -23,31 +28,3 @@ signalp <- function(proteins, version, organism_type) {
   # returns tibble for candidate secreted proteins only
   return(result %>% filter(Status == 'Y'))
   }
-
-
-
-
-
-
-#' Parse_signalP_web function
-#'
-#' This function scraps web output of SignalP tool and returns output in short format organised in a dataframe
-#' @param url url used to produce the output
-#' @export
-#' @examples
-#' Parse_signalP_web()
-
-Parse_signalP_web <- function(url){
-  webpage <- xml2::read_html(url)
-  raw_data_html <- rvest::html_nodes(webpage, 'pre')
-  data <- rvest::html_text(raw_data_html)
-  raw <- unlist(strsplit(data, '\n'))
-  le <- length(raw)
-  d <- raw[9:le - 4] #draft parameters
-  d2 <- as.data.frame(do.call("rbind", d2)) 
-  d2
-}
-
-
-
-
