@@ -15,10 +15,12 @@
 
 signalp <- function(proteins, version) {
   message("running signalP locally...")
-  result <- read.table(text = (system(paste("signalp -t euk", proteins), intern = TRUE)))
+  result <- as.tibble(read.table(text = (system(paste("signalp -t euk", proteins), intern = TRUE))))
   names(result) <- c("gene_id", "Cmax", "Cpos", "Ymax", "Ypos", "Smax", "Spos", "Smean", "D", "Status", "Dmaxcut", "Networks-used" )
   return(result)                     
 }
+
+
 
 
 #' Parse_signalP_web function
