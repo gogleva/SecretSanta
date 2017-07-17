@@ -5,7 +5,6 @@
 #' For details see ... 
 #' @param proteins input file/data frame with proteins
 #' @param version  specify SignalP version to run; versions available: \cr
-#'                 1.1 - http://www.cbs.dtu.dk/services/SignalP-1.1/ \cr
 #'                 2.0 - http://www.cbs.dtu.dk/services/SignalP-2.0/ \cr
 #'                 3.0 - http://www.cbs.dtu.dk/services/SignalP-3.0/ \cr
 #'                 4.0 - http://www.cbs.dtu.dk/services/SignalP-4.0/ \cr

@@ -10,7 +10,6 @@ signalp(proteins, version, organism_type)
 \item{proteins}{input file/data frame with proteins}
 
 \item{version}{specify SignalP version to run; versions available: \cr
-1.1 - http://www.cbs.dtu.dk/services/SignalP-1.1/ \cr
 2.0 - http://www.cbs.dtu.dk/services/SignalP-2.0/ \cr
 3.0 - http://www.cbs.dtu.dk/services/SignalP-3.0/ \cr
 4.0 - http://www.cbs.dtu.dk/services/SignalP-4.0/ \cr
