@@ -1,12 +1,17 @@
 #' signalp function
 #'
-#' This function calls local SignalP
+#' This function calls local SignalP. Please ensure that respective version of SignalP is downloaded and installed + added to $PATH
 #' @param proteins input file/data frame with proteins
-#' @param version  specify SignalP version to run
+#' @param version  specify SignalP version to run; versions available: \cr
+#'                 1.1 - http://www.cbs.dtu.dk/services/SignalP-1.1/ \cr
+#'                 2.0 - http://www.cbs.dtu.dk/services/SignalP-2.0/ \cr
+#'                 3.0 - http://www.cbs.dtu.dk/services/SignalP-3.0/ \cr
+#'                 4.0 - http://www.cbs.dtu.dk/services/SignalP-4.0/ \cr
+#'                 4.1 - http://www.cbs.dtu.dk/services/SignalP-4.1/ \cr
 #' @keywords signalp
 #' @export
 #' @examples
-#' signalp(proteins = "/SecretSanta/inst/extdata/sample_prot.fasta", mode = 'local', version = 2)
+#' signalp(proteins = "/SecretSanta/inst/extdata/sample_prot.fasta", version = 2)
 
 signalp <- function(proteins, version) {
   print("running signalP locally")  
