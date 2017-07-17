@@ -8,7 +8,6 @@
 #'                 3.0 - http://www.cbs.dtu.dk/services/SignalP-3.0/ \cr
 #'                 4.0 - http://www.cbs.dtu.dk/services/SignalP-4.0/ \cr
 #'                 4.1 - http://www.cbs.dtu.dk/services/SignalP-4.1/ \cr
-#' @keywords signalp
 #' @export
 #' @examples
 #' signalp(proteins = "/SecretSanta/inst/extdata/sample_prot.fasta", version = 2)
@@ -23,7 +22,6 @@ signalp <- function(proteins, version) {
 #'
 #' This function scraps web output of SignalP tool and returns output in short format organised in a dataframe
 #' @param url url used to produce the output
-#' @keywords signal peptide, proteins, signal peptide prediction, HMM, web scrapping
 #' @export
 #' @examples
 #' Parse_signalP_web()
