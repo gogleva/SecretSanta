@@ -7,11 +7,11 @@
 manage_paths(path_file)
 }
 \arguments{
-\item{path_file}{file with listed paths for different signalp versions}
+\item{path_file}{2-column space-separated file with listed paths for different signalp versions}
 }
 \description{
 This function calls manages pathways for signalP versions
 }
 \examples{
-
+secret_paths <- manage_paths("SecretSanta/inst/extdata/sample_paths")
 }

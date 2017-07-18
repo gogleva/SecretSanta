@@ -22,5 +22,5 @@ Please ensure that respective version of SignalP is downloaded, installed and re
 For details see ... explain with aliases and examples
 }
 \examples{
-result <- signalp(proteins = "/SecretSanta/inst/extdata/sample_prot.fasta", organism_type = 'euk')
+result <- signalp(proteins = "SecretSanta/inst/extdata/sample_prot.fasta", organism_type = 'euk', version = 4)
 }

@@ -1,10 +1,10 @@
 #' manage_paths function
 #'
 #' This function calls manages pathways for signalP versions
-#' @param path_file  file with listed paths for different signalp versions
+#' @param path_file  2-column space-separated file with listed paths for different signalp versions                
 #' @export
 #' @examples
-#' 
+#' secret_paths <- manage_paths("SecretSanta/inst/extdata/sample_paths")
 
 manage_paths <- function(path_file) {
   # read path file in a tibble
@@ -17,5 +17,6 @@ manage_paths <- function(path_file) {
     } else {
     message('Warning! supplied file path does not exist')
     message(sapply(pp %>% filter(status == FALSE) %>% select(path), paste, '\n'))
+    message('Please check the paths and try again')
     }
 }

@@ -11,19 +11,28 @@
 #' @param organism_type euk, gram+, gram-                 
 #' @export
 #' @examples
-#' result <- signalp(proteins = "/SecretSanta/inst/extdata/sample_prot.fasta", organism_type = 'euk')
+#' result <- signalp(proteins = "SecretSanta/inst/extdata/sample_prot.fasta", organism_type = 'euk', version = 4)
 
 
 signalp <- function(proteins, version, organism_type) {
   message("running signalP locally...")
-  result <- tibble::as.tibble(read.table(text = (system(paste("signalp -t", organism_type, proteins), intern = TRUE))))
-  names(result) <- c("gene_id", "Cmax", "Cpos",
-                     "Ymax", "Ypos", "Smax",
-                     "Spos", "Smean", "D",
-                     "Status", "Dmaxcut", "Networks-used")
-  # returns tibble for candidate secreted proteins only
-  return(result %>% filter(Status == 'Y'))
+  #determine which of signalp paths we need to use:
+  signalp_version <- paste("signalp", version, sep = '')
+  print(signalp_version)
+  full_pa <- as.character(secret_paths %>% filter(tool == signalp_version) %>% select(path))
+  if (version >= 4) {
+    #running signalp versions 4 and 4.1
+    result <- tibble::as.tibble(read.table(text = (system(paste(full_pa, "-t", organism_type, proteins), intern = TRUE))))
+    names(result) <- c("gene_id", "Cmax", "Cpos",
+                       "Ymax", "Ypos", "Smax",
+                       "Spos", "Smean", "D",
+                       "Status", "Dmaxcut", "Networks-used")
+    # returns tibble for candidate secreted proteins only
+    return(result %>% filter(Status == 'Y'))
+  } else {
+    print('ancient signalp, requires parser first')
+  }
 }
 
 
-
+#to do deal with the versions!
