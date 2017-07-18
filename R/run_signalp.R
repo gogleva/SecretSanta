@@ -1,6 +1,6 @@
 #' signalp function
 #'
-#' This function calls local SignalP. 
+#' This function calls local SignalP
 #' Please ensure that respective version of SignalP is downloaded, installed and respective path is added to $PATH variable.
 #' For details see ... explain with aliases and examples
 #' @param proteins input file/data frame with proteins
@@ -16,10 +16,7 @@
 
 signalp <- function(proteins, version, organism_type) {
   message("running signalP locally...")
-  result <- tibble::as.tibble(read.table(text = (system(paste("signalp",
-                                                      "-t",
-                                                      organism_type,
-                                                      proteins), intern = TRUE))))
+  result <- tibble::as.tibble(read.table(text = (system(paste("signalp -t", organism_type, proteins), intern = TRUE))))
   names(result) <- c("gene_id", "Cmax", "Cpos",
                      "Ymax", "Ypos", "Smax",
                      "Spos", "Smean", "D",
