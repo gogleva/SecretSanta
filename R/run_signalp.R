@@ -16,11 +16,11 @@
 signalp <- function(proteins, version, organism_type) {
   message("running signalP locally...")
   signalp_version <- paste('signalp', version, sep = '')
-  print(signalp_version)
-  print(paste(signalp_version,
-              "-t",
-              organism_type,
-              proteins))
+  #print(signalp_version)
+  #print(paste(signalp_version,
+   #           "-t",
+    #          organism_type,
+     #         proteins))
   result <- tibble::as.tibble(read.table(text = (system(paste(signalp_version,
                                                       "-t",
                                                       organism_type,
