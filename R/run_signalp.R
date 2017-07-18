@@ -35,4 +35,20 @@ signalp <- function(proteins, version, organism_type) {
 }
 
 
+#' parse_signalp2_3
+#'
+#' This function parses text outputs for signalp2 and 3 and returns rectangular tibble
+#' @param proteins input file/data frame with proteins
+#' @export
+#' @examples
+#' 
+
+
+
+parse_signalp2_3 < function() {
+  pass
+}
+
+
+
 #to do deal with the versions!
