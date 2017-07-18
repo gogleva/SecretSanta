@@ -11,17 +11,12 @@
 #' @param organism_type euk, gram+, gram-                 
 #' @export
 #' @examples
-#' result <- signalp(proteins = "/SecretSanta/inst/extdata/sample_prot.fasta", 4)
+#' result <- signalp(proteins = "/SecretSanta/inst/extdata/sample_prot.fasta", organism_type = 'euk')
+
 
 signalp <- function(proteins, version, organism_type) {
   message("running signalP locally...")
-  signalp_version <- paste('signalp', version, sep = '')
-  #print(signalp_version)
-  #print(paste(signalp_version,
-   #           "-t",
-    #          organism_type,
-     #         proteins))
-  result <- tibble::as.tibble(read.table(text = (system(paste(signalp_version,
+  result <- tibble::as.tibble(read.table(text = (system(paste("signalp",
                                                       "-t",
                                                       organism_type,
                                                       proteins), intern = TRUE))))
@@ -31,4 +26,7 @@ signalp <- function(proteins, version, organism_type) {
                      "Status", "Dmaxcut", "Networks-used")
   # returns tibble for candidate secreted proteins only
   return(result %>% filter(Status == 'Y'))
-  }
+}
+
+
+
