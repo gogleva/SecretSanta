@@ -16,11 +16,6 @@ manage_paths <- function(path_file) {
     return(pp)
     } else {
     message('Warning! supplied file path does not exist')
-    sapply(pp %>% filter(status == FALSE) %>% select(path), message)  
+    message(sapply(pp %>% filter(status == FALSE) %>% select(path), paste, '\n'))
     }
 }
-
-
-#testmm
-
-
