@@ -12,12 +12,15 @@ manage_paths <- function(path_file) {
   names(pp) <- c("tool", "path")
   # now check that all supplied paths exist
   pp$status <- file.exists(pp$path)
-  if (any(pp$status == FALSE)) { 
-    message('supplied file path does not exist')} else {
-      return(pp)
+  if (all(pp$status)) { 
+    return(pp)
+    } else {
+    message('Warning! supplied file path does not exist')
+    sapply(pp %>% filter(status == FALSE) %>% select(path), message)  
     }
 }
 
-testmm
+
+#testmm
 
 
