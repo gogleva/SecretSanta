@@ -3,4 +3,5 @@
 export(Parse_signalP_web)
 export(hi)
 export(manage_paths)
+export(parse_signalp)
 export(signalp)
