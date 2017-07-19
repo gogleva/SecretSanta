@@ -10,7 +10,7 @@ parse_signalp(some_param)
 \item{param}{some param}
 }
 \description{
-This function calls manages pathways for signalP versions
+This function parses signalp2 and signalp3 output
 }
 \examples{
 parse_signalp(some_param)
