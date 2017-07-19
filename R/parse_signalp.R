@@ -9,3 +9,11 @@
 parse_signalp <- function(some_param) {
   print(some_param)
 }
+
+
+#data <- readLines("SecretSanta/inst/extdata/sample_prot_signalp2_out")
+#data
+
+#data[grep(">", data)]
+
+

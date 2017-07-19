@@ -14,7 +14,8 @@ Imports:
   rvest, 
   testthat,
   dplyr,
-  tidyverse
+  tidyverse,
+  magrittr
 Suggests: 
   ggplot2,
   ggvis
