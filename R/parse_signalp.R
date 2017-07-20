@@ -31,10 +31,10 @@ parse_signalp <- function(data_path) {
                               t(max_Y_fixed),
                               t(max_S_fixed),
                               t(mean_S_fixed)))
-  names(res) <- c("gene_id", "Cmax", "Cpos",
-                     "Ymax", "Ypos", "Smax",
-                     "Spos", "Smean")
+  names(res) <- c("gene_id", "Cpos", "Cmax",
+                  "Ypos", "Ymax", "Spos",
+                  "Smax", "Srange", "Smean")
   return(res)
 }
   
-parse_signalp("SecretSanta/inst/extdata/sample_prot_signalp2_out")
+res2 <- parse_signalp("SecretSanta/inst/extdata/sample_prot_signalp2_out")
