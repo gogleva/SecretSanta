@@ -4,7 +4,7 @@
 #' @param data_path  text output from signalp2 or signalp3, test: read from the file
 #' @export
 #' @examples
-#' parse_signalp("SecretSanta/inst/extdata/sample_prot_signalp2_out")
+#' res2 <- parse_signalp("SecretSanta/inst/extdata/sample_prot_signalp2_out")
 
 parse_signalp <- function(data_path) {
   # helper function for gene ids
@@ -41,7 +41,12 @@ parse_signalp <- function(data_path) {
   #filter entries predicted to contain signal peptide
   return(res %>% filter(Status == 'Signal peptide'))
 }
-  
-res2 <- parse_signalp("SecretSanta/inst/extdata/sample_prot_signalp2_out")
 
-data <- readLines("SecretSanta/inst/extdata/sample_prot_signalp2_out")
+###tests
+
+#signalp2 output
+#res2 <- parse_signalp("/home/anna/anna/Labjournal/SecretSanta/inst/extdata/sample_prot_signalp2_out")
+#signalp3 output
+#res3 <- parse_signalp("SecretSanta/inst/extdata/sample_prot_signalp3_out")
+
+

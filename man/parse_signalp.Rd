@@ -4,14 +4,14 @@
 \alias{parse_signalp}
 \title{parse_signalp function}
 \usage{
-parse_signalp(some_param)
+parse_signalp(data_path)
 }
 \arguments{
-\item{param}{some param}
+\item{data_path}{text output from signalp2 or signalp3, test: read from the file}
 }
 \description{
 This function parses signalp2 and signalp3 output
 }
 \examples{
-parse_signalp(some_param)
+res2 <- parse_signalp("SecretSanta/inst/extdata/sample_prot_signalp2_out")
 }
