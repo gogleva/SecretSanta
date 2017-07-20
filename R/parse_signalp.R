@@ -9,8 +9,8 @@
 parse_signalp <- function(signalp_output) {
   # helper function for gene ids
   clean_geneids <- function(x) {gsub('>', '', unlist(str_split(x, " "))[1])}
-  # helper function for C-score
-  clean_maxC <- function(x) {as.numeric(unlist(str_split(x, "  "))[c(3,6)])}
+  # helper function for C-score, split line with varibale number of spaces
+  clean_maxC_var <- function(x) {as.numeric(strsplit(x, "\\s+")[[1]][c(4,5)])}
   # read data
   data <-  readLines("SecretSanta/inst/extdata/sample_prot_signalp2_out")
   # extract gene ids
@@ -18,8 +18,17 @@ parse_signalp <- function(signalp_output) {
   gene_ids_fixed <- (sapply(gene_ids, clean_geneids, USE.NAMES = FALSE))
   # extract max C score and position
   max_C <- data[grep("max. C", data)]  
-  max_C_fixed <- (sapply(max_C, clean_maxC, USE.NAMES = FALSE))
+  max_C_fixed <- sapply(max_C, clean_maxC_var, USE.NAMES = FALSE)
 }
+  
+ 
+  
+
+#split string with variable number of spaces:
+strsplit(max_C[10], "\\s+")[[1]]
+  
+
+
 
 
 data <- readLines("SecretSanta/inst/extdata/sample_prot_signalp2_out") #now read from the file, later - update this
