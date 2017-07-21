@@ -4,15 +4,21 @@
 \alias{pipe_signalp}
 \title{pipe_signalp function}
 \usage{
-pipe_signalp(piping_sequence)
+pipe_signalp(piping_sequence, input_fasta)
 }
 \arguments{
-\item{piping_sequence}{specify piping sequence: what to pipe where and when}
+\item{piping_sequence}{specify piping sequence: vector of signalp versions \cr
+accepted formats: c(1,2,3) or c("signalp2", "signalp3", "signalp4")}
+
+\item{input_fasta}{fasta file with proteins to initiate the pipe}
 }
 \description{
 This function pipes outputs from different version of signalp
 }
 \examples{
-
+piping_seq <- c("signalp2", "signalp3", "signalp4")
+piping_seq_num <- c(2,3,3)
+pipe_signalp(piping_sequence = piping_seq, 'some_fasta')
+pipe_signalp(piping_sequence = piping_seq_num, 'some_fasta')
 
 }
