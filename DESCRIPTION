@@ -15,7 +15,8 @@ Imports:
   testthat,
   dplyr,
   tidyverse,
-  magrittr
+  magrittr,
+  stringr
 Suggests: 
   ggplot2,
   ggvis

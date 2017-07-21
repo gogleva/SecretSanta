@@ -8,9 +8,9 @@
 
 parse_signalp <- function(data_path) {
   # helper function for gene ids
-  clean_geneids <- function(x) {gsub('>', '', unlist(str_split(x, " "))[1])}
+  clean_geneids <- function(x) {gsub('>', '', unlist(stringr::str_split(x, " "))[1])}
   # helper function for C-score, Y-score and S-score: split line with varibale number of spaces
-  clean_score <- function(x) {as.numeric(strsplit(x, "\\s+")[[1]][c(4,5 )])}
+  clean_score <- function(x) {as.numeric(stringr::strsplit(x, "\\s+")[[1]][c(4,5 )])}
   # helper function for S mean
   clean_mean <- function(x) {strsplit(x, "\\s+")[[1]][c(4,5)]}
   # helper fucntion for prediction result:
