@@ -7,7 +7,7 @@
 signalp(proteins, version, organism_type)
 }
 \arguments{
-\item{proteins}{input file/data frame with proteins}
+\item{proteins}{input file with proteins}
 
 \item{version}{specify SignalP version to run; versions available: \cr
 2.0 - http://www.cbs.dtu.dk/services/SignalP-2.0/ \cr

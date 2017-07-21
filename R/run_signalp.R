@@ -3,7 +3,7 @@
 #' This function calls local SignalP
 #' Please ensure that respective version of SignalP is downloaded, installed and respective path is added to $PATH variable.
 #' For details see ... explain with aliases and examples
-#' @param proteins input file/data frame with proteins
+#' @param proteins input file with proteins
 #' @param version  specify SignalP version to run; versions available: \cr
 #'                 2.0 - http://www.cbs.dtu.dk/services/SignalP-2.0/ \cr
 #'                 3.0 - http://www.cbs.dtu.dk/services/SignalP-3.0/ \cr
