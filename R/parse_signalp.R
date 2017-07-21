@@ -1,12 +1,16 @@
 #' parse_signalp function
 #'
 #' This function parses signalp2 and signalp3 output
-#' @param data_path  text output from signalp2 or signalp3, test: read from the file
+#' @param input signalp2 or 3 input
+#' @param input_type  path: file with text output from signalp2 or signalp3 \cr 
+#'                    system_call: direct output from signalp2/3 system call
 #' @export
 #' @examples
-#' res2 <- parse_signalp("SecretSanta/inst/extdata/sample_prot_signalp2_out")
+#' res2_path <- parse_signalp(input = "/home/anna/anna/Labjournal/SecretSanta/inst/extdata/sample_prot_signalp2_out", input_type = "path")
+#' con <- system("/home/anna/anna/Labjournal/SecretSanta_external/signalp-2.0/signalp -t euk SecretSanta/inst/extdata/sample_prot.fasta", intern = TRUE)
+#' res2_system <- parse_signalp(input = con, input_type = "system_call")
 
-parse_signalp <- function(data_path) {
+parse_signalp <- function(input, input_type) {
   # helper function for gene ids
   clean_geneids <- function(x) {gsub('>', '', unlist(stringr::str_split(x, " "))[1])}
   # helper function for C-score, Y-score and S-score: split line with varibale number of spaces
@@ -16,7 +20,11 @@ parse_signalp <- function(data_path) {
   # helper fucntion for prediction result:
   clean_status <- function(x) {gsub('Prediction: ', '', x)}
   # read data
-  data <-  readLines(data_path)
+  if (input_type == 'path') {
+    data <- readLines(input)
+  } else if (input_type == 'system_call'){
+    data <- input #system call already captured in a character object
+  }
   # extract gene ids
   gene_ids <- data[(grep("# Measure  Position  Value  Cutoff  signal peptide?", data) - 1)]
   gene_ids_fixed <- (sapply(gene_ids, clean_geneids, USE.NAMES = FALSE))
@@ -37,9 +45,9 @@ parse_signalp <- function(data_path) {
                               Status_fixed))
   names(res) <- c("gene_id", "Cpos", "Cmax",
                   "Ypos", "Ymax", "Spos",
-                  "Smax", "Srange", "Smean", "Status")
+                  "Smax", "Srange", "Smean", "Prediction")
   #filter entries predicted to contain signal peptide
-  return(res %>% filter(Status == 'Signal peptide'))
+  return(res %>% filter(Prediction == 'Signal peptide'))
 }
 
 ###tests
@@ -48,5 +56,4 @@ parse_signalp <- function(data_path) {
 #res2 <- parse_signalp("/home/anna/anna/Labjournal/SecretSanta/inst/extdata/sample_prot_signalp2_out")
 #signalp3 output
 #res3 <- parse_signalp("SecretSanta/inst/extdata/sample_prot_signalp3_out")
-
 
