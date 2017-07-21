@@ -4,7 +4,7 @@
 \alias{signalp}
 \title{signalp function}
 \usage{
-signalp(proteins, version, organism_type)
+signalp(proteins, version, organism_type, output_type)
 }
 \arguments{
 \item{proteins}{input file with proteins}
@@ -15,6 +15,10 @@ signalp(proteins, version, organism_type)
 4.1 - http://www.cbs.dtu.dk/services/SignalP-4.1/ \cr}
 
 \item{organism_type}{euk, gram+, gram-}
+
+\item{output_type}{options: tibble/table with results; - this is done \cr
+fasta file with candidate secreted peptides, full length - not done; \cr
+fasta file with mature sequences - not done}
 }
 \description{
 This function calls local SignalP

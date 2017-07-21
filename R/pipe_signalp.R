@@ -40,9 +40,9 @@ pipe_signalp <- function(piping_sequence, input_fasta) {
 
 #helper recursive piper function: 
 
-piper <- function(some_sequence) {
-    if  
-}
+#piper <- function(some_sequence) {
+ #   if  
+#}
 
 
 #to do: teach run_signalp to output fasta file and/or tibble with results
