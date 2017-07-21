@@ -1,7 +1,7 @@
 #' manage_paths function
 #'
-#' This function calls manages pathways for signalP versions
-#' @param path_file  2-column space-separated file with listed paths for different signalp versions                
+#' This function calls manages pathways for CBS tools: signalp, targetp ... etc
+#' @param path_file  2-column space-separated file with listed paths for CBS tools
 #' @export
 #' @examples
 #' secret_paths <- manage_paths("SecretSanta/inst/extdata/sample_paths")
