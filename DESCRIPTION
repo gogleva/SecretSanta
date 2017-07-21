@@ -16,7 +16,8 @@ Imports:
   dplyr,
   tidyverse,
   magrittr,
-  stringr
+  stringr,
+  tibble
 Suggests: 
   ggplot2,
   ggvis
