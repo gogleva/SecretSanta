@@ -28,13 +28,12 @@ signalp <- function(proteins, version, organism_type) {
                        "Spos", "Smean", "D",
                        "Prediction", "Dmaxcut", "Networks-used")
     # returns tibble for candidate secreted proteins only
-    return(result %>% filter(Status == 'Y'))
+    return(result %>% filter(Prediction == 'Y'))
   } else if(version < 4) {
     # running signalp versions 2 and 3
     message('ancient signalp, calling parser for the output...')
-    con <- system(paste(full_pa, "-t", organism_type, proteins), intern = TRUE))
-
-    
+    con <- system(paste(full_pa, "-t", organism_type, proteins), intern = TRUE)
+    result <- parse_signalp(input = con, input_type = "system_call")
   }
 }
 
