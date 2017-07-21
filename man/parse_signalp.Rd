@@ -4,14 +4,19 @@
 \alias{parse_signalp}
 \title{parse_signalp function}
 \usage{
-parse_signalp(data_path)
+parse_signalp(input, input_type)
 }
 \arguments{
-\item{data_path}{text output from signalp2 or signalp3, test: read from the file}
+\item{input}{signalp2 or 3 input}
+
+\item{input_type}{path: file with text output from signalp2 or signalp3 \cr 
+system_call: direct output from signalp2/3 system call}
 }
 \description{
 This function parses signalp2 and signalp3 output
 }
 \examples{
-res2 <- parse_signalp("SecretSanta/inst/extdata/sample_prot_signalp2_out")
+res2_path <- parse_signalp(input = "/home/anna/anna/Labjournal/SecretSanta/inst/extdata/sample_prot_signalp2_out", input_type = "path")
+con <- system("/home/anna/anna/Labjournal/SecretSanta_external/signalp-2.0/signalp -t euk SecretSanta/inst/extdata/sample_prot.fasta", intern = TRUE)
+res2_system <- parse_signalp(input = con, input_type = "system_call")
 }
