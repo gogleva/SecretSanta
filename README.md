@@ -22,13 +22,5 @@ Things to consider:
 test functions
 
 How to implement prediction:
-- wrap functions?
-- docker environment?
-- external dependency?
-- use webservices?
-
-- 1) run the prediction
-- 2) scrape the data -> with rvest package, almost done
-
-
-Where/How to store the data - interface to a database?
+- system calls for signalp(versions) installed locally
+- current focus: pipe_signalp - function to combine versions for multi-step filtering
