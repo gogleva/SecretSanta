@@ -7,10 +7,10 @@
 manage_paths(path_file)
 }
 \arguments{
-\item{path_file}{2-column space-separated file with listed paths for different signalp versions}
+\item{path_file}{2-column space-separated file with listed paths for CBS tools}
 }
 \description{
-This function calls manages pathways for signalP versions
+This function calls manages pathways for CBS tools: signalp, targetp ... etc
 }
 \examples{
 secret_paths <- manage_paths("SecretSanta/inst/extdata/sample_paths")
