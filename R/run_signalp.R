@@ -9,12 +9,16 @@
 #'                 3.0 - http://www.cbs.dtu.dk/services/SignalP-3.0/ \cr
 #'                 4.1 - http://www.cbs.dtu.dk/services/SignalP-4.1/ \cr
 #' @param organism_type euk, gram+, gram-                 
+#' @param output_type options: tibble/table with results; - this is done \cr
+#'                    fasta file with candidate secreted peptides, full length - not done; \cr
+#'                    fasta file with mature sequences - not done
 #' @export
 #' @examples
 #' result <- signalp(proteins = "SecretSanta/inst/extdata/sample_prot.fasta", organism_type = 'euk', version = 4)
 
+# alterantively: capture all possible outputs in a complex object, like DEseq objects
 
-signalp <- function(proteins, version, organism_type) {
+signalp <- function(proteins, version, organism_type, output_type) {
   message("running signalP locally...")
   #determine which of signalp paths we need to use:
   signalp_version <- paste("signalp", version, sep = '')

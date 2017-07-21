@@ -25,6 +25,7 @@ pipe_signalp <- function(piping_sequence, input_fasta) {
     message(paste(piping_sequence[-length(piping_sequence)], '--> '), piping_sequence[length(piping_sequence)])
     message('pipeline includes ', length(piping_seq), ' steps')
   }else{
+    message('Aborting..')
     stop('please make sure that there are no duplicte tools in the specified piping sequence')
   }  
   
@@ -40,9 +41,12 @@ pipe_signalp <- function(piping_sequence, input_fasta) {
 #helper recursive piper function: 
 
 piper <- function(some_sequence) {
-    start = some_sequence[1]
-    if 
-        }
+    if  
+}
+
+
+#to do: teach run_signalp to output fasta file and/or tibble with results
+
 
 
 
