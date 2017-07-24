@@ -20,10 +20,15 @@
 
 signalp <- function(proteins, version, organism_type, output_type) {
   message("running signalP locally...")
-  #determine which of signalp paths we need to use:
+  # check input fasta files for illegal characters and other incompatibilities
+  
+  
+  
+  # determine which of signalp paths we need to use:
   signalp_version <- paste("signalp", version, sep = '')
   message(signalp_version)
   full_pa <- as.character(secret_paths %>% filter(tool == signalp_version) %>% select(path))
+  
   if (version >= 4) {
     # running signalp versions 4 and 4.1
     result <- tibble::as.tibble(read.table(text = (system(paste(full_pa, "-t", organism_type, proteins), intern = TRUE))))
@@ -34,7 +39,7 @@ signalp <- function(proteins, version, organism_type, output_type) {
     # returns tibble for candidate secreted proteins only
     return(result %>% filter(Prediction == 'Y'))
   } else if(version < 4) {
-    # running signalp versions 2 and 3
+    # running signalp versions 2 and 3, call parser for the initial output
     message('ancient signalp, calling parser for the output...')
     con <- system(paste(full_pa, "-t", organism_type, proteins), intern = TRUE)
     result <- parse_signalp(input = con, input_type = "system_call")
