@@ -24,3 +24,8 @@ test functions
 How to implement prediction:
 - system calls for signalp(versions) installed locally
 - current focus: pipe_signalp - function to combine versions for multi-step filtering
+
+
+Expansion:
+integrate some/all of the following tools:
+http://bioinformatics.ysu.edu/tools/subcell.html
