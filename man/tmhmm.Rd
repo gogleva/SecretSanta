@@ -13,7 +13,7 @@ tmhmm(proteins, output_type)
 }
 \description{
 This function calls local TMHMM
-Output:
+Output: \cr
 "len=": the length of the protein sequence. \cr
 "ExpAA=": The expected number of amino acids intransmembrane helices (see above). \cr
 "First60=": The expected number of amino acids in transmembrane helices in the first 60 amino acids of the protein (see above). \cr
