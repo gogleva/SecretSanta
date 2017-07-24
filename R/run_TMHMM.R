@@ -21,5 +21,3 @@ tmhmm <- function(proteins, output_type) {
                      "First60", "PredHel", "Topology")
   return(result)
 }
-
-
