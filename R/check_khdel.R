@@ -19,11 +19,16 @@ check_khdel <- function(proteins, output_type) {
 
   if (any(which(mapply(tail_bases, ff) == 'hdel')) | any(which(mapply(tail_bases, ff) == 'kdel'))) {
     message('oh no, kdel')
-    res <- attr(c(which(mapply(tail_bases, ff) == 'hdel'), which(mapply(tail_bases, ff) == 'kdel')), "name")
+    offenders <- c(which(mapply(tail_bases, ff) == 'hdel'), which(mapply(tail_bases, ff) == 'kdel'))
+    res <- attr(offenders, "name")
     print(res)
+    return(ff[-c(offenders)])
     }else{
       message('all good!')
+      return(ff)
     }
 }
+
+
 
 
