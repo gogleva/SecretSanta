@@ -13,4 +13,7 @@ targetp(proteins, output_type)
 }
 \description{
 This function calls local targetp
+Please check targetp README before running this fucntion:
+TARGETP         'targetp-1.1' directory
+TMP             location for temporary data
 }

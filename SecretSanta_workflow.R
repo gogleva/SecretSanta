@@ -9,6 +9,8 @@ result2 <- signalp(proteins = "SecretSanta/inst/extdata/sample_prot.fasta", orga
 ### Parse signalP2/3 output:
 res2 <- parse_signalp("SecretSanta/inst/extdata/sample_prot_signalp2_out", input_type = "path")
 
+### run tmhmm:
 
+tmhmm()
 
 
