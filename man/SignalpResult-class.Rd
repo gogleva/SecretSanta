@@ -11,8 +11,6 @@ An S4 class to represent intermediate and final outputs of the signalp predictio
 \section{Slots}{
 
 \describe{
-\item{\code{paths}}{paths to CBS exceutibles, do I need it here?}
-
 \item{\code{in_fasta}}{initial fasta file, do we need to drag it along?}
 
 \item{\code{out_fasta}}{output fasta with only positive candidates, i.e sequences predicted to be secreted at this step}
@@ -21,6 +19,19 @@ An S4 class to represent intermediate and final outputs of the signalp predictio
 
 \item{\code{sp_version}}{version of signalp used to generate this object}
 
-\item{\code{sp_tibble}}{standard tibble with outputs obtained from signalp}
+\item{\code{sp_tibble}}{Object of class tibble, contains ... columns:
+\itemize{
+  \item gene_id - unique id of the sequence
+  \item Cmax - 
+  \item Cpos - 
+  \item Ymax - 
+  \item Ypos - 
+  \item Smax -
+  \item Spos -
+  \item Smean -
+  \item Prediction -
+  \item Dmaxcut -
+  \item Networks used -
+  }}
 }}
 
