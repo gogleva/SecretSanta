@@ -22,16 +22,19 @@ An S4 class to represent intermediate and final outputs of the signalp predictio
 \item{\code{sp_tibble}}{Object of class tibble, contains ... columns:
 \itemize{
   \item gene_id - unique id of the sequence
-  \item Cmax - 
-  \item Cpos - 
-  \item Ymax - 
-  \item Ypos - 
-  \item Smax -
-  \item Spos -
-  \item Smean -
-  \item Prediction -
-  \item Dmaxcut -
-  \item Networks used -
+  \item Cmax - max raw cleavage site score (C-score)
+  \item Cpos - amino acid position with max C-score
+  \item Ymax - max combied cleavage site score (Y-score)
+  \item Ypos - amino acid position with max Y-score
+  \item Smax - max signal peptide score
+  \item Spos - amino acid position with max S-score 
+  \item D - a weighted average of the mean S and the max. Y scores.
+            This is the score that is used to discriminate signal peptides from non-signal peptides.
+  \item Smean - the average S-score of the possible signal peptide (from position 1 to the position immediately before the
+            maximal Y-score)
+  \item Prediction - final desision o whether the protein is secreted or not (Y/N)
+  \item Dmaxcut - ???
+  \item Networks used - networks used
   }}
 }}
 

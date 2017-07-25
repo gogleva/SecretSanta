@@ -11,8 +11,6 @@ An S4 class to represent intermediate and final outputs of the TMHMM prediction 
 \section{Slots}{
 
 \describe{
-\item{\code{paths}}{paths to CBS exceutibles, do I need it here?}
-
 \item{\code{in_fasta}}{initial fasta file}
 
 \item{\code{in_mature_fasta}}{input mature fasta,}

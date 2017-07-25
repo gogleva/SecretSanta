@@ -11,8 +11,6 @@ An S4 class to represent intermediate and final outputs of the targetp predictio
 \section{Slots}{
 
 \describe{
-\item{\code{paths}}{paths to CBS exceutibles, do I need it here?}
-
 \item{\code{in_fasta}}{initial fasta file, do we need to drag it along?}
 
 \item{\code{out_fasta}}{output fasta with only positive candidates, i.e. not associated with cell organells}
