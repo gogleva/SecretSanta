@@ -4,9 +4,13 @@
 \name{TargetpResult-class}
 \alias{TargetpResult-class}
 \alias{TargetppResult}
+\alias{TargetpResult-class}
+\alias{TargetppResult}
 \title{An S4 class to represent intermediate and final outputs of the targetp prediction step}
 \description{
 An S4 class to represent intermediate and final outputs of the targetp prediction step
+
+An S4 class to represent intermediate and final outputs of the TMHMM prediction step
 }
 \section{Slots}{
 
@@ -17,6 +21,18 @@ An S4 class to represent intermediate and final outputs of the targetp predictio
 
 \item{\code{out_fasta}}{output fasta with only positive candidates, i.e. not associated with cell organells}
 
-\item{\code{tp_tibble}}{standard tibble with outputs obtained from signalp}
+\item{\code{tp_tibble}}{standard tibble with outputs obtained from targetp}
+
+\item{\code{paths}}{paths to CBS exceutibles, do I need it here?}
+
+\item{\code{in_fasta}}{initial fasta file}
+
+\item{\code{in_mature_fasta}}{input mature fasta,}
+
+\item{\code{out_fasta}}{output fasta with only positive full-length candidates, candidates without TM in mature sequences}
+
+\item{\code{out_mature_fasta}}{output mature, conatins mature sequences without TM domains}
+
+\item{\code{tm_tibble}}{tibble with outputs obtained from TMHMM}
 }}
 
