@@ -24,7 +24,7 @@ SignalpResult <- setClass("SignalpResult",
 #' @slot tp_tibble       standard tibble with outputs obtained from targetp
 #' 
 
-TargetppResult <- setClass("TargetpResult",
+TargetpResult <- setClass("TargetpResult",
                           slots = list(paths = 'file',
                                        in_fasta = "file",
                                        out_fasta = "file",
@@ -43,7 +43,7 @@ TargetppResult <- setClass("TargetpResult",
 #' @slot tm_tibble        tibble with outputs obtained from TMHMM
 #' 
 
-TargetppResult <- setClass("TargetpResult",
+TMhmmResult <- setClass("TMhmmResult",
                            slots = list(paths = 'file',
                                         in_fasta = "file",
                                         in_mature_fasta = "file",
