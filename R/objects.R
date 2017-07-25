@@ -9,11 +9,11 @@
 #' 
 
 SignalpResult <- setClass("SignalpResult",
-                    slots = list(paths = 'file',
+                    slots = list(paths = "file",
                                  in_fasta = "file",
                                  out_fasta = "file",
                                  mature_fasta = "file",
-                                 sp_tibble = 'tbl_df')
+                                 sp_tibble = "tbl_df")
                         )
 
 #' An S4 class to represent intermediate and final outputs of the targetp prediction step
@@ -25,11 +25,11 @@ SignalpResult <- setClass("SignalpResult",
 #' 
 
 TargetpResult <- setClass("TargetpResult",
-                          slots = list(paths = 'file',
+                          slots = list(paths = "file",
                                        in_fasta = "file",
                                        out_fasta = "file",
                                        tp_tibble = "file",
-                                       sp_tibble = 'tbl_df')
+                                       sp_tibble = "tbl_df")
 )
 
 
@@ -44,15 +44,24 @@ TargetpResult <- setClass("TargetpResult",
 #' 
 
 TMhmmResult <- setClass("TMhmmResult",
-                           slots = list(paths = 'file',
+                           slots = list(paths = "file",
                                         in_fasta = "file",
                                         in_mature_fasta = "file",
                                         out_fasta = "file",
                                         tp_tibble = "file",
-                                        sp_tibble = 'tbl_df')
+                                        sp_tibble = "tbl_df")
 )
 
 
+#' An S4 class to represent intermediate and final outputs of the ER motif checks (KDEL/HDEL)
+#' 
+#' @slot in_fasta         initial fasta file
+#' @slot out_fasta        output fasta without sequences with terminal ER-retention signals
+#' @slot er_list          list with seq ids containing terminal ER-retention motif
+#' 
 
-                    
-
+ErResult <- setClass("ErResult",
+                        slots = list(in_fasta = "file",
+                                     out_fasta = "file",
+                                     er_list = "list")
+)
