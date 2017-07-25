@@ -18,24 +18,26 @@
 #'   \item Smean - the average S-score of the possible signal peptide (from position 1 to the position immediately before the
 #'             maximal Y-score)
 #'   \item Prediction - final desision o whether the protein is secreted or not (Y/N)
-#'   \item Dmaxcut - ???
-#'   \item Networks used - networks used
+#'   \item Dmaxcut - 
+#'   \item Networks used - 
 #'   }
-#' 
+#' @examples 
+#' a <- SignalpResult()
+#' setInfasta(a, bb)
 
 SignalpResult <- setClass(
                     "SignalpResult",
                     slots = list(in_fasta = "AAStringSet", 
                                  out_fasta = "AAStringSet", 
                                  mature_fasta = "AAStringSet", 
-                                 sp_version = "character",
+                                 sp_version = "numeric",
                                  sp_tibble = "tbl_df"),
                  
                     prototype = list(
                                 in_fasta = AAStringSet(),
                                 out_fasta = AAStringSet(),
                                 mature_fasta = AAStringSet(),
-                                sp_version = 'signalpN',
+                                sp_version = 2,
                                 sp_tibble = tibble()
                     ),
                     
@@ -44,12 +46,35 @@ SignalpResult <- setClass(
                     {
                              if (length(object@in_fasta) < length(object@out_fasta)) {
                               return("Number of output sequences is grater than the number of input sequences.")
-                             } else if(length(object@mature_fasta != length(object@out_fasta))) {
+                             } else if (length(object@mature_fasta != length(object@out_fasta))) {
                               return("Numbers of sequences in output_fasta and mature_fasta do not match.") 
+                             } else if (!(sp_version < 2 | sp_version >= 5)) {
+                              return("signalp version is invalid") 
                              }
                              return(TRUE)
                     }  
                     )
+
+# define getters ad setters for SignalpResult object
+setGeneric(name = "setInfasta",
+                def = function(theObject, in_fasta)
+                {
+                      standardGeneric("setInfasta")    
+                }  
+                )
+
+setMethod(f = "setInfasta",
+                signature = "SignalpResult",
+                definition = function(theObject, in_fasta)
+                {
+                      theObject@in_fasta <- in_fasta
+                      validObject(theObject)
+                      return(theObject)
+                }
+                )
+
+
+a <- SignalpResult()
 
 
 #' An S4 class to represent intermediate and final outputs of the targetp prediction step
