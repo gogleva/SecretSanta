@@ -10,14 +10,16 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1.9000
 Imports: 
-  httr,
-  rvest, 
+  httr, 
+  rvest,
   testthat,
   dplyr,
   tidyverse,
   magrittr,
-  stringr,
-  tibble
+  stringr, 
+  tibble,
+  Biostrings
 Suggests: 
   ggplot2,
   ggvis
+  

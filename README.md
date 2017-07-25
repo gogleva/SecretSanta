@@ -33,8 +33,8 @@ http://bioinformatics.ysu.edu/tools/subcell.html
 
 ## Got it:
 
-runner fucntions will return instances of output classes objects
-but: should run differently based on class of the input object? 
+runner functions will return instances of output classes objects
+but: should run differently based on class of the input object?
 or can we have the same attributes?
 will it cause confusion?
 
@@ -43,5 +43,3 @@ will it cause confusion?
 -- shall we store intermediate fast files?
 -- if so -  how? alternatively - create tmp dir and output intermediates there
 -- to do: test on real proteomes: ~30 K proteins
-
-

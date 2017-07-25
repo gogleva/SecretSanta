@@ -25,14 +25,30 @@
 
 SignalpResult <- setClass(
                     "SignalpResult",
-                    slots = list(in_fasta = "file",
-                                 out_fasta = "file",
-                                 mature_fasta = "file",
-                                 sp_tibble = "tbl_df")
+                    slots = list(in_fasta = "AAStringSet", 
+                                 out_fasta = "AAStringSet", 
+                                 mature_fasta = "AAStringSet", 
+                                 sp_version = "character",
+                                 sp_tibble = "tbl_df"),
+                 
+                    prototype = list(
+                                in_fasta = AAStringSet(),
+                                out_fasta = AAStringSet(),
+                                mature_fasta = AAStringSet(),
+                                sp_version = 'signalpN',
+                                sp_tibble = tibble()
+                    ),
                     
-                    # test if the data is consistent
-                    #validity = function(object)
+                  # test if the data is consistent
+                    validity = function(object)
+                    {
+                             if (length(object@in_fasta) < length(object@out_fasta)) {
+                              return("Number of output sequences grater than the number of input sequences")
+                             }
+                             return(TRUE)
+                    }  
                     )
+
 
 #' An S4 class to represent intermediate and final outputs of the targetp prediction step
 #' 
