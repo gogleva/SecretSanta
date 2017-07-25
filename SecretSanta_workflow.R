@@ -11,6 +11,6 @@ res2 <- parse_signalp("SecretSanta/inst/extdata/sample_prot_signalp2_out", input
 
 ### run tmhmm:
 
-tmhmm()
+#tmhmm()
 
 
