@@ -43,7 +43,9 @@ SignalpResult <- setClass(
                     validity = function(object)
                     {
                              if (length(object@in_fasta) < length(object@out_fasta)) {
-                              return("Number of output sequences grater than the number of input sequences")
+                              return("Number of output sequences is grater than the number of input sequences.")
+                             } else if(length(object@mature_fasta != length(object@out_fasta))) {
+                              return("Numbers of sequences in output_fasta and mature_fasta do not match.") 
                              }
                              return(TRUE)
                     }  
