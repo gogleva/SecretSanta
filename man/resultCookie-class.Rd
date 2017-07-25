@@ -13,8 +13,18 @@ secretome prediction pipeline
 \section{Slots}{
 
 \describe{
+\item{\code{paths}}{paths to CBS exceutibles, do I need it here?}
+
 \item{\code{fasta}}{initial fasta file}
 
 \item{\code{mature_fasta}}{fasta with mature sequences}
+
+\item{\code{sp_tibble}}{standard tibble with outputs obtained from signalp}
+
+\item{\code{tmhmm_tibble}}{tmhmm results}
+
+\item{\code{targetp_tibble}}{targetp results}
+
+\item{\code{er_motifs}}{ER motifs: (K/H)DEL}
 }}
 
