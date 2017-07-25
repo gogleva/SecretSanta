@@ -54,13 +54,15 @@ SignalpResult <- setClass(
                              } else if (!(sp_version < 2 | sp_version >= 5)) {
                               return("signalp version is invalid") 
                              } else if (any(grepl('[*$]', object@in_fasta))) {
-                              return("Input fasta contains stop codon symbols '*', aborting") 
+                              return("Input fasta contains stop codon symbols '*', please remove them.") 
                              }
                              return(TRUE)
                     }  
                     )
 
-# define getters ad setters for SignalpResult object
+# define accessor functions for SignalpResult object
+
+# setter for in_fasta
 setGeneric(name = "setInfasta",
                 def = function(theObject, in_fasta)
                 {
@@ -77,6 +79,7 @@ setMethod(f = "setInfasta",
                       return(theObject)
                 }
                 )
+# getter for in_fasta
 setGeneric(name = "getInfasta",
            def = function(theObject)
            {
@@ -92,7 +95,38 @@ setMethod(f = "getInfasta",
           }
 )
 
+# setter for out_fasta
+setGeneric(name = "setOutfasta",
+           def = function(theObject, out_fasta)
+           {
+             standardGeneric("setOutfasta")    
+           }  
+)
 
+setMethod(f = "setOutfasta",
+          signature = "SignalpResult",
+          definition = function(theObject, out_fasta)
+          {
+            theObject@out_fasta <- out_fasta
+            validObject(theObject)
+            return(theObject)
+          }
+)
+# getter for out_fasta
+setGeneric(name = "getOutfasta",
+           def = function(theObject)
+           {
+             standardGeneric("getOutfasta")    
+           }  
+)
+
+setMethod(f = "getOutfasta",
+          signature = "SignalpResult",
+          definition = function(theObject)
+          {
+            return(theObject@out_fasta)
+          }
+)
 
 
 
