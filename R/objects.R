@@ -15,8 +15,7 @@
 #'   \item Spos - amino acid position with max S-score 
 #'   \item D - a weighted average of the mean S and the max. Y scores.
 #'             This is the score that is used to discriminate signal peptides from non-signal peptides.
-#'   \item Smean - the average S-score of the possible signal peptide (from position 1 to the position immediately before the
-#'             maximal Y-score)
+#'   \item Smean - the average S-score of the possible signal peptide (from position 1 to the position immediately before #              the maximal Y-score)
 #'   \item Prediction - final desision o whether the protein is secreted or not (Y/N)
 #'   \item Dmaxcut - 
 #'   \item Networks used - 
@@ -24,6 +23,10 @@
 #' @examples 
 #' a <- SignalpResult()
 #' setInfasta(a, bb)
+#' a2 <- setInfasta(a, bb)
+#' getInfasta(a2)
+#  ss <- readAAStringSet("SecretSanta/inst/extdata/sample_prot_stop_codons.fasta", use.names = TRUE)
+#  sc <- SignalpResult()
 
 SignalpResult <- setClass(
                     "SignalpResult",
@@ -50,6 +53,8 @@ SignalpResult <- setClass(
                               return("Numbers of sequences in output_fasta and mature_fasta do not match.") 
                              } else if (!(sp_version < 2 | sp_version >= 5)) {
                               return("signalp version is invalid") 
+                             } else if (any(grepl('[*$]', object@in_fasta))) {
+                              return("Input fasta contains stop codon symbols '*', aborting") 
                              }
                              return(TRUE)
                     }  
@@ -72,9 +77,25 @@ setMethod(f = "setInfasta",
                       return(theObject)
                 }
                 )
+setGeneric(name = "getInfasta",
+           def = function(theObject)
+           {
+             standardGeneric("getInfasta")    
+           }  
+)
+
+setMethod(f = "getInfasta",
+          signature = "SignalpResult",
+          definition = function(theObject)
+          {
+            return(theObject@in_fasta)
+          }
+)
 
 
-a <- SignalpResult()
+
+
+
 
 
 #' An S4 class to represent intermediate and final outputs of the targetp prediction step
