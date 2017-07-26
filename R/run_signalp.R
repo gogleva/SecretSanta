@@ -1,14 +1,10 @@
 #' signalp function
 #'
 #' This function calls local SignalP
-#' Please ensure that respective version of SignalP is downloaded, installed and respective path is added to $PATH variable.
-#' For details see ... explain with aliases and examples
-#' @param input    input object (any from SecretSanta objects) with protein sequences as on of the attributes
-#' @param version  specify SignalP version to run; versions available: \cr
-#'                 2.0 - http://www.cbs.dtu.dk/services/SignalP-2.0/ \cr
-#'                 3.0 - http://www.cbs.dtu.dk/services/SignalP-3.0/ \cr
-#'                 4.1 - http://www.cbs.dtu.dk/services/SignalP-4.1/ \cr
-#' @param organism_type euk, gram+, gram-                 
+#' Please ensure that respective version of SignalP is downloaded, installed and respective path is added to $PATH variable
+#' @param input    input object (any from SecretSanta objects family) with protein sequences as on of the attributes
+#' @param version  signalp version to run, allowed  values: 2, 3, 4, 4.1 \cr
+#' @param organism_type Allowed values: 'euk', 'gram+', 'gram-'                 
 #' @export
 #' @examples
 #' result <- signalp(proteins = "SecretSanta/inst/extdata/sample_prot.fasta", organism_type = 'euk', version = 4)
@@ -17,23 +13,34 @@ w <- SignalpResult()
 class(w)
 w <- setInfasta(w, bb) #instance of the SignalpResult object with populated Infasta attribute
 getInfasta(w)
+r <- signalp(w, version = 4, 'euk')
+r2 <- signalp(w, version = 4, organism_type = 'gra')
 
 signalp <- function(input_obj, version, organism_type) {
-  message("running signalP locally...")
-  # check input fasta files for illegal characters and other incompatibilities
+  # validity checks for signalp version and organism_type inputs
+  allowed_versions = c(2,3,4,4.1)
+  allowed_organisms = c('euk', 'gram+', 'gram-')
   
-  #1. get fasta from SignalpResult object
-  fasta <- getInfasta(input_obj)
-  #2. convert it to a temporary file:
-  out <- tempfile() #create a temporary file for fasta
-  Biostrings::writeXStringSet(fasta, out) #write tmp fasta file
-  #3. make a system call of signalp based on the tmp file
+  if ((version %in% allowed_versions) & (organism_type %in% allowed_organisms)){
+    message("running signalP locally...")
+    #1. get fasta from SignalpResult object
+    fasta <- getInfasta(input_obj)
+    #2. convert it to a temporary file:
+    out <- tempfile() #create a temporary file for fasta
+    Biostrings::writeXStringSet(fasta, out) #write tmp fasta file
+    #3. make a system call of signalp based on the tmp file
   
-  signalp_version <- paste("signalp", version, sep = '')
-  full_pa <- as.character(secret_paths %>% filter(tool == signalp_version) %>% select(path))
-  result <- tibble::as.tibble(read.table(text = (system(paste(full_pa, "-t", organism_type, out), intern = TRUE))))
-  return(result)
-  
+    signalp_version <- paste("signalp", version, sep = '')
+    full_pa <- as.character(secret_paths %>% filter(tool == signalp_version) %>% select(path))
+    result <- tibble::as.tibble(read.table(text = (system(paste(full_pa, "-t", organism_type, out), intern = TRUE))))
+    return(result)
+  } else {
+    message('Allowed versions include...:')
+    message(cat(allowed_versions))
+    message('Allowed organisms iclude...')
+    message(cat(allowed_organisms))}
+    stop('Input signalp version or specified organism type are invalid.')
+}
   # fasta <- readLines(proteins)
   # if (any(grepl('[*$]',fasta[!grepl('>', fasta)]))){
   #   stop('input fasta file cotains stop codons "*", please remove them and re-run')
