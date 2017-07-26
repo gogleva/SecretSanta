@@ -48,3 +48,37 @@ signalp <- function(proteins, version, organism_type, output_type) {
     }
   }
 }
+
+
+## test inputs for system calls
+
+bb
+# test system call with file input
+f_input <- "/home/anna/anna/Labjournal/SecretSanta/inst/extdata/sample_prot.fasta"
+s_con <- system(paste("/home/anna/anna/Labjournal/SecretSanta_external/signalp-4.1/signalp -t euk", f_input))
+
+# what we really want - to use and object as an input
+
+class(bb)
+
+bb_seqs <- as.character(bb, use.names = TRUE)
+bb_seqs2 <-toString(bb, use.names = TRUE)
+
+ss_tmp <- "/home/anna/anna/Labjournal/SecretSanta_tmp/"
+writeXStringSet(bb, file = paste(ss_tmp, "bb_tmp.fasta", sep = ''), format = 'fasta', width=80)
+
+class(bb)
+
+
+out1 <- tempfile()
+writeXStringSet(bb, out1)
+
+
+
+filepath <- system.file("extdata", "someORF.fa", package="Biostrings")
+fasta.info(filepath)
+x <- readDNAStringSet(filepath)
+x
+out1 <- tempfile()
+writeXStringSet(x, out1)
+
