@@ -47,7 +47,7 @@ signalp <- function(input_obj, version, organism_type) {
       out_obj <- SignalpResult(in_fasta = fasta,
                          out_fasta = fasta,
                          mature_fasta = fasta,
-                         sp_version = sp_version,
+                         sp_version = version,
                          sp_tibble = sp)
       if (validObject(out_obj)) {return(out_obj)}
       
@@ -60,7 +60,7 @@ signalp <- function(input_obj, version, organism_type) {
       out_obj <- SignalpResult(in_fasta = fasta,
                                out_fasta = fasta,
                                mature_fasta = fasta,
-                               sp_version = sp_version,
+                               sp_version = version,
                                sp_tibble = sp)
       if (validObject(out_obj)) {return(out_obj)}
     }
