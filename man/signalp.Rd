@@ -4,27 +4,26 @@
 \alias{signalp}
 \title{signalp function}
 \usage{
-signalp(proteins, version, organism_type, output_type)
+signalp(input_obj, version, organism_type)
 }
 \arguments{
-\item{proteins}{input file with proteins}
+\item{version}{signalp version to run, allowed  values: 2, 3, 4, 4.1}
 
-\item{version}{specify SignalP version to run; versions available: \cr
-2.0 - http://www.cbs.dtu.dk/services/SignalP-2.0/ \cr
-3.0 - http://www.cbs.dtu.dk/services/SignalP-3.0/ \cr
-4.1 - http://www.cbs.dtu.dk/services/SignalP-4.1/ \cr}
+\item{organism_type}{Allowed values: 'euk', 'gram+', 'gram-'}
 
-\item{organism_type}{euk, gram+, gram-}
-
-\item{output_type}{options: tibble/table with results; - this is done \cr
-fasta file with candidate secreted peptides, full length - not done; \cr
-fasta file with mature sequences - not done}
+\item{input}{input object (any from SecretSanta objects family) with protein sequences as on of the attributes}
 }
 \description{
 This function calls local SignalP
-Please ensure that respective version of SignalP is downloaded, installed and respective path is added to $PATH variable.
-For details see ... explain with aliases and examples
+Please ensure that respective version of SignalP is downloaded, installed and respective path is added to $PATH variable
 }
 \examples{
-result <- signalp(proteins = "SecretSanta/inst/extdata/sample_prot.fasta", organism_type = 'euk', version = 4)
+result <- signalp(proteins = "SecretSanta/inst/extdata/sample_prot.fasta", organism_type = 'euk', version = 4) #old
+w <- SignalpResult()
+class(w)
+w <- setInfasta(w, bb) #instance of the SignalpResult object with populated Infasta attribute
+getInfasta(w)
+r4 <- signalp(w, version = 4, 'euk')
+r2 <- signalp(w, version = 3, 'euk')
+r2 <- signalp(w, version = 4, organism_type = 'gra')
 }
