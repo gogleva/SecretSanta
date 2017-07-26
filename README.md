@@ -40,6 +40,9 @@ will it cause confusion?
 
 ### things to consider:
 
--- shall we store intermediate fast files?
--- if so -  how? alternatively - create tmp dir and output intermediates there
+-- shall we store intermediate fasta files? - Yes
+-- if so -  how? alternatively - create tmp dir and output intermediates there A: as tmp files
 -- to do: test on real proteomes: ~30 K proteins
+-- Question/Problem: how to feed XStringSet object to system call: solved with tmp files
+-- Question/Problem1: output fasta file for gene_ids only present in output tibble
+-- Problem2: need a separate function to construct mature sequences
