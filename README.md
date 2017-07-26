@@ -45,4 +45,5 @@ will it cause confusion?
 -- to do: test on real proteomes: ~30 K proteins
 -- Question/Problem: how to feed XStringSet object to system call: solved with tmp files (solved)
 -- Question/Problem1: output fasta file for gene_ids only present in output tibble (solved)
--- Problem2: need a separate function to construct mature sequences based on sp_tibble and out_fasta
+-- Problem2: need a separate function to construct mature sequences based on sp_tibble and out_fasta (solved)
+-- clean tmp files after the signalp run

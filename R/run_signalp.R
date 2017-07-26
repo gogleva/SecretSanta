@@ -86,10 +86,10 @@ signalp <- function(input_obj, version, organism_type) {
 ### generate out_fasta
 r3 <- signalp(w, version = 3, 'euk')
 r4 <- signalp(w, version = 4, 'euk')
-r2 <- signalp(w, version = 2, 'euk')
+###
+r2 <- signalp(w, version = 2, 'euk') # does not retur correct outout
+
+### try piping
 
 
-### generate mature fasta based on sp_tibble and out_fasta_sp
-
-
-
+View(getSPtibble(r2))
