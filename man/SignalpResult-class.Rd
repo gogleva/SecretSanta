@@ -30,8 +30,7 @@ An S4 class to represent intermediate and final outputs of the signalp predictio
   \item Spos - amino acid position with max S-score 
   \item D - a weighted average of the mean S and the max. Y scores.
             This is the score that is used to discriminate signal peptides from non-signal peptides.
-  \item Smean - the average S-score of the possible signal peptide (from position 1 to the position immediately before the
-            maximal Y-score)
+  \item Smean - the average S-score of the possible signal peptide (from position 1 to the position immediately before #              the maximal Y-score)
   \item Prediction - final desision o whether the protein is secreted or not (Y/N)
   \item Dmaxcut - 
   \item Networks used - 
@@ -41,4 +40,6 @@ An S4 class to represent intermediate and final outputs of the signalp predictio
 \examples{
 a <- SignalpResult()
 setInfasta(a, bb)
+a2 <- setInfasta(a, bb)
+getInfasta(a2)
 }

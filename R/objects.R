@@ -131,7 +131,6 @@ setMethod(f = "getOutfasta",
 
 
 
-
 #' An S4 class to represent intermediate and final outputs of the targetp prediction step
 #' 
 #' @slot in_fasta        initial fasta file, do we need to drag it along?
