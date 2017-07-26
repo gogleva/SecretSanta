@@ -57,9 +57,8 @@ bb
 f_input <- "/home/anna/anna/Labjournal/SecretSanta/inst/extdata/sample_prot.fasta"
 s_con <- system(paste("/home/anna/anna/Labjournal/SecretSanta_external/signalp-4.1/signalp -t euk", f_input))
 
-# what we really want - to use and object as an input
 
-class(bb)
+# what we really want - to use and object as an input
 
 bb_seqs <- as.character(bb, use.names = TRUE)
 bb_seqs2 <-toString(bb, use.names = TRUE)
@@ -67,23 +66,17 @@ bb_seqs2 <-toString(bb, use.names = TRUE)
 ss_tmp <- "/home/anna/anna/Labjournal/SecretSanta_tmp/"
 writeXStringSet(bb, file = paste(ss_tmp, "bb_tmp.fasta", sep = ''), format = 'fasta', width=80)
 
-class(bb)
-
-
 out1 <- tempfile()
 writeXStringSet(bb, out1)
+
 #try system call for temporary file
-s_con_tmp <- system(paste("/home/anna/anna/Labjournal/SecretSanta_external/signalp-4.1/signalp -t euk", out1))
-#=> it works, now need to implement it in the signalp function
-
-
-
-
-
 filepath <- system.file("extdata", "someORF.fa", package="Biostrings")
 fasta.info(filepath)
 x <- readDNAStringSet(filepath)
-x
 out1 <- tempfile()
-writeXStringSet(x, out1)
+s_con_tmp <- system(paste("/home/anna/anna/Labjournal/SecretSanta_external/signalp-4.1/signalp -t euk", out1))
+#=> it works, now need to implement it in the signalp function
+
+#
+tt <- 'test branching with package'
 
