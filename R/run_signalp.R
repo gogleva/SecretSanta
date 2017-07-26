@@ -45,8 +45,8 @@ signalp <- function(input_obj, version, organism_type) {
       # construct output object, instance of SignalpResult class
       
       out_obj <- SignalpResult(in_fasta = fasta,
-                         out_fasta = fasta,
-                         mature_fasta = fasta,
+                         out_fasta = fasta, # placeholder
+                         mature_fasta = fasta, # placeholder
                          sp_version = version,
                          sp_tibble = sp)
       if (validObject(out_obj)) {return(out_obj)}
@@ -58,8 +58,8 @@ signalp <- function(input_obj, version, organism_type) {
       sp <- parse_signalp(input = con, input_type = "system_call")
       
       out_obj <- SignalpResult(in_fasta = fasta,
-                               out_fasta = fasta,
-                               mature_fasta = fasta,
+                               out_fasta = fasta, # placeholder
+                               mature_fasta = fasta, # placeholder
                                sp_version = version,
                                sp_tibble = sp)
       if (validObject(out_obj)) {return(out_obj)}
@@ -72,3 +72,19 @@ signalp <- function(input_obj, version, organism_type) {
     message(cat(allowed_organisms))}
     stop('Input signalp version or specified organism type are invalid.')
 }
+
+
+### generate out_fasta
+
+r3 <- signalp(w, version = 3, 'euk')
+
+bb
+class(bb)
+
+names(bb) # all names
+bb[c("test_PLTG1", "test_PLTG2")] # subset sequences by their gene ids
+
+# names could contain annotation, we do not need it for sibsetting, need to simplify names first?
+
+
+
