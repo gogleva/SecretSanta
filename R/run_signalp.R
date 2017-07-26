@@ -47,43 +47,27 @@ signalp <- function(input_obj, version, organism_type) {
                             "Prediction", "Dmaxcut", "Networks-used")
       sp <- sp %>% filter(Prediction == 'Y')
       
-      #generate cropped names for input fasta
-      cropped_names <- unname(sapply(names(fasta), crop_names))
-      #replace long names with cropped names
-      names(fasta) <- cropped_names
-      #get ids of candidate secreted proteins
-      candidate_ids <- sp %>% select(gene_id) %>% unlist(use.names = FALSE)
-      out_fasta_sp <- fasta[candidate_ids]
-      
-      # construct output object, instance of SignalpResult class
-      out_obj <- SignalpResult(in_fasta = fasta,
-                         out_fasta = out_fasta_sp, 
-                         mature_fasta = fasta, # placeholder
-                         sp_version = version,
-                         sp_tibble = sp)
-      if (validObject(out_obj)) {return(out_obj)}
-      
     } else if (version < 4) {
     # running signalp versions 2 and 3, call parser for the initial output
       message('signalp < 4, calling parser for the output...')
       con <- system(paste(full_pa, "-t", organism_type, out_tmp), intern = TRUE)
       sp <- parse_signalp(input = con, input_type = "system_call")
-      
-      #generate cropped names for input fasta
-      cropped_names <- unname(sapply(names(fasta), crop_names))
-      #replace long names with cropped names
-      names(fasta) <- cropped_names
-      #get ids of candidate secreted proteins
-      candidate_ids <- sp %>% select(gene_id) %>% unlist(use.names = FALSE)
-      out_fasta_sp <- fasta[candidate_ids]
-      
-      out_obj <- SignalpResult(in_fasta = fasta,
-                               out_fasta = out_fasta_sp, 
-                               mature_fasta = fasta, # placeholder
-                               sp_version = version,
-                               sp_tibble = sp)
-      if (validObject(out_obj)) {return(out_obj)}
     }
+
+    #generate cropped names for input fasta
+    cropped_names <- unname(sapply(names(fasta), crop_names))
+    #replace long names with cropped names
+    names(fasta) <- cropped_names
+    #get ids of candidate secreted proteins
+    candidate_ids <- sp %>% select(gene_id) %>% unlist(use.names = FALSE)
+    out_fasta_sp <- fasta[candidate_ids]
+    
+    out_obj <- SignalpResult(in_fasta = fasta,
+                             out_fasta = out_fasta_sp, 
+                             mature_fasta = fasta, # placeholder
+                             sp_version = version,
+                             sp_tibble = sp)
+    if (validObject(out_obj)) {return(out_obj)}
     
   } else {
     message('Allowed versions include...:')
@@ -96,3 +80,5 @@ signalp <- function(input_obj, version, organism_type) {
 
 ### generate out_fasta
 r3 <- signalp(w, version = 3, 'euk')
+r4 <- signalp(w, version = 4, 'euk')
+r2 <- signalp(w, version = 2, 'euk')
