@@ -72,6 +72,11 @@ class(bb)
 
 out1 <- tempfile()
 writeXStringSet(bb, out1)
+#try system call for temporary file
+s_con_tmp <- system(paste("/home/anna/anna/Labjournal/SecretSanta_external/signalp-4.1/signalp -t euk", out1))
+#=> it works, now need to implement it in the signalp function
+
+
 
 
 
