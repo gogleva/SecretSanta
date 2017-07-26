@@ -33,7 +33,11 @@ signalp <- function(input_obj, version, organism_type) {
     signalp_version <- paste("signalp", version, sep = '')
     message(signalp_version)
     full_pa <- as.character(secret_paths %>% filter(tool == signalp_version) %>% select(path))
-  
+    
+    # helper function: crop long names for AAStringSet object, return character vector
+    crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
+    
+    # ----
     if (version >= 4) {
     # runing signalp versios 4 and 4.1    
       sp <- tibble::as.tibble(read.table(text = (system(paste(full_pa, "-t", organism_type, out_tmp), intern = TRUE))))
@@ -42,10 +46,18 @@ signalp <- function(input_obj, version, organism_type) {
                             "Spos", "Smean", "D",
                             "Prediction", "Dmaxcut", "Networks-used")
       sp <- sp %>% filter(Prediction == 'Y')
-      # construct output object, instance of SignalpResult class
       
+      #generate cropped names for input fasta
+      cropped_names <- unname(sapply(names(fasta), crop_names))
+      #replace long names with cropped names
+      names(fasta) <- cropped_names
+      #get ids of candidate secreted proteins
+      candidate_ids <- sp %>% select(gene_id) %>% unlist(use.names = FALSE)
+      out_fasta_sp <- fasta[candidate_ids]
+      
+      # construct output object, instance of SignalpResult class
       out_obj <- SignalpResult(in_fasta = fasta,
-                         out_fasta = fasta, # placeholder
+                         out_fasta = out_fasta_sp, 
                          mature_fasta = fasta, # placeholder
                          sp_version = version,
                          sp_tibble = sp)
@@ -57,8 +69,16 @@ signalp <- function(input_obj, version, organism_type) {
       con <- system(paste(full_pa, "-t", organism_type, out_tmp), intern = TRUE)
       sp <- parse_signalp(input = con, input_type = "system_call")
       
+      #generate cropped names for input fasta
+      cropped_names <- unname(sapply(names(fasta), crop_names))
+      #replace long names with cropped names
+      names(fasta) <- cropped_names
+      #get ids of candidate secreted proteins
+      candidate_ids <- sp %>% select(gene_id) %>% unlist(use.names = FALSE)
+      out_fasta_sp <- fasta[candidate_ids]
+      
       out_obj <- SignalpResult(in_fasta = fasta,
-                               out_fasta = fasta, # placeholder
+                               out_fasta = out_fasta_sp, 
                                mature_fasta = fasta, # placeholder
                                sp_version = version,
                                sp_tibble = sp)
@@ -86,5 +106,19 @@ bb[c("test_PLTG1", "test_PLTG2")] # subset sequences by their gene ids
 
 # names could contain annotation, we do not need it for sibsetting, need to simplify names first?
 
+class(names(bb))
 
+test_string <- names(bb)[1]
+unlist(str_split(test_string, " "))[1]
 
+#the same on all names from AAStringSet object
+crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
+cropped_names <- unname(sapply(names(bb), crop_names))
+
+#replace long names with cropped names
+names(bb) <- cropped_names
+
+bb[c(names(bb)[1:10])]
+
+myids <- getSPtibble(r3) %>% select(gene_id) %>% unlist(use.names = FALSE)
+bb[myids]
