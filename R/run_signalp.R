@@ -87,9 +87,16 @@ signalp <- function(input_obj, version, organism_type) {
 r3 <- signalp(w, version = 3, 'euk')
 r4 <- signalp(w, version = 4, 'euk')
 ###
-r2 <- signalp(w, version = 2, 'euk') # does not retur correct outout
 
-### try piping
 
+r2 <- signalp(w, version = 2, 'euk') # does not retur correct outout, repeted ids
 
 View(getSPtibble(r2))
+
+# problem is in the parserL signalp3 output is ok
+con <- system("/home/anna/anna/Labjournal/SecretSanta_external/signalp-3.0/signalp -t euk SecretSanta/inst/extdata/sample_prot.fasta", intern = TRUE)
+res3_system <- parse_signalp(input = con, input_type = "system_call")
+
+# signalp2 output is tropbled - fix this tomorrow
+
+
