@@ -49,9 +49,7 @@ SignalpResult <- setClass(
                     {
                              if (length(object@in_fasta) < length(object@out_fasta)) {
                               return("Number of output sequences is grater than the number of input sequences.")
-                             } else if (length(object@mature_fasta != length(object@out_fasta))) {
-                              return("Numbers of sequences in output_fasta and mature_fasta do not match.") 
-                             } else if (!(sp_version < 2 | sp_version >= 5)) {
+                             } else if ((sp_version < 2 | sp_version >= 5)) {
                               return("signalp version is invalid") 
                              } else if (any(grepl('[*$]', object@in_fasta))) {
                               return("Input fasta contains stop codon symbols '*', please remove them.") 
@@ -161,7 +159,38 @@ setMethod(f = "getMatfasta",
           }
 )
 
+# setter for sp_version
+setGeneric(name = "setSPversion",
+           def = function(theObject, sp_version)
+           {
+             standardGeneric("setSPversion")    
+           }  
+)
 
+setMethod(f = "setSPversion",
+          signature = "SignalpResult",
+          definition = function(theObject, sp_version)
+          {
+            theObject@sp_version <- sp_version
+            validObject(theObject)
+            return(theObject)
+          }
+)
+# getter for sp_version
+setGeneric(name = "getSPversion",
+           def = function(theObject)
+           {
+             standardGeneric("getSPversion")    
+           }  
+)
+
+setMethod(f = "getSPversion",
+          signature = "SignalpResult",
+          definition = function(theObject)
+          {
+            return(theObject@sp_version)
+          }
+)
 
 
 #' An S4 class to represent intermediate and final outputs of the targetp prediction step

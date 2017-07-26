@@ -35,18 +35,22 @@ signalp <- function(input_obj, version, organism_type) {
   
     if (version >= 4) {
     # runing signalp versios 4 and 4.1    
-      result <- tibble::as.tibble(read.table(text = (system(paste(full_pa, "-t", organism_type, out_tmp), intern = TRUE))))
-      names(result) <- c("gene_id", "Cmax", "Cpos",
+      sp <- tibble::as.tibble(read.table(text = (system(paste(full_pa, "-t", organism_type, out_tmp), intern = TRUE))))
+      names(sp) <- c("gene_id", "Cmax", "Cpos",
                             "Ymax", "Ypos", "Smax",
                             "Spos", "Smean", "D",
                             "Prediction", "Dmaxcut", "Networks-used")
-      return(result %>% filter(Prediction == 'Y'))
+      return(sp %>% filter(Prediction == 'Y'))
+      # construct output object, instance of SignalpResult class
+      
+      
+      
     } else if (version < 4) {
     # running signalp versions 2 and 3, call parser for the initial output
       message('signalp < 4, calling parser for the output...')
       con <- system(paste(full_pa, "-t", organism_type, out_tmp), intern = TRUE)
-      result <- parse_signalp(input = con, input_type = "system_call")
-      return(result)
+      sp <- parse_signalp(input = con, input_type = "system_call")
+      return(sp)
     }
     
   } else {
@@ -57,4 +61,9 @@ signalp <- function(input_obj, version, organism_type) {
     stop('Input signalp version or specified organism type are invalid.')
 }
 
+
+w <- SignalpResult()
+w <- setInfasta(w, bb)
+w <- setOutfasta(w, bb)
+w <- setMatfasta(w, bb)
 
