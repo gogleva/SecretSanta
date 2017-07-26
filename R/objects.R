@@ -128,6 +128,39 @@ setMethod(f = "getOutfasta",
           }
 )
 
+# setter for mature_fasta
+setGeneric(name = "setMatfasta",
+           def = function(theObject, mature_fasta)
+           {
+             standardGeneric("setMatfasta")    
+           }  
+)
+
+setMethod(f = "setMatfasta",
+          signature = "SignalpResult",
+          definition = function(theObject, mature_fasta)
+          {
+            theObject@mature_fasta <- mature_fasta
+            validObject(theObject)
+            return(theObject)
+          }
+)
+# getter for mature_fasta
+setGeneric(name = "getMatfasta",
+           def = function(theObject)
+           {
+             standardGeneric("getMatfasta")    
+           }  
+)
+
+setMethod(f = "getMatfasta",
+          signature = "SignalpResult",
+          definition = function(theObject)
+          {
+            return(theObject@mature_fasta)
+          }
+)
+
 
 
 
