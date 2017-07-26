@@ -189,7 +189,38 @@ setMethod(f = "getSPversion",
             return(theObject@sp_version)
           }
 )
+# setter for sp_tible
+setGeneric(name = "setSPtibble",
+           def = function(theObject, sp_tibble)
+           {
+             standardGeneric("setSPtibble")    
+           }  
+)
 
+setMethod(f = "setSPtibble",
+          signature = "SignalpResult",
+          definition = function(theObject, sp_tibble)
+          {
+            theObject@sp_tibble <- sp_tibble
+            validObject(theObject)
+            return(theObject)
+          }
+)
+# getter for sp_version
+setGeneric(name = "getSPtibble",
+           def = function(theObject)
+           {
+             standardGeneric("getSPtibble")    
+           }  
+)
+
+setMethod(f = "getSPtibble",
+          signature = "SignalpResult",
+          definition = function(theObject)
+          {
+            return(theObject@sp_tibble)
+          }
+)
 
 #' An S4 class to represent intermediate and final outputs of the targetp prediction step
 #' 

@@ -62,9 +62,14 @@ signalp <- function(input_obj, version, organism_type) {
     candidate_ids <- sp %>% select(gene_id) %>% unlist(use.names = FALSE)
     out_fasta_sp <- fasta[candidate_ids]
     
+    #generate mature sequences
+    
+    sp_Cpos <- sp %>% select(Cpos) %>% unlist(use.names = FALSE)
+    cropped_fasta <- subseq(out_fasta_sp, start = sp_Cpos, end = -1)
+    
     out_obj <- SignalpResult(in_fasta = fasta,
                              out_fasta = out_fasta_sp, 
-                             mature_fasta = fasta, # placeholder
+                             mature_fasta = cropped_fasta, 
                              sp_version = version,
                              sp_tibble = sp)
     if (validObject(out_obj)) {return(out_obj)}
@@ -82,3 +87,9 @@ signalp <- function(input_obj, version, organism_type) {
 r3 <- signalp(w, version = 3, 'euk')
 r4 <- signalp(w, version = 4, 'euk')
 r2 <- signalp(w, version = 2, 'euk')
+
+
+### generate mature fasta based on sp_tibble and out_fasta_sp
+
+
+
