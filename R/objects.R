@@ -49,9 +49,7 @@ SignalpResult <- setClass(
                     {
                              if (length(object@in_fasta) < length(object@out_fasta)) {
                               return("Number of output sequences is grater than the number of input sequences.")
-                            # } else if (!(sp_version < 2 | sp_version >= 5)) { 
-                            #  return("signalp version is invalid") 
-                             } else if (any(grepl('[*$]', object@in_fasta))) {
+                              } else if (any(grepl('[*$]', object@in_fasta))) {
                               return("Input fasta contains stop codon symbols '*', please remove them.") 
                              }
                              return(TRUE)

@@ -13,7 +13,8 @@
 #' w <- setInfasta(w, bb) #instance of the SignalpResult object with populated Infasta attribute
 #' getInfasta(w)
 #' r4 <- signalp(w, version = 4, 'euk')
-#' r2 <- signalp(w, version = 3, 'euk')
+#' r3 <- signalp(w, version = 3, 'euk')
+#' r2 <- signalp(w, version = 2, 'euk')
 #' r2 <- signalp(w, version = 4, organism_type = 'gra')
 
 signalp <- function(input_obj, version, organism_type) {
@@ -40,17 +41,28 @@ signalp <- function(input_obj, version, organism_type) {
                             "Ymax", "Ypos", "Smax",
                             "Spos", "Smean", "D",
                             "Prediction", "Dmaxcut", "Networks-used")
-      return(sp %>% filter(Prediction == 'Y'))
+      sp <- sp %>% filter(Prediction == 'Y')
       # construct output object, instance of SignalpResult class
       
-      
+      out_obj <- SignalpResult(in_fasta = fasta,
+                         out_fasta = fasta,
+                         mature_fasta = fasta,
+                         sp_version = sp_version,
+                         sp_tibble = sp)
+      if (validObject(out_obj)) {return(out_obj)}
       
     } else if (version < 4) {
     # running signalp versions 2 and 3, call parser for the initial output
       message('signalp < 4, calling parser for the output...')
       con <- system(paste(full_pa, "-t", organism_type, out_tmp), intern = TRUE)
       sp <- parse_signalp(input = con, input_type = "system_call")
-      return(sp)
+      
+      out_obj <- SignalpResult(in_fasta = fasta,
+                               out_fasta = fasta,
+                               mature_fasta = fasta,
+                               sp_version = sp_version,
+                               sp_tibble = sp)
+      if (validObject(out_obj)) {return(out_obj)}
     }
     
   } else {
@@ -60,10 +72,3 @@ signalp <- function(input_obj, version, organism_type) {
     message(cat(allowed_organisms))}
     stop('Input signalp version or specified organism type are invalid.')
 }
-
-
-w <- SignalpResult()
-w <- setInfasta(w, bb)
-w <- setOutfasta(w, bb)
-w <- setMatfasta(w, bb)
-
