@@ -95,30 +95,4 @@ signalp <- function(input_obj, version, organism_type) {
 
 
 ### generate out_fasta
-
 r3 <- signalp(w, version = 3, 'euk')
-
-bb
-class(bb)
-
-names(bb) # all names
-bb[c("test_PLTG1", "test_PLTG2")] # subset sequences by their gene ids
-
-# names could contain annotation, we do not need it for sibsetting, need to simplify names first?
-
-class(names(bb))
-
-test_string <- names(bb)[1]
-unlist(str_split(test_string, " "))[1]
-
-#the same on all names from AAStringSet object
-crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
-cropped_names <- unname(sapply(names(bb), crop_names))
-
-#replace long names with cropped names
-names(bb) <- cropped_names
-
-bb[c(names(bb)[1:10])]
-
-myids <- getSPtibble(r3) %>% select(gene_id) %>% unlist(use.names = FALSE)
-bb[myids]
