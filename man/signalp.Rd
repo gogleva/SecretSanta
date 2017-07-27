@@ -4,12 +4,15 @@
 \alias{signalp}
 \title{signalp function}
 \usage{
-signalp(input_obj, version, organism_type)
+signalp(input_obj, version, organism_type, run_mode)
 }
 \arguments{
 \item{version}{signalp version to run, allowed  values: 2, 3, 4, 4.1}
 
 \item{organism_type}{Allowed values: 'euk', 'gram+', 'gram-'}
+
+\item{run_mode}{set 'starter' if it is the first step in pupeline \cr
+set 'piper' if you run this function on the output of other CBS tools}
 
 \item{input}{input object (any from SecretSanta objects family) with protein sequences as on of the attributes}
 }
@@ -18,12 +21,23 @@ This function calls local SignalP
 Please ensure that respective version of SignalP is downloaded, installed and respective path is added to $PATH variable
 }
 \examples{
-result <- signalp(proteins = "SecretSanta/inst/extdata/sample_prot.fasta", organism_type = 'euk', version = 4) #old
-w <- SignalpResult()
-class(w)
-w <- setInfasta(w, bb) #instance of the SignalpResult object with populated Infasta attribute
-getInfasta(w)
-r4 <- signalp(w, version = 4, 'euk')
-r2 <- signalp(w, version = 3, 'euk')
-r2 <- signalp(w, version = 4, organism_type = 'gra')
+Example pipe would loook like this:
+
+initialise SignalpResult object
+inp <- SignalpResult()
+
+#read fasta file in AAStringSet object
+aa <- readAAStringSet("SecretSanta/inst/extdata/sample_prot.fasta", use.names = TRUE)
+
+#assign this object to the input_fasta slot of SignalpResult object
+inp <- setInfasta(inp, aa)
+
+#run signalp2 on the initial file:
+step1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter")
+
+#run signalp3 on the result object, will automatically pass out_fasta slot to signalp3:
+step2_sp3 <- signalp(step1_sp2, version = 3, 'euk', run_mode = "piper")
+
+#run signalp4 on the result object, will automatically pass out_fasta slot to signalp4:
+step3_sp4 <- signalp(step2_sp3, version = 4, 'euk', run_mode = "piper")
 }
