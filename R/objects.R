@@ -141,9 +141,6 @@ SignalpResult <- setClass(
                     ),
                     )
 
-CBS <- CBSResult()
-SP <- SignalpResult()
-
 # define accessor functions for SignalpResult object
 # setter for mature_fasta
 setGeneric(name = "setMatfasta",
@@ -245,46 +242,36 @@ setMethod(f = "getSPtibble",
 
 #' An S4 class to represent intermediate and final outputs of the targetp prediction step
 #' 
-#' @slot in_fasta        initial fasta file, do we need to drag it along?
-#' @slot out_fasta       output fasta with only positive candidates, i.e. not associated with cell organells
 #' @slot tp_tibble       standard tibble with outputs obtained from targetp
 #' 
 
 TargetpResult <- setClass("TargetpResult",
-                          slots = list(in_fasta = "file",
-                                       out_fasta = "file",
-                                       tp_tibble = "file",
-                                       sp_tibble = "tbl_df")
+                          contains = "CBSResult"
+                          slots = list(tp_tibble = "tbl_df")
 )
 
 
 #' An S4 class to represent intermediate and final outputs of the TMHMM prediction step
 #' 
-#' @slot in_fasta         initial fasta file
 #' @slot in_mature_fasta  input mature fasta, 
-#' @slot out_fasta        output fasta with only positive full-length candidates, candidates without TM in mature sequences
 #' @slot out_mature_fasta output mature, conatins mature sequences without TM domains
 #' @slot tm_tibble        tibble with outputs obtained from TMHMM
 #' 
 
 TMhmmResult <- setClass("TMhmmResult",
-                           slots = list(in_fasta = "file",
-                                        in_mature_fasta = "file",
-                                        out_fasta = "file",
-                                        tp_tibble = "file",
-                                        sp_tibble = "tbl_df")
+                           contains = "CBSResult"
+                           slots = list(in_mature_fasta = "AAStringSet",
+                                        out_mature_fasta = "AAStringSet",
+                                        tm_tibble = "tbl_df")
 )
 
 
 #' An S4 class to represent intermediate and final outputs of the ER motif checks (KDEL/HDEL)
 #' 
-#' @slot in_fasta         initial fasta file
-#' @slot out_fasta        output fasta without sequences with terminal ER-retention signals
 #' @slot er_list          list with seq ids containing terminal ER-retention motif
 #' 
 
 ErResult <- setClass("ErResult",
-                        slots = list(in_fasta = "file",
-                                     out_fasta = "file",
-                                     er_list = "list")
+                        contains = "CBSResult"
+                        slots = list(er_list = "list")
 )
