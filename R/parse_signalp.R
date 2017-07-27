@@ -26,7 +26,7 @@ parse_signalp <- function(input, input_type) {
     data <- input #system call already captured in a character object
   }
   # extract gene ids
-  gene_ids <- data[(grep("# Measure  Position  Value  Cutoff  signal peptide?", data) - 1)]
+  gene_ids <- data[(grep("SignalP-HMM result:", data) + 1)]
   gene_ids_fixed <- (sapply(gene_ids, clean_geneids, USE.NAMES = FALSE))
   # extract max C score and position
   max_C_fixed <- sapply(data[grep("max. C", data)], clean_score, USE.NAMES = FALSE)
@@ -58,18 +58,30 @@ parse_signalp <- function(input, input_type) {
 #res3 <- parse_signalp("SecretSanta/inst/extdata/sample_prot_signalp3_out")
 
 
-# # problem is in the parserL signalp3 output is ok
-con3 <- system("/home/anna/anna/Labjournal/SecretSanta_external/signalp-3.0/signalp -t euk SecretSanta/inst/extdata/sample_prot.fasta", intern = TRUE)
-res3_system <- parse_signalp(input = con3, input_type = "system_call")
-
-# # signalp2 output is tropbled - fix this tomorrow
-con2 <- system("/home/anna/anna/Labjournal/SecretSanta_external/signalp-2.0/signalp -t euk SecretSanta/inst/extdata/sample_prot.fasta", intern = TRUE)
-res2_system <- parse_signalp(input = con2, input_type = "system_call")
-
-res2_path <- parse_signalp(input = "/home/anna/anna/Labjournal/SecretSanta/inst/extdata/sample_prot_signalp2_out", input_type = "path")
-
-#identical(con2, con3)
-# => outputs of signalp2 and signalp3 are different, sp2 parsing fails
-
-
+# # # problem is in the parserL signalp3 output is ok
+# con3 <- system("/home/anna/anna/Labjournal/SecretSanta_external/signalp-3.0/signalp -t euk SecretSanta/inst/extdata/sample_prot.fasta", intern = TRUE)
+# res3_system <- parse_signalp(input = con3, input_type = "system_call")
+# 
+# # # signalp2 output is tropbled - fix this tomorrow
+# con2 <- system("/home/anna/anna/Labjournal/SecretSanta_external/signalp-2.0/signalp -t euk SecretSanta/inst/extdata/sample_prot.fasta", intern = TRUE)
+# res2_system <- parse_signalp(input = con2, input_type = "system_call")
+# 
+# res2_path <- parse_signalp(input = "/home/anna/anna/Labjournal/SecretSanta/inst/extdata/sample_prot_signalp2_out", input_type = "path")
+# 
+# #identical(con2, con3)
+# # => outputs of signalp2 and signalp3 are different, sp2 parsing fails
+# 
+# ### Debug:
+# 
+# data2 <- system("/home/anna/anna/Labjournal/SecretSanta_external/signalp-2.0/signalp -t euk SecretSanta/inst/extdata/sample_prot.fasta", intern = TRUE)
+# data3 <- system("/home/anna/anna/Labjournal/SecretSanta_external/signalp-3.0/signalp -t euk SecretSanta/inst/extdata/sample_prot.fasta", intern = TRUE)
+# 
+# 
+# 
+# #clean_geneids <- function(x) {gsub('>', '', unlist(stringr::str_split(x, " "))[1])}
+# gene_ids2 <- data2[(grep("SignalP-HMM result:", data2) + 1)]
+# gene_ids_fixed2 <- (sapply(gene_ids2, clean_geneids, USE.NAMES = FALSE))
+# 
+# gene_ids3 <- data3[(grep("SignalP-HMM result:", data3) + 1)]
+# gene_ids_fixed3 <- (sapply(gene_ids3, clean_geneids, USE.NAMES = FALSE))
 
