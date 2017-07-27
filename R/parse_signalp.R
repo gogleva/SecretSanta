@@ -15,6 +15,8 @@ parse_signalp <- function(input, input_type) {
   clean_geneids <- function(x) {gsub('>', '', unlist(stringr::str_split(x, " "))[1])}
   # helper function for C-score, Y-score and S-score: split line with varibale number of spaces
   clean_score <- function(x) {as.numeric(stringr::str_split(x, "\\s+")[[1]][c(4,5 )])}
+  # helper function to get signal peptide cleavage site
+  clean_cleavege <- function(x) {as.numeric(tail(unlist(stringr::str_split(x, "\\s+")), n = 1))}
   # helper function for S mean
   clean_mean <- function(x) {strsplit(x, "\\s+")[[1]][c(4,5)]}
   # helper fucntion for prediction result:
@@ -33,6 +35,7 @@ parse_signalp <- function(input, input_type) {
   # extract max C score and position
   max_C_fixed <- sapply(data[grep("max. C", data)], clean_score, USE.NAMES = FALSE)
   # extract max Y score and position
+  C_pos <- sapply(data[grep("Max cleavage site probability:", data)], clean_cleavege, USE.NAMES = FALSE)
   max_Y_fixed <- sapply(data[grep("max. Y", data)], clean_score, USE.NAMES = FALSE)
   # extract max S score and position
   max_S_fixed <- sapply(data[grep("max. S", data)], clean_score, USE.NAMES = FALSE)
@@ -41,11 +44,12 @@ parse_signalp <- function(input, input_type) {
   Status_fixed <- sapply(data[grep("Prediction: ", data)], clean_status, USE.NAMES = FALSE)
   res <- tibble::as.tibble(data.frame(gene_ids_fixed,
                               t(max_C_fixed),
+                              C_pos,
                               t(max_Y_fixed),
                               t(max_S_fixed),
                               t(mean_S_fixed),
                               Status_fixed))
-  names(res) <- c("gene_id", "Cpos", "Cmax",
+  names(res) <- c("gene_id", "Cpos_parsed", "Cmax", "Cpos",
                   "Ypos", "Ymax", "Spos",
                   "Smax", "Srange", "Smean", "Prediction")
   #filter entries predicted to contain signal peptide
@@ -77,17 +81,24 @@ res2_system <- parse_signalp(input = con2, input_type = "system_call")
 # #identical(con2, con3)
 # # => outputs of signalp2 and signalp3 are different, sp2 parsing fails
 # 
-# ### Debug:
+# ### Debug clavage positions, sp2 outputs something weird in the NN results, so we will: 
 # 
-# data2 <- system("/home/anna/anna/Labjournal/SecretSanta_external/signalp-2.0/signalp -t euk SecretSanta/inst/extdata/sample_prot.fasta", intern = TRUE)
-# data3 <- system("/home/anna/anna/Labjournal/SecretSanta_external/signalp-3.0/signalp -t euk SecretSanta/inst/extdata/sample_prot.fasta", intern = TRUE)
-# 
-# 
-# 
-# #clean_geneids <- function(x) {gsub('>', '', unlist(stringr::str_split(x, " "))[1])}
-# gene_ids2 <- data2[(grep("SignalP-HMM result:", data2) + 1)]
-# gene_ids_fixed2 <- (sapply(gene_ids2, clean_geneids, USE.NAMES = FALSE))
-# 
-# gene_ids3 <- data3[(grep("SignalP-HMM result:", data3) + 1)]
-# gene_ids_fixed3 <- (sapply(gene_ids3, clean_geneids, USE.NAMES = FALSE))
+
+data2 <- system("/home/anna/anna/Labjournal/SecretSanta_external/signalp-2.0/signalp -t euk SecretSanta/inst/extdata/sample_prot.fasta", intern = TRUE)
+data3 <- system("/home/anna/anna/Labjournal/SecretSanta_external/signalp-3.0/signalp -t euk SecretSanta/inst/extdata/sample_prot.fasta", intern = TRUE)
+
+clean_cleavege <- function(x) {as.numeric(tail(unlist(stringr::str_split(x, "\\s+")), n = 1))}
+
+Cpos_exp <- sapply(
+
+data2[grep("Max cleavage site probability:", data2)]
+data3[grep("Max cleavage site probability:", data3)]
+
+li <- data2[grep("Max cleavage site probability:", data2)][1]
+li2 <- data2[grep("Max cleavage site probability:", data2)][423]
+li2 <- data3[grep("Max cleavage site probability:", data3)][494]
+
+as.numeric(tail(unlist(stringr::str_split(li2, "\\s+")), n = 1))
+
+sapply(data3[grep("Max cleavage site probability:", data3)], clean_cleavege, USE.NAMES = FALSE)
 
