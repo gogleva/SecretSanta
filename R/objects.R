@@ -14,15 +14,18 @@ CBSResult <- setClass("CBSResult",
 
                 prototype = list(in_fasta = AAStringSet(),
                                  out_fasta = AAStringSet()),
-                                 
-                validity = function(object)             
+                
+                validity = function(object)
                 {
-                        if (length(object@in_fasta) < length(object@out_fasta)) {
-                        return("Number of output sequences is grater than the number of input sequences.")
-                }
-                return(TRUE)
+                  if (length(object@in_fasta) < length(object@out_fasta)) {
+                    return("Number of output sequences is grater than the number of input sequences.")
+                  } else if (any(grepl('[*$]', object@in_fasta))) {
+                    return("Input fasta contains stop codon symbols '*', please remove them.") 
+                  }
+                  return(TRUE)
                 }  
-                )
+)
+                                 
 
 # Define accessors for CBSResult objects
 
@@ -43,6 +46,7 @@ setMethod(f = "setInfasta",
             return(theObject)
           }
 )
+
 # getter for in_fasta
 setGeneric(name = "getInfasta",
            def = function(theObject)
@@ -126,30 +130,19 @@ setMethod(f = "getOutfasta",
 
 SignalpResult <- setClass(
                     "SignalpResult",
-                    slots = list(in_fasta = "AAStringSet", 
-                                 out_fasta = "AAStringSet", 
-                                 mature_fasta = "AAStringSet", 
+                    contains= "CBSResult",
+                    slots = list(mature_fasta = "AAStringSet", 
                                  sp_version = "numeric",
                                  sp_tibble = "tbl_df"),
                  
-                    prototype = list(in_fasta = AAStringSet(),
-                                out_fasta = AAStringSet(),
-                                mature_fasta = AAStringSet(),
+                    prototype = list(mature_fasta = AAStringSet(),
                                 sp_version = 2,
                                 sp_tibble = tibble()
                     ),
-                    
-                  # test if the data is consistent
-                    validity = function(object)
-                    {
-                             if (length(object@in_fasta) < length(object@out_fasta)) {
-                              return("Number of output sequences is grater than the number of input sequences.")
-                              } else if (any(grepl('[*$]', object@in_fasta))) {
-                              return("Input fasta contains stop codon symbols '*', please remove them.") 
-                             }
-                             return(TRUE)
-                    }  
                     )
+
+CBS <- CBSResult()
+SP <- SignalpResult()
 
 # define accessor functions for SignalpResult object
 # setter for mature_fasta
