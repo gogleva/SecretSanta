@@ -2,7 +2,7 @@
 #'
 #' This function calls local SignalP
 #' Please ensure that respective version of SignalP is downloaded, installed and respective path is added to $PATH variable
-#' @param input    input object (any from SecretSanta objects family) with protein sequences as on of the attributes
+#' @param input    input object (any from CBSResult class) with protein sequences as on of the attributes
 #' @param version  signalp version to run, allowed  values: 2, 3, 4, 4.1 
 #' @param organism_type Allowed values: 'euk', 'gram+', 'gram-'        
 #' @param run_mode    set 'starter' if it is the first step in pupeline \cr

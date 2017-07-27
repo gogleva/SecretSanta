@@ -11,7 +11,7 @@ An S4 class to represent intermediate and final outputs of the signalp predictio
 \section{Slots}{
 
 \describe{
-\item{\code{in_fasta}}{initial fasta file, do we need to drag it along?}
+\item{\code{in_fasta}}{initial fasta file}
 
 \item{\code{out_fasta}}{output fasta with only positive candidates, i.e sequences predicted to be secreted at this step}
 
@@ -24,6 +24,7 @@ An S4 class to represent intermediate and final outputs of the signalp predictio
   \item gene_id - unique id of the sequence
   \item Cmax - max raw cleavage site score (C-score)
   \item Cpos - amino acid position with max C-score
+  \item Cparsed - sp2 and sp3: remove this field?
   \item Ymax - max combied cleavage site score (Y-score)
   \item Ypos - amino acid position with max Y-score
   \item Smax - max signal peptide score

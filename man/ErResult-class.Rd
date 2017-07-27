@@ -11,10 +11,6 @@ An S4 class to represent intermediate and final outputs of the ER motif checks (
 \section{Slots}{
 
 \describe{
-\item{\code{in_fasta}}{initial fasta file}
-
-\item{\code{out_fasta}}{output fasta without sequences with terminal ER-retention signals}
-
 \item{\code{er_list}}{list with seq ids containing terminal ER-retention motif}
 }}
 

@@ -21,7 +21,6 @@ This function scraps web output of SignalP tool and returns output in short form
 }
 \examples{
 Parse_signalP_web()
-Parse_signalP_web()
 }
 \keyword{HMM,}
 \keyword{peptide}

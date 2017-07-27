@@ -3,7 +3,6 @@
 #' This function scraps web output of SignalP tool and returns output in short format organised in a dataframe
 #' @param url url used to produce the output
 #' @export
-#' @examples
 #' Parse_signalP_web()
 
 Parse_signalP_web <- function(url){

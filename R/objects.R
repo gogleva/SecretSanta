@@ -246,7 +246,7 @@ setMethod(f = "getSPtibble",
 #' 
 
 TargetpResult <- setClass("TargetpResult",
-                          contains = "CBSResult"
+                          contains = "CBSResult",
                           slots = list(tp_tibble = "tbl_df")
 )
 
@@ -259,7 +259,7 @@ TargetpResult <- setClass("TargetpResult",
 #' 
 
 TMhmmResult <- setClass("TMhmmResult",
-                           contains = "CBSResult"
+                           contains = "CBSResult",
                            slots = list(in_mature_fasta = "AAStringSet",
                                         out_mature_fasta = "AAStringSet",
                                         tm_tibble = "tbl_df")
@@ -272,6 +272,6 @@ TMhmmResult <- setClass("TMhmmResult",
 #' 
 
 ErResult <- setClass("ErResult",
-                        contains = "CBSResult"
+                        contains = "CBSResult",
                         slots = list(er_list = "list")
 )

@@ -11,11 +11,7 @@ An S4 class to represent intermediate and final outputs of the TMHMM prediction 
 \section{Slots}{
 
 \describe{
-\item{\code{in_fasta}}{initial fasta file}
-
 \item{\code{in_mature_fasta}}{input mature fasta,}
-
-\item{\code{out_fasta}}{output fasta with only positive full-length candidates, candidates without TM in mature sequences}
 
 \item{\code{out_mature_fasta}}{output mature, conatins mature sequences without TM domains}
 
