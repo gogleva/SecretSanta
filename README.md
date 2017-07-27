@@ -46,4 +46,5 @@ will it cause confusion?
 -- Question/Problem: how to feed XStringSet object to system call: solved with tmp files (solved)
 -- Question/Problem1: output fasta file for gene_ids only present in output tibble (solved)
 -- Problem2: need a separate function to construct mature sequences based on sp_tibble and out_fasta (solved)
--- clean tmp files after the signalp run
+-- clean tmp files after the signalp run?
+-- speed up signalp run by splitting large input file into several smaller ones and run them as a series of small jobs

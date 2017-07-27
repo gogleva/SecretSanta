@@ -5,7 +5,7 @@
 #' @param input    input object (any from SecretSanta objects family) with protein sequences as on of the attributes
 #' @param version  signalp version to run, allowed  values: 2, 3, 4, 4.1 
 #' @param organism_type Allowed values: 'euk', 'gram+', 'gram-'        
-#' @param run_mode set 'starter' if it is the first step in pupeline \cr
+#' @param run_mode    set 'starter' if it is the first step in pupeline \cr
 #'                    set 'piper' if you run this function on the output of other CBS tools
 #' @export
 #' @examples
@@ -96,3 +96,5 @@ signalp <- function(input_obj, version, organism_type, run_mode) {
     message(cat(allowed_organisms))}
     stop('Input signalp version or specified organism type are invalid.')
 }
+
+
