@@ -24,6 +24,73 @@ CBSResult <- setClass("CBSResult",
                 }  
                 )
 
+# Define accessors for CBSResult objects
+
+# setter for in_fasta
+setGeneric(name = "setInfasta",
+           def = function(theObject, in_fasta)
+           {
+             standardGeneric("setInfasta")    
+           }  
+)
+
+setMethod(f = "setInfasta",
+          signature = "CBSResult",
+          definition = function(theObject, in_fasta)
+          {
+            theObject@in_fasta <- in_fasta
+            validObject(theObject)
+            return(theObject)
+          }
+)
+# getter for in_fasta
+setGeneric(name = "getInfasta",
+           def = function(theObject)
+           {
+             standardGeneric("getInfasta")    
+           }  
+)
+
+setMethod(f = "getInfasta",
+          signature = "CBSResult",
+          definition = function(theObject)
+          {
+            return(theObject@in_fasta)
+          }
+)
+
+# setter for out_fasta
+setGeneric(name = "setOutfasta",
+           def = function(theObject, out_fasta)
+           {
+             standardGeneric("setOutfasta")    
+           }  
+)
+
+setMethod(f = "setOutfasta",
+          signature = "CBSResult",
+          definition = function(theObject, out_fasta)
+          {
+            theObject@out_fasta <- out_fasta
+            validObject(theObject)
+            return(theObject)
+          }
+)
+# getter for out_fasta
+setGeneric(name = "getOutfasta",
+           def = function(theObject)
+           {
+             standardGeneric("getOutfasta")    
+           }  
+)
+
+setMethod(f = "getOutfasta",
+          signature = "CBSResult",
+          definition = function(theObject)
+          {
+            return(theObject@out_fasta)
+          }
+)
 
 
 #' An S4 class to represent intermediate and final outputs of the signalp prediction step
@@ -85,73 +152,6 @@ SignalpResult <- setClass(
                     )
 
 # define accessor functions for SignalpResult object
-
-# setter for in_fasta
-setGeneric(name = "setInfasta",
-                def = function(theObject, in_fasta)
-                {
-                      standardGeneric("setInfasta")    
-                }  
-                )
-
-setMethod(f = "setInfasta",
-                signature = "SignalpResult",
-                definition = function(theObject, in_fasta)
-                {
-                      theObject@in_fasta <- in_fasta
-                      validObject(theObject)
-                      return(theObject)
-                }
-                )
-# getter for in_fasta
-setGeneric(name = "getInfasta",
-           def = function(theObject)
-           {
-             standardGeneric("getInfasta")    
-           }  
-)
-
-setMethod(f = "getInfasta",
-          signature = "SignalpResult",
-          definition = function(theObject)
-          {
-            return(theObject@in_fasta)
-          }
-)
-
-# setter for out_fasta
-setGeneric(name = "setOutfasta",
-           def = function(theObject, out_fasta)
-           {
-             standardGeneric("setOutfasta")    
-           }  
-)
-
-setMethod(f = "setOutfasta",
-          signature = "SignalpResult",
-          definition = function(theObject, out_fasta)
-          {
-            theObject@out_fasta <- out_fasta
-            validObject(theObject)
-            return(theObject)
-          }
-)
-# getter for out_fasta
-setGeneric(name = "getOutfasta",
-           def = function(theObject)
-           {
-             standardGeneric("getOutfasta")    
-           }  
-)
-
-setMethod(f = "getOutfasta",
-          signature = "SignalpResult",
-          definition = function(theObject)
-          {
-            return(theObject@out_fasta)
-          }
-)
-
 # setter for mature_fasta
 setGeneric(name = "setMatfasta",
            def = function(theObject, mature_fasta)
