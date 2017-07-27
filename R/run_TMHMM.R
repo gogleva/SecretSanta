@@ -7,17 +7,30 @@
 #' "First60=": The expected number of amino acids in transmembrane helices in the first 60 amino acids of the protein (see above). \cr
 #' "PredHel=": The number of predicted transmembrane helices by N-best. \cr
 #' "Topology=": The topology predicted by N-best. \cr
-#' @param proteins input file with proteins
-#' @param output_type what we want from the output
+#' @param input_obj input object, an instance of CBSResult class, prefered input should contain mature_fasta
 #' @export
 #' @examples 
 #' r1 <- tmhmm("SecretSanta/inst/extdata/sample_prot.fasta", 'test')
 
-tmhmm <- function(proteins, output_type) {
+# to do: make this function to produce an object of CBSResult class
+
+step1_sp2 # obj of SignalpResult class
+
+tmhmm <- function(input_obj) {
   message("running TMHMM locally...")
+  
+  
+  
   full_pa <- as.character(secret_paths %>% filter(tool == 'tmhmm') %>% select(path))
   result <- tibble::as.tibble(read.table(text = (system(paste(full_pa, proteins, '--short'), intern = TRUE))))
   names(result) <- c("gene_id", "length", "ExpAA",
                      "First60", "PredHel", "Topology")
-  return(result)
+  result <- (result %>% filter(PredHel == 'PredHel=0'))
+  
+  
 }
+
+### tests
+
+t1 <- tmhmm("SecretSanta/inst/extdata/sample_prot.fasta", 'test')
+

@@ -58,10 +58,3 @@ parse_signalp <- function(input, input_type) {
     stop('gene_ids vector contains duplicated elements')
   }
 }
-
-
-
-
-
-
-
