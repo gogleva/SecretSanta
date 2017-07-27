@@ -7,7 +7,10 @@
 #' "First60=": The expected number of amino acids in transmembrane helices in the first 60 amino acids of the protein (see above). \cr
 #' "PredHel=": The number of predicted transmembrane helices by N-best. \cr
 #' "Topology=": The topology predicted by N-best. \cr
-#' @param input_obj input object, an instance of CBSResult class, prefered input should contain mature_fasta
+#' @param input_obj input object, an instance of CBSResult class, \cr
+#'                  input should contain mature_fasta; in full-length proteins \cr
+#'                  N-terminal signal peptide could be erroneously \cr
+#'                  predicted as TM domain; avoid this
 #' @export
 #' @examples 
 #' r1 <- tmhmm("SecretSanta/inst/extdata/sample_prot.fasta", 'test')
@@ -15,9 +18,13 @@
 # to do: make this function to produce an object of CBSResult class
 
 tmhmm <- function(input_obj) {
+  # check that input object belongs to a valid class
+  s <- getSlots(class(input_obj))
+  
+  if ('mature_fasta' %in% names(s)) {} else {stop('the input object does not contain mature_fasta slot!')}
+  
   message("running TMHMM locally...")
-
-  fasta <- getInfasta(input_obj) #placeholder, should be suitable for objects with mature_fasta slots only
+  fasta <- getMatfasta(input_obj) 
   out_tmp <- tempfile()
   Biostrings::writeXStringSet(fasta, out_tmp)
   
@@ -50,3 +57,4 @@ tmhmm <- function(input_obj) {
 #t1 <- tmhmm("SecretSanta/inst/extdata/sample_prot.fasta", 'test') # old version
 t2 <- tmhmm(step1_sp2) # obj of SignalpResult class
 
+t3 <- tmhmm(aa)
