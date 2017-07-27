@@ -57,3 +57,19 @@ parse_signalp <- function(input, input_type) {
 #signalp3 output
 #res3 <- parse_signalp("SecretSanta/inst/extdata/sample_prot_signalp3_out")
 
+
+# # problem is in the parserL signalp3 output is ok
+con3 <- system("/home/anna/anna/Labjournal/SecretSanta_external/signalp-3.0/signalp -t euk SecretSanta/inst/extdata/sample_prot.fasta", intern = TRUE)
+res3_system <- parse_signalp(input = con3, input_type = "system_call")
+
+# # signalp2 output is tropbled - fix this tomorrow
+con2 <- system("/home/anna/anna/Labjournal/SecretSanta_external/signalp-2.0/signalp -t euk SecretSanta/inst/extdata/sample_prot.fasta", intern = TRUE)
+res2_system <- parse_signalp(input = con2, input_type = "system_call")
+
+res2_path <- parse_signalp(input = "/home/anna/anna/Labjournal/SecretSanta/inst/extdata/sample_prot_signalp2_out", input_type = "path")
+
+#identical(con2, con3)
+# => outputs of signalp2 and signalp3 are different, sp2 parsing fails
+
+
+
