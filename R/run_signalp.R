@@ -96,5 +96,3 @@ signalp <- function(input_obj, version, organism_type, run_mode) {
     message(cat(allowed_organisms))}
     stop('Input signalp version or specified organism type are invalid.')
 }
-
-

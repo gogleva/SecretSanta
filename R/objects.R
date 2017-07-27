@@ -1,6 +1,34 @@
+#' An S4 class to represent minimal basic structure of CBS output objects
+#' 
+#' @slot in_fasta        initial fasta file
+#' @slot out_fasta       output fasta with only positive candidates, \cr
+#'                       i.e those that passed tool filters
+
+#' @examples 
+
+CBSResult <- setClass("CBSResult",
+                      
+                slots = list(in_fasta = "AAStringSet",
+                             out_fasta = "AAStringSet"),
+                             
+
+                prototype = list(in_fasta = AAStringSet(),
+                                 out_fasta = AAStringSet()),
+                                 
+                validity = function(object)             
+                {
+                        if (length(object@in_fasta) < length(object@out_fasta)) {
+                        return("Number of output sequences is grater than the number of input sequences.")
+                }
+                return(TRUE)
+                }  
+                )
+
+
+
 #' An S4 class to represent intermediate and final outputs of the signalp prediction step
 #' 
-#' @slot in_fasta        initial fasta file, do we need to drag it along?
+#' @slot in_fasta        initial fasta file
 #' @slot out_fasta       output fasta with only positive candidates, i.e sequences predicted to be secreted at this step
 #' @slot mature_fasta    fasta with mature sequences
 #' @slot sp_version      version of signalp used to generate this object
@@ -9,6 +37,7 @@
 #'   \item gene_id - unique id of the sequence
 #'   \item Cmax - max raw cleavage site score (C-score)
 #'   \item Cpos - amino acid position with max C-score
+#'   \item Cparsed - sp2 and sp3: remove this field?
 #'   \item Ymax - max combied cleavage site score (Y-score)
 #'   \item Ypos - amino acid position with max Y-score
 #'   \item Smax - max signal peptide score
@@ -36,8 +65,7 @@ SignalpResult <- setClass(
                                  sp_version = "numeric",
                                  sp_tibble = "tbl_df"),
                  
-                    prototype = list(
-                                in_fasta = AAStringSet(),
+                    prototype = list(in_fasta = AAStringSet(),
                                 out_fasta = AAStringSet(),
                                 mature_fasta = AAStringSet(),
                                 sp_version = 2,
