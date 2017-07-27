@@ -16,26 +16,37 @@
 
 tmhmm <- function(input_obj) {
   message("running TMHMM locally...")
-  
+
   fasta <- getInfasta(input_obj) #placeholder, should be suitable for objects with mature_fasta slots only
   out_tmp <- tempfile()
   Biostrings::writeXStringSet(fasta, out_tmp)
   
   full_pa <- as.character(secret_paths %>% filter(tool == 'tmhmm') %>% select(path))
-  result <- tibble::as.tibble(read.table(text = (system(paste(full_pa, out_tmp, '--short'), intern = TRUE))))
-  names(result) <- c("gene_id", "length", "ExpAA",
+  tm <- tibble::as.tibble(read.table(text = (system(paste(full_pa, out_tmp, '--short'), intern = TRUE))))
+  names(tm) <- c("gene_id", "length", "ExpAA",
                      "First60", "PredHel", "Topology")
-  result <- (result %>% filter(PredHel == 'PredHel=0'))
+  tm <- (tm %>% filter(PredHel == 'PredHel=0'))
+  
+  # helper function: crop long names for AAStringSet object, return character vector
+  crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
+  #generate cropped names for input fasta
+  cropped_names <- unname(sapply(names(fasta), crop_names))
+  #replace long names with cropped names
+  names(fasta) <- cropped_names
+  #get ids of candidate secreted proteins
+  candidate_ids <- tm %>% select(gene_id) %>% unlist(use.names = FALSE)
+  out_fasta_tm <- fasta[candidate_ids]
   
   out_obj <- TMhmmResult(in_fasta = fasta,
-                         out_fasta = fasta, #placeholder
-                         tm_tibble = result)
+                         out_fasta = out_fasta_tm, #placeholder
+                         tm_tibble = tm)
+  
   if (validObject(out_obj)) {return(out_obj)}
   }
+
 
 ### tests
 
 #t1 <- tmhmm("SecretSanta/inst/extdata/sample_prot.fasta", 'test') # old version
-
 t2 <- tmhmm(step1_sp2) # obj of SignalpResult class
 
