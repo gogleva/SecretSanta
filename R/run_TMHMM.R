@@ -21,7 +21,12 @@ tmhmm <- function(input_obj) {
   # check that input object belongs to a valid class
   s <- getSlots(class(input_obj))
   
-  if ('mature_fasta' %in% names(s)) {} else {stop('the input object does not contain mature_fasta slot!')}
+  #else if (length(getMatfasta(input_obj)) == 0) {
+   # stop('the input object contains empty mature_fasta slot')
+    
+  if ('mature_fasta' %in% names(s)) {
+  } else {
+  stop('the input object does not contain mature_fasta slot or the slot is empty!')}
   
   message("running TMHMM locally...")
   fasta <- getMatfasta(input_obj) 
@@ -56,5 +61,5 @@ tmhmm <- function(input_obj) {
 
 #t1 <- tmhmm("SecretSanta/inst/extdata/sample_prot.fasta", 'test') # old version
 t2 <- tmhmm(step1_sp2) # obj of SignalpResult class
-
 t3 <- tmhmm(aa)
+
