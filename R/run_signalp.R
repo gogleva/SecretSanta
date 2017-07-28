@@ -35,6 +35,8 @@ signalp <- function(input_obj, version, organism_type, run_mode) {
   allowed_versions = c(2,3,4,4.1)
   allowed_organisms = c('euk', 'gram+', 'gram-')
   
+  if (is(input_obj, "CBSResult")) {} else {stop('input_object does not belong to CBSResult superclass')}
+  
     if ((version %in% allowed_versions) & (organism_type %in% allowed_organisms)){
     message("running signalP locally...")
     # get fasta from SignalpResult object
