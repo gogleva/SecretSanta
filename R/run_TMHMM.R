@@ -27,9 +27,8 @@ tmhmm <- function(input_obj) {
     }
   } else {
       stop('the input object does not contain mature_fasta slot')}
-  
-  
   message("running TMHMM locally...")
+  
   fasta <- getMatfasta(input_obj) 
   out_tmp <- tempfile()
   Biostrings::writeXStringSet(fasta, out_tmp)
@@ -43,15 +42,18 @@ tmhmm <- function(input_obj) {
   # helper function: crop long names for AAStringSet object, return character vector
   crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
   #generate cropped names for input fasta
-  cropped_names <- unname(sapply(names(fasta), crop_names))
+  full_fasta <- getInfasta(input_obj)
+  cropped_names <- unname(sapply(names(full_fasta), crop_names))
   #replace long names with cropped names
-  names(fasta) <- cropped_names
+  names(full_fasta) <- cropped_names
   #get ids of candidate secreted proteins
   candidate_ids <- tm %>% select(gene_id) %>% unlist(use.names = FALSE)
-  out_fasta_tm <- fasta[candidate_ids]
+  out_fasta_tm <- full_fasta[candidate_ids]
   
-  out_obj <- TMhmmResult(in_fasta = fasta,
-                         out_fasta = out_fasta_tm, 
+  out_obj <- TMhmmResult(in_fasta = getOutfasta(input_obj), # original in fasta, full length proteins
+                         out_fasta = out_fasta_tm, # out fasta, full length proteins
+                         in_mature_fasta = fasta,
+                         out_mature_fasta = fasta[candidate_ids],
                          tm_tibble = tm)
   
   if (validObject(out_obj)) {return(out_obj)}
