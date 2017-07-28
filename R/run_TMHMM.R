@@ -61,7 +61,6 @@ tmhmm <- function(input_obj) {
 # t2 <- tmhmm(step1_sp2) # obj of SignalpResult class
 # t3 <- tmhmm(aa)
 # t4 <- tmhmm(inp) 
-# 
 # t22 <- tmhmm(step2_sp3)
 
 

@@ -253,7 +253,9 @@ TargetpResult <- setClass("TargetpResult",
 
 #' An S4 class to represent intermediate and final outputs of the TMHMM prediction step
 #' 
-#' @slot in_mature_fasta  input mature fasta, 
+#' @slot in_fasta original in fasta, full length proteins
+#' @slot in_mature_fasta  input mature fasta, extracted from the input SignalpResult object
+#' @slot out_fasta output fasta, full-length sequences without TM after signal peptide
 #' @slot out_mature_fasta output mature, conatins mature sequences without TM domains
 #' @slot tm_tibble        tibble with outputs obtained from TMHMM
 #' \itemize{
@@ -272,6 +274,39 @@ TMhmmResult <- setClass("TMhmmResult",
                                         tm_tibble = "tbl_df")
 )
 
+
+# setter for tm_tible
+setGeneric(name = "setTMtibble",
+           def = function(theObject, tm_tibble)
+           {
+             standardGeneric("setTMtibble")    
+           }  
+)
+
+setMethod(f = "setTMtibble",
+          signature = "TMhmmResult",
+          definition = function(theObject, tm_tibble)
+          {
+            theObject@tm_tibble <- tm_tibble
+            validObject(theObject)
+            return(theObject)
+          }
+)
+# getter for sp_version
+setGeneric(name = "getTMtibble",
+           def = function(theObject)
+           {
+             standardGeneric("getTMtibble")    
+           }  
+)
+
+setMethod(f = "getTMtibble",
+          signature = "TMhmmResult",
+          definition = function(theObject)
+          {
+            return(theObject@tm_tibble)
+          }
+)
 
 #' An S4 class to represent intermediate and final outputs of the ER motif checks (KDEL/HDEL)
 #' 
