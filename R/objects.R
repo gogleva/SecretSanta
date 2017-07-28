@@ -341,7 +341,6 @@ setMethod(f = "getOutMatfasta",
           }
 )
 
-
 #' An S4 class to represent intermediate and final outputs of the ER motif checks (KDEL/HDEL)
 #' 
 #' @slot er_list          list with seq ids containing terminal ER-rels

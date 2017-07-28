@@ -1,34 +1,33 @@
 #' check_khdel function
 #'
-#' This function checks for terminal KDEL/HDEL sequences in the candidate secreted proteins
-#' @param proteins input file with proteins
-#' @param input_type path, object or something else?
-#' @param output_type what we want from the output: fasta, tibble? list of ids?
-#' @export
+#' This function checks presence of terminal KDEL/HDEL sequences in the candidate secreted proteins
+#' @param input_obj input object of CBSResult superclass
+#' @export run_mode 'starter' or 'piper' 
 #' @examples 
 #' check_khdel("/home/anna/anna/Labjournal/SecretSanta/inst/extdata/sample_prot.fasta", 'some')
 
-check_khdel <- function(proteins, output_type) {
+check_khdel <- function(input_obj, run_mode) {
+  
+  # check the input
+  if (is(input_obj, "CBSResult")) {} else stop('input_object does not belong to CBSResult superclass')
+  
+  # starting message:
   message("checking for terminal ER retention signals...")
-  ff <- read.fasta(proteins)
-  # helper function to gen n tail bases
-  tail_bases <- function(x){
-    L <- length(x)
-    return(paste(x[(L - 3):L], collapse = ''))
-  }
-
-  if (any(which(mapply(tail_bases, ff) == 'hdel')) | any(which(mapply(tail_bases, ff) == 'kdel'))) {
-    message('oh no, kdel')
-    offenders <- c(which(mapply(tail_bases, ff) == 'hdel'), which(mapply(tail_bases, ff) == 'kdel'))
-    res <- attr(offenders, "name")
-    print(res)
-    return(ff[-c(offenders)])
-    }else{
-      message('all good!')
-      return(ff)
-    }
+  
+  # determine which fasta to take
+  if (run_mode == 'piper') fasta <- getOutfasta(input_obj) else fasta <- getInfasta(input_obj)
+  
+  ER1 <- AAString('KDEL')
+  ER2 <- AAString('HDEL')
+  
+  tails <- subseq(fasta, -4, -1) # last 4 aminno acids in each protein
+  
+  un <- !(as.logical(vcountPattern(ER1, tails)) | as.logical(vcountPattern(ER2, tails)))
+  #un <- !(qu1 | qu2)
+  
+  return(fasta[un])
 }
 
 
-
-
+## Tests:
+check_khdel(step1_sp2, run_mode = 'starter')
