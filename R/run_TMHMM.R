@@ -1,12 +1,6 @@
 #' tmhmm function
 #'
 #' This function calls local TMHMM
-#' Output: \cr
-#' "len=": the length of the protein sequence. \cr
-#' "ExpAA=": The expected number of amino acids intransmembrane helices (see above). \cr
-#' "First60=": The expected number of amino acids in transmembrane helices in the first 60 amino acids of the protein (see above). \cr
-#' "PredHel=": The number of predicted transmembrane helices by N-best. \cr
-#' "Topology=": The topology predicted by N-best. \cr
 #' @param input_obj input object, an instance of CBSResult class, \cr
 #'                  input should contain mature_fasta; in full-length proteins \cr
 #'                  N-terminal signal peptide could be erroneously \cr
@@ -41,6 +35,7 @@ tmhmm <- function(input_obj) {
   
   # helper function: crop long names for AAStringSet object, return character vector
   crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
+  
   #generate cropped names for input fasta
   full_fasta <- getInfasta(input_obj)
   cropped_names <- unname(sapply(names(full_fasta), crop_names))
@@ -62,7 +57,11 @@ tmhmm <- function(input_obj) {
 
 ### tests
 
-#t1 <- tmhmm("SecretSanta/inst/extdata/sample_prot.fasta", 'test') # old version
-t2 <- tmhmm(step1_sp2) # obj of SignalpResult class
-t3 <- tmhmm(aa)
-t4 <- tmhmm(inp) 
+# #t1 <- tmhmm("SecretSanta/inst/extdata/sample_prot.fasta", 'test') # old version
+# t2 <- tmhmm(step1_sp2) # obj of SignalpResult class
+# t3 <- tmhmm(aa)
+# t4 <- tmhmm(inp) 
+# 
+# t22 <- tmhmm(step2_sp3)
+
+

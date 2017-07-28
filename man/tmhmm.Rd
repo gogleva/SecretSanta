@@ -4,21 +4,16 @@
 \alias{tmhmm}
 \title{tmhmm function}
 \usage{
-tmhmm(proteins, output_type)
+tmhmm(input_obj)
 }
 \arguments{
-\item{proteins}{input file with proteins}
-
-\item{output_type}{what we want from the output}
+\item{input_obj}{input object, an instance of CBSResult class, \cr
+input should contain mature_fasta; in full-length proteins \cr
+N-terminal signal peptide could be erroneously \cr
+predicted as TM domain; avoid this}
 }
 \description{
 This function calls local TMHMM
-Output: \cr
-"len=": the length of the protein sequence. \cr
-"ExpAA=": The expected number of amino acids intransmembrane helices (see above). \cr
-"First60=": The expected number of amino acids in transmembrane helices in the first 60 amino acids of the protein (see above). \cr
-"PredHel=": The number of predicted transmembrane helices by N-best. \cr
-"Topology=": The topology predicted by N-best. \cr
 }
 \examples{
 r1 <- tmhmm("SecretSanta/inst/extdata/sample_prot.fasta", 'test')
