@@ -11,7 +11,8 @@ An S4 class to represent intermediate and final outputs of the ER motif checks (
 \section{Slots}{
 
 \describe{
-\item{\code{er_list}}{list with seq ids containing terminal ER-rels
-tention motif}
+\item{\code{retained}}{sequences containing terminal ER-retention signals}
+
+\item{\code{mootifs}}{dummy slot}
 }}
 

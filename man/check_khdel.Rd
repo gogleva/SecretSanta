@@ -4,17 +4,13 @@
 \alias{check_khdel}
 \title{check_khdel function}
 \usage{
-check_khdel(proteins, output_type)
+check_khdel(input_obj, run_mode)
 }
 \arguments{
-\item{proteins}{input file with proteins}
-
-\item{output_type}{what we want from the output: fasta, tibble? list of ids?}
-
-\item{input_type}{path, object or something else?}
+\item{input_obj}{input object of CBSResult superclass}
 }
 \description{
-This function checks for terminal KDEL/HDEL sequences in the candidate secreted proteins
+This function checks presence of terminal KDEL/HDEL sequences in the candidate secreted proteins
 }
 \examples{
 check_khdel("/home/anna/anna/Labjournal/SecretSanta/inst/extdata/sample_prot.fasta", 'some')

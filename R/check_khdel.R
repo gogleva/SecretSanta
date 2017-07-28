@@ -7,7 +7,6 @@
 #' check_khdel("/home/anna/anna/Labjournal/SecretSanta/inst/extdata/sample_prot.fasta", 'some')
 
 check_khdel <- function(input_obj, run_mode) {
-  
   # check the input
   if (is(input_obj, "CBSResult")) {} else stop('input_object does not belong to CBSResult superclass')
   
@@ -17,17 +16,22 @@ check_khdel <- function(input_obj, run_mode) {
   # determine which fasta to take
   if (run_mode == 'piper') fasta <- getOutfasta(input_obj) else fasta <- getInfasta(input_obj)
   
+  # find and remove termial ER retention motifs
   ER1 <- AAString('KDEL')
   ER2 <- AAString('HDEL')
-  
   tails <- subseq(fasta, -4, -1) # last 4 aminno acids in each protein
-  
   un <- !(as.logical(vcountPattern(ER1, tails)) | as.logical(vcountPattern(ER2, tails)))
-  #un <- !(qu1 | qu2)
   
-  return(fasta[un])
+  # fasta without terminal KDELs/HDEls
+  non_retained <- fasta[un] 
+  
+  out_obj <- ErResult(in_fasta = fasta,
+                      out_fasta = non_retained,
+                      retained = fasta[!un])
+  
+  if (validObject(out_obj)) {return(out_obj)}
 }
 
-
 ## Tests:
+
 check_khdel(step1_sp2, run_mode = 'starter')

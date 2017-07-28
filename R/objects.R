@@ -341,13 +341,16 @@ setMethod(f = "getOutMatfasta",
           }
 )
 
-#' An S4 class to represent intermediate and final outputs of the ER motif checks (KDEL/HDEL)
-#' 
-#' @slot er_list          list with seq ids containing terminal ER-rels
-#' tention motif
-#' 
+#' An S4 class to represent intermediate and final outputs of the TMHMM prediction step
+#'
+#' @slot retained
+#' @slot dummy_slot
 
 ErResult <- setClass("ErResult",
-                        contains = "CBSResult",
-                        slots = list(er_list = "list")
-)
+                      contains = "CBSResult",
+                      slots = list(retained = "AAStringSet",
+                                     dummy_slot = "AAStringSet")
+                     )
+
+
+
