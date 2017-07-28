@@ -2,9 +2,10 @@
 #'
 #' This function checks presence of terminal KDEL/HDEL sequences in the candidate secreted proteins
 #' @param input_obj input object of CBSResult superclass
-#' @export run_mode 'starter' or 'piper' 
+#' @param run_mode 'starter' or 'piper' 
+#' @export
 #' @examples 
-#' check_khdel("/home/anna/anna/Labjournal/SecretSanta/inst/extdata/sample_prot.fasta", 'some')
+#' check_khdel(step1_sp2, run_mode = 'starter')
 
 check_khdel <- function(input_obj, run_mode) {
   # check the input
@@ -32,6 +33,3 @@ check_khdel <- function(input_obj, run_mode) {
   if (validObject(out_obj)) {return(out_obj)}
 }
 
-## Tests:
-
-check_khdel(step1_sp2, run_mode = 'starter')

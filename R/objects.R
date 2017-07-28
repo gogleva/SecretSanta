@@ -344,12 +344,10 @@ setMethod(f = "getOutMatfasta",
 #' An S4 class to represent intermediate and final outputs of the TMHMM prediction step
 #'
 #' @slot retained
-#' @slot dummy_slot
 
 ErResult <- setClass("ErResult",
                       contains = "CBSResult",
-                      slots = list(retained = "AAStringSet",
-                                     dummy_slot = "AAStringSet")
+                      slots = list(retained = "AAStringSet")
                      )
 
 
