@@ -292,7 +292,7 @@ setMethod(f = "setTMtibble",
             return(theObject)
           }
 )
-# getter for sp_version
+# getter for tm_tibble
 setGeneric(name = "getTMtibble",
            def = function(theObject)
            {
@@ -307,6 +307,40 @@ setMethod(f = "getTMtibble",
             return(theObject@tm_tibble)
           }
 )
+
+
+# getter for in_mature_fasta
+setGeneric(name = "getInMatfasta",
+           def = function(theObject)
+           {
+             standardGeneric("getInMatfasta")    
+           }  
+)
+
+setMethod(f = "getInMatfasta",
+          signature = "TMhmmResult",
+          definition = function(theObject)
+          {
+            return(theObject@in_mature_fasta)
+          }
+)
+
+# getter for out_mature_fasta
+setGeneric(name = "getOutMatfasta",
+           def = function(theObject)
+           {
+             standardGeneric("getOutMatfasta")    
+           }  
+)
+
+setMethod(f = "getOutMatfasta",
+          signature = "TMhmmResult",
+          definition = function(theObject)
+          {
+            return(theObject@out_mature_fasta)
+          }
+)
+
 
 #' An S4 class to represent intermediate and final outputs of the ER motif checks (KDEL/HDEL)
 #' 
