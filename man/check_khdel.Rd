@@ -8,10 +8,12 @@ check_khdel(input_obj, run_mode)
 }
 \arguments{
 \item{input_obj}{input object of CBSResult superclass}
+
+\item{run_mode}{'starter' or 'piper'}
 }
 \description{
 This function checks presence of terminal KDEL/HDEL sequences in the candidate secreted proteins
 }
 \examples{
-check_khdel("/home/anna/anna/Labjournal/SecretSanta/inst/extdata/sample_prot.fasta", 'some')
+check_khdel(step1_sp2, run_mode = 'starter')
 }

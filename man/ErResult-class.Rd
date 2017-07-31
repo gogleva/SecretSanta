@@ -4,15 +4,7 @@
 \name{ErResult-class}
 \alias{ErResult-class}
 \alias{ErResult}
-\title{An S4 class to represent intermediate and final outputs of the ER motif checks (KDEL/HDEL)}
+\title{An S4 class to represent intermediate and final outputs of the TMHMM prediction step}
 \description{
-An S4 class to represent intermediate and final outputs of the ER motif checks (KDEL/HDEL)
+An S4 class to represent intermediate and final outputs of the TMHMM prediction step
 }
-\section{Slots}{
-
-\describe{
-\item{\code{retained}}{sequences containing terminal ER-retention signals}
-
-\item{\code{mootifs}}{dummy slot}
-}}
-

@@ -12,8 +12,8 @@ CBSResult <- setClass("CBSResult",
                              out_fasta = "AAStringSet"),
                              
 
-                prototype = list(in_fasta = AAStringSet(),
-                                 out_fasta = AAStringSet()),
+                prototype = list(in_fasta = Biostrings::AAStringSet(),
+                                 out_fasta = Biostrings::AAStringSet()),
                 
                 validity = function(object)
                 {
@@ -135,9 +135,9 @@ SignalpResult <- setClass(
                                  sp_version = "numeric",
                                  sp_tibble = "tbl_df"),
                  
-                    prototype = list(mature_fasta = AAStringSet(),
+                    prototype = list(mature_fasta = Biostrings::AAStringSet(),
                                 sp_version = 2,
-                                sp_tibble = tibble()
+                                sp_tibble = tibble::tibble()
                     ),
                     )
 
