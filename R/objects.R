@@ -240,14 +240,14 @@ setMethod(f = "getSPtibble",
           }
 )
 
-#' An S4 class to represent intermediate and final outputs of the targetp prediction step
+#' An S4 class to represent outputs of WolfPsort
 #' 
-#' @slot tp_tibble       standard tibble with outputs obtained from targetp
+#' @slot wolf_tibble       standard tibble with outputs obtained from wolfpsort
 #' 
 
-TargetpResult <- setClass("TargetpResult",
+WolfResult <- setClass("WolfResult",
                           contains = "CBSResult",
-                          slots = list(tp_tibble = "tbl_df")
+                          slots = list(wolf_tibble = "tbl_df")
 )
 
 
@@ -349,6 +349,4 @@ ErResult <- setClass("ErResult",
                       contains = "CBSResult",
                       slots = list(retained = "AAStringSet")
                      )
-
-
 
