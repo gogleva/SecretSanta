@@ -1,6 +1,7 @@
 #' run_WolfPsort function
 #'
 #' This function runs WoLF PSORT to predict protein cellular sub-localisation
+#' And returns the most probbale
 #' Recommended to run on the late stages of secretome prediction
 #' @param input_obj Object of CSBResult class
 #' @export
@@ -15,8 +16,24 @@ wolfpsort <- function(input_obj){
   fasta <- getOutfasta(input_obj)
   out_tmp <- tempfile()
   Biostrings::writeXStringSet(fasta, out_tmp)
-
-  full_pa <- as.character(secret_paths %>% filter(tool == 'tmhmm') %>% select(path))
+  full_pa <- as.character(secret_paths %>% filter(tool == 'wolfpsort') %>% select(path))
+  wolf <- system(paste(full_pa, 'fungi <', out_tmp), intern = TRUE)
   
-   # we assume/require that the object has filled outFasta slot already
+  #parse wolf output
+  clean_strings <- function(x, field){unlist((stringr::str_split(x, " ")))[c(field)]}
+  
+  gene_id <- sapply(X = wolf, field = 1, clean_strings, USE.NAMES = FALSE)
+  localization <- sapply(X = wolf, field = 2, clean_strings, USE.NAMES = FALSE)
+  
+  #assemble result tibble with gene id and most probable sibsellular localisation
+  wolf_tibble <- as_tibble(data.frame(gene_id, localization)) %>% filter(gene_id != '#') %>% filter(localization == 'extr')
+  return(wolf_tibble)
+  
   }
+
+#tests:
+
+fafa <- step1_sp2
+wolfpsort(fafa)
+
+
