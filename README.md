@@ -50,6 +50,5 @@ will it cause confusion?
 - speed up signalp run by splitting large input file into several smaller ones and run them as a series of small jobs
 - plotting functions for individula peptides (will requre full output) signalp
 - prediction graphs (?) when each candidate was rejected -->?
-
-
-
+- targetp keeps failing even with the increased swap value, however works on SLCU HPCs (both) -- why??
+- alternative solution for protein localisation: wolfpsort - run locally, parse the output, etc (to do)
