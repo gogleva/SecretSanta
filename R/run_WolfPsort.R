@@ -4,12 +4,17 @@
 #' And returns the most probbale
 #' Recommended to run on the late stages of secretome prediction
 #' @param input_obj Object of CSBResult class
+#' @param organism  set relevant taxonomic group,
+#'                  Options include: plant, animal, fingi;
+#'                  
 #' @export
 #' @examples
 
-wolfpsort <- function(input_obj){
+wolfpsort <- function(input_obj, organism){
   if (is(input_obj, "CBSResult")) {} else {stop('input_object does not belong to CBSResult superclass')}
   if (length(getOutfasta(input_obj)) == 0) {stop('the input object contains empty out_fasta slot')}
+  allowed_organisms <- c('plant', 'animal', 'fungi')
+  if (!(organism %in% allowed_organisms)) {stop('input organism is not allowed or does not exist')}
   
   message("running WoLF PSORT locally...")
   
@@ -17,7 +22,7 @@ wolfpsort <- function(input_obj){
   out_tmp <- tempfile()
   Biostrings::writeXStringSet(fasta, out_tmp)
   full_pa <- as.character(secret_paths %>% filter(tool == 'wolfpsort') %>% select(path))
-  wolf <- system(paste(full_pa, 'fungi <', out_tmp), intern = TRUE)
+  wolf <- system(paste(full_pa,  organism, '<', out_tmp), intern = TRUE)
   
   #parse wolf output
   clean_strings <- function(x, field){unlist((stringr::str_split(x, " ")))[c(field)]}
@@ -38,8 +43,8 @@ wolfpsort <- function(input_obj){
 
 
 #tests:
-
-fafa <- step1_sp2
-w <- wolfpsort(fafa)
+# 
+# fafa <- step1_sp2
+w <- wolfpsort(fafa, 'fungi')
 
 
