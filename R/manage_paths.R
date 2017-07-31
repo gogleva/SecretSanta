@@ -1,22 +1,31 @@
 #' manage_paths function
 #'
-#' This function calls manages pathways for CBS tools: signalp, targetp ... etc
-#' @param path_file  2-column space-separated file with listed paths for CBS tools
+#' This function reads and stores pathways for external tools used in secertome prediction pipeline.\cr
+#' @param path_file  2-column space-separated file with listed paths for external dependencies;
+#' \itemize{
+#' \item first column should contain tool name;
+#' \item second column should contain full path to the tool's executable;
+#' }
+#' @return tibble with verified file paths
 #' @export
 #' @examples
-#' secret_paths <- manage_paths("SecretSanta/inst/extdata/sample_paths")
+#' secret_paths <- manage_paths(system.file("extdata", "sample_paths", package="SecretSanta"))
 
 manage_paths <- function(path_file) {
   # read path file in a tibble
   pp <- readr::read_delim(path_file, delim = ' ', col_names = FALSE)
+  # check that there are only 2 columns, i.e no extra spaces in tool names
+  if (!(ncol(pp) == 2)) {stop('Please ensure that there are no spaces in the tool names.')}
   names(pp) <- c("tool", "path")
   # now check that all supplied paths exist
   pp$status <- file.exists(pp$path)
   if (all(pp$status)) { 
+    message('All paths are valid')
+    pp <- plyr::mutate(pp, tool = tolower(tool)) #convert all the tool names to lower case to avoid confusion
     return(pp)
     } else {
-    message('Warning! supplied file path does not exist')
-    message(sapply(pp %>% filter(status == FALSE) %>% select(path), paste, '\n'))
-    message('Please check the paths and try again')
+    message('Error! Supplied file path does not exist.')
+    message(sapply(pp %>% dplyr::filter(status == FALSE) %>% dplyr::select(path), paste, '\n'))
+    message('Please check that supplied paths are correct and try again.')
     }
 }

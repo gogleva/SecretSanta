@@ -45,6 +45,6 @@ wolfpsort <- function(input_obj, organism){
 #tests:
 # 
 # fafa <- step1_sp2
-w <- wolfpsort(fafa, 'fungi')
+#w <- wolfpsort(fafa, 'fungi')
 
 
