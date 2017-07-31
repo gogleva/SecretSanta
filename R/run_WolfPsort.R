@@ -26,14 +26,20 @@ wolfpsort <- function(input_obj){
   localization <- sapply(X = wolf, field = 2, clean_strings, USE.NAMES = FALSE)
   
   #assemble result tibble with gene id and most probable sibsellular localisation
-  wolf_tibble <- as_tibble(data.frame(gene_id, localization)) %>% filter(gene_id != '#') %>% filter(localization == 'extr')
-  return(wolf_tibble)
+  wolf_tbl <- as_tibble(data.frame(gene_id, localization)) %>% filter(gene_id != '#') %>% filter(localization == 'extr')
   
-  }
+  #assemble wolf result object:
+  out_obj <- WolfResult(in_fasta = fasta,
+                        out_fasta = fasta[wolf_tbl$gene_id], #place holder
+                        wolf_tibble = wolf_tbl)
+  
+  if (validObject(out_obj)) {return(out_obj)}
+}
+
 
 #tests:
 
 fafa <- step1_sp2
-wolfpsort(fafa)
+w <- wolfpsort(fafa)
 
 
