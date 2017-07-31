@@ -25,8 +25,8 @@ Required tools could be found here:
 \item signalp2  - \url{http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+2.0}
 \item signalp3  - \url{http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+3.0}
 \item signalp4  - \url{http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?signalp}
-\item TMHMM - \url{http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?tmhmm}
-\item targetP - \url{http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?targetp}
+\item TMHMM     - \url{http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?tmhmm}
+\item targetP   - \url{http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?targetp}
 }
 }
 \examples{
