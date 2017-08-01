@@ -1,14 +1,35 @@
 #' parse_signalp function
-#'
-#' This function parses signalp2 and signalp3 output
-#' @param input signalp2 or 3 input
-#' @param input_type  path: file with text output from signalp2 or signalp3 \cr 
-#'                    system_call: direct output from signalp2/3 system call
+#' 
+#' This function parses signalp2 and signalp3 output. Is used internally in signalp function; can be called independently on outputs of signalp2/3 tools captured in a system call or stored in a file.
+#' @param input full output of signalp2 or signalp3 call
+#' @param input_type  specify input type: 'path' or 'system_call'
+#' \itemize{
+#' \item 'path' - path to a file with text output from signalp2 or signalp3;
+#' \item 'system_call' - direct output from signalp2/3 system call;
+#' }
+#' @return parsed signalp2/3 output, organised in a tibble object.
 #' @export
 #' @examples
-#' res2_path <- parse_signalp(input = "/home/anna/anna/Labjournal/SecretSanta/inst/extdata/sample_prot_signalp2_out", input_type = "path")
-#' con <- system("/home/anna/anna/Labjournal/SecretSanta_external/signalp-2.0/signalp -t euk SecretSanta/inst/extdata/sample_prot.fasta", intern = TRUE)
-#' res2_system <- parse_signalp(input = con, input_type = "system_call")
+#' # Parse signalp2 output, stored in a file:
+#' 
+#' s_path <- system.file("extdata", "sample_prot_signalp2_out", package = "SecretSanta") 
+#' parse_sp_path <- parse_signalp(input = s_path, input_type = "path")
+#' 
+#' # Parse signalp2 output, obtained from a system call:
+#' 
+#' s_fasta <- system.file("extdata", "sample_prot.fasta", package = "SecretSanta") 
+#' 
+#' secret_paths <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+#' 
+#' sp2_path <- secret_paths %>% filter(tool == 'signalp2') %>% select(path)
+#' 
+#' # capture system call:
+#' 
+#' con <- system(paste(sp2_path, '-t euk', s_fasta), intern = TRUE)
+#' 
+#' # parse captured system call:
+#' 
+#' parse_signalp(input = con, input_type = "system_call")
 
 parse_signalp <- function(input, input_type) {
   # helper function for gene ids

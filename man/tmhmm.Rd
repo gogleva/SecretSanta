@@ -16,5 +16,5 @@ predicted as TM domain; avoid this}
 This function calls local TMHMM
 }
 \examples{
-r1 <- tmhmm("SecretSanta/inst/extdata/sample_prot.fasta", 'test')
+r1 <- tmhmm("SecretSanta/inst/extdata/sample_prot.fasta")
 }

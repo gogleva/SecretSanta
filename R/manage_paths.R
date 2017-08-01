@@ -1,6 +1,8 @@
 #' manage_paths function
 #'
-#' This function reads and stores pathways for external tools used in secertome prediction pipeline. 
+#' This function reads and stores pathways for external tools used in secertome prediction pipeline and
+#' checks that all the external dependencies can be executed in principle, i.e produce correct help messages or
+#' process micro fasta file.
 #' Required tools could be found here:
 #' \itemize{
 #' \item WoLFPSORT - \url{https://github.com/fmaguire/WoLFPSort.git}
@@ -100,7 +102,7 @@ manage_paths <- function(path_file) {
   # wolfpsort
   
   wolf_call <- system(paste(get_paths('wolfpsort'),
-                            'fungi',
+                            'fungi', 
                             '<',
                             system.file("extdata", "small_prot.fasta", package="SecretSanta")),
                             intern = TRUE)
