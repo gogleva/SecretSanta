@@ -97,36 +97,19 @@ manage_paths <- function(path_file) {
     message('tmhmm test run failed; check if it is installed correctly')
   }
  
-  
-  
   # wolfpsort
- 
-  return(pp)
   
+  wolf_call <- system(paste(get_paths('wolfpsort'),
+                            'fungi',
+                            '<',
+                            system.file("extdata", "small_prot.fasta", package="SecretSanta")),
+                            intern = TRUE)
+  
+  if (grepl('# k used for kNN is: 27', wolf_call[1]))
+  { message('wolfpsort test run completed')
+  } else {
+    message('wolfpsort test run failed; check if it is installed correctly')
+  }
+  
+  return(pp)
 }
-
-# system(paste(get_paths('tmhmm'), ,'--short'
-# 
-# 
-pa <- manage_paths(system.file("extdata", "sample_paths", package="SecretSanta"))
-# expect_match((system(paste((pa$path[1]), '-h'))), 'Description: Predict signal peptide and cleavage site.')
-# t1 <- system(paste((pa$path[1]), '-h'), intern = TRUE)[2]
-# 
-# #signalp4:
-# 
-# expect_match(t1[2], 'Description: Predict signal peptide and cleavage site.')
-# 
-# #signalp2:
-# signalp2
-# 
-# my_tools <- c('signalp2', 'signalp3', 'signalp4', 'targetp', 'tmhmm', 'wolfpsort')
-get_paths <- function(tool_name) {pa %>% filter(tool == tool_name) %>% select(path)}
-# 
-# sapply(my_tools, get_paths)
-#   
-# pa %>% filter(tool == 'signalp2') %>% select(path)
-# 
-f <-  system.file("extdata", "small_prots.fasta", package="SecretSanta")
-system(paste(get_paths('tmhmm'), system.file("extdata", "small_prot.fasta", package="SecretSanta"), '--short'))
-
-
