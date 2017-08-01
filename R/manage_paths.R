@@ -40,7 +40,7 @@ manage_paths <- function(path_file) {
     } else {
     message('Supplied file path does not exist.')
     message(sapply(pp %>% dplyr::filter(status == FALSE) %>% dplyr::select(path), paste, '\n'))
-    message('Please check that supplied paths are correct and try again.')
+    message('Please check that supplied paths are correct and try again')
     }
   
   # check that all the dependencies are executable in principle, i.e we are able to run -h or
@@ -53,66 +53,80 @@ manage_paths <- function(path_file) {
   
   if (suppressWarnings(system(paste(get_paths('signalp2'), '-h'), intern = TRUE)[2]) ==
       'Usage: signalp -t euk|gram+|gram- [options] seqfile') 
-      { message('signalp2 test run completed.')
+      { message('signalp2 test run completed')
   } else {
-        message('signalp2 test run failed; check if it is installed correctly.')
+        message('signalp2 test run failed; check if it is installed correctly')
   }
   
   # signalp3:
   
   if (suppressWarnings(system(paste(get_paths('signalp3'), '-h'), intern = TRUE)[2]) ==
       'Usage: signalp -t euk|gram+|gram- [options] seqfile') 
-      { message('signalp3 test run completed.')
+      { message('signalp3 test run completed')
   } else {
-        message('signalp3 test run failed; check if it is installed correctly.')
+        message('signalp3 test run failed; check if it is installed correctly')
   }
   
   # signalp4
   
   if (suppressWarnings(system(paste(get_paths('signalp4'), '-h'), intern = TRUE)[2]) ==
       '  Description: Predict signal peptide and cleavage site.') 
-     { message('signalp4 test run completed.')
+     { message('signalp4 test run completed')
   } else {
-       message('signalp4 test run failed; check if it is installed correctly.')
+       message('signalp4 test run failed; check if it is installed correctly')
   }
   
   # targetp 
   
   if (suppressWarnings(system(paste(get_paths('targetp'), '-h'), intern = TRUE)[2]) ==
       'Usage: targetp options files') 
-  { message('targetp test run completed.')
+  { message('targetp test run completed')
   } else {
-    message('targtep test run failed; check if it is installed correctly.')
+    message('targtep test run failed; check if it is installed correctly')
   }
   
-  # TMHMM
+  # tmhmm
+  tm_call <- system(paste(get_paths('tmhmm'),
+               system.file("extdata", "small_prot.fasta", package="SecretSanta"),
+               '--short'),
+                intern = TRUE)
   
-  # WoLFPsort
+  if (all(grepl('PredHel', tm_call)))
+  { message('tmhmm test run completed')
+  } else {
+    message('tmhmm test run failed; check if it is installed correctly')
+  }
+ 
+  
+  
+  # wolfpsort
  
   return(pp)
   
 }
 
-
-
+# system(paste(get_paths('tmhmm'), ,'--short'
+# 
+# 
 pa <- manage_paths(system.file("extdata", "sample_paths", package="SecretSanta"))
-expect_match((system(paste((pa$path[1]), '-h'))), 'Description: Predict signal peptide and cleavage site.')
-t1 <- system(paste((pa$path[1]), '-h'), intern = TRUE)[2]
-
-#signalp4:
-
-expect_match(t1[2], 'Description: Predict signal peptide and cleavage site.')
-
-#signalp2:
-signalp2
-
-my_tools <- c('signalp2', 'signalp3', 'signalp4', 'targetp', 'tmhmm', 'wolfpsort')
+# expect_match((system(paste((pa$path[1]), '-h'))), 'Description: Predict signal peptide and cleavage site.')
+# t1 <- system(paste((pa$path[1]), '-h'), intern = TRUE)[2]
+# 
+# #signalp4:
+# 
+# expect_match(t1[2], 'Description: Predict signal peptide and cleavage site.')
+# 
+# #signalp2:
+# signalp2
+# 
+# my_tools <- c('signalp2', 'signalp3', 'signalp4', 'targetp', 'tmhmm', 'wolfpsort')
 get_paths <- function(tool_name) {pa %>% filter(tool == tool_name) %>% select(path)}
-
-sapply(my_tools, get_paths)
-  
-pa %>% filter(tool == 'signalp2') %>% select(path)
-
-system(paste(get_paths('signalp2'), '-h'))
+# 
+# sapply(my_tools, get_paths)
+#   
+# pa %>% filter(tool == 'signalp2') %>% select(path)
+# 
+f <-  system.file("extdata", "small_prots.fasta", package="SecretSanta")
+system(paste(get_paths('tmhmm'), system.file("extdata", "small_prot.fasta", package="SecretSanta"), '--short'))
 
 
