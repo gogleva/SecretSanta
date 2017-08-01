@@ -8,6 +8,11 @@ test_that("signalp outputs are correctly parsed for system calls",
             expect_is(parse_sp_system, 'tbl')
             expect_equal(ncol(parse_sp_system), 9)
             expect_true(all(parse_sp_system$Prediction == 'Signal peptide'))
+            
+            #check that all the fields are present:
+            fields <- c("gene_id", "Cmax", "Cpos", "Ymax", "Ypos",
+                         "Smax", "Spos", "Smean", "Prediction")
+            expect_equal(names(parse_sp_system), fields)
             })
 
 test_that("signalp outputs are correctly parsed for files",
@@ -17,4 +22,9 @@ test_that("signalp outputs are correctly parsed for files",
             expect_is(parse_sp_path, 'tbl')
             expect_equal(ncol(parse_sp_path), 9)
             expect_true(all(parse_sp_path$Prediction == 'Signal peptide'))
-          })
+            
+            #check that all the fields are present
+            fields <- c("gene_id", "Cmax", "Cpos", "Ymax", "Ypos",
+                        "Smax", "Spos", "Smean", "Prediction")
+            expect_equal(names(parse_sp_path), fields)
+            })
