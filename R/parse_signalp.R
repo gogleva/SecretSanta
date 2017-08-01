@@ -49,6 +49,8 @@ parse_signalp <- function(input, input_type) {
   max_C_fixed <- sapply(data[grep("max. C", data)], clean_score, USE.NAMES = FALSE)
   # extract max Y score and position
   C_pos <- sapply(data[grep("Max cleavage site probability:", data)], clean_cleavege, USE.NAMES = FALSE)
+  
+  
   max_Y_fixed <- sapply(data[grep("max. Y", data)], clean_score, USE.NAMES = FALSE)
   # extract max S score and position
   max_S_fixed <- sapply(data[grep("max. S", data)], clean_score, USE.NAMES = FALSE)
@@ -56,20 +58,20 @@ parse_signalp <- function(input, input_type) {
   mean_S_fixed <- sapply(data[grep("mean S", data)], clean_mean, USE.NAMES = FALSE)
   Status_fixed <- sapply(data[grep("Prediction: ", data)], clean_status, USE.NAMES = FALSE)
   res <- tibble::as.tibble(data.frame(gene_ids_fixed,
-                              t(max_C_fixed),
+                              t(max_C_fixed)[2],
                               C_pos,
                               t(max_Y_fixed),
                               t(max_S_fixed),
                               t(mean_S_fixed),
                               Status_fixed))
-  names(res) <- c("gene_id", "Cpos_parsed", "Cmax", "Cpos",
+  names(res) <- c("gene_id", "Cmax", "Cpos",
                   "Ypos", "Ymax", "Spos",
                   "Smax", "Srange", "Smean", "Prediction")
-  
+
   #filter entries predicted to contain signal peptide
-  
+
   return(res %>% filter(Prediction == 'Signal peptide'))
-  }else{
+  } else {
     stop('gene_ids vector contains duplicated elements')
   }
 }
