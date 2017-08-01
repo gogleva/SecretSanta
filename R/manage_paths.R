@@ -76,7 +76,18 @@ manage_paths <- function(path_file) {
        message('signalp4 test run failed; check if it is installed correctly.')
   }
   
+  # targetp 
   
+  if (suppressWarnings(system(paste(get_paths('targetp'), '-h'), intern = TRUE)[2]) ==
+      'Usage: targetp options files') 
+  { message('targetp test run completed.')
+  } else {
+    message('targtep test run failed; check if it is installed correctly.')
+  }
+  
+  # TMHMM
+  
+  # WoLFPsort
  
   return(pp)
   
