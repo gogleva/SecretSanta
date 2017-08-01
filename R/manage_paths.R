@@ -24,16 +24,18 @@
 manage_paths <- function(path_file) {
   # read path file in a tibble
   pp <- readr::read_delim(path_file, delim = ' ', col_names = FALSE)
+  
   # check that there are only 2 columns, i.e no extra spaces in tool names
   if (!(ncol(pp) == 2)) {stop('Please ensure that there are no spaces in the tool names.')}
   names(pp) <- c("tool", "path")
-  # now check that all supplied paths exist
+  
+  # check that all supplied paths exist
   pp$status <- file.exists(pp$path)
   if (all(pp$status)) { 
     message('All paths are valid')
-    pp <- plyr::mutate(pp, tool = tolower(tool)) #convert all the tool names to lower case to avoid confusion
+    # convert all the tool names to lower case to avoid confusion
+    pp <- plyr::mutate(pp, tool = tolower(tool))
     return(pp)
-    
     } else {
     message('Error! Supplied file path does not exist.')
     message(sapply(pp %>% dplyr::filter(status == FALSE) %>% dplyr::select(path), paste, '\n'))
