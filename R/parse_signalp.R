@@ -11,24 +11,15 @@
 #' @export
 #' @examples
 #' # Parse signalp2 output, stored in a file:
-#' 
 #' s_path <- system.file("extdata", "sample_prot_signalp2_out", package = "SecretSanta") 
 #' parse_sp_path <- parse_signalp(input = s_path, input_type = "path")
-#' 
 #' # Parse signalp2 output, obtained from a system call:
-#' 
 #' s_fasta <- system.file("extdata", "sample_prot.fasta", package = "SecretSanta") 
-#' 
 #' secret_paths <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
-#' 
 #' sp2_path <- secret_paths %>% filter(tool == 'signalp2') %>% select(path)
-#' 
 #' # capture system call:
-#' 
 #' con <- system(paste(sp2_path, '-t euk', s_fasta), intern = TRUE)
-#' 
 #' # parse captured system call:
-#' 
 #' parse_signalp(input = con, input_type = "system_call")
 
 parse_signalp <- function(input, input_type) {
@@ -40,8 +31,9 @@ parse_signalp <- function(input, input_type) {
   clean_cleavege <- function(x) {as.numeric(tail(unlist(stringr::str_split(x, "\\s+")), n = 1))}
   # helper function for S mean
   clean_mean <- function(x) {strsplit(x, "\\s+")[[1]][c(4,5)]}
-  # helper fucntion for prediction result:
+  # helper function for prediction summary:
   clean_status <- function(x) {gsub('Prediction: ', '', x)}
+  
   # read data
   if (input_type == 'path') {
     data <- readLines(input)
@@ -73,7 +65,9 @@ parse_signalp <- function(input, input_type) {
   names(res) <- c("gene_id", "Cpos_parsed", "Cmax", "Cpos",
                   "Ypos", "Ymax", "Spos",
                   "Smax", "Srange", "Smean", "Prediction")
+  
   #filter entries predicted to contain signal peptide
+  
   return(res %>% filter(Prediction == 'Signal peptide'))
   }else{
     stop('gene_ids vector contains duplicated elements')
