@@ -32,6 +32,7 @@ manage_paths <- function(path_file) {
   
   # check that all supplied paths exist
   pp$status <- file.exists(pp$path)
+  
   if (all(pp$status)) { 
     message('All paths are valid')
     # convert all the tool names to lower case to avoid confusion
@@ -42,4 +43,24 @@ manage_paths <- function(path_file) {
     message(sapply(pp %>% dplyr::filter(status == FALSE) %>% dplyr::select(path), paste, '\n'))
     message('Please check that supplied paths are correct and try again.')
     }
+  
+  if
+  
+  # check that all the dependencies are executable in principle, i.e we are able to run -h
+  
 }
+
+pa <- manage_paths(system.file("extdata", "sample_paths", package="SecretSanta"))
+
+expect_match((system(paste((pa$path[1]), '-h'))), 'Description: Predict signal peptide and cleavage site.')
+
+
+t1 <- system(paste((pa$path[1]), '-h'), intern = TRUE)[2]
+
+#signalp4:
+
+expect_match(t1[2], 'Description: Predict signal peptide and cleavage site.')
+
+#signalp2:
+
+

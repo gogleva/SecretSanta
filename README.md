@@ -40,15 +40,31 @@ will it cause confusion?
 
 ### things to consider:
 
+SOLVED:
 - shall we store intermediate fasta files? - Yes
 - if so -  how? alternatively - create tmp dir and output intermediates there (solved: as tmp files)
 - to do: test on real proteomes: ~30 K proteins
 - Question/Problem: how to feed XStringSet object to system call: solved with tmp files (solved)
 - Question/Problem1: output fasta file for gene_ids only present in output tibble (solved)
 - Problem2: need a separate function to construct mature sequences based on sp_tibble and out_fasta (solved)
+- alternative solution for protein localisation: wolfpsort - run locally, parse the output, etc (done)
+
+- perform test runs with the supplied paths, check that all the tools are executable in principle
+
+
+-- signalp2
+-- signalp3
+-- signalp4 or 4.1
+-- targetp
+-- wolfpsort
+-- TMHMM
+
+
+
+
+TO DO:
 - clean tmp files after the signalp run?
 - speed up signalp run by splitting large input file into several smaller ones and run them as a series of small jobs
 - plotting functions for individula peptides (will requre full output) signalp
 - prediction graphs (?) when each candidate was rejected -->?
 - targetp keeps failing even with the increased swap value, however works on SLCU HPCs (both) -- why??
-- alternative solution for protein localisation: wolfpsort - run locally, parse the output, etc (to do)

@@ -7,7 +7,7 @@
 #'                  predicted as TM domain; avoid this
 #' @export
 #' @examples 
-#' r1 <- tmhmm("SecretSanta/inst/extdata/sample_prot.fasta", 'test')
+#' r1 <- tmhmm("SecretSanta/inst/extdata/sample_prot.fasta")
 
 # to do: make this function to produce an object of CBSResult class
 
