@@ -13,6 +13,9 @@ test_that("signalp outputs are correctly parsed for system calls",
             fields <- c("gene_id", "Cmax", "Cpos", "Ymax", "Ypos",
                          "Smax", "Spos", "Smean", "Prediction")
             expect_equal(names(parse_sp_system), fields)
+            
+            #check that gene_ids do not contain extra spaces:
+            expect_false(' ' %in% parse_sp_path$gene_id)
             })
 
 test_that("signalp outputs are correctly parsed for files",
@@ -27,4 +30,7 @@ test_that("signalp outputs are correctly parsed for files",
             fields <- c("gene_id", "Cmax", "Cpos", "Ymax", "Ypos",
                         "Smax", "Spos", "Smean", "Prediction")
             expect_equal(names(parse_sp_path), fields)
+            
+            #check that gene_ids do not contain extra spaces:
+            expect_false(' ' %in% parse_sp_path$gene_id)
             })
