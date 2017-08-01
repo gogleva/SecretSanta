@@ -44,7 +44,9 @@ parse_signalp <- function(input, input_type) {
   gene_ids <- data[(grep("SignalP-HMM result:", data) + 1)]
   gene_ids_fixed <- (sapply(gene_ids, clean_geneids, USE.NAMES = FALSE))
   
-  if (identical(length(gene_ids), length(unique(gene_ids)))){
+  # check that there are no duplicated gene ids:
+  if (identical(length(gene_ids), length(unique(gene_ids)))){} else {stop('gene_ids vector contains duplicated elements')}
+  
   # extract max C score and position
   max_C_fixed <- sapply(data[grep("max. C", data)], clean_score, USE.NAMES = FALSE)
   # extract max Y score and position
@@ -69,9 +71,6 @@ parse_signalp <- function(input, input_type) {
                   "Smax", "Srange", "Smean", "Prediction")
 
   #filter entries predicted to contain signal peptide
-
   return(res %>% filter(Prediction == 'Signal peptide'))
-  } else {
-    stop('gene_ids vector contains duplicated elements')
+
   }
-}
