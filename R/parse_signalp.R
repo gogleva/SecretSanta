@@ -70,6 +70,18 @@ parse_signalp <- function(input, input_type) {
                   "Ypos", "Ymax", "Spos",
                   "Smax", "Srange", "Smean", "Prediction")
 
+  #re-order columns to match signalp4 output
+  
+  res <- res %>% select("gene_id", 
+                        "Cmax",
+                        "Cpos",
+                        "Ymax",
+                        "Ypos",
+                        "Smax",
+                        "Spos",
+                        "Smean",
+                        "Prediction")
+  
   #filter entries predicted to contain signal peptide
   return(res %>% filter(Prediction == 'Signal peptide'))
 

@@ -16,30 +16,21 @@ parse_signalp(input, input_type)
 }}
 }
 \value{
-parsed signalp2/3 output, organised in a tibble object
+parsed signalp2/3 output, organised in a tibble object.
 }
 \description{
 This function parses signalp2 and signalp3 output. Is used internally in signalp function; can be called independently on outputs of signalp2/3 tools captured in a system call or stored in a file.
 }
 \examples{
 # Parse signalp2 output, stored in a file:
-
 s_path <- system.file("extdata", "sample_prot_signalp2_out", package = "SecretSanta") 
 parse_sp_path <- parse_signalp(input = s_path, input_type = "path")
-
 # Parse signalp2 output, obtained from a system call:
-
 s_fasta <- system.file("extdata", "sample_prot.fasta", package = "SecretSanta") 
-
 secret_paths <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
-
 sp2_path <- secret_paths \%>\% filter(tool == 'signalp2') \%>\% select(path)
-
 # capture system call:
-
 con <- system(paste(sp2_path, '-t euk', s_fasta), intern = TRUE)
-
 # parse captured system call:
-
 parse_signalp(input = con, input_type = "system_call")
 }
