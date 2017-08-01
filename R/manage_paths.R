@@ -27,6 +27,7 @@ manage_paths <- function(path_file) {
   
   # check that there are only 2 columns, i.e no extra spaces in tool names
   if (!(ncol(pp) == 2)) {stop('Please ensure that there are no spaces in the tool names.')}
+  
   names(pp) <- c("tool", "path")
   
   # check that all supplied paths exist
@@ -37,7 +38,7 @@ manage_paths <- function(path_file) {
     pp <- plyr::mutate(pp, tool = tolower(tool))
     return(pp)
     } else {
-    message('Error! Supplied file path does not exist.')
+    message('Supplied file path does not exist.')
     message(sapply(pp %>% dplyr::filter(status == FALSE) %>% dplyr::select(path), paste, '\n'))
     message('Please check that supplied paths are correct and try again.')
     }

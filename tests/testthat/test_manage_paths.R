@@ -1,12 +1,10 @@
 context("Check paths")
 
-test_that("manage_paths function works as expected",
+test_that("manage_paths returns correct object and messages",
           {
           expect_message(manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta")),
-                           'All paths are valid')
-          
+                         'All paths are valid')
           result <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
-          expect_is(result,
-                    c('tbl_df', 'tbl'))
-          
+          expect_is(result, c('tbl_df', 'tbl'))
+          expect_equal(ncol(result), 3)
           })
