@@ -53,6 +53,8 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths) {
   allowed_versions = c(2,3,4,4.1)
   allowed_organisms = c('euk', 'gram+', 'gram-')
   
+  organism_type <- tolower(organism_type)
+  
   if (is(input_obj, "CBSResult")) {} else {stop('input_object does not belong to CBSResult superclass')}
   
   if ((version %in% allowed_versions) & (organism_type %in% allowed_organisms)) {
@@ -60,7 +62,7 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths) {
   } else {
     message('Allowed versions include...:')
     message(cat(allowed_versions))
-    message('Allowed organisms iclude...')
+    message('Allowed organisms iclude...:')
     message(cat(allowed_organisms))
     stop('Input signalp version or specified organism type are invalid.')  
   }
