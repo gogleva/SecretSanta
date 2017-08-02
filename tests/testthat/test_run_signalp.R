@@ -9,6 +9,10 @@ test_that("signalp correctly responds to invalid inputs",
                                 use.names = TRUE)
           inp <- setInfasta(inp, aa)
           
+          # test with inp_object belonging to an incorrecr class:
+          expect_error(suppressMessages(signalp(aa, version = 2, 'euk', run_mode = "starter", paths = my_pa)),
+                    "input_object does not belong to CBSResult superclass")
+          
           # test starters with valid input options:
           
           expect_is(suppressMessages(signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)),
@@ -24,6 +28,12 @@ test_that("signalp correctly responds to invalid inputs",
           
           # test pipers with valid input options:
           
+          s1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
+          expect_is(s1_sp2, "SignalpResult")
+          s2_sp3 <- signalp(s1_sp2, version = 3, 'euk', run_mode = "piper", paths = my_pa)
+          expect_is(s2_sp3, "SignalpResult")
+          s3_sp4 <- signalp(s2_sp3, version = 4, 'euk', run_mode = "piper", paths = my_pa)
+          expect_is(s3_sp4, "SignalpResult")
           
           # test invalid versions
           expect_error(suppressMessages(signalp(inp, version = 5, 'euk', run_mode = "starter", paths = my_pa)), 

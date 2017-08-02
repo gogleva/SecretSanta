@@ -3,7 +3,7 @@
 #' This function reads and stores pathways for external tools used in secertome prediction pipeline and
 #' checks that all the external dependencies can be executed in principle, i.e produce correct help messages or
 #' process micro fasta file.
-#' Required tools could be found here:
+#' Required tools are available for academic users and could be found here:
 #' \itemize{
 #' \item WoLFPSORT - \url{https://github.com/fmaguire/WoLFPSort.git}
 #' \item signalp2  - \url{http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+2.0}
