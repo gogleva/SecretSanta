@@ -4,41 +4,60 @@
 \alias{signalp}
 \title{signalp function}
 \usage{
-signalp(input_obj, version, organism_type, run_mode)
+signalp(input_obj, version, organism_type, run_mode, paths)
 }
 \arguments{
-\item{version}{signalp version to run, allowed  values: 2, 3, 4, 4.1}
+\item{version}{signalp version to run, supported versions:
+\itemize{
+\item 2
+\item 3
+\item 4
+\item 4.1
+}}
 
-\item{organism_type}{Allowed values: 'euk', 'gram+', 'gram-'}
+\item{organism_type}{possible values: 
+\itemize{
+\item euk - for eukaryotes;
+\item gram+ - for gram-positive bacteria;
+\item gram- - for gram-negative bacteria;
+}}
 
-\item{run_mode}{set 'starter' if it is the first step in pupeline \cr
-set 'piper' if you run this function on the output of other CBS tools}
+\item{run_mode}{\itemize{
+\item starter - if it is the first step in pipeline;
+\item piper - if you run this function on the output of other CBS tools;
+}}
 
-\item{input}{input object (any from CBSResult class) with protein sequences as on of the attributes}
+\item{paths}{tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function}
 
-\item{paths}{tibble with paths to external dependencies, see documentation for \code{\link{manage_paths}}}
+\item{input}{input object, an instance of CBSResult class containing protein sequences as on of the attributes}
+}
+\value{
+an object of SignalpResult class
 }
 \description{
-This function calls local signalp
+This function calls local signalp to predict the presence and location of signal peptide cleavage sites in amino acid sequences
 }
 \examples{
 Example pipe would loook like this:
 
-initialise SignalpResult object
+# set paths for external dependencies with manage_paths()
+my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+
+# initialise SignalpResult object
 inp <- SignalpResult()
 
-#read fasta file in AAStringSet object
+# read fasta file in AAStringSet object
 aa <- readAAStringSet("SecretSanta/inst/extdata/sample_prot.fasta", use.names = TRUE)
 
-#assign this object to the input_fasta slot of SignalpResult object
+# assign this object to the input_fasta slot of SignalpResult object
 inp <- setInfasta(inp, aa)
 
-#run signalp2 on the initial file:
+# run signalp2 on the initial file:
 step1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter")
 
-#run signalp3 on the result object, will automatically pass out_fasta slot to signalp3:
+# run signalp3 on the result object, will automatically pass out_fasta slot to signalp3:
 step2_sp3 <- signalp(step1_sp2, version = 3, 'euk', run_mode = "piper")
 
-#run signalp4 on the result object, will automatically pass out_fasta slot to signalp4:
+# run signalp4 on the result object, will automatically pass out_fasta slot to signalp4:
 step3_sp4 <- signalp(step2_sp3, version = 4, 'euk', run_mode = "piper")
 }

@@ -12,7 +12,7 @@
 #' \item TMHMM     - \url{http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?tmhmm}
 #' \item targetP   - \url{http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?targetp}
 #' }
-#' @param path_file  2-column space-separated file with listed paths for external dependencies;
+#' @param path_file  file paths to 2-column space-separated text file with listed paths for external dependencies;
 #' \itemize{
 #' \item first column should contain tool name;
 #' \item second column should contain full path to the tool's executable;

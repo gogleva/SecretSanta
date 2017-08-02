@@ -1,34 +1,51 @@
 #' signalp function
 #'
-#' This function calls local signalp
-#' @param input    input object (any from CBSResult class) with protein sequences as on of the attributes
-#' @param version  signalp version to run, allowed  values: 2, 3, 4, 4.1 
-#' @param organism_type Allowed values: 'euk', 'gram+', 'gram-'        
-#' @param run_mode    set 'starter' if it is the first step in pupeline \cr
-#'                    set 'piper' if you run this function on the output of other CBS tools
+#' This function calls local signalp to predict the presence and location of signal peptide cleavage sites in amino acid sequences.
+#' @param input    input object, an instance of CBSResult class containing protein sequences as on of the attributes
+#' @param version  signalp version to run, supported versions:
+#' \itemize{
+#' \item 2
+#' \item 3
+#' \item 4
+#' \item 4.1
+#' } 
+#' @param organism_type possible values: 
+#' \itemize{
+#' \item euk - for eukaryotes;
+#' \item gram+ - for gram-positive bacteria;
+#' \item gram- - for gram-negative bacteria;
+#' }
+#' @param run_mode
+#' \itemize{
+#' \item starter - if it is the first step in pipeline;
+#' \item piper - if you run this function on the output of other CBS tools;
+#' }
 #' @param paths   tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function
 #' @return an object of SignalpResult class
 #' @export
 #' @examples
 #' Example pipe would loook like this:
 #' 
-#' initialise SignalpResult object
+#' # set paths for external dependencies with manage_paths()
+#' my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+#' 
+#' # initialise SignalpResult object
 #' inp <- SignalpResult()
 #' 
-#' #read fasta file in AAStringSet object
+#' # read fasta file in AAStringSet object
 #' aa <- readAAStringSet("SecretSanta/inst/extdata/sample_prot.fasta", use.names = TRUE)
 #' 
-#' #assign this object to the input_fasta slot of SignalpResult object
+#' # assign this object to the input_fasta slot of SignalpResult object
 #' inp <- setInfasta(inp, aa)
 #' 
-#' #run signalp2 on the initial file:
-#' step1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter")
+#' # run signalp2 on the initial file:
+#' step1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
 #' 
-#' #run signalp3 on the result object, will automatically pass out_fasta slot to signalp3:
-#' step2_sp3 <- signalp(step1_sp2, version = 3, 'euk', run_mode = "piper")
+#' # run signalp3 on the result object, will automatically pass out_fasta slot to signalp3:
+#' step2_sp3 <- signalp(step1_sp2, version = 3, 'euk', run_mode = "piper", paths = my_pa)
 #' 
-#' #run signalp4 on the result object, will automatically pass out_fasta slot to signalp4:
-#' step3_sp4 <- signalp(step2_sp3, version = 4, 'euk', run_mode = "piper")
+#' # run signalp4 on the result object, will automatically pass out_fasta slot to signalp4:
+#' step3_sp4 <- signalp(step2_sp3, version = 4, 'euk', run_mode = "piper", paths = my_pa)
 
 
 signalp <- function(input_obj, version, organism_type, run_mode, paths) {
@@ -38,8 +55,16 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths) {
   
   if (is(input_obj, "CBSResult")) {} else {stop('input_object does not belong to CBSResult superclass')}
   
-    if ((version %in% allowed_versions) & (organism_type %in% allowed_organisms)){
+  if ((version %in% allowed_versions) & (organism_type %in% allowed_organisms)) {
     message("running signalP locally...")
+  } else {
+    message('Allowed versions include...:')
+    message(cat(allowed_versions))
+    message('Allowed organisms iclude...')
+    message(cat(allowed_organisms))
+    stop('Input signalp version or specified organism type are invalid.')  
+  }
+    
     # get fasta from SignalpResult object
     
     if (run_mode == 'piper') fasta <- getOutfasta(input_obj) else fasta <- getInfasta(input_obj)  
@@ -91,11 +116,4 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths) {
                              sp_version = version,
                              sp_tibble = sp)
     if (validObject(out_obj)) {return(out_obj)}
-    
-  } else {
-    message('Allowed versions include...:')
-    message(cat(allowed_versions))
-    message('Allowed organisms iclude...')
-    message(cat(allowed_organisms))}
-    stop('Input signalp version or specified organism type are invalid.')
 }

@@ -7,7 +7,7 @@
 manage_paths(path_file)
 }
 \arguments{
-\item{path_file}{2-column space-separated file with listed paths for external dependencies;
+\item{path_file}{file paths to 2-column space-separated text file with listed paths for external dependencies;
 \itemize{
 \item first column should contain tool name;
 \item second column should contain full path to the tool's executable;
