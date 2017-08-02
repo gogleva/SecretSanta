@@ -4,7 +4,9 @@
 #' @slot out_fasta       output fasta with only positive candidates, \cr
 #'                       i.e those that passed tool filters
 
-#' @examples 
+#' @examples
+#' aa <- 
+#'  
 
 CBSResult <- setClass("CBSResult",
                       
@@ -19,9 +21,12 @@ CBSResult <- setClass("CBSResult",
                 {
                   if (length(object@in_fasta) < length(object@out_fasta)) {
                     return("Number of output sequences is grater than the number of input sequences.")
-                  } else if (any(grepl('[*$]', object@in_fasta))) {
+                  }
+                  
+                  if (any(grepl('[*$]', object@in_fasta))) {
                     return("Input fasta contains stop codon symbols '*', please remove them.") 
                   }
+                  
                   return(TRUE)
                 }  
 )
@@ -138,10 +143,18 @@ SignalpResult <- setClass(
                     
                     validity = function(object)
                     {
-                      if (sum(width(object@out_fasta)) > sum(width(object@mature_fasta))) {
+                      if (sum(width(object@out_fasta)) < sum(width(object@mature_fasta))) {
                         return("Mature sequences can not be shorter that full length sequences")
                       }
-                    }  
+                      
+                      if (nrow(object@sp_tibble) > 0) {
+                        if (any(duplicated(object@sp_tibble$gene_id))) {
+                        return("Duplicated gene ids in sp_tibble! ")}
+                      }
+                      
+                      
+                    } 
+                    
                       
                     )
 
