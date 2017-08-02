@@ -102,7 +102,6 @@ setMethod(f = "getOutfasta",
 #' @slot mature_fasta    fasta with mature sequences
 #' @slot sp_version      version of signalp used to generate this object
 #' @slot sp_tibble       Object of class tibble, contains ... columns:
-#' @slot goOn            indicator showing if it makes sense to go on with piping
 #' \itemize{
 #'   \item gene_id - unique id of the sequence
 #'   \item Cmax - max raw cleavage site score (C-score)
@@ -128,14 +127,13 @@ SignalpResult <- setClass(
                     contains= "CBSResult",
                     slots = list(mature_fasta = "AAStringSet", 
                                  sp_version = "numeric",
-                                 sp_tibble = "tbl_df",
-                                 goOn = ""),
+                                 sp_tibble = "tbl_df"
+                                 ),
                  
                     prototype = list(mature_fasta = Biostrings::AAStringSet(),
                                 sp_version = 2,
-                                sp_tibble = tibble::tibble(),
-                                goOn = TRUE
-                    ),
+                                sp_tibble = tibble::tibble()
+                                ),
                     )
 
 # define accessor functions for SignalpResult object
