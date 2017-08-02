@@ -49,7 +49,9 @@
 
 
 signalp <- function(input_obj, version, organism_type, run_mode, paths) {
-  # validity checks for signalp version and organism_type inputs
+  
+  # ----- Check that inputs are valid
+  
   allowed_versions = c(2,3,4,4.1)
   allowed_organisms = c('euk', 'gram+', 'gram-')
   
@@ -57,6 +59,23 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths) {
   
   if (is(input_obj, "CBSResult")) {} else {stop('input_object does not belong to CBSResult superclass')}
   
+  # check that supplied runnig mode is valid
+  #is_not_null <- function(x) ! is.null(x)
+  
+  if (run_mode %in% c('piper', 'starter')) {} else {stop("Run mode is invalid. Please use 'starter' to initiate prediction pipelie or 'piper' to continue")}
+  
+  # check that input_object contains non-empty in/out_fasta for starter/piper
+  
+  if (run_mode == 'starter') {
+    if (length(getInfasta(input_obj)) != 0) {
+        fasta <- getInfasta(input_obj)
+    } else {stop('in_fasta attribute is empty')}
+  } else if (run_mode == 'piper') {
+    if (length(getOutfasta(input_obj)) != 0) {
+        fasta <- getOutfasta(input_obj)
+    } else {stop('out_fasta attribute is empty')}
+  }
+
   if ((version %in% allowed_versions) & (organism_type %in% allowed_organisms)) {
     message("running signalP locally...")
   } else {
@@ -67,24 +86,8 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths) {
     stop('Input signalp version or specified organism type are invalid.')  
   }
   
-  # check that supplied runnig mode is valid
-  is_not_null <- function(x) ! is.null(x)
-  
-  if (run_mode %in% c('piper', 'starter')) {} else {stop("Run mode is invalid. Please use 'starter' to initiate prediction pipelie or 'piper' to continue")}
-  
-  # check that input_object contains non-empty in/out_fasta for starter/piper
-  
-  if (run_mode == 'starter') {
-    if (is_not_null(getInfasta(input_obj))) {
-        fasta <- getInfasta(input_obj)
-    } else {stop('in_fasta attribute is empty')}
-  } else if (run_mode == 'piper') {
-    if (is_not_null(getOutfasta(input_obj))) {
-        fasta <- getOutfasta(input_obj)
-    } else {stop('out_fasta attribute is empty')}
-  }
-
-  # convert it to a temporary file:
+  # ---- Run prediction
+  # convert fasta to a temporary file:
   out_tmp <- tempfile() #create a temporary file for fasta
   Biostrings::writeXStringSet(fasta, out_tmp) #write tmp fasta file
   

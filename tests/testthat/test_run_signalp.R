@@ -35,6 +35,19 @@ test_that("signalp correctly responds to invalid inputs",
           s3_sp4 <- signalp(s2_sp3, version = 4, 'euk', run_mode = "piper", paths = my_pa)
           expect_is(s3_sp4, "SignalpResult")
           
+          # test starter with empty in_fasta attribute
+          
+          emp <- SignalpResult()
+          expect_error(signalp(emp, version = 2, "euk", run_mode = "starter", paths = my_pa),
+                       "in_fasta attribute is empty")
+          
+          # test piper with empty out_fasta attribute
+          expect_error(signalp(emp, version = 2, "euk", run_mode = "piper", paths = my_pa),
+                       "out_fasta attribute is empty")
+          
+          expect_error(signalp(inp, version = 2, "euk", run_mode = "piper", paths = my_pa),
+                       "out_fasta attribute is empty")
+          
           # test invalid versions
           expect_error(suppressMessages(signalp(inp, version = 5, 'euk', run_mode = "starter", paths = my_pa)), 
                        'Input signalp version or specified organism type are invalid.')
