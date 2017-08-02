@@ -99,7 +99,9 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths) {
     
   # helper function: crop long names for AAStringSet object, return character vector
   crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
-    
+  
+  message(paste('Number of submitted sequences...', length(fasta)))
+  
   # ----
   if (version >= 4) {
   # runing signalp versios 4 and 4.1, potentially should work for 5
@@ -117,6 +119,8 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths) {
       sp <- parse_signalp(input = con, input_type = "system_call")
     }
 
+  message(paste('Number of candidate sequences with signal peptides...', length(sp)))
+  
   # generate cropped names for input fasta
   cropped_names <- unname(sapply(names(fasta), crop_names))
   # replace long names with cropped names
@@ -129,6 +133,8 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths) {
     
   sp_Cpos <- sp %>% select(Cpos) %>% unlist(use.names = FALSE)
   cropped_fasta <- subseq(out_fasta_sp, start = sp_Cpos, end = -1)
+  
+  # costruct output object
     
   out_obj <- SignalpResult(in_fasta = fasta,
                            out_fasta = out_fasta_sp, 
@@ -136,4 +142,5 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths) {
                            sp_version = version,
                            sp_tibble = sp)
   if (validObject(out_obj)) {return(out_obj)}
+  
 }
