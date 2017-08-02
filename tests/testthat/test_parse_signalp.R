@@ -2,7 +2,7 @@ context("Check signalp parsing")
 
 test_that("signalp outputs are correctly parsed for system calls",
           {
-            s_fasta <- system.file("extdata", "sample_prot.fasta", package = "SecretSanta") 
+            s_fasta <- system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta") 
             secret_paths <- manage_paths(system.file("extdata", "sample_paths", package="SecretSanta"))
             sp2_path <- secret_paths %>% filter(tool == 'signalp2') %>% select(path)
             con <- system(paste(sp2_path, '-t euk', s_fasta), intern = TRUE)

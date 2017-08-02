@@ -33,7 +33,7 @@
 #' inp <- SignalpResult()
 #' 
 #' # read fasta file in AAStringSet object
-#' aa <- readAAStringSet("SecretSanta/inst/extdata/sample_prot.fasta", use.names = TRUE)
+#' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
 #' 
 #' # assign this object to the input_fasta slot of SignalpResult object
 #' inp <- setInfasta(inp, aa)
