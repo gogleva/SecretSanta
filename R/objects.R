@@ -99,11 +99,10 @@ setMethod(f = "getOutfasta",
 
 #' An S4 class to represent intermediate and final outputs of the signalp prediction step
 #' 
-#' @slot in_fasta        initial fasta file
-#' @slot out_fasta       output fasta with only positive candidates, i.e sequences predicted to be secreted at this step
 #' @slot mature_fasta    fasta with mature sequences
 #' @slot sp_version      version of signalp used to generate this object
 #' @slot sp_tibble       Object of class tibble, contains ... columns:
+#' @slot goOn            indicator showing if it makes sense to go on with piping
 #' \itemize{
 #'   \item gene_id - unique id of the sequence
 #'   \item Cmax - max raw cleavage site score (C-score)
@@ -113,12 +112,8 @@ setMethod(f = "getOutfasta",
 #'   \item Ypos - amino acid position with max Y-score
 #'   \item Smax - max signal peptide score
 #'   \item Spos - amino acid position with max S-score 
-#'   \item D - a weighted average of the mean S and the max. Y scores.
-#'             This is the score that is used to discriminate signal peptides from non-signal peptides.
 #'   \item Smean - the average S-score of the possible signal peptide (from position 1 to the position immediately before #              the maximal Y-score)
-#'   \item Prediction - final desision o whether the protein is secreted or not (Y/N)
-#'   \item Dmaxcut - 
-#'   \item Networks used - 
+#'   \item Prediction - final desision o whether the protein is secreted or not 
 #'   }
 #' @examples 
 #' a <- SignalpResult()
@@ -133,11 +128,13 @@ SignalpResult <- setClass(
                     contains= "CBSResult",
                     slots = list(mature_fasta = "AAStringSet", 
                                  sp_version = "numeric",
-                                 sp_tibble = "tbl_df"),
+                                 sp_tibble = "tbl_df",
+                                 goOn = ""),
                  
                     prototype = list(mature_fasta = Biostrings::AAStringSet(),
                                 sp_version = 2,
-                                sp_tibble = tibble::tibble()
+                                sp_tibble = tibble::tibble(),
+                                goOn = TRUE
                     ),
                     )
 

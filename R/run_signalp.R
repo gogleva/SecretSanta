@@ -33,7 +33,7 @@
 #' inp <- SignalpResult()
 #' 
 #' # read fasta file in AAStringSet object
-#' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+#' aa <- readAAStringSet(system.file("extdata", "small_prot.fasta", package = "SecretSanta"), use.names = TRUE)
 #' 
 #' # assign this object to the input_fasta slot of SignalpResult object
 #' inp <- setInfasta(inp, aa)
@@ -135,6 +135,8 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths) {
     }
 
   message(paste('Number of candidate sequences with signal peptides...', nrow(sp)))
+  
+  if (nrow(sp) == 0) {warning('Signal peptide prediction yeilded 0 candidates')}
   
   # generate cropped names for input fasta
   cropped_names <- unname(sapply(names(fasta), crop_names))
