@@ -112,7 +112,7 @@ setMethod(f = "getOutfasta",
 #'   \item Smax - max signal peptide score
 #'   \item Spos - amino acid position with max S-score 
 #'   \item Smean - the average S-score of the possible signal peptide (from position 1 to the position immediately before #              the maximal Y-score)
-#'   \item Prediction - final desision o whether the protein is secreted or not 
+#'   \item Prediction - final desision on whether the protein is secreted or not 
 #'   }
 #' @examples 
 #' a <- SignalpResult()
@@ -121,6 +121,7 @@ setMethod(f = "getOutfasta",
 #' getInfasta(a2)
 #  ss <- readAAStringSet("SecretSanta/inst/extdata/sample_prot_stop_codons.fasta", use.names = TRUE)
 #  sc <- SignalpResult()
+#  sc <- setInfasta(sc, ss)
 
 SignalpResult <- setClass(
                     "SignalpResult",
@@ -134,6 +135,14 @@ SignalpResult <- setClass(
                                 sp_version = 2,
                                 sp_tibble = tibble::tibble()
                                 ),
+                    
+                    validity = function(object)
+                    {
+                      if (sum(width(object@out_fasta)) > sum(width(object@mature_fasta))) {
+                        return("Mature sequences can not be shorter that full length sequences")
+                      }
+                    }  
+                      
                     )
 
 # define accessor functions for SignalpResult object
