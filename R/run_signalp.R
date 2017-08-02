@@ -1,12 +1,13 @@
 #' signalp function
 #'
-#' This function calls local SignalP
-#' Please ensure that respective version of SignalP is downloaded, installed and respective path is added to $PATH variable
+#' This function calls local signalp
 #' @param input    input object (any from CBSResult class) with protein sequences as on of the attributes
 #' @param version  signalp version to run, allowed  values: 2, 3, 4, 4.1 
 #' @param organism_type Allowed values: 'euk', 'gram+', 'gram-'        
 #' @param run_mode    set 'starter' if it is the first step in pupeline \cr
 #'                    set 'piper' if you run this function on the output of other CBS tools
+#' @param paths   tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function
+#' @return an object of SignalpResult class
 #' @export
 #' @examples
 #' Example pipe would loook like this:
@@ -30,7 +31,7 @@
 #' step3_sp4 <- signalp(step2_sp3, version = 4, 'euk', run_mode = "piper")
 
 
-signalp <- function(input_obj, version, organism_type, run_mode) {
+signalp <- function(input_obj, version, organism_type, run_mode, paths) {
   # validity checks for signalp version and organism_type inputs
   allowed_versions = c(2,3,4,4.1)
   allowed_organisms = c('euk', 'gram+', 'gram-')
@@ -49,7 +50,7 @@ signalp <- function(input_obj, version, organism_type, run_mode) {
     # make a system call of signalp based on the tmp file
     signalp_version <- paste("signalp", version, sep = '')
     message(signalp_version)
-    full_pa <- as.character(secret_paths %>% filter(tool == signalp_version) %>% select(path))
+    full_pa <- as.character(paths %>% filter(tool == signalp_version) %>% select(path))
     
     # helper function: crop long names for AAStringSet object, return character vector
     crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}

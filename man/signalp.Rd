@@ -15,10 +15,11 @@ signalp(input_obj, version, organism_type, run_mode)
 set 'piper' if you run this function on the output of other CBS tools}
 
 \item{input}{input object (any from CBSResult class) with protein sequences as on of the attributes}
+
+\item{paths}{tibble with paths to external dependencies, see documentation for \code{\link{manage_paths}}}
 }
 \description{
-This function calls local SignalP
-Please ensure that respective version of SignalP is downloaded, installed and respective path is added to $PATH variable
+This function calls local signalp
 }
 \examples{
 Example pipe would loook like this:
