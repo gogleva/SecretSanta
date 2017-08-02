@@ -68,13 +68,22 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths) {
   }
   
   # check that supplied runnig mode is valid
+  is_not_null <- function(x) ! is.null(x)
   
   if (run_mode %in% c('piper', 'starter')) {} else {stop("Run mode is invalid. Please use 'starter' to initiate prediction pipelie or 'piper' to continue")}
-    
-  # get fasta from SignalpResult object
-    
-  if (run_mode == 'piper') fasta <- getOutfasta(input_obj) else fasta <- getInfasta(input_obj)  
   
+  # check that input_object contains non-empty in/out_fasta for starter/piper
+  
+  if (run_mode == 'starter') {
+    if (is_not_null(getInfasta(input_obj))) {
+        fasta <- getInfasta(input_obj)
+    } else {stop('in_fasta attribute is empty')}
+  } else if (run_mode == 'piper') {
+    if (is_not_null(getOutfasta(input_obj))) {
+        fasta <- getOutfasta(input_obj)
+    } else {stop('out_fasta attribute is empty')}
+  }
+
   # convert it to a temporary file:
   out_tmp <- tempfile() #create a temporary file for fasta
   Biostrings::writeXStringSet(fasta, out_tmp) #write tmp fasta file
@@ -90,7 +99,7 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths) {
     
   # ----
   if (version >= 4) {
-  # runing signalp versios 4 and 4.1    
+  # runing signalp versios 4 and 4.1, potentially should work for 5
     sp <- tibble::as.tibble(read.table(text = (system(paste(full_pa, "-t", organism_type, out_tmp), intern = TRUE))))
     names(sp) <- c("gene_id", "Cmax", "Cpos",
                             "Ymax", "Ypos", "Smax",
