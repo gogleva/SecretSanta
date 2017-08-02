@@ -35,7 +35,7 @@ signalp(input_obj, version, organism_type, run_mode, paths)
 an object of SignalpResult class
 }
 \description{
-This function calls local signalp to predict the presence and location of signal peptide cleavage sites in amino acid sequences
+This function calls local signalp to predict the presence and location of signal peptide cleavage sites in amino acid sequences.
 }
 \examples{
 Example pipe would loook like this:
@@ -53,11 +53,11 @@ aa <- readAAStringSet("SecretSanta/inst/extdata/sample_prot.fasta", use.names = 
 inp <- setInfasta(inp, aa)
 
 # run signalp2 on the initial file:
-step1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter")
+step1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
 
 # run signalp3 on the result object, will automatically pass out_fasta slot to signalp3:
-step2_sp3 <- signalp(step1_sp2, version = 3, 'euk', run_mode = "piper")
+step2_sp3 <- signalp(step1_sp2, version = 3, 'euk', run_mode = "piper", paths = my_pa)
 
 # run signalp4 on the result object, will automatically pass out_fasta slot to signalp4:
-step3_sp4 <- signalp(step2_sp3, version = 4, 'euk', run_mode = "piper")
+step3_sp4 <- signalp(step2_sp3, version = 4, 'euk', run_mode = "piper", paths = my_pa)
 }
