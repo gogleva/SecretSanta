@@ -49,7 +49,7 @@ parse_signalp <- function(input, input_type) {
   gene_ids_fixed <- (sapply(gene_ids, clean_geneids, USE.NAMES = FALSE))
   
   # check that there are no duplicated gene ids:
-  if (identical(length(gene_ids), length(unique(gene_ids)))){} else {stop('gene_ids vector contains duplicated elements')}
+  if (any(duplicated(gene_ids)))  {stop('gene_ids vector contains duplicated elements')}
   
   # extract max C score and position
   max_C_fixed <- sapply(data[grep("max. C", data)], clean_score, USE.NAMES = FALSE)
