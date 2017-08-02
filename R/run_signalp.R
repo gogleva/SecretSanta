@@ -1,7 +1,7 @@
 #' signalp function
 #'
 #' This function calls local signalp to predict the presence and location of signal peptide cleavage sites in amino acid sequences.
-#' @param input    input object, an instance of CBSResult class containing protein sequences as on of the attributes
+#' @param input_object    an instance of CBSResult class containing protein sequences as on of the attributes
 #' @param version  signalp version to run, supported versions:
 #' \itemize{
 #' \item 2
@@ -52,16 +52,11 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths) {
   
   # ----- Check that inputs are valid
   
-  allowed_versions = c(2,3,4,4.1)
-  allowed_organisms = c('euk', 'gram+', 'gram-')
-  
-  organism_type <- tolower(organism_type)
-  
+  # check that input object belong to CBSResult class
   if (is(input_obj, "CBSResult")) {} else {stop('input_object does not belong to CBSResult superclass')}
   
   # check that supplied runnig mode is valid
-  #is_not_null <- function(x) ! is.null(x)
-  
+
   if (run_mode %in% c('piper', 'starter')) {} else {stop("Run mode is invalid. Please use 'starter' to initiate prediction pipelie or 'piper' to continue")}
   
   # check that input_object contains non-empty in/out_fasta for starter/piper
@@ -75,6 +70,11 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths) {
         fasta <- getOutfasta(input_obj)
     } else {stop('out_fasta attribute is empty')}
   }
+  
+  # check signalp versions and organism type
+  allowed_versions = c(2,3,4,4.1)
+  allowed_organisms = c('euk', 'gram+', 'gram-')
+  organism_type <- tolower(organism_type)
 
   if ((version %in% allowed_versions) & (organism_type %in% allowed_organisms)) {
     message("running signalP locally...")
