@@ -75,6 +75,9 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths) {
   allowed_versions = c(2,3,4,4.1)
   allowed_organisms = c('euk', 'gram+', 'gram-')
   organism_type <- tolower(organism_type)
+  
+  signalp_version <- paste("signalp", version, sep = '')
+  message(paste('Version used...', signalp_version))
 
   if ((version %in% allowed_versions) & (organism_type %in% allowed_organisms)) {
     message("running signalP locally...")
@@ -92,9 +95,7 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths) {
   Biostrings::writeXStringSet(fasta, out_tmp) #write tmp fasta file
   
   # make a system call of signalp based on the tmp file
-  
-  signalp_version <- paste("signalp", version, sep = '')
-  message(signalp_version)
+
   full_pa <- as.character(paths %>% filter(tool == signalp_version) %>% select(path))
     
   # helper function: crop long names for AAStringSet object, return character vector
@@ -110,8 +111,20 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths) {
                             "Ymax", "Ypos", "Smax",
                             "Spos", "Smean", "D",
                             "Prediction", "Dmaxcut", "Networks-used")
+    # reorder columns to match sp2/3 output:
+    
+    sp <- sp %>% select("gene_id",
+                        "Cmax",
+                        "Cpos",
+                        "Ymax",
+                        "Ypos",
+                        "Smax",
+                        "Spos",
+                        "Smean",
+                        "Prediction")
+    
     sp <- sp %>% filter(Prediction == 'Y')
-      
+    
   } else if (version < 4) {
   # running signalp versions 2 and 3, call parse_signalp for the output
       message('signalp < 4, calling parser for the output...')
@@ -119,7 +132,7 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths) {
       sp <- parse_signalp(input = con, input_type = "system_call")
     }
 
-  message(paste('Number of candidate sequences with signal peptides...', length(sp)))
+  message(paste('Number of candidate sequences with signal peptides...', nrow(sp)))
   
   # generate cropped names for input fasta
   cropped_names <- unname(sapply(names(fasta), crop_names))
@@ -142,5 +155,4 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths) {
                            sp_version = version,
                            sp_tibble = sp)
   if (validObject(out_obj)) {return(out_obj)}
-  
-}
+  }
