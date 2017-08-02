@@ -96,7 +96,7 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths) {
   
   # make a system call of signalp based on the tmp file
 
-  full_pa <- as.character(paths %>% filter(tool == signalp_version) %>% select(path))
+  full_pa <- as.character(paths %>% dplyr::filter(tool == signalp_version) %>% dplyr::select(path))
     
   # helper function: crop long names for AAStringSet object, return character vector
   crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
@@ -113,7 +113,7 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths) {
                             "Prediction", "Dmaxcut", "Networks-used")
     # reorder columns to match sp2/3 output:
     
-    sp <- sp %>% select("gene_id",
+    sp <- sp %>% dplyr::select("gene_id",
                         "Cmax",
                         "Cpos",
                         "Ymax",
@@ -123,7 +123,9 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths) {
                         "Smean",
                         "Prediction")
     
-    sp <- sp %>% filter(Prediction == 'Y')
+    sp <- sp %>% dplyr::filter(Prediction == 'Y')
+    sp <- dplyr::mutate(sp, Prediction = ifelse(Prediction == 'Y', 'Signal peptide'))
+    
     
   } else if (version < 4) {
   # running signalp versions 2 and 3, call parse_signalp for the output
@@ -139,12 +141,12 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths) {
   # replace long names with cropped names
   names(fasta) <- cropped_names
   # get ids of candidate secreted proteins
-  candidate_ids <- sp %>% select(gene_id) %>% unlist(use.names = FALSE)
+  candidate_ids <- sp %>% dplyr::select(gene_id) %>% unlist(use.names = FALSE)
   out_fasta_sp <- fasta[candidate_ids]
     
   # generate mature sequences
     
-  sp_Cpos <- sp %>% select(Cpos) %>% unlist(use.names = FALSE)
+  sp_Cpos <- sp %>% dplyr::select(Cpos) %>% unlist(use.names = FALSE)
   cropped_fasta <- subseq(out_fasta_sp, start = sp_Cpos, end = -1)
   
   # costruct output object
