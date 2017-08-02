@@ -66,6 +66,10 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths) {
     message(cat(allowed_organisms))
     stop('Input signalp version or specified organism type are invalid.')  
   }
+  
+  # check that supplied runnig mode is valid
+  
+  if (run_mode %in% c('piper', 'starter')) {} else {stop("Run mode is invalid. Please use 'starter' to initiate prediction pipelie or 'piper' to continue")}
     
   # get fasta from SignalpResult object
     
