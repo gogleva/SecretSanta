@@ -12,18 +12,18 @@ test_that("tmhmm outputs are correctly parsed for system calls",
           s1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
             
           # run tmhmm on the output of signalp step  
-          expect_is(tmhmm(s1_sp2, paths = my_pa), 'TMhmmResult')
+          expect_is(tmhmm(s1_sp2, paths = my_pa, TM = 0), 'TMhmmResult')
           
           # run tmhmm on XStringSetObject:
-          expect_error(tmhmm(aa, paths = my_pa), 'input_object does not belong to CBSResult superclass')
+          expect_error(tmhmm(aa, paths = my_pa, TM = 0), 'input_object does not belong to CBSResult superclass')
           
           # run tmhmm on CBSresult obhect with empty mature_fasta slot:
-          expect_error(tmhmm(inp, paths = my_pa), 'the input object contains an empty mature_fasta slot')
+          expect_error(tmhmm(inp, paths = my_pa, TM = 0), 'the input object contains an empty mature_fasta slot')
           
           # run tmhmm on object without mature_fasta slot
           cb <- CBSResult()
           cb <- setInfasta(cb, aa)
-          expect_error(tmhmm(cb, paths = my_pa), 'the input object does not contain mature_fasta slot')
+          expect_error(tmhmm(cb, paths = my_pa, TM = 0), 'the input object does not contain mature_fasta slot')
           
             
           })
