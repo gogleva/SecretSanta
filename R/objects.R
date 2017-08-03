@@ -155,18 +155,23 @@ SignalpResult <- setClass(
                         return("Duplicated gene ids in sp_tibble! ")}
                       }
                       
-                      # check that all ids of mature_fasta are present in in_fasta
+                      # check that all ids of mature_fasta are identical to ids in out_fasta
                       
+                      if (!(identical(names(object@mature_fasta), names(object@out_fasta)))) {
+                         return("Out_fasta ids do not match mature_fasta ids")
+                        }
                       
-                      # check that ids of mature_fasta match ids in out_fasta
+                      # check that ids of mature_fasta are present in in_fasta
+                      if (!(all(names(object@mature_fasta) %in% names(object@in_fasta)))) {
+                        return("Out_fasta ids do not match in_fasta ids")
+                      }
                       
+                      # check that there are no zero length mature peptides - or make it a warning?
                       
-                      # check that there are no zero length mature peptides - or make it a warning
-                      
-                      
+                     if (any(width(object@mature_fasta) == 0)) {
+                       msg <- ('mature fasta contains sequences of 0 length')
+                     }
                     } 
-                    
-                      
                     )
 
 # define accessor functions for SignalpResult object
