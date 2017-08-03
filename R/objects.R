@@ -41,7 +41,7 @@ CBSResult <- setClass("CBSResult",
                   }
                   
                   if (any(grepl('[*$]', object@in_fasta))) {
-                    return("Input fasta contains stop codon symbols '*', please remove them.") 
+                    return("Input fasta contains stop cteodon symbols '*', please remove them.") 
                   }
                   
                   if (any(duplicated(names(object@in_fasta)))) {
@@ -364,13 +364,7 @@ TMhmmResult <- setClass("TMhmmResult",
                              
                            # check that ids in out_mature_fasta match ids in out_fasta
                              
-                 #            if (!(identical(names(object@mature_fasta), names(object@out_fasta)))) {
-                  #             return("Out_fasta ids do not match mature_fasta ids")
-                   #          }
-                             
-                           # check that ids in out_fasta match ids in out_mature_fasta
-                             
-                             if (!(identical(names(object@mature_fasta), names(object@out_mature_fasta)))) {
+                             if (!(identical(names(object@out_mature_fasta), names(object@out_fasta)))) {
                                return("Out_fasta ids do not match out_mature_fasta ids")
                              }
                            }  
