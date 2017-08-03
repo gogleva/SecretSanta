@@ -1,12 +1,30 @@
-#' An S4 class to represent minimal basic structure of CBS output objects
+#' An S4 class to represent minimal basic structure of CBS output objects.
 #' 
 #' @slot in_fasta        initial fasta file
-#' @slot out_fasta       output fasta with only positive candidates, \cr
+#' @slot out_fasta       output fasta with only positive candidates,
 #'                       i.e those that passed tool filters
-#' @examples
 #' @export CBSResult
-#' aa <- 
-#'  
+#' @examples
+#' # read fasta file in AAStringSet object
+#' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+#' 
+#' # create an emty instance of CBSResult class
+#' cbs <- CBSResult()
+#' 
+#' # populate in_fasta attribute with aa
+#' cbs <- setInfasta(cbs, aa)
+#' 
+#' # populate out_fasta attribute with aa
+#' cbs <- setOutfasta(cbs, aa)
+#' 
+#' # check that created CBSResult instance is valid
+#' validObject(cbs)
+#' 
+#' # extract in_fasta attribute
+#' getInfasta(cbs)
+#' 
+#' # extract out_fasta attribute
+#' getOutfasta(cbs)
 
 CBSResult <- setClass("CBSResult",
                       
