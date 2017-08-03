@@ -327,9 +327,7 @@ WolfResult <- setClass("WolfResult",
 
 #' An S4 class to represent intermediate and final outputs of the TMHMM prediction step
 #' 
-#' @slot in_fasta original in fasta, full length proteins
 #' @slot in_mature_fasta  input mature fasta, extracted from the input SignalpResult object
-#' @slot out_fasta output fasta, full-length sequences without TM after signal peptide
 #' @slot out_mature_fasta output mature, conatins mature sequences without TM domains
 #' @slot tm_tibble        tibble with outputs obtained from TMHMM
 #' \itemize{
@@ -366,9 +364,9 @@ TMhmmResult <- setClass("TMhmmResult",
                              
                            # check that ids in out_mature_fasta match ids in out_fasta
                              
-                             if (!(identical(names(object@mature_fasta), names(object@out_fasta)))) {
-                               return("Out_fasta ids do not match mature_fasta ids")
-                             }
+                 #            if (!(identical(names(object@mature_fasta), names(object@out_fasta)))) {
+                  #             return("Out_fasta ids do not match mature_fasta ids")
+                   #          }
                              
                            # check that ids in out_fasta match ids in out_mature_fasta
                              
