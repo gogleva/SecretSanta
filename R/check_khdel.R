@@ -17,6 +17,7 @@
 #' 
 #' # check ER retention signal in the signalp output, 'starter' mode
 #' et_sp <- check_khdel(step1_sp2, run_mode = 'starter')
+#' 
 #' # check ER retention signal in the signalp output, 'piper' mode
 #' et_piper <- check_khdel(step1_sp2, run_mode = 'piper')
 
@@ -32,13 +33,15 @@ check_khdel <- function(input_obj, run_mode) {
   
   message(paste('Number of submitted sequences...', length(fasta)))
   
+  if (length(fasta) == 0) {stop('query fasta is empty, please ensure you are using correct run_mode')}
+  
   # find and remove termial ER retention motifs
   ER1 <- AAString('KDEL')
   ER2 <- AAString('HDEL')
   tails <- subseq(fasta, -4, -1) # last 4 aminno acids in each protein
   un <- !(as.logical(vcountPattern(ER1, tails)) | as.logical(vcountPattern(ER2, tails)))
   
-  # fasta without terminal KDELs/HDEls
+  # fasta without terminal KDELs/HDELs
   non_retained <- fasta[un] 
   
   out_obj <- ErResult(in_fasta = fasta,

@@ -7,13 +7,26 @@
 check_khdel(input_obj, run_mode)
 }
 \arguments{
-\item{input_obj}{input object of CBSResult superclass}
+\item{input_obj}{input object of CBSResult class}
 
-\item{run_mode}{'starter' or 'piper'}
+\item{run_mode}{\itemize{
+\item starter - if it is the first step in pipeline;
+\item piper - if you run this function on the output of other CBS tools;
+}}
 }
 \description{
-This function checks presence of terminal KDEL/HDEL sequences in the candidate secreted proteins
+This function checks presence of terminal KDEL/HDEL sequences in the candidate secreted proteins.
 }
 \examples{
-check_khdel(step1_sp2, run_mode = 'starter')
+# check ER retention signals in CBSResult object before running signalp or any other predictions
+inp <- SignalpResult()
+aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+inp <- setInfasta(inp, aa)
+et_s <- check_khdel(inp, run_mode = 'starter')
+
+# check ER retention signal in the signalp output, 'starter' mode
+et_sp <- check_khdel(step1_sp2, run_mode = 'starter')
+
+# check ER retention signal in the signalp output, 'piper' mode
+et_piper <- check_khdel(step1_sp2, run_mode = 'piper')
 }
