@@ -346,10 +346,9 @@ TMhmmResult <- setClass("TMhmmResult",
                            contains = "CBSResult",
                            slots = list(in_mature_fasta = "AAStringSet",
                                         out_mature_fasta = "AAStringSet",
-                                        tm_tibble = "tbl_df")
+                                        tm_tibble = "tbl_df"),
                         
-                           validity = function(object)
-                           {   
+                           validity = function(object) {   
                           
                            # check that there are o duplicated ids in the input and output fastas and tm_tibble
                              if (nrow(object@tm_tibble) > 0) {
@@ -357,22 +356,26 @@ TMhmmResult <- setClass("TMhmmResult",
                                   return("Duplicated gene ids in sp_tibble! ")}
                              } 
                              
-                             if any(duplicated(names(object@in_mature_fasta))) {
+                             if (any(duplicated(names(object@in_mature_fasta)))) {
                                   return("Duplicated gene ids in in_mature_fasta")
                              }
                              
-                             if any(duplicated(names(object@out_mature_fasta))) {
+                             if (any(duplicated(names(object@out_mature_fasta)))) {
                                return("Duplicated gene ids in out_mature_fasta")
                              }
                              
                            # check that ids in out_mature_fasta match ids in out_fasta
                              
+                             if (!(identical(names(object@mature_fasta), names(object@out_fasta)))) {
+                               return("Out_fasta ids do not match mature_fasta ids")
+                             }
                              
                            # check that ids in out_fasta match ids in out_mature_fasta
-                              
+                             
+                             if (!(identical(names(object@mature_fasta), names(object@out_mature_fasta)))) {
+                               return("Out_fasta ids do not match out_mature_fasta ids")
+                             }
                            }  
-                           
-                        
 )
 
 

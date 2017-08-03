@@ -87,7 +87,5 @@ tmhmm <- function(input_obj, paths, TM) {
                          tm_tibble = tm)
   
   if (validObject(out_obj)) {return(out_obj)}
-  
-  
   }
 

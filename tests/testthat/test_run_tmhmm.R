@@ -17,7 +17,7 @@ test_that("tmhmm outputs are correctly parsed for system calls",
           # run tmhmm on XStringSetObject:
           expect_error(tmhmm(aa, paths = my_pa, TM = 0), 'input_object does not belong to CBSResult superclass')
           
-          # run tmhmm on CBSresult obhect with empty mature_fasta slot:
+          # run tmhmm on CBSresult object with empty mature_fasta slot:
           expect_error(tmhmm(inp, paths = my_pa, TM = 0), 'the input object contains an empty mature_fasta slot')
           
           # run tmhmm on object without mature_fasta slot
