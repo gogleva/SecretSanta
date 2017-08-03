@@ -22,13 +22,14 @@ tmhmm <- function(input_obj, paths) {
   } else {
       stop('the input object does not contain mature_fasta slot')}
   
+  
   message("running TMHMM locally...")
   
   fasta <- getMatfasta(input_obj) 
   out_tmp <- tempfile()
   Biostrings::writeXStringSet(fasta, out_tmp)
   
-  full_pa <- as.character(secret_paths %>% dplyr::filter(tool == 'tmhmm') %>% dplyr::select(path))
+  full_pa <- as.character(paths %>% dplyr::filter(tool == 'tmhmm') %>% dplyr::select(path))
   tm <- tibble::as.tibble(read.table(text = (system(paste(full_pa, out_tmp, '--short'), intern = TRUE))))
   names(tm) <- c("gene_id", "length", "ExpAA",
                      "First60", "PredHel", "Topology")
