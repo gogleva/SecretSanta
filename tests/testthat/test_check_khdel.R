@@ -26,8 +26,16 @@ test_that("terminal KHDEL/HDEL motifs are detected",
             
             # check outputs of TMHMM
             tm <- tmhmm(sp, paths = my_pa, TM = 1)
+            expect_is(check_khdel(tm, run_mode = 'piper'), 'ErResult')
             
             # check with fasta containing KDEL/HDEL motifs
-            
+            br <- readAAStringSet(system.file("extdata", "er_prot.fasta", package = "SecretSanta"), 
+                                  use.names = TRUE)
+            inp <- setInfasta(inp, br)
+            expect_is(check_khdel(inp, run_mode = 'starter'),  'ErResult')
+            expect_message(check_khdel(inp, run_mode = 'starter'),
+                           'Number of submitted sequences... 5')
+            expect_message(check_khdel(inp, run_mode = 'starter'),
+                           'Number of sequences with terminal ER retention signals detected... 2')
 
           })
