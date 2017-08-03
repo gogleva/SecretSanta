@@ -4,17 +4,28 @@
 \alias{tmhmm}
 \title{tmhmm function}
 \usage{
-tmhmm(input_obj)
+tmhmm(input_obj, paths, TM)
 }
 \arguments{
 \item{input_obj}{input object, an instance of CBSResult class, \cr
-input should contain mature_fasta; in full-length proteins \cr
+input should contain mature_fasta; in the full-length proteins \cr
 N-terminal signal peptide could be erroneously \cr
-predicted as TM domain; avoid this}
+predicted as TM domain, avoid this}
+
+\item{paths}{tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function}
+
+\item{TM}{allowed number of TM domains in mature peptides, recommended value <= 1; use 0 for strict filtering}
 }
 \description{
-This function calls local TMHMM
+This function calls local TMHMM, expects CBSresult class objects with populated mature_fasta slot.
+To generate it run signalp first.
 }
 \examples{
-r1 <- tmhmm("SecretSanta/inst/extdata/sample_prot.fasta")
+          
+my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+inp <- SignalpResult()
+aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+inp <- setInfasta(inp, aa)
+s1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
+tm <- tmhmm(s1_sp2, paths = my_pa, TM = 1)
 }

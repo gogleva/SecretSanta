@@ -44,6 +44,14 @@ CBSResult <- setClass("CBSResult",
                     return("Input fasta contains stop codon symbols '*', please remove them.") 
                   }
                   
+                  if (any(duplicated(names(object@in_fasta)))) {
+                    return("Duplicated gene ids in in_fasta")
+                  }
+                  
+                  if (any(duplicated(names(object@out_fasta)))) {
+                    return("Duplicated gene ids in out_fasta")
+                  }
+                  
                   return(TRUE)
                 }  
 )
@@ -339,6 +347,32 @@ TMhmmResult <- setClass("TMhmmResult",
                            slots = list(in_mature_fasta = "AAStringSet",
                                         out_mature_fasta = "AAStringSet",
                                         tm_tibble = "tbl_df")
+                        
+                           validity = function(object)
+                           {   
+                          
+                           # check that there are o duplicated ids in the input and output fastas and tm_tibble
+                             if (nrow(object@tm_tibble) > 0) {
+                                if (any(duplicated(object@tm_tibble$gene_id))) {
+                                  return("Duplicated gene ids in sp_tibble! ")}
+                             } 
+                             
+                             if any(duplicated(names(object@in_mature_fasta))) {
+                                  return("Duplicated gene ids in in_mature_fasta")
+                             }
+                             
+                             if any(duplicated(names(object@out_mature_fasta))) {
+                               return("Duplicated gene ids in out_mature_fasta")
+                             }
+                             
+                           # check that ids in out_mature_fasta match ids in out_fasta
+                             
+                             
+                           # check that ids in out_fasta match ids in out_mature_fasta
+                              
+                           }  
+                           
+                        
 )
 
 

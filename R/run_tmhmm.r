@@ -7,7 +7,7 @@
 #'                  N-terminal signal peptide could be erroneously \cr
 #'                  predicted as TM domain, avoid this
 #' @param paths tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function
-#' @param TM  allowed number of TM domains in mature peptides             
+#' @param TM  allowed number of TM domains in mature peptides, recommended value <= 1; use 0 for strict filtering             
 #' @export
 #' @examples 
 #'           
@@ -16,10 +16,7 @@
 #' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
 #' inp <- setInfasta(inp, aa)
 #' s1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
-#' tm <- tmhmm(s1_sp2, paths = my_pa, TM_threshold = 1)
-
-# run tmhmm on the output of signalp step  
-expect_is(tmhmm(s1_sp2, paths = my_pa), 'TMhmmResult')
+#' tm <- tmhmm(s1_sp2, paths = my_pa, TM = 1)
 
 tmhmm <- function(input_obj, paths, TM) {
 
@@ -53,7 +50,7 @@ tmhmm <- function(input_obj, paths, TM) {
   names(tm) <- c("gene_id", "length", "ExpAA",
                      "First60", "PredHel", "Topology")
   
-  #clean output values remove '... =' value
+  # clean output values remove '... =' value
   clean_outp <- function(x) {unlist(stringr::str_split(x, '='))[2]}
   
   tm <- dplyr::mutate(tm,
@@ -75,8 +72,10 @@ tmhmm <- function(input_obj, paths, TM) {
   #generate cropped names for input fasta
   full_fasta <- getInfasta(input_obj)
   cropped_names <- unname(sapply(names(full_fasta), crop_names))
+  
   #replace long names with cropped names
   names(full_fasta) <- cropped_names
+  
   #get ids of candidate secreted proteins
   candidate_ids <- tm %>% dplyr::select(gene_id) %>% unlist(use.names = FALSE)
   out_fasta_tm <- full_fasta[candidate_ids]
