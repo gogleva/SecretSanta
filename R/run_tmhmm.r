@@ -23,6 +23,7 @@ expect_is(tmhmm(s1_sp2, paths = my_pa), 'TMhmmResult')
 
 tmhmm <- function(input_obj, paths, TM) {
 
+  if (TM >= 2) {warning('Recommended TM threshold values for mature peprides is 1')}  
   # check that input object belongs to a valid class
   if (is(input_obj, "CBSResult")) {} else {stop('input_object does not belong to CBSResult superclass')}
   
