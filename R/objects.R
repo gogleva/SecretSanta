@@ -169,7 +169,7 @@ SignalpResult <- setClass(
                       # check that there are no zero length mature peptides - or make it a warning?
                       
                      if (any(width(object@mature_fasta) == 0)) {
-                       msg <- ('mature fasta contains sequences of 0 length')
+                       return('mature fasta contains sequences of 0 length')
                      }
                     } 
                     )
