@@ -37,5 +37,6 @@ test_that("terminal KHDEL/HDEL motifs are detected",
                            'Number of submitted sequences... 5')
             expect_message(check_khdel(inp, run_mode = 'starter'),
                            'Number of sequences with terminal ER retention signals detected... 2')
+            
 
           })

@@ -24,7 +24,6 @@
 #' step1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
 #' 
 #' # run wolfpsort on the signalp output:
-#' 
 #' w <- wolfpsort(step1_sp2, 'fungi', my_pa)
 
 wolfpsort <- function(input_obj, organism, paths){
@@ -62,12 +61,3 @@ wolfpsort <- function(input_obj, organism, paths){
   
   if (validObject(out_obj)) {return(out_obj)}
 }
-
-
-#tests:
-# 
-# fafa <- step1_sp2
-# 
-w <- wolfpsort(fafa, 'fungi', my_pa)
-
-
