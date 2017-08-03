@@ -36,17 +36,23 @@ tmhmm <- function(input_obj, paths) {
       stop('the input object does not contain mature_fasta slot')}
   
   
+  #----- Run tmhmm
   message("running TMHMM locally...")
   
   fasta <- getMatfasta(input_obj) 
   out_tmp <- tempfile()
   Biostrings::writeXStringSet(fasta, out_tmp)
   
+  message(paste('Number of submitted sequences...', length(fasta)))
+  
+  
   full_pa <- as.character(paths %>% dplyr::filter(tool == 'tmhmm') %>% dplyr::select(path))
   tm <- tibble::as.tibble(read.table(text = (system(paste(full_pa, out_tmp, '--short'), intern = TRUE))))
   names(tm) <- c("gene_id", "length", "ExpAA",
                      "First60", "PredHel", "Topology")
   tm <- (tm %>% dplyr::filter(PredHel == 'PredHel=0'))
+  
+  message(paste('Number of candidate sequences with signal peptides and 0 TM domains in mature sequence...', nrow(tm)))
   
   # helper function: crop long names for AAStringSet object, return character vector
   crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
@@ -67,14 +73,7 @@ tmhmm <- function(input_obj, paths) {
                          tm_tibble = tm)
   
   if (validObject(out_obj)) {return(out_obj)}
+  
+  
   }
-
-
-### tests
-
-# t2 <- tmhmm(step1_sp2) # obj of SignalpResult class
-# t3 <- tmhmm(aa)
-# t4 <- tmhmm(inp) 
-# t22 <- tmhmm(step2_sp3)
-
 
