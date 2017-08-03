@@ -26,7 +26,7 @@ An S4 class to represent intermediate and final outputs of the signalp predictio
   \item Smax - max signal peptide score
   \item Spos - amino acid position with max S-score 
   \item Smean - the average S-score of the possible signal peptide (from position 1 to the position immediately before #              the maximal Y-score)
-  \item Prediction - final desision o whether the protein is secreted or not 
+  \item Prediction - final desision on whether the protein is secreted or not 
   }}
 }}
 

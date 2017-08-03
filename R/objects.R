@@ -3,8 +3,8 @@
 #' @slot in_fasta        initial fasta file
 #' @slot out_fasta       output fasta with only positive candidates, \cr
 #'                       i.e those that passed tool filters
-
 #' @examples
+#' @export CBSResult
 #' aa <- 
 #'  
 
@@ -119,6 +119,7 @@ setMethod(f = "getOutfasta",
 #'   \item Smean - the average S-score of the possible signal peptide (from position 1 to the position immediately before #              the maximal Y-score)
 #'   \item Prediction - final desision on whether the protein is secreted or not 
 #'   }
+#' @export SignalpResult 
 #' @examples 
 #' a <- SignalpResult()
 #' setInfasta(a, bb)
@@ -143,14 +144,24 @@ SignalpResult <- setClass(
                     
                     validity = function(object)
                     {
+                      # check that mature sequences are shorter than full-length sequences
                       if (sum(width(object@out_fasta)) < sum(width(object@mature_fasta))) {
                         return("Mature sequences can not be shorter that full length sequences")
                       }
                       
+                      # check that there are no duplicated gene ids in sp_tibble
                       if (nrow(object@sp_tibble) > 0) {
                         if (any(duplicated(object@sp_tibble$gene_id))) {
                         return("Duplicated gene ids in sp_tibble! ")}
                       }
+                      
+                      # check that all ids of mature_fasta are present in in_fasta
+                      
+                      
+                      # check that ids of mature_fasta match ids in out_fasta
+                      
+                      
+                      # check that there are no zero length mature peptides - or make it a warning
                       
                       
                     } 
@@ -260,7 +271,7 @@ setMethod(f = "getSPtibble",
 #' An S4 class to represent outputs of WolfPsort
 #' 
 #' @slot wolf_tibble       standard tibble with outputs obtained from wolfpsort
-#' 
+#' @export WolfResult
 
 WolfResult <- setClass("WolfResult",
                           contains = "CBSResult",
@@ -283,6 +294,7 @@ WolfResult <- setClass("WolfResult",
 #'   \item PredHel - the number of predicted transmembrane helices by N-best
 #'   \item Topology - the topology predicted by N-best' 
 #' }
+#' @export TMhmmResult
 
 TMhmmResult <- setClass("TMhmmResult",
                            contains = "CBSResult",
@@ -361,6 +373,7 @@ setMethod(f = "getOutMatfasta",
 #' An S4 class to represent intermediate and final outputs of the TMHMM prediction step
 #'
 #' @slot retained
+#' @export ErResult
 
 ErResult <- setClass("ErResult",
                       contains = "CBSResult",
