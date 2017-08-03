@@ -4,16 +4,39 @@
 \alias{wolfpsort}
 \title{run_WolfPsort function}
 \usage{
-wolfpsort(input_obj, organism)
+wolfpsort(input_obj, organism, paths)
 }
 \arguments{
 \item{input_obj}{Object of CSBResult class}
 
 \item{organism}{set relevant taxonomic group,
 Options include: plant, animal, fingi;}
+
+\item{paths}{tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function}
+}
+\value{
+object of WolfResult class
 }
 \description{
 This function runs WoLF PSORT to predict protein cellular sub-localisation
-And returns the most probbale
-Recommended to run on the late stages of secretome prediction
+And returns the most probbale one. Provides additional supportig evidence that a protein might be secreted and deposited outside the cell. Recommended to run on the late stages of secretome prediction pipeline.
+}
+\examples{
+my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+
+# initialise SignalpResult object
+inp <- SignalpResult()
+
+# read fasta file in AAStringSet object
+aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+
+# assign this object to the input_fasta slot of SignalpResult object
+inp <- setInfasta(inp, aa)
+
+# run signalp2 on the initial file:
+step1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
+
+# run wolfpsort on the signalp output:
+
+w <- wolfpsort(step1_sp2, 'fungi', my_pa)
 }

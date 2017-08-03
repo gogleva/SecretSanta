@@ -11,11 +11,7 @@ An S4 class to represent intermediate and final outputs of the TMHMM prediction 
 \section{Slots}{
 
 \describe{
-\item{\code{in_fasta}}{original in fasta, full length proteins}
-
 \item{\code{in_mature_fasta}}{input mature fasta, extracted from the input SignalpResult object}
-
-\item{\code{out_fasta}}{output fasta, full-length sequences without TM after signal peptide}
 
 \item{\code{out_mature_fasta}}{output mature, conatins mature sequences without TM domains}
 
