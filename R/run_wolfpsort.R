@@ -1,16 +1,34 @@
 #' run_WolfPsort function
 #'
 #' This function runs WoLF PSORT to predict protein cellular sub-localisation
-#' And returns the most probbale
-#' Recommended to run on the late stages of secretome prediction
+#' And returns the most probbale one. Provides additional supportig evidence that a protein might be secreted and deposited outside the cell. Recommended to run on the late stages of secretome prediction pipeline.
 #' @param input_obj Object of CSBResult class
 #' @param organism  set relevant taxonomic group,
 #'                  Options include: plant, animal, fingi;
-#'                  
+#' @param paths   tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function
+#' @return object of WolfResult class  
 #' @export
 #' @examples
+#' my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+#' 
+#' # initialise SignalpResult object
+#' inp <- SignalpResult()
+#' 
+#' # read fasta file in AAStringSet object
+#' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+#' 
+#' # assign this object to the input_fasta slot of SignalpResult object
+#' inp <- setInfasta(inp, aa)
+#' 
+#' # run signalp2 on the initial file:
+#' step1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
+#' 
+#' # run wolfpsort on the signalp output:
+#' 
+#' w <- wolfpsort(step1_sp2, 'fungi', my_pa)
 
-wolfpsort <- function(input_obj, organism){
+wolfpsort <- function(input_obj, organism, paths){
+  # check that inputs are valid
   if (is(input_obj, "CBSResult")) {} else {stop('input_object does not belong to CBSResult superclass')}
   if (length(getOutfasta(input_obj)) == 0) {stop('the input object contains empty out_fasta slot')}
   allowed_organisms <- c('plant', 'animal', 'fungi')
@@ -21,7 +39,7 @@ wolfpsort <- function(input_obj, organism){
   fasta <- getOutfasta(input_obj)
   out_tmp <- tempfile()
   Biostrings::writeXStringSet(fasta, out_tmp)
-  full_pa <- as.character(secret_paths %>% filter(tool == 'wolfpsort') %>% select(path))
+  full_pa <- as.character(paths %>% filter(tool == 'wolfpsort') %>% select(path))
   wolf <- system(paste(full_pa,  organism, '<', out_tmp), intern = TRUE)
   
   #parse wolf output
@@ -45,6 +63,7 @@ wolfpsort <- function(input_obj, organism){
 #tests:
 # 
 # fafa <- step1_sp2
-#w <- wolfpsort(fafa, 'fungi')
+# 
+w <- wolfpsort(fafa, 'fungi', my_pa)
 
 
