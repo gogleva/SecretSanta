@@ -4,18 +4,14 @@ Version: 0.0.0.9000
 Authors@R: person("Anna", "Gogleva", email = "anna.gogleva@slcu.cam.ac.uk", role = c("aut", "cre"))
 Description: Functions and integarted workflow for automated secretome prediction
   and annotation based on input amino acid sequences.
-Depends: R (>= 3.4.0)
+Depends: R (>= 3.4.0),
+        dplyr,
+        Biostrings
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1.9000
 Imports:
-  dplyr,
-  tidyverse,
-  magrittr,
-  stringr, 
-  tibble,
-  Biostrings
 Suggests:
     ggplot2,
     ggvis,

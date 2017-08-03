@@ -37,6 +37,5 @@ inp <- setInfasta(inp, aa)
 step1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
 
 # run wolfpsort on the signalp output:
-
 w <- wolfpsort(step1_sp2, 'fungi', my_pa)
 }
