@@ -30,7 +30,6 @@ CBSResult <- setClass("CBSResult",
                       
                 slots = list(in_fasta = "AAStringSet",
                              out_fasta = "AAStringSet"),
-                             
 
                 prototype = list(in_fasta = Biostrings::AAStringSet(),
                                  out_fasta = Biostrings::AAStringSet()),
@@ -53,12 +52,14 @@ CBSResult <- setClass("CBSResult",
 # Define accessors for CBSResult objects
 
 # setter for in_fasta
+
 setGeneric(name = "setInfasta",
            def = function(theObject, in_fasta)
            {
              standardGeneric("setInfasta")    
            }  
 )
+
 
 setMethod(f = "setInfasta",
           signature = "CBSResult",
@@ -71,6 +72,7 @@ setMethod(f = "setInfasta",
 )
 
 # getter for in_fasta
+
 setGeneric(name = "getInfasta",
            def = function(theObject)
            {
@@ -139,13 +141,26 @@ setMethod(f = "getOutfasta",
 #'   }
 #' @export SignalpResult 
 #' @examples 
-#' a <- SignalpResult()
-#' setInfasta(a, bb)
-#' a2 <- setInfasta(a, bb)
-#' getInfasta(a2)
-#  ss <- readAAStringSet("SecretSanta/inst/extdata/sample_prot_stop_codons.fasta", use.names = TRUE)
-#  sc <- SignalpResult()
-#  sc <- setInfasta(sc, ss)
+#' # read fasta file in AAStringSet object
+#' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+#' 
+#' # create an emty instance of CBSResult class
+#' sr <- SignalpResult()
+#' 
+#' # populate in_fasta attribute with aa
+#' sr <- setInfasta(sr, aa)
+#' 
+#' # run signalpeptide prediction and created fully pipulated instance of SignalpResult class
+#' my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+#' step1_sp2 <- signalp(sr, version = 2, 'euk', run_mode = "starter", paths = my_pa)
+#' 
+#' # access specific slots:
+#' getOutfasta(step1_sp2)
+#' getInfasta(step1_sp2)
+#' getSPtibble(step1_sp2)
+#' getSPversion(step1_sp2)
+#' getMatfasta(step1_sp2) 
+
 
 SignalpResult <- setClass(
                     "SignalpResult",

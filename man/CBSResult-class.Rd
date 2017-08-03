@@ -4,9 +4,9 @@
 \name{CBSResult-class}
 \alias{CBSResult-class}
 \alias{CBSResult}
-\title{An S4 class to represent minimal basic structure of CBS output objects}
+\title{An S4 class to represent minimal basic structure of CBS output objects.}
 \description{
-An S4 class to represent minimal basic structure of CBS output objects
+An S4 class to represent minimal basic structure of CBS output objects.
 }
 \section{Slots}{
 
