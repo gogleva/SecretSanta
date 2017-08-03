@@ -11,8 +11,10 @@ test_that("tmhmm outputs are correctly parsed for system calls",
           s1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
             
           # run tmhmm on the output of signalp step  
-        
           expect_is(tmhmm(s1_sp2, paths = my_pa), 'TMhmmResult')
+          
+          # run tmhmm on XStringSetObject:
+          expect_error(tmhmm(aa, paths = my_pa), 'input_object does not belong to CBSResult superclass')
           
             
           })

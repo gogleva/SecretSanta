@@ -1,6 +1,7 @@
 #' tmhmm function
 #'
-#' This function calls local TMHMM
+#' This function calls local TMHMM, expects CBSresult class objects with populated mature_fasta slot.
+#' To generate it run signalp first.
 #' @param input_obj input object, an instance of CBSResult class, \cr
 #'                  input should contain mature_fasta; in the full-length proteins \cr
 #'                  N-terminal signal peptide could be erroneously \cr
@@ -8,11 +9,23 @@
 #' @param paths tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function                
 #' @export
 #' @examples 
-#' 
+#'           
+#' my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+#' inp <- SignalpResult()
+#' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+#' inp <- setInfasta(inp, aa)
+#' s1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
+#' tm <- tmhmm(s1_sp2, paths = my_pa)
+
+# run tmhmm on the output of signalp step  
+expect_is(tmhmm(s1_sp2, paths = my_pa), 'TMhmmResult')
 
 tmhmm <- function(input_obj, paths) {
   
   # check that input object belongs to a valid class
+  if (is(input_obj, "CBSResult")) {} else {stop('input_object does not belong to CBSResult superclass')}
+  
+  # check that input object contains non-empty mature fasta slot
   s <- getSlots(class(input_obj))
 
   if ('mature_fasta' %in% names(s)) {
