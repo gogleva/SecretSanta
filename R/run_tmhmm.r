@@ -6,7 +6,8 @@
 #'                  input should contain mature_fasta; in the full-length proteins \cr
 #'                  N-terminal signal peptide could be erroneously \cr
 #'                  predicted as TM domain, avoid this
-#' @param paths tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function                
+#' @param paths tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function
+#' @param TM_threshold  allowed number of TM domains in mature peptides             
 #' @export
 #' @examples 
 #'           
@@ -15,13 +16,13 @@
 #' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
 #' inp <- setInfasta(inp, aa)
 #' s1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
-#' tm <- tmhmm(s1_sp2, paths = my_pa)
+#' tm <- tmhmm(s1_sp2, paths = my_pa, TM_threshold = 1)
 
 # run tmhmm on the output of signalp step  
 expect_is(tmhmm(s1_sp2, paths = my_pa), 'TMhmmResult')
 
-tmhmm <- function(input_obj, paths) {
-  
+tmhmm <- function(input_obj, paths, TM_threshold) {
+
   # check that input object belongs to a valid class
   if (is(input_obj, "CBSResult")) {} else {stop('input_object does not belong to CBSResult superclass')}
   
@@ -50,7 +51,20 @@ tmhmm <- function(input_obj, paths) {
   tm <- tibble::as.tibble(read.table(text = (system(paste(full_pa, out_tmp, '--short'), intern = TRUE))))
   names(tm) <- c("gene_id", "length", "ExpAA",
                      "First60", "PredHel", "Topology")
-  tm <- (tm %>% dplyr::filter(PredHel == 'PredHel=0'))
+  
+  #clean output values remove '... =' value
+  clean_outp <- function(x) {unlist(stringr::str_split(x, '='))[2]}
+  
+  tm <- dplyr::mutate(tm,
+                      length = sapply(tm$length, clean_outp, USE.NAMES = FALSE),
+                      ExpAA = sapply(tm$ExpAA, clean_outp, USE.NAMES = FALSE),
+                      First60 = sapply(tm$First60, clean_outp, USE.NAMES = FALSE),
+                      PredHel = sapply(tm$PredHel, clean_outp, USE.NAMES = FALSE),
+                      Topology = sapply(tm$Topology, clean_outp, USE.NAMES = FALSE)
+                      )
+  
+  # change this lines in accordance with TM_thershold
+  tm <- (tm %>% dplyr::filter(PredHel <= TM_threshold))
   
   message(paste('Number of candidate sequences with signal peptides and 0 TM domains in mature sequence...', nrow(tm)))
   
