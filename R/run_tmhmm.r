@@ -30,7 +30,7 @@ tmhmm <- function(input_obj, paths) {
 
   if ('mature_fasta' %in% names(s)) {
     if (length(getMatfasta(input_obj)) == 0) {
-      stop('the input object contains empty mature_fasta slot')
+      stop('the input object contains an empty mature_fasta slot')
     }
   } else {
       stop('the input object does not contain mature_fasta slot')}

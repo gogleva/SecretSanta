@@ -6,7 +6,8 @@ test_that("tmhmm outputs are correctly parsed for system calls",
           
           my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
           inp <- SignalpResult()
-          aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+          aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"),
+                                use.names = TRUE)
           inp <- setInfasta(inp, aa)
           s1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
             
@@ -15,6 +16,14 @@ test_that("tmhmm outputs are correctly parsed for system calls",
           
           # run tmhmm on XStringSetObject:
           expect_error(tmhmm(aa, paths = my_pa), 'input_object does not belong to CBSResult superclass')
+          
+          # run tmhmm on CBSresult obhect with empty mature_fasta slot:
+          expect_error(tmhmm(inp, paths = my_pa), 'the input object contains an empty mature_fasta slot')
+          
+          # run tmhmm on object without mature_fasta slot
+          cb <- CBSResult()
+          cb <- setInfasta(cb, aa)
+          expect_error(tmhmm(cb, paths = my_pa), 'the input object does not contain mature_fasta slot')
           
             
           })
