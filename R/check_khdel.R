@@ -41,6 +41,14 @@ check_khdel <- function(input_obj, run_mode) {
   tails <- subseq(fasta, -4, -1) # last 4 aminno acids in each protein
   un <- !(as.logical(vcountPattern(ER1, tails)) | as.logical(vcountPattern(ER2, tails)))
   
+  # crop fasta names
+  crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
+  
+  # generate cropped names for input fasta
+  cropped_names <- unname(sapply(names(fasta), crop_names))
+  # replace long names with cropped names
+  names(fasta) <- cropped_names
+
   # fasta without terminal KDELs/HDELs
   non_retained <- fasta[un] 
   

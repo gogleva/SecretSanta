@@ -69,13 +69,20 @@ test_that("workflows work",
             # ------ #Step2: run WoLFPsort on the output:
             
             s2_wo <- wolfpsort(s1_er, organism = 'fungi', paths = my_pa)
-            
-            #wolfpsort(s3_sp4, organism = 'fungi', paths = my_pa)
-            
+            expect_is(s2_wo, 'WolfResult')
             
             
             # ----- Illegal workflows
             
-      })
+            #------- #Start with TMHMM:
+            
+            expect_error(tmhmm(input_obj = inp, paths = my_pa, TM = 0),
+                         'the input object does not contain mature_fasta slot')
+            expect_error(tmhmm(input_obj = s1_er, paths = my_pa, TM = 0),
+                         'the input object does not contain mature_fasta slot')
+            expect_error(tmhmm(input_obj = s2_wo, paths = my_pa, TM = 1),
+                         'the input object does not contain mature_fasta slot')
+      
+            })
 
 
