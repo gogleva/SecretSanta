@@ -11,10 +11,12 @@ Species: Oomycetes, Fungi, (Plants)
 -----------
 1) predict
 - use signalP(2-3-4) functionality
-- TargetP
+- TargetP (?)
 - SP cleavage
 - TMHMM on mature peptides
 - (K/H)DEL removal
+- WoLFpsort
+- M-slicer
 
 
 Things to consider:
@@ -56,11 +58,13 @@ SOLVED:
   -- wolfpsort
   -- TMHMM
 
+- clean/complete all function documentation
+- unit tests
+
 
 
 TO DO:
-- clean/complete all fuction documentation
-- unit tests
+
 - clean tmp files after the signalp run?
 - speed up signalp run by splitting large input file into several smaller ones and run them as a series of small jobs
 - plotting functions for individula peptides (will requre full output) signalp

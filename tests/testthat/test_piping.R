@@ -58,6 +58,18 @@ test_that("workflows work",
             s6_result <- check_khdel(s5_wo, run_mode = 'piper')
             expect_is(s6_result, 'CBSResult')
             
+            
+            # ----- Reverse workflow:
+            
+            
+            
+            # ----- Illegal workflows
+            
+            
+            
+            
+            
+            
       })
 
 
