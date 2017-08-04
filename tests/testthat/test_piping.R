@@ -1,6 +1,6 @@
 context("Piping tests")
 
-test_that("Minimal workflow works",
+test_that("workflows work",
           {
             # ----- Minimal workflow: sp4 -> tmhmm -> check (K/H)DEL
             
@@ -27,10 +27,37 @@ test_that("Minimal workflow works",
             expect_is(result0, 'ErResult')
             expect_is(result1, 'ErResult')
             
-        })
-
-
-test_that("Stringent workflow works",
-          {
+            # ----- Stringent workflow: sp2 -> sp3 -> sp4 -> TMHMM -> wolf -> (K/H)DEL
             
-          })
+            # ------- #Step1: signalp2
+            s1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
+            expect_is(s1_sp2, 'SignalpResult')
+            
+            # ------- #Step2: signalp3
+            
+            s2_sp3 <- signalp(s1_sp2, version = 3, 'euk', run_mode = 'piper', paths = my_pa)
+            expect_is(s2_sp3, 'SignalpResult')
+            
+            # ------- #Step3: signalp4
+            
+            s3_sp4 <- signalp(s2_sp3, version = 4, 'euk', run_mode = 'piper', paths = my_pa)
+            expect_is(s3_sp4, 'SignalpResult')
+            
+            # ------- #Step4: TMHMM
+            
+            s4_tm <- tmhmm(s3_sp4, paths = my_pa, TM = 0)
+            expect_is(s4_tm, 'TMhmmResult')
+            
+            # ------- #Step5: WoLFPsort
+            
+            s5_wo <- wolfpsort(s4_tm, organism = 'fungi', paths = my_pa)
+            expect_is(s5_wo, 'WolfResult')
+            
+            # ------- #Step6: Check C-terminal ER-retention signals:
+            
+            s6_result <- check_khdel(s5_wo, run_mode = 'piper')
+            expect_is(s6_result, 'CBSResult')
+            
+      })
+
+
