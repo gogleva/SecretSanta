@@ -68,7 +68,7 @@ setGeneric(name = "setInfasta",
            }  
 )
 
-
+#' @export
 setMethod(f = "setInfasta",
           signature = "CBSResult",
           definition = function(theObject, in_fasta)
@@ -88,6 +88,8 @@ setGeneric(name = "getInfasta",
            }  
 )
 
+#' @export
+
 setMethod(f = "getInfasta",
           signature = "CBSResult",
           definition = function(theObject)
@@ -97,6 +99,7 @@ setMethod(f = "getInfasta",
 )
 
 # setter for out_fasta
+
 setGeneric(name = "setOutfasta",
            def = function(theObject, out_fasta)
            {
@@ -104,6 +107,7 @@ setGeneric(name = "setOutfasta",
            }  
 )
 
+#' @export
 setMethod(f = "setOutfasta",
           signature = "CBSResult",
           definition = function(theObject, out_fasta)
@@ -114,6 +118,7 @@ setMethod(f = "setOutfasta",
           }
 )
 # getter for out_fasta
+
 setGeneric(name = "getOutfasta",
            def = function(theObject)
            {
@@ -121,6 +126,7 @@ setGeneric(name = "getOutfasta",
            }  
 )
 
+#' @export
 setMethod(f = "getOutfasta",
           signature = "CBSResult",
           definition = function(theObject)
@@ -224,6 +230,7 @@ setGeneric(name = "setMatfasta",
            }  
 )
 
+#' @export
 setMethod(f = "setMatfasta",
           signature = "SignalpResult",
           definition = function(theObject, mature_fasta)
@@ -241,6 +248,7 @@ setGeneric(name = "getMatfasta",
            }  
 )
 
+#' @export
 setMethod(f = "getMatfasta",
           signature = "SignalpResult",
           definition = function(theObject)
@@ -257,6 +265,7 @@ setGeneric(name = "setSPversion",
            }  
 )
 
+#' @export
 setMethod(f = "setSPversion",
           signature = "SignalpResult",
           definition = function(theObject, sp_version)
@@ -266,6 +275,7 @@ setMethod(f = "setSPversion",
             return(theObject)
           }
 )
+
 # getter for sp_version
 setGeneric(name = "getSPversion",
            def = function(theObject)
@@ -274,6 +284,7 @@ setGeneric(name = "getSPversion",
            }  
 )
 
+#' @export
 setMethod(f = "getSPversion",
           signature = "SignalpResult",
           definition = function(theObject)
@@ -289,6 +300,7 @@ setGeneric(name = "setSPtibble",
            }  
 )
 
+#' @export
 setMethod(f = "setSPtibble",
           signature = "SignalpResult",
           definition = function(theObject, sp_tibble)
@@ -306,6 +318,7 @@ setGeneric(name = "getSPtibble",
            }  
 )
 
+#' @export
 setMethod(f = "getSPtibble",
           signature = "SignalpResult",
           definition = function(theObject)
@@ -379,6 +392,7 @@ setGeneric(name = "setTMtibble",
            }  
 )
 
+#' @export
 setMethod(f = "setTMtibble",
           signature = "TMhmmResult",
           definition = function(theObject, tm_tibble)
@@ -396,6 +410,7 @@ setGeneric(name = "getTMtibble",
            }  
 )
 
+#' @export
 setMethod(f = "getTMtibble",
           signature = "TMhmmResult",
           definition = function(theObject)
@@ -413,6 +428,7 @@ setGeneric(name = "getInMatfasta",
            }  
 )
 
+#' @export
 setMethod(f = "getInMatfasta",
           signature = "TMhmmResult",
           definition = function(theObject)
@@ -429,6 +445,7 @@ setGeneric(name = "getOutMatfasta",
            }  
 )
 
+#' @export
 setMethod(f = "getOutMatfasta",
           signature = "TMhmmResult",
           definition = function(theObject)
