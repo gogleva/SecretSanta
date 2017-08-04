@@ -310,7 +310,7 @@ setMethod(f = "setSPtibble",
             return(theObject)
           }
 )
-# getter for sp_version
+# getter for sp_tibble
 setGeneric(name = "getSPtibble",
            def = function(theObject)
            {
@@ -329,13 +329,55 @@ setMethod(f = "getSPtibble",
 
 #' An S4 class to represent outputs of WolfPsort
 #' 
-#' @slot wolf_tibble       standard tibble with outputs obtained from wolfpsort
+#' @slot wolf_tibble       tibble with outputs obtained from wolfpsort
+#' \itemize{
+#'   \item gene_id - unique sequence id
+#'   \item localization - the most probable localization
+#' }
 #' @export WolfResult
 
 WolfResult <- setClass("WolfResult",
                           contains = "CBSResult",
                           slots = list(wolf_tibble = "tbl_df")
 )
+
+# setter for wolf_tible
+setGeneric(name = "setWOLFtibble",
+           def = function(theObject, wolf_tibble)
+           {
+             standardGeneric("setWOLFtibble")    
+           }  
+)
+
+#' @export
+setMethod(f = "setWOLFtibble",
+          signature = "WolfResult",
+          definition = function(theObject, wolf_tibble)
+          {
+            theObject@wolf_tibble <- wolf_tibble
+            validObject(theObject)
+            return(theObject)
+          }
+)
+
+# getter for wolf_tibble
+setGeneric(name = "getWOLFtibble",
+           def = function(theObject)
+           {
+             standardGeneric("getWOLFtibble")    
+           }  
+)
+
+#' @export
+setMethod(f = "getWOLFtibble",
+          signature = "WolfResult",
+          definition = function(theObject)
+          {
+            return(theObject@wolf_tibble)
+          }
+)
+
+
 
 
 #' An S4 class to represent intermediate and final outputs of the TMHMM prediction step

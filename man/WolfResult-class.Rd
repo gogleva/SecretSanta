@@ -11,6 +11,10 @@ An S4 class to represent outputs of WolfPsort
 \section{Slots}{
 
 \describe{
-\item{\code{wolf_tibble}}{standard tibble with outputs obtained from wolfpsort}
+\item{\code{wolf_tibble}}{tibble with outputs obtained from wolfpsort
+\itemize{
+  \item gene_id - unique sequence id
+  \item localization - the most probable localization
+}}
 }}
 
