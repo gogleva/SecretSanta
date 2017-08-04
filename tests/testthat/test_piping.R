@@ -61,7 +61,6 @@ test_that("workflows work",
             
             # ----- Reverse workflow: (K/H)DEL -> Wolf -> signalp4 -> TMHMM
             
-            
             # ------ #Step1: remove sequences with N-terminal ER-retention signals:
             
             s1_er <- check_khdel(inp, run_mode = 'starter')
@@ -72,7 +71,6 @@ test_that("workflows work",
             s2_wo <- wolfpsort(s1_er, organism = 'fungi', paths = my_pa)
             
             #wolfpsort(s3_sp4, organism = 'fungi', paths = my_pa)
-            
             
             
             

@@ -11,6 +11,8 @@ test_that("wolfpsort outputs correct objects and handles invalid inputs correctl
           step1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
           step2_sp3 <- signalp(step1_sp2, version = 3, 'euk', run_mode = 'piper', paths = my_pa)
           tm <- tmhmm(step1_sp2, paths = my_pa, TM = 1)
+          er <- check_khdel(tm, run_mode = 'piper')
+          er_native <- check_khdel(inp, run_mode = 'starter')
           
           # run tests
           expect_is(wolfpsort(step1_sp2, 'fungi', my_pa), 'WolfResult')
@@ -18,6 +20,9 @@ test_that("wolfpsort outputs correct objects and handles invalid inputs correctl
           expect_is(wolfpsort(step2_sp3, 'fungi', my_pa), 'WolfResult')
           expect_is(wolfpsort(step1_sp2, 'plant', my_pa), 'WolfResult')
           expect_is(wolfpsort(step1_sp2, 'animal', my_pa), 'WolfResult')
+          expect_is(wolfpsort(er, 'animal', my_pa), 'WolfResult')
+          expect_is(wolfpsort(er_native, 'animal', my_pa), 'WolfResult') # ====> error located!
+          
           
           expect_error(wolfpsort(aa, 'fungi', my_pa),
                        'input_object does not belong to CBSResult superclass')
