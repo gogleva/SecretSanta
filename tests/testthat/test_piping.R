@@ -76,11 +76,6 @@ test_that("workflows work",
             
             # ----- Illegal workflows
             
-            
-            
-            
-            
-            
       })
 
 

@@ -21,8 +21,7 @@ test_that("wolfpsort outputs correct objects and handles invalid inputs correctl
           expect_is(wolfpsort(step1_sp2, 'plant', my_pa), 'WolfResult')
           expect_is(wolfpsort(step1_sp2, 'animal', my_pa), 'WolfResult')
           expect_is(wolfpsort(er, 'animal', my_pa), 'WolfResult')
-          expect_is(wolfpsort(er_native, 'animal', my_pa), 'WolfResult') # ====> error located!
-          
+          expect_is(wolfpsort(er_native, 'animal', my_pa), 'WolfResult')
           
           expect_error(wolfpsort(aa, 'fungi', my_pa),
                        'input_object does not belong to CBSResult superclass')

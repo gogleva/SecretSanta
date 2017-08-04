@@ -61,3 +61,5 @@ wolfpsort <- function(input_obj, organism, paths){
   
   if (validObject(out_obj)) {return(out_obj)}
 }
+
+
