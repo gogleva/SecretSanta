@@ -50,7 +50,7 @@ check_khdel <- function(input_obj, run_mode) {
   
   ret_count <- length(fasta[!un])
   message(paste('Number of sequences with terminal ER retention signals detected...', ret_count))
-  
+  message(paste('Number of candidate without terminal ER retention signals detected...', length(non_retained)))
   
   if (validObject(out_obj)) {return(out_obj)}
 }

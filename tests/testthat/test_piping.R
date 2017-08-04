@@ -59,7 +59,8 @@ test_that("workflows work",
             expect_is(s6_result, 'CBSResult')
             
             
-            # ----- Reverse workflow:
+            # ----- Reverse workflow: (K/H)DEL -> Wolf -> signalp4 -> TMHMM
+            
             
             
             

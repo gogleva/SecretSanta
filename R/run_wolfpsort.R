@@ -53,7 +53,7 @@ wolfpsort <- function(input_obj, organism, paths){
   wolf_tbl <- as_tibble(data.frame(gene_id, localization)) %>% filter(gene_id != '#') %>% filter(localization == 'extr')
   
   message(paste('Number of candidate sequences with extracellular localisation...', nrow(wolf_tbl)))
-  
+
   #assemble wolf result object:
   out_obj <- WolfResult(in_fasta = fasta,
                         out_fasta = fasta[wolf_tbl$gene_id], #place holder
