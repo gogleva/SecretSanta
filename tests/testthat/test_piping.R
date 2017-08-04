@@ -62,6 +62,18 @@ test_that("workflows work",
             # ----- Reverse workflow: (K/H)DEL -> Wolf -> signalp4 -> TMHMM
             
             
+            # ------ #Step1: remove sequences with N-terminal ER-retention signals:
+            
+            s1_er <- check_khdel(inp, run_mode = 'starter')
+            expect_is(s1_er, c('CBSResult', 'ErResult'))
+            
+            # ------ #Step2: run WoLFPsort on the output:
+            
+            s2_wo <- wolfpsort(s1_er, organism = 'fungi', paths = my_pa)
+            
+            #wolfpsort(s3_sp4, organism = 'fungi', paths = my_pa)
+            
+            
             
             
             # ----- Illegal workflows
