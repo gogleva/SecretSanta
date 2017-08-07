@@ -506,3 +506,64 @@ ErResult <- setClass("ErResult",
                       slots = list(retained = "AAStringSet")
                      )
 
+
+
+#' An S4 class to represent intermediate and final outputs of the targetP prediction step
+#' 
+#' @slot tp_tibble        tibble with outputs obtained from targetp
+#' \itemize{
+#'   \item gene_id - unique id of the sequence
+#'   \item length - length of the protein sequence
+#'   \item 
+#' }
+#' @export TargetpResult
+
+TMhmmResult <- setClass("TargetpResult",
+                        contains = "CBSResult",
+                        slots = list(tp_tibble = "tbl_df"),
+                        
+                        validity = function(object) {   
+                          
+                          # check that there are o duplicated ids in the input and output fastas and tm_tibble
+                          if (nrow(object@tp_tibble) > 0) {
+                            if (any(duplicated(object@tp_tibble$gene_id))) {
+                              return("Duplicated gene ids in sp_tibble! ")}
+                          } 
+                        }  
+)
+
+
+# setter for tp_tible
+setGeneric(name = "setTPtibble",
+           def = function(theObject, tp_tibble)
+           {
+             standardGeneric("setTPtibble")    
+           }  
+)
+
+#' @export
+setMethod(f = "setTPtibble",
+          signature = "TargetpResult",
+          definition = function(theObject, tp_tibble)
+          {
+            theObject@tp_tibble <- tp_tibble
+            validObject(theObject)
+            return(theObject)
+          }
+)
+# getter for tm_tibble
+setGeneric(name = "getTPtibble",
+           def = function(theObject)
+           {
+             standardGeneric("getTPtibble")    
+           }  
+)
+
+#' @export
+setMethod(f = "getTPtibble",
+          signature = "TargetpResult",
+          definition = function(theObject)
+          {
+            return(theObject@tp_tibble)
+          }
+)
