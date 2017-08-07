@@ -9,6 +9,12 @@ targetp(input_object, network_type, run_mode, paths)
 \arguments{
 \item{input_object}{an instance of CBSResult class containing protein sequences as on of the attributes}
 
+\item{network_type}{possible values: 
+\itemize{
+\item P - for plants;
+\item N - for non-plants;
+}}
+
 \item{run_mode}{\itemize{
 \item starter - if it is the first step in pipeline;
 \item piper - if you run this function on the output of other CBS tools;
@@ -21,4 +27,16 @@ an object of SignalpResult class
 }
 \description{
 This function calls local targetp to predict subcellular localisation of a protein.
+}
+\examples{
+my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+# initialise SignalpResult object
+inp <- SignalpResult()
+
+# read fasta file in AAStringSet object
+aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+# assign this object to the input_fasta slot of SignalpResult object
+inp <- setInfasta(inp, aa)
+
+tp_result <- targetp(input_object = inp, network_type = 'N', run_mode = 'starter', paths = my_pa)
 }

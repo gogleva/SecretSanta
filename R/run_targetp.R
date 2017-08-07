@@ -6,6 +6,7 @@
 #' \itemize{
 #' \item P - for plants;
 #' \item N - for non-plants;
+#' }
 #' @param run_mode
 #' \itemize{
 #' \item starter - if it is the first step in pipeline;
@@ -14,7 +15,7 @@
 #' @param paths   tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function
 #' @return an object of SignalpResult class
 #' @export
-#' @example 
+#' @examples 
 #' my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
 #' # initialise SignalpResult object
 #' inp <- SignalpResult()

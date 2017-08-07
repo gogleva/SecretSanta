@@ -498,7 +498,7 @@ setMethod(f = "getOutMatfasta",
 
 #' An S4 class to represent intermediate and final outputs of the TMHMM prediction step
 #'
-#' @slot retained
+#' @slot retained - sequences with ER retention signals
 #' @export ErResult
 
 ErResult <- setClass("ErResult",
