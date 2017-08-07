@@ -20,7 +20,7 @@ targetp <- function(input_object, network_type, run_mode, paths) {
   
   # check that input object belong to CBSResult class
   
-  if (is(input_obj, "CBSResult")) {} else {stop('input_object does not belong to CBSResult superclass')}
+  if (is(input_object, "CBSResult")) {} else {stop('input_object does not belong to CBSResult superclass')}
   
   # check that supplied runnig mode is valid
   
@@ -29,12 +29,12 @@ targetp <- function(input_object, network_type, run_mode, paths) {
   # check that input_object contains non-empty in/out_fasta for starter/piper
   
   if (run_mode == 'starter') {
-    if (length(getInfasta(input_obj)) != 0) {
-      fasta <- getInfasta(input_obj)
+    if (length(getInfasta(input_object)) != 0) {
+      fasta <- getInfasta(input_object)
     } else {stop('in_fasta attribute is empty')}
   } else if (run_mode == 'piper') {
-    if (length(getOutfasta(input_obj)) != 0) {
-      fasta <- getOutfasta(input_obj)
+    if (length(getOutfasta(input_object)) != 0) {
+      fasta <- getOutfasta(input_object)
     } else {stop('out_fasta attribute is empty')}
   }
   
@@ -47,16 +47,51 @@ targetp <- function(input_object, network_type, run_mode, paths) {
   }
     
   #----- Run targetp prediction:
+
+  # convert fasta to a temporary file:
+  out_tmp <- tempfile() #create a temporary file for fasta
+  Biostrings::writeXStringSet(fasta, out_tmp) #write tmp fasta file
   
-  full_pa <- as.character(paths %>% filter(tool == 'targetp') %>% select(path))
-  result <- tibble::as.tibble(read.table(text = (system(paste(full_pa, "-N", proteins), intern = TRUE))))
+  # make a system call of targetp based on the tmp file
+  
+  full_pa <- as.character(paths %>% dplyr::filter(tool == 'targetp') %>% dplyr::select(path))
+  
+  # helper function: crop long names for AAStringSet object, return character vector
+  crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
+  message(paste('Number of submitted sequences...', length(fasta)))
+  
+  # generate cropped names for input fasta
+  cropped_names <- unname(sapply(names(fasta), crop_names))
+  # replace long names with cropped names
+  names(fasta) <- cropped_names
+  
+  #run targetp:
+  
+  NN <- paste('-', network_type, sep = '')
+  
+  tp <- system(paste(full_pa, NN, out_tmp), intern = TRUE)
+  return(tp)
 }
 
-#tests:
 
-#tp <- targetp(proteins = "/home/anna/anna/Labjournal/SecretSanta/inst/extdata/sample_prot.fasta", output_type = 'something')
-#system(paste(full_pa, "-N", "/home/anna/anna/Labjournal/SecretSanta/inst/extdata/sample_prot.fasta"), intern = TRUE)
-#somethig wrong with targetp configuration, keeps returnig empty outputs
+# tests:
+
+my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+
+# initialise SignalpResult object
+inp <- SignalpResult()
+
+# read fasta file in AAStringSet object
+aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+
+# assign this object to the input_fasta slot of SignalpResult object
+inp <- setInfasta(inp, aa)
+
+targetp(input_object = inp, network_type = 'N', run_mode = 'starter', paths = my_pa)
+
+
+
+
 
 
 
