@@ -2,21 +2,23 @@
 % Please edit documentation in R/run_targetp.R
 \name{targetp}
 \alias{targetp}
-\title{tragetp function}
+\title{signalp function}
 \usage{
-targetp(proteins, output_type)
+targetp(input_object, network_type, run_mode, paths)
 }
 \arguments{
-\item{proteins}{input file with proteins}
+\item{input_object}{an instance of CBSResult class containing protein sequences as on of the attributes}
 
-\item{output_type}{what we want from the output}
+\item{run_mode}{\itemize{
+\item starter - if it is the first step in pipeline;
+\item piper - if you run this function on the output of other CBS tools;
+}}
+
+\item{paths}{tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function}
+}
+\value{
+an object of SignalpResult class
 }
 \description{
-This function calls local targetp
-Please check targetp README before running this fucntion:
-TARGETP         'targetp-1.1' directory
-TMP             location for temporary data
-}
-\examples{
-
+This function calls local targetp to predict subcellular localisation of a protein.
 }

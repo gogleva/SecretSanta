@@ -514,11 +514,30 @@ ErResult <- setClass("ErResult",
 #' \itemize{
 #'   \item gene_id - unique id of the sequence
 #'   \item length - length of the protein sequence
-#'   \item 
+#'   \item mTP - mitochondrial NN score
+#'   \item sp - signal peptide NN score
+#'   \item other - any onther NN score
+#'   \item TP_localization - 	Prediction of localization, based on the scores; 
+#'   the possible values are: 
+#'   \itemize{
+#'      \item C	- Chloroplast, i.e. the sequence contains cTP, a chloroplast transit peptide;
+#'      \item M	- Mitochondrion, i.e. the sequence contains mTP, a mitochondrial targeting peptide;
+#'      \item S -	Secretory pathway, i.e. the sequence contains SP, a signal peptide;
+#'      \item _ -	Any other location;
+#'      \item "don't know" - indicates that cutoff restrictions were set (see instructions) and the winning network output score was below the requested cutoff for that category.
+#'      }
+#'   \item RC - Reliability class, from 1 to 5, where 1 indicates the strongest prediction. RC is a measure of the size of the difference ('diff') between the highest (winning) and the second highest output scores. There are 5 reliability classes, defined as follows:
+#'   \itemize { 
+#'     \item 1 - diff > 0.800;
+#'     \item 2 - 0.800 > diff > 0.600
+#'     \item 3 - 0.600 > diff > 0.400
+#'     \item 4 - 0.400 > diff > 0.200
+#'     \item 5 - 0.200 > diff
+#'     }
 #' }
 #' @export TargetpResult
 
-TMhmmResult <- setClass("TargetpResult",
+TargetpResult <- setClass("TargetpResult",
                         contains = "CBSResult",
                         slots = list(tp_tibble = "tbl_df"),
                         

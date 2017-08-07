@@ -68,32 +68,35 @@ targetp <- function(input_object, network_type, run_mode, paths) {
   #run targetp:
   
   NN <- paste('-', network_type, sep = '')
+  tp <- tibble::as.tibble(read.table(text = (system(paste(full_pa, NN, out_tmp), intern = TRUE)[1: length(fasta) + 8])))
+  names(tp) <- c('gene_id', 'length', 'mTP', 'sp', 'other', 'TP_localization', 'RC')
+  tp <- tp %>% dplyr::filter(TP_localization == 'S')
+  message(paste('Number of candidate secreted sequences', nrow(tp)))         
   
-  tp <- system(paste(full_pa, NN, out_tmp), intern = TRUE)[11: length(fasta) + 8]
+  # generate output object:
+  
+#  out_obj <- TargetpResult()
+
   return(tp)
 }
 
 
 # tests:
+# 
+# my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+# 
+# # initialise SignalpResult object
+# inp <- SignalpResult()
+# 
+# # read fasta file in AAStringSet object
+# aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+# 
+# # assign this object to the input_fasta slot of SignalpResult object
+# inp <- setInfasta(inp, aa)
+# 
+# 
+# test <- targetp(input_object = inp, network_type = 'N', run_mode = 'starter', paths = my_pa)
 
-my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
-
-# initialise SignalpResult object
-inp <- SignalpResult()
-
-# read fasta file in AAStringSet object
-aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
-
-# assign this object to the input_fasta slot of SignalpResult object
-inp <- setInfasta(inp, aa)
-
-
-test <- targetp(input_object = inp, network_type = 'N', run_mode = 'starter', paths = my_pa)
-
-
-(test)[2]
-
-head(test)
 
 
 
