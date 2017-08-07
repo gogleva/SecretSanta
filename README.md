@@ -1,7 +1,7 @@
 # SecretSanta
 Species: Oomycetes, Fungi, (Plants)
 
-- predict
+- predict (works!)
 - annotate
 - remove false positives
 - classify
@@ -60,6 +60,7 @@ SOLVED:
 
 - clean/complete all function documentation
 - unit tests
+- targetp keeps failing; Solutin: shorten the path!
 
 
 
@@ -67,6 +68,18 @@ TO DO:
 
 - clean tmp files after the signalp run?
 - speed up signalp run by splitting large input file into several smaller ones and run them as a series of small jobs
-- plotting functions for individula peptides (will requre full output) signalp
+- plotting functions for individual peptides (will require full output) signalp
 - prediction graphs (?) when each candidate was rejected -->?
-- targetp keeps failing even with the increased swap value, however works on SLCU HPCs (both) -- why??
+- function and class to run targetP
+- function: M-slicer - for alternative translation start sites (could be mitochondrial?)
+- excessive unit test of inputs/outputs for pipers
+
+
+
+
+### Installation:
+
+for private git_hub repo:
+```
+install_github("gogleva/SecretSanta", auth_token = 'd0b6ce8fcc6e31ecb98bab6ef273ccab6eb4227a')
+```

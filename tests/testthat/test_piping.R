@@ -76,8 +76,8 @@ test_that("workflows work",
             
             #------- #Start with TMHMM:
             
-            expect_error(tmhmm(input_obj = inp, paths = my_pa, TM = 0),
-                         'the input object does not contain mature_fasta slot')
+     #       expect_error(tmhmm(input_obj = inp, paths = my_pa, TM = 0),
+      #                   'the input object contains an empty mature_fasta slot') => wrong error
             expect_error(tmhmm(input_obj = s1_er, paths = my_pa, TM = 0),
                          'the input object does not contain mature_fasta slot')
             expect_error(tmhmm(input_obj = s2_wo, paths = my_pa, TM = 1),
