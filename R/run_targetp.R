@@ -1,18 +1,23 @@
-#' tragetp function
+#' signalp function
 #'
-#' This function calls local targetp
-#' Please check targetp README before running this fucntion:
-#' TARGETP         'targetp-1.1' directory
-#' TMP             location for temporary data
-#' @param proteins input file with proteins
-#' @param output_type what we want from the output
+#' This function calls local targetp to predict subcellular localisation of a protein.
+#' @param input_object    an instance of CBSResult class containing protein sequences as on of the attributes
+#' @param network_type possible values: 
+#' \itemize{
+#' \item P - for plants;
+#' \item N - for non-plants;
+#' @param run_mode
+#' \itemize{
+#' \item starter - if it is the first step in pipeline;
+#' \item piper - if you run this function on the output of other CBS tools;
+#' }
+#' @param paths   tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function
+#' @return an object of SignalpResult class
 #' @export
-#' @examples 
-#' 
 
-targetp <- function(proteins, output_type) {
+targetp <- function(input_object, network_type, run_mode, paths) {
   message("running targetp locally...")
-  full_pa <- as.character(secret_paths %>% filter(tool == 'targetp') %>% select(path))
+  full_pa <- as.character(paths %>% filter(tool == 'targetp') %>% select(path))
   result <- tibble::as.tibble(read.table(text = (system(paste(full_pa, "-N", proteins), intern = TRUE))))
 }
 
