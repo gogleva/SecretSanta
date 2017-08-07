@@ -69,7 +69,7 @@ targetp <- function(input_object, network_type, run_mode, paths) {
   
   NN <- paste('-', network_type, sep = '')
   
-  tp <- system(paste(full_pa, NN, out_tmp), intern = TRUE)
+  tp <- system(paste(full_pa, NN, out_tmp), intern = TRUE)[11: length(fasta) + 8]
   return(tp)
 }
 
@@ -87,9 +87,13 @@ aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = 
 # assign this object to the input_fasta slot of SignalpResult object
 inp <- setInfasta(inp, aa)
 
-targetp(input_object = inp, network_type = 'N', run_mode = 'starter', paths = my_pa)
+
+test <- targetp(input_object = inp, network_type = 'N', run_mode = 'starter', paths = my_pa)
 
 
+(test)[2]
+
+head(test)
 
 
 
