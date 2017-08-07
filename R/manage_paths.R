@@ -80,11 +80,12 @@ manage_paths <- function(path_file) {
   
   # targetp 
   
-  if (suppressWarnings(system(paste(get_paths('targetp'), '-h'), intern = TRUE)[2]) ==
-      'Usage: targetp options files') 
+  if (suppressWarnings(system(paste(get_paths('targetp'), '-P', system.file("extdata", "small_prot.fasta", package = "SecretSanta")), intern = TRUE)[9]) ==
+      'ALI_PLTG_1             94   0.294  0.175  0.018  0.738   _    3') 
   { message('targetp test run completed')
-  } else {
-    message('targtep test run failed; check if it is installed correctly')
+  } else if (grepl(pattern = '\\?', x = l)) { 
+    message('targetP path is too long or swap value is not enough')
+  } else  {message('targtep test run failed; check if it is installed correctly')
   }
   
   # tmhmm

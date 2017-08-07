@@ -52,15 +52,15 @@ SOLVED:
 - alternative solution for protein localisation: wolfpsort - run locally, parse the output, etc (done)
 - perform test runs with the supplied paths, check that all the tools are executable in principle (done)
 - -- signalp2
--  -- signalp3
--  -- signalp4 or 4.1
--  -- targetp
--  -- wolfpsort
--  -- TMHMM
+- -- signalp3
+- -- signalp4 or 4.1
+- -- targetp
+- -- wolfpsort
+- -- TMHMM
 
 - clean/complete all function documentation
 - unit tests
-- targetp keeps failing; Solutin: shorten the path!
+- targetp keeps failing; solution: shorten the path!
 
 
 
