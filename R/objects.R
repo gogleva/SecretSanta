@@ -377,9 +377,6 @@ setMethod(f = "getWOLFtibble",
           }
 )
 
-
-
-
 #' An S4 class to represent intermediate and final outputs of the TMHMM prediction step
 #' 
 #' @slot in_mature_fasta  input mature fasta, extracted from the input SignalpResult object
