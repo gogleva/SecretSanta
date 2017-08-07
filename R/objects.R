@@ -507,7 +507,6 @@ ErResult <- setClass("ErResult",
                      )
 
 
-
 #' An S4 class to represent intermediate and final outputs of the targetP prediction step
 #' 
 #' @slot tp_tibble        tibble with outputs obtained from targetp
@@ -550,7 +549,6 @@ TargetpResult <- setClass("TargetpResult",
                           } 
                         }  
 )
-
 
 # setter for tp_tible
 setGeneric(name = "setTPtibble",

@@ -14,6 +14,18 @@
 #' @param paths   tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function
 #' @return an object of SignalpResult class
 #' @export
+#' @example 
+#' my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+#' # initialise SignalpResult object
+#' inp <- SignalpResult()
+#' 
+#' # read fasta file in AAStringSet object
+#' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+# 
+#' # assign this object to the input_fasta slot of SignalpResult object
+#' inp <- setInfasta(inp, aa)
+#' 
+#' tp_result <- targetp(input_object = inp, network_type = 'N', run_mode = 'starter', paths = my_pa)
 
 targetp <- function(input_object, network_type, run_mode, paths) {
   # ----- Check that inputs are valid
@@ -73,34 +85,14 @@ targetp <- function(input_object, network_type, run_mode, paths) {
   tp <- tp %>% dplyr::filter(TP_localization == 'S')
   message(paste('Number of candidate secreted sequences', nrow(tp)))         
   
+  candidate_ids <- tp %>% dplyr::select(gene_id) %>% unlist(use.names = FALSE)
+  out_fasta_tp <- fasta[candidate_ids]
+  
   # generate output object:
   
-#  out_obj <- TargetpResult()
-
-  return(tp)
+  out_obj <- TargetpResult(in_fasta = fasta,
+                           out_fasta = out_fasta_tp,
+                           tp_tibble = tp
+                           )
+  if (validObject(out_obj)) {return(out_obj)}
 }
-
-
-# tests:
-# 
-# my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
-# 
-# # initialise SignalpResult object
-# inp <- SignalpResult()
-# 
-# # read fasta file in AAStringSet object
-# aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
-# 
-# # assign this object to the input_fasta slot of SignalpResult object
-# inp <- setInfasta(inp, aa)
-# 
-# 
-# test <- targetp(input_object = inp, network_type = 'N', run_mode = 'starter', paths = my_pa)
-
-
-
-
-
-
-
-
