@@ -51,12 +51,12 @@ SOLVED:
 - Problem2: need a separate function to construct mature sequences based on sp_tibble and out_fasta (solved)
 - alternative solution for protein localisation: wolfpsort - run locally, parse the output, etc (done)
 - perform test runs with the supplied paths, check that all the tools are executable in principle (done)
-  -- signalp2
-  -- signalp3
-  -- signalp4 or 4.1
-  -- targetp
-  -- wolfpsort
-  -- TMHMM
+- -- signalp2
+-  -- signalp3
+-  -- signalp4 or 4.1
+-  -- targetp
+-  -- wolfpsort
+-  -- TMHMM
 
 - clean/complete all function documentation
 - unit tests
