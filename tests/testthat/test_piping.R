@@ -192,6 +192,31 @@ test_that("workflows work",
             er_pipers <- lapply(valid_inputs, check_ER, m = 'piper')
             expect_true(all(unlist(er_pipers)))
             
+            
+            tm_inputs <- c(s1_sp2, s1_sp3, s1_sp4)
+            
+            # ----- exhaustive unit tests for TMHMMm, should have mature fastas
+            
+            check_TMHMM <- function(x, t) { result <- suppressMessages(tmhmm(x, paths = my_pa, TM = t))
+                                            return(is(result, 'CBSResult'))
+            }
+            
+            tm_pipers <- lapply(tm_inputs, check_TMHMM, t = 0)
+            expect_true(all(unlist(tm_pipers)))
+            
+            # ----  exhaustive unit tests for WolfPsort, should have out_fastas, so could be pipers only
+            
+            check_wolf <- function(x, o) { result <- suppressMessages(wolfpsort(x, paths = my_pa, organism = o))
+                                           return(is(result, 'CBSResult'))
+            
+            wolf_pipers <- lapply(valid_inputs, check_wolf, o = 'fungi')
+            expect_true(all(unlist(wolf_pipers)))
+            
+            }
+            
+            
+            
+            
             })
 
 
