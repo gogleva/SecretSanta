@@ -61,7 +61,7 @@ SOLVED:
 - clean/complete all function documentation
 - unit tests
 - targetp keeps failing; solution: shorten the path!
-
+- exsaustive unit test of inputs/outputs
 
 
 TO DO:
@@ -72,7 +72,8 @@ TO DO:
 - prediction graphs (?) when each candidate was rejected -->?
 - function and class to run targetP
 - function: M-slicer - for alternative translation start sites (could be mitochondrial?)
-- excessive unit test of inputs/outputs for pipers
+
+
 
 
 

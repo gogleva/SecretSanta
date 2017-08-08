@@ -1,7 +1,7 @@
 context("Piping tests")
 
 test_that("workflows work",
-          {
+          { # ---- This test takes a long time to run
             # ----- Minimal workflow: sp4 -> tmhmm -> check (K/H)DEL
             
             my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
@@ -213,10 +213,6 @@ test_that("workflows work",
             expect_true(all(unlist(wolf_pipers)))
             
             }
-            
-            
-            
-            
             })
 
 
