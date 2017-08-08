@@ -1,4 +1,4 @@
-#' m-slicer function
+#' m_slicer function
 #'
 #' Experimental option
 #' This function generates all possible subsequences starting with M.
@@ -11,10 +11,21 @@
 #' @examples 
 
 
-m-slicer <- function(input_object, length_threshold) {
-              
-  
-              }
+m_slicer <- function(input_object, length_threshold) {
+                    x <- 1      
+                          }
+
+# sample AAstringSet:
+
+aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+
+mi <- vmatchPattern('M', aa)
+smi <- startIndex(mi) #all M-positions
+
+slice <- function(x, seq) {subseq(seq, start = x, end = -1)}
+
+sapply(X = unlist(smi[3]), FUN = slice, seq = aa[3])
+
 
 
 
