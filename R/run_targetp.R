@@ -82,24 +82,28 @@ targetp <- function(input_object, network_type, run_mode, paths) {
   
   NN <- paste('-', network_type, sep = '')
   tp <- tibble::as.tibble(read.table(text = (system(paste(full_pa, NN, out_tmp), intern = TRUE)[1: length(fasta) + 8])))
- # names(tp) <- c('gene_id', 'length', 'mTP', 'sp', 'other', 'TP_localization', 'RC')
-  return(tp)
-  #tp <- tp %>% dplyr::filter(TP_localization == 'S')
+  if (network_type == 'N') {
+      names(tp) <- c('gene_id', 'length', 'mTP', 'sp', 'other', 'TP_localization', 'RC')}
+  else if (network_type == 'P') {
+      names(tp) <- c('gene_id', 'length', 'cTP', 'mTP', 'sp', 'other', 'TP_localization', 'RC')  
+  }
+  
+  tp <- tp %>% dplyr::filter(TP_localization == 'S')
 
-  # message(paste('Number of candidate secreted sequences', nrow(tp)))         
-  # 
-  # candidate_ids <- tp %>% dplyr::select(gene_id) %>% unlist(use.names = FALSE)
-  # out_fasta_tp <- fasta[candidate_ids]
-  # 
-  # # generate output object:
-  # 
-  # out_obj <- TargetpResult(in_fasta = fasta,
-  #                          out_fasta = out_fasta_tp,
-  #                          tp_tibble = tp
-  #                          )
-  # if (validObject(out_obj)) {return(out_obj)}
+  message(paste('Number of candidate secreted sequences', nrow(tp)))         
+   
+  candidate_ids <- tp %>% dplyr::select(gene_id) %>% unlist(use.names = FALSE)
+  out_fasta_tp <- fasta[candidate_ids]
+  
+  # generate output object:
+   
+   out_obj <- TargetpResult(in_fasta = fasta,
+                            out_fasta = out_fasta_tp,
+                            tp_tibble = tp
+                            )
+   if (validObject(out_obj)) {return(out_obj)}
 }
 
-targetp(input_object = inp, network_type = 'N', run_mode = 'starter', paths = my_pa)
-targetp(input_object = inp, network_type = 'P', run_mode = 'starter', paths = my_pa)
+#targetp(input_object = inp, network_type = 'N', run_mode = 'starter', paths = my_pa)
+#targetp(input_object = inp, network_type = 'P', run_mode = 'starter', paths = my_pa)
 
