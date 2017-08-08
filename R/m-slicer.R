@@ -34,12 +34,11 @@ m_slicer <- function(input_object, length_threshold) {
                     # one AAStringSet object:
                     
                     many_slices <- function(n) {
-                      
-                      do.call(c, unlist(sapply(X = unlist(smi[n]), FUN = slice, seq = input_object[n])))
-                    }
+                      sl <- unlist(sapply(X = unlist(smi[n]), FUN = slice, seq = input_object[n]))
+                                               }
                     
                     smt <- sapply(1:length(smi), many_slices)
-                    return(smt)
+                    return(do.call(c, unlist(smt)))
                     
         }
 
