@@ -114,13 +114,17 @@ test_that("workflows work",
             
             
             test_valid_sp_inputs <- list(s1_sp2, s1_sp3, s1_sp4, s2_tm0, s1_er, s2_wo, s1_tp)
-            check_sp2_starter <- function(x) {result <- suppressMessages(
+            
+            check_sp2 <- function(x) { result  <-  suppressMessages(
                                                         signalp(x, version = 2, organism_type = 'euk',
                                                         run_mode = 'starter', paths = my_pa)
                                                         )
-                                              expect_is(result, 'CBSResult')}
+                                      return(is(result, 'CBSResult')) 
+                                     } 
             
-            sapply(test_valid_sp_inputs, check_sp2_starter)
+            l <- lapply(test_valid_sp_inputs, check_sp2)
+            
+            
             
             # ----- Exhaustive input tests for signalp2
             
