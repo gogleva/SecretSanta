@@ -9,7 +9,7 @@ test_that("targetp correctlu responds to invalid inputs",
                                   use.names = TRUE)
             inp <- setInfasta(inp, aa)
             
-            # test with inp_object belonging to an incorrecr class:
+            # test with inp_object belonging to an incorrect class:
             expect_error(suppressMessages(targetp(input_object = aa, network_type = 'N',
                                                   run_mode = "starter", paths = my_pa)),
                          "input_object does not belong to CBSResult superclass")
@@ -21,52 +21,41 @@ test_that("targetp correctlu responds to invalid inputs",
             expect_is(suppressMessages(targetp(inp, network_type = 'P', run_mode = "starter", paths = my_pa)),
                       "TargetpResult")
             
+            # piper:
+            expect_error(suppressMessages(targetp(inp, network_type = 'P', run_mode = "piper", paths = my_pa)),
+                      "out_fasta attribute is empty")
             
-            # 
-            # expect_is(suppressMessages(signalp(inp, version = 3, 'euk', run_mode = "starter", paths = my_pa)),
-            #           "SignalpResult")
-            # expect_is(suppressMessages(signalp(inp, version = 4, 'euk', run_mode = "starter", paths = my_pa)),
-            #           "SignalpResult")
-            # expect_is(suppressMessages(signalp(inp, version = 3, 'Euk', run_mode = "starter", paths = my_pa)), 
-            #           "SignalpResult")
-            # expect_is(suppressMessages(signalp(inp, version = 3.0, 'Euk', run_mode = "starter", paths = my_pa)), 
-            #           "SignalpResult")
-            # 
+          
             # # test pipers with valid input options:
-            # 
-            # s1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
-            # expect_is(s1_sp2, "SignalpResult")
-            # s2_sp3 <- signalp(s1_sp2, version = 3, 'euk', run_mode = "piper", paths = my_pa)
-            # expect_is(s2_sp3, "SignalpResult")
-            # s3_sp4 <- signalp(s2_sp3, version = 4, 'euk', run_mode = "piper", paths = my_pa)
-            # expect_is(s3_sp4, "SignalpResult")
-            # 
+            
+             s1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
+             s2_tp <- targetp(s1_sp2, network_type = 'P', run_mode = "piper", paths = my_pa)
+             expect_is(s2_tp, "TargetpResult")
+             
             # # test starter with empty in_fasta attribute
-            # 
-            # emp <- SignalpResult()
-            # expect_error(signalp(emp, version = 2, "euk", run_mode = "starter", paths = my_pa),
-            #              "in_fasta attribute is empty")
-            # 
+             
+              emp <- SignalpResult()
+              expect_error(targetp(emp, network_type = 'N', run_mode = "starter", paths = my_pa),
+                          "in_fasta attribute is empty")
+             
             # # test piper with empty out_fasta attribute
-            # expect_error(signalp(emp, version = 2, "euk", run_mode = "piper", paths = my_pa),
-            #              "out_fasta attribute is empty")
-            # 
-            # expect_error(signalp(inp, version = 2, "euk", run_mode = "piper", paths = my_pa),
-            #              "out_fasta attribute is empty")
-            # 
-            # # test invalid versions
-            # expect_error(suppressMessages(signalp(inp, version = 5, 'euk', run_mode = "starter", paths = my_pa)), 
-            #              'Input signalp version or specified organism type are invalid.')
-            # expect_error(suppressMessages(signalp(inp, version = 1, 'euk', run_mode = "starter", paths = my_pa)), 
-            #              'Input signalp version or specified organism type are invalid.')
-            # 
-            # # test invalid organism
-            # expect_error(suppressMessages(signalp(inp, version = 3, 'bacteria', run_mode = "starter", paths = my_pa)), 
-            #              "Input signalp version or specified organism type are invalid.")
-            # expect_error(suppressMessages(signalp(inp, version = 3, 'gram', run_mode = "starter", paths = my_pa)), 
-            #              "Input signalp version or specified organism type are invalid.")
-            # 
+            
+              expect_error(targetp(emp, network_type = 'N', run_mode = "piper", paths = my_pa),
+                          "out_fasta attribute is empty")
+            
+            
+            # # test invalid network type
+            expect_error(suppressMessages(targetp(inp, network_type = 'Plant', run_mode = "starter", paths = my_pa)), 
+                          "Specified network_type is invalid.")
+            expect_error(suppressMessages(targetp(inp, network_type = 'n', run_mode = "starter", paths = my_pa)), 
+                         "Specified network_type is invalid.")
+            expect_error(suppressMessages(targetp(inp, network_type = 'p', run_mode = "starter", paths = my_pa)), 
+                         "Specified network_type is invalid.")
+
             # # test invalid run mode
-            # expect_error(suppressMessages(signalp(inp, version = 3, 'gram-', run_mode = "start", paths = my_pa)), 
-            #              "Run mode is invalid. Please use 'starter' to initiate prediction pipelie or 'piper' to continue")
+            expect_error(suppressMessages(targetp(inp, network_type = N, run_mode = "start", paths = my_pa)), 
+                          "Run mode is invalid. Please use 'starter' to initiate prediction pipelie or 'piper' to continue")
+            expect_error(suppressMessages(targetp(inp, network_type = N, run_mode = "pipe", paths = my_pa)), 
+                         "Run mode is invalid. Please use 'starter' to initiate prediction pipelie or 'piper' to continue")
+            
           })
