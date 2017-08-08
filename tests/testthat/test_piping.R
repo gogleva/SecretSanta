@@ -78,7 +78,7 @@ test_that("workflows work",
             #------- #Start with TMHMM:
             
             expect_error(tmhmm(input_obj = inp, paths = my_pa, TM = 0),
-                         'the input object contains an empty mature_fasta slot')
+                         'the input object does not contain mature_fasta slot')
             
             expect_error(tmhmm(input_obj = s1_er, paths = my_pa, TM = 0),
                          'the input object does not contain mature_fasta slot')
@@ -97,9 +97,13 @@ test_that("workflows work",
             expect_is(s1_tp, 'TargetpResult')
             
             # Inputs:
+            
+            
             # aa - AAStringSet object
             # inp - CBSResult object with filled input_fasta
             # emp - empty CBSResult object
+            
+            # Outputs from other tools:
             # s1_sp2 - signalp2 output, SignalpResult object
             # s1_sp3 - signalp3 output, SignalpResult object
             # s1_sp4 - signalp4 output, SignalpResult object
@@ -109,7 +113,18 @@ test_that("workflows work",
             # s2_wo - WolfPsort output, WolfResult object # === PIPER
             
             
+            test_valid_sp_inputs <- list(s1_sp2, s1_sp3, s1_sp4, s2_tm0, s1_er, s2_wo, s1_tp)
+            check_sp2_starter <- function(x) {result <- suppressMessages(
+                                                        signalp(x, version = 2, organism_type = 'euk',
+                                                        run_mode = 'starter', paths = my_pa)
+                                                        )
+                                              expect_is(result, 'CBSResult')}
+            
+            sapply(test_valid_sp_inputs, check_sp2_starter)
+            
             # ----- Exhaustive input tests for signalp2
+            
+            
             
             # ----- Exhaustive input tests for signalp3
             
