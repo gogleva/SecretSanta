@@ -9,23 +9,41 @@
 #' @param len_threshold   sliced sequences below this threshold will be discarded
 #' @export
 #' @examples 
-
+#' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+#' 
 
 m_slicer <- function(input_object, length_threshold) {
-                    x <- 1      
-                          }
+  
+        mi <- vmatchPattern('M', input_object)
+        smi <- startIndex(mi) #all M-positions
+      
+        slice <- function(x, seq) {st <- subseq(seq, start = x, end = -1)
+                                  names(st) <- paste(unlist(strsplit(names(st), ' '))[1], '_slice_M', x, sep = '')
+                                  if (width(st) >= length_threshold) {return (st)}
+                                  }
+  
+        # one AAStringSet object:
+        slices <- do.call(c, unlist(sapply(X = unlist(smi[3]), FUN = slice, seq = input_object[3])))
+        return(slices)
+                       
+        }
 
-# sample AAstringSet:
-
-aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
-
-mi <- vmatchPattern('M', aa)
-smi <- startIndex(mi) #all M-positions
-
-slice <- function(x, seq) {subseq(seq, start = x, end = -1)}
-
-sapply(X = unlist(smi[3]), FUN = slice, seq = aa[3])
-
+# # sample AAstringSet:
+# 
+# aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+# 
+# mi <- vmatchPattern('M', aa)
+# smi <- startIndex(mi) #all M-positions
+# 
+# slice <- function(x, seq) {st <- subseq(seq, start = x, end = -1)
+#                            names(st) <- paste(unlist(strsplit(names(st), ' '))[1], '_slice_M', x, sep = '')
+#                            if (width(st) >= 100) {return (st)}
+#                            }
+# 
+# slice(86, aa[3])
+# 
+# # one AAStringSet object:
+# slices <- do.call(c, unlist(sapply(X = unlist(smi[3]), FUN = slice, seq = aa[3])))
 
 
 
