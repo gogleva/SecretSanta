@@ -514,7 +514,8 @@ ErResult <- setClass("ErResult",
 #'   \item sp - signal peptide NN score
 #'   \item other - any onther NN score
 #'   \item TP_localization - 	Prediction of localization, based on the scores; 
-#'   the possible values are: 
+#'   the possible values are:
+#'   } 
 #'   \itemize{
 #'      \item C	- Chloroplast, i.e. the sequence contains cTP, a chloroplast transit peptide;
 #'      \item M	- Mitochondrion, i.e. the sequence contains mTP, a mitochondrial targeting peptide;

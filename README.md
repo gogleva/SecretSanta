@@ -17,28 +17,16 @@ Species: Oomycetes, Fungi, (Plants)
 - (K/H)DEL removal
 - WoLFpsort
 - M-slicer
+- pipe them
 
+2) annotate
 
-Things to consider:
-
-test functions
-
-How to implement prediction:
-- system calls for signalp(versions) installed locally
-- current focus: pipe_signalp - function to combine versions for multi-step filtering
 
 
 Expansion:
 integrate some/all of the following tools:
 http://bioinformatics.ysu.edu/tools/subcell.html
 
-
-## Got it:
-
-runner functions will return instances of output classes objects
-but: should run differently based on class of the input object?
-or can we have the same attributes?
-will it cause confusion?
 
 ### things to consider:
 
@@ -62,6 +50,7 @@ SOLVED:
 - unit tests
 - targetp keeps failing; solution: shorten the path!
 - exsaustive unit test of inputs/outputs
+- function and class to run targetP
 
 
 TO DO:
@@ -70,11 +59,12 @@ TO DO:
 - speed up signalp run by splitting large input file into several smaller ones and run them as a series of small jobs
 - plotting functions for individual peptides (will require full output) signalp
 - prediction graphs (?) when each candidate was rejected -->?
-- function and class to run targetP
 - function: M-slicer - for alternative translation start sites (could be mitochondrial?)
-
-
-
+- set default options for some parameters, more flexible filters for SP?
+- Add links and references to the tool papers
+- Add warning if input belongs to the same tool/version as the tool intended to use
+- Add check for empty inputs/ Message if the tool returns 0 candidates to pass further
+- Write vignettes
 
 
 

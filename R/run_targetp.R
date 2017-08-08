@@ -1,4 +1,4 @@
-#' signalp function
+#' target function
 #'
 #' This function calls local targetp to predict subcellular localisation of a protein.
 #' @param input_object    an instance of CBSResult class containing protein sequences as on of the attributes
@@ -103,7 +103,3 @@ targetp <- function(input_object, network_type, run_mode, paths) {
                             )
    if (validObject(out_obj)) {return(out_obj)}
 }
-
-#targetp(input_object = inp, network_type = 'N', run_mode = 'starter', paths = my_pa)
-#targetp(input_object = inp, network_type = 'P', run_mode = 'starter', paths = my_pa)
-
