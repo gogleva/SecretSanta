@@ -41,21 +41,3 @@ m_slicer <- function(input_object, length_threshold) {
                     return(do.call(c, unlist(smt)))
                     
         }
-
-
-l1 <- list(a = c(1:10), b = c(11:20))
-l2 <- list(c = c(21:30), d = c(31:40))
-# sum the corresponding elements of l1 and l2
-mapply(sum, l1$a, l1$b, l2$c, l2$d)
-
-listA <- input_object
-listB <- smi
-
-mapply(slice, listA[1], unlist(listB[1])
-    
-test_function <- function(n) {return(n + 10)}       
-       
-       
-sapply(X = c(1:10), test_function)
-
-       
