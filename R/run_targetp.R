@@ -1,4 +1,4 @@
-#' target function
+#' targetp function
 #'
 #' This function calls local targetp to predict subcellular localisation of a protein.
 #' @param input_object    an instance of CBSResult class containing protein sequences as on of the attributes
@@ -13,7 +13,7 @@
 #' \item piper - if you run this function on the output of other CBS tools;
 #' }
 #' @param paths   tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function
-#' @return an object of SignalpResult class
+#' @return an object of TargetpResult class
 #' @export
 #' @examples 
 #' my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
