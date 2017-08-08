@@ -98,10 +98,10 @@ test_that("workflows work",
             
             # Inputs:
             
-            
-            # aa - AAStringSet object
-            # inp - CBSResult object with filled input_fasta
-            # emp - empty CBSResult object
+            # starter inputs, tested in the respective tool unit tests
+            # aa - AAStringSet object - tested in signalp unit test
+            # inp - CBSResult object with filled input_fasta - tested in signlap unit test
+            # emp - empty CBSResult object - tested in signalp unit test
             
             # Outputs from other tools:
             # s1_sp2 - signalp2 output, SignalpResult object
@@ -115,25 +115,43 @@ test_that("workflows work",
             
             test_valid_sp_inputs <- list(s1_sp2, s1_sp3, s1_sp4, s2_tm0, s1_er, s2_wo, s1_tp)
             
-            check_sp2 <- function(x) { result  <-  suppressMessages(
-                                                        signalp(x, version = 2, organism_type = 'euk',
-                                                        run_mode = 'starter', paths = my_pa)
+            check_sp <- function(x, v, m) { result  <-  suppressMessages(
+                                                        signalp(x, version = v, organism_type = 'euk',
+                                                        run_mode = m, paths = my_pa)
                                                         )
-                                      return(is(result, 'CBSResult')) 
+                                            return(is(result, 'CBSResult')) 
                                      } 
-            
-            l <- lapply(test_valid_sp_inputs, check_sp2)
-            
-            
-            
             # ----- Exhaustive input tests for signalp2
             
+            # starters
+            sp2_starters <- lapply(test_valid_sp_inputs, check_sp, v = 2, m = 'starter')
+            expect_true(all(unlist(sp2_starters)))
             
+            # pipers
+            sp2_pipers <- lapply(test_valid_sp_inputs, check_sp, v = 2, m = 'piper')
+            expect_true(all(unlist(sp2_pipers)))
             
+   
             # ----- Exhaustive input tests for signalp3
+            
+            # starters
+            sp3_starters <- lapply(test_valid_sp_inputs, check_sp, v = 3, m = 'starter')
+            expect_true(all(unlist(sp3_starters)))
+            
+            # pipers
+            sp3_pipers <- lapply(test_valid_sp_inputs, check_sp, v = 3, m = 'piper')
+            expect_true(all(unlist(sp3_pipers)))
+            
             
             # ----- exhaustive input tests for signalp4
             
+            # starters
+            sp4_starters <- lapply(test_valid_sp_inputs, check_sp, v = 4, m = 'starter')
+            expect_true(all(unlist(sp4_starters)))
+            
+            # pipers
+            sp4_pipers <- lapply(test_valid_sp_inputs, check_sp, v = 4, m = 'piper')
+            expect_true(all(unlist(sp4_pipers)))
             
       
             })
