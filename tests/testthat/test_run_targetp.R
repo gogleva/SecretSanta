@@ -57,5 +57,4 @@ test_that("targetp correctlu responds to invalid inputs",
                           "Run mode is invalid. Please use 'starter' to initiate prediction pipelie or 'piper' to continue")
             expect_error(suppressMessages(targetp(inp, network_type = N, run_mode = "pipe", paths = my_pa)), 
                          "Run mode is invalid. Please use 'starter' to initiate prediction pipelie or 'piper' to continue")
-            
           })
