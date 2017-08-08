@@ -178,6 +178,20 @@ test_that("workflows work",
             tp_pipers_P <- lapply(valid_inputs, check_tp, n = 'P', m = 'piper')
             expect_true(all(unlist(tp_pipers_P)))
             
+            
+            
+            # ----- exhaustive input tests for (K/H)DEL check:
+            
+            check_ER <- function(x, m) { result  <-  suppressMessages(check_khdel(x, run_mode = m))
+                                      return(is(result, 'CBSResult')) 
+            }
+            
+            er_starters <- lapply(valid_inputs, check_ER, m = 'starter')
+            expect_true(all(unlist(er_starters)))
+            
+            er_pipers <- lapply(valid_inputs, check_ER, m = 'piper')
+            expect_true(all(unlist(er_pipers)))
+            
             })
 
 
