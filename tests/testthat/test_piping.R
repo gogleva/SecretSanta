@@ -112,8 +112,9 @@ test_that("workflows work",
             # s1_er - check K/HDEL output, ErResult object
             # s2_wo - WolfPsort output, WolfResult object # === PIPER
             
+            # should be the same for all the tools, except TMHMM - this one can only pipe, so requires mature_fasta
             
-            test_valid_sp_inputs <- list(s1_sp2, s1_sp3, s1_sp4, s2_tm0, s1_er, s2_wo, s1_tp)
+            valid_inputs <- list(s1_sp2, s1_sp3, s1_sp4, s2_tm0, s1_er, s2_wo, s1_tp)
             
             check_sp <- function(x, v, m) { result  <-  suppressMessages(
                                                         signalp(x, version = v, organism_type = 'euk',
@@ -124,36 +125,59 @@ test_that("workflows work",
             # ----- Exhaustive input tests for signalp2
             
             # starters
-            sp2_starters <- lapply(test_valid_sp_inputs, check_sp, v = 2, m = 'starter')
+            sp2_starters <- lapply(valid_inputs, check_sp, v = 2, m = 'starter')
             expect_true(all(unlist(sp2_starters)))
             
             # pipers
-            sp2_pipers <- lapply(test_valid_sp_inputs, check_sp, v = 2, m = 'piper')
+            sp2_pipers <- lapply(valid_inputs, check_sp, v = 2, m = 'piper')
             expect_true(all(unlist(sp2_pipers)))
             
    
             # ----- Exhaustive input tests for signalp3
             
             # starters
-            sp3_starters <- lapply(test_valid_sp_inputs, check_sp, v = 3, m = 'starter')
+            sp3_starters <- lapply(valid_inputs, check_sp, v = 3, m = 'starter')
             expect_true(all(unlist(sp3_starters)))
             
             # pipers
-            sp3_pipers <- lapply(test_valid_sp_inputs, check_sp, v = 3, m = 'piper')
+            sp3_pipers <- lapply(valid_inputs, check_sp, v = 3, m = 'piper')
             expect_true(all(unlist(sp3_pipers)))
             
             
             # ----- exhaustive input tests for signalp4
             
             # starters
-            sp4_starters <- lapply(test_valid_sp_inputs, check_sp, v = 4, m = 'starter')
+            sp4_starters <- lapply(valid_inputs, check_sp, v = 4, m = 'starter')
             expect_true(all(unlist(sp4_starters)))
             
             # pipers
-            sp4_pipers <- lapply(test_valid_sp_inputs, check_sp, v = 4, m = 'piper')
+            sp4_pipers <- lapply(valid_inputs, check_sp, v = 4, m = 'piper')
             expect_true(all(unlist(sp4_pipers)))
             
-      
+            
+            # ----- exhaustive input tests for targetp
+            
+            check_tp <- function(x, n, m) { result  <-  suppressMessages(
+                                                    targetp(x, network_type = n,
+                                                    run_mode = m, paths = my_pa)
+                                                    )
+                                            return(is(result, 'CBSResult')) 
+                                           } 
+            # starters:
+            tp_starters_N <- lapply(valid_inputs, check_tp, n = 'N', m = 'starter')
+            expect_true(all(unlist(tp_starters_N)))
+            
+            tp_starters_P <- lapply(valid_inputs, check_tp, n = 'P', m = 'starter')
+            expect_true(all(unlist(tp_starters_P)))
+            
+            # pipers:
+            
+            tp_pipers_N <- lapply(valid_inputs, check_tp, n = 'N', m = 'piper')
+            expect_true(all(unlist(tp_pipers_N)))
+            
+            tp_pipers_P <- lapply(valid_inputs, check_tp, n = 'P', m = 'piper')
+            expect_true(all(unlist(tp_pipers_P)))
+            
             })
 
 
