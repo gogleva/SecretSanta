@@ -16,7 +16,7 @@
 #' @export
 #' @examples 
 #' # Example 1: generate proteins with alterative translation start site for AAStringSet object
-#' aa <- readAAStringSet(system.file("extdata", "sample_prot.fasta", package = "SecretSanta"), use.names = TRUE)
+#' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
 #' m_slicer(aa, 100, run_mode = 'slice')
 #' 
 #' # Example 2: generate proteins with alterative translation start site for CBSResult object
@@ -25,8 +25,8 @@
 #' inp <- setInfasta(inp, aa)
 #' s1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
 #' slices <- m_slicer(s1_sp2, length_threshold = 100, run_mode = 'rescue')
-#' inp_slices <- SignalpResult(in_fasta = slices)
-#' s2_sp2_rescue <- signalp(inp_slices, version = 2, 'euk', run_mode = 'starter', paths = my_pa)# => throws an error
+#' inp_slices <- CBSResult(in_fasta = slices)
+#' s2_sp2_rescue <- signalp(inp_slices, version = 2, 'euk', run_mode = 'starter', paths = my_pa)# => throws an error! too many sequences
 
 
 m_slicer <- function(input_object, length_threshold, run_mode) {
