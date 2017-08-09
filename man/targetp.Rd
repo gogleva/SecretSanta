@@ -2,7 +2,7 @@
 % Please edit documentation in R/run_targetp.R
 \name{targetp}
 \alias{targetp}
-\title{signalp function}
+\title{targetp function}
 \usage{
 targetp(input_object, network_type, run_mode, paths)
 }
@@ -23,7 +23,7 @@ targetp(input_object, network_type, run_mode, paths)
 \item{paths}{tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function}
 }
 \value{
-an object of SignalpResult class
+an object of TargetpResult class
 }
 \description{
 This function calls local targetp to predict subcellular localisation of a protein.

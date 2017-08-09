@@ -3,16 +3,31 @@
 #' Experimental option
 #' This function generates all possible subsequences starting with M.
 #' Assumption: translation start sites might be mis-predicted in the original set of proteins.
-#' Output of this step can be used as an iput for secretome prediction pipeline
+#' Output of this step can be used as an input for secretome prediction pipeline
 #' 
 #' @param input_object    an instance of CBSResult class or AAStringSet class containing protein sequences as on of the     attributes
 #' @param len_threshold   sliced sequences below this threshold will be discarded
 #' @export
 #' @examples 
-#' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+#' # Example 1: generate proteins with alterative translation start site for AAStringSet object
+#' aa <- readAAStringSet(system.file("extdata", "sample_prot.fasta", package = "SecretSanta"), use.names = TRUE)
+#' m_slicer(aa, 100)
 #' 
+#' # Example 2: generate proteins with alterative translation start site for CBSResult object
+#' my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+#' inp <- SignalpResult()
+#' inp <- setInfasta(inp, aa)
+#' s1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
+#' 
+#' # run signalp3 on the result object, will automatically pass out_fasta slot to signalp3:
+#' step2_sp3 <- signalp(step1_sp2, version = 3, 'euk', run_mode = "piper", paths = my_pa)
 
 m_slicer <- function(input_object, length_threshold) {
+        
+                    # check that inputs are valid
+  
+                    
+  
                     input_object <- aa
                     mi <- vmatchPattern('M', input_object)
                     smi <- startIndex(mi) #all M-positions
