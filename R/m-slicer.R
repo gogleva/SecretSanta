@@ -17,25 +17,38 @@
 #' @examples 
 #' # Example 1: generate proteins with alterative translation start site for AAStringSet object
 #' aa <- readAAStringSet(system.file("extdata", "sample_prot.fasta", package = "SecretSanta"), use.names = TRUE)
-#' m_slicer(aa, 100)
+#' m_slicer(aa, 100, run_mode = 'slice')
 #' 
 #' # Example 2: generate proteins with alterative translation start site for CBSResult object
 #' my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
 #' inp <- SignalpResult()
 #' inp <- setInfasta(inp, aa)
 #' s1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
+#' slices <- m_slicer(s1_sp2, length_threshold = 100, run_mode = 'rescue')
+#' inp_slices <- SignalpResult(in_fasta = slices)
+#' s2_sp2_rescue <- signalp(inp_slices, version = 2, 'euk', run_mode = 'starter', paths = my_pa)# => throws an error
 
 
 m_slicer <- function(input_object, length_threshold, run_mode) {
-        
+  
+                    # helper functions:
+                    '%!in%' <- function(x,y)!('%in%'(x,y))
+                    
                     # check that inputs are valid
                     
                     if (is(input_object, 'AAStringSet')) {
+                      input_object <- input_object
                       if (run_mode != 'slice') {
-                        stop("Please use run_mode 'slice' for an input object of AAStringSet class" )
+                        stop("Please use run_mode 'slice' for an input object of AAStringSet class")
                         } 
+                    } else if (is(input_object, 'CBSResult')) {
+                      if (run_mode != 'rescue') {
+                        stop("Please use run_mode 'rescue' for an input object of CBSResult class")
+                      }
+                      infa <- getInfasta(input_object)
+                      outfa <- getOutfasta(input_object)
+                      input_object <- infa[infa %!in% outfa]
                     }
-  
   
                     mi <- vmatchPattern('M', input_object)
                     smi <- startIndex(mi) #all M-positions
@@ -63,4 +76,6 @@ m_slicer <- function(input_object, length_threshold, run_mode) {
                     smt <- sapply(1:length(smi), many_slices)
                     return(do.call(c, unlist(smt)))
                     
-        }
+}
+
+'%!in%' <- function(x,y)!('%in%'(x,y))
