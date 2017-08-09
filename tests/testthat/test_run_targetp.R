@@ -1,6 +1,6 @@
 context("Check targetp")
 
-test_that("targetp correctlu responds to invalid inputs",
+test_that("targetp correctly responds to invalid inputs",
           {
             # prep input object
             my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))

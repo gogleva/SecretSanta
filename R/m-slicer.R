@@ -1,12 +1,18 @@
 #' m_slicer function
 #'
-#' Experimental option
+#' Experimental option.
 #' This function generates all possible subsequences starting with M.
 #' Assumption: translation start sites might be mis-predicted in the original set of proteins.
-#' Output of this step can be used as an input for secretome prediction pipeline
+#' Output of this step can be used as an input for secretome prediction pipeline to rescue secreted proteins
+#' with mis-predicted start sites. 
 #' 
 #' @param input_object    an instance of CBSResult class or AAStringSet class containing protein sequences as on of the     attributes
 #' @param len_threshold   sliced sequences below this threshold will be discarded
+#' @param run_mode
+#' \itemize {
+#'   \item  \strong{slice} - to just slice input fasta, regardless of it's origin;
+#'   \item  \strong{rescue} - to get proteins not predicted to be secreted on the initial run, generate slices; 
+#'   }
 #' @export
 #' @examples 
 #' # Example 1: generate proteins with alterative translation start site for AAStringSet object
@@ -18,17 +24,19 @@
 #' inp <- SignalpResult()
 #' inp <- setInfasta(inp, aa)
 #' s1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
-#' 
-#' # run signalp3 on the result object, will automatically pass out_fasta slot to signalp3:
-#' step2_sp3 <- signalp(step1_sp2, version = 3, 'euk', run_mode = "piper", paths = my_pa)
 
-m_slicer <- function(input_object, length_threshold) {
+
+m_slicer <- function(input_object, length_threshold, run_mode) {
         
                     # check that inputs are valid
-  
                     
+                    if (is(input_object, 'AAStringSet')) {
+                      if (run_mode != 'slice') {
+                        stop("Please use run_mode 'slice' for an input object of AAStringSet class" )
+                        } 
+                    }
   
-                    input_object <- aa
+  
                     mi <- vmatchPattern('M', input_object)
                     smi <- startIndex(mi) #all M-positions
                     fifi <- function(x) { unlist(x)[unlist(x) >1]}
