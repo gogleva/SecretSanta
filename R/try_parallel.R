@@ -1,20 +1,47 @@
-### experiments with parallelisation
+#' split_XStringSet function
+#'
+#' This function splits large XStringSet files into chunks of given size and writes them in tmp files
+#' @param string_set
+#' @param chunk_size
+#' @param prefix  file name prefix for tmp files
+#' @export
+#' @examples 
+#' large_aa <- readAAStringSet(system.file("extdata", "Ppalm_prot_ALI_PLTG.fasta", package = "SecretSanta"))
+#' split_XStringSet(large_aa, 1000, 'test')
 
-library(parallel)
+split_XStringSet <- function(string_set, chunk_size, prefix){
+  
+  total_seq  <- c(1:length(string_set))
+  chunks <- split(total_seq, ceiling(seq_along(total_seq)/chunk_size))
+  seq_chunker <- function(x) {chunk <- string_set[x]
+  out_tmp <- tempfile(pattern = prefix)
+  writeXStringSet(chunk, out_tmp)
+  }
+  invisible(lapply(chunks, seq_chunker))
+}
 
-# function to split tmp fasta into multiple fastas
-# run signalp for each of them
-# combine the result
-# lapply is my friend
 
-# Calculate the number of cores
-no_cores <- detectCores() - 1
-# Initiate cluster
-cl <- makeCluster(no_cores)
-# large real-life file:
 
-parLapply()
-stopCluster(cl)
+
+
+
+# ### experiments with parallelisation
+# 
+# library(parallel)
+# 
+# # function to split tmp fasta into multiple fastas
+# # run signalp for each of them
+# # combine the result
+# # lapply is my friend
+# 
+# # Calculate the number of cores
+# no_cores <- detectCores() - 1
+# # Initiate cluster
+# cl <- makeCluster(no_cores)
+# # large real-life file:
+# 
+# parLapply()
+# stopCluster(cl)
 
 
 # parallel version of signalp:
@@ -156,18 +183,3 @@ signalp_parallel(large_inp, version = 2, organism_type = 'euk', run_mode = 'star
 large_aa <- readAAStringSet(system.file("extdata", "Ppalm_prot_ALI_PLTG.fasta", package = "SecretSanta"))
 
 
-
-
-split_XStringSet <- function(string_set, chunk_size){
-                            
-                      total_seq  <- c(1:length(string_set))
-                      chunks <- split(total_seq, ceiling(seq_along(total_seq)/chunk_size))
-                      seq_chunker <- function(x) {chunk <- string_set[x]
-                                                  out_tmp <- tempfile(pattern = 'fasta_chunks')
-                                                  writeXStringSet(chunk, out_tmp)
-                                                  }
-                      invisible(lapply(chunks, seq_chunker))
-    }
-
-
-split_XStringSet(large_aa, 1000, 'SecretSanta_tmp/')
