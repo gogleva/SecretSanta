@@ -8,6 +8,8 @@
 #' @examples 
 #' large_aa <- readAAStringSet(system.file("extdata", "Ppalm_prot_ALI_PLTG.fasta", package = "SecretSanta"))
 #' split_XStringSet(large_aa, 1000, 'test')
+ 
+
 
 split_XStringSet <- function(string_set, chunk_size, prefix){
   
@@ -86,15 +88,7 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
     stop('Input signalp version or specified organism type are invalid.')  
   }
   
-  # estimate how big is the file, if required - split it into smaller chunks
-  
-  if (length(fasta) < 500) {message('Ok for single processing')
-    } else {
-      message('Input fasta contains >500 sequences, entering batch mode...')
-      split_XStringSet(fasta, 500, 'signalp_chunk')
-    }
-  
-  
+
   # simplesignalp, takes single AAStringSet as an input:
   
   simple_signalp <- function(aaSet) { 
@@ -173,14 +167,30 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
     if (validObject(out_obj)) {return(out_obj)}
   }
   
-  simple_signalp(fasta)
+  # estimate how big is the file, if required - split it into smaller chunks
+  
+  if (length(fasta) < 500) {message('Ok for single processing')
+    simple_signalp(fasta)
+  } else {
+    message('Input fasta contains >500 sequences, entering batch mode...')
+    split_fasta <- split_XStringSet(fasta, 500, 'signalp_chunk')
+    lapply(split_fasta, simple_signalp)
+  }
+  
+  
+ # simple_signalp(fasta)
   
   # to do: need to clean tmp files on exit signalp_chunk
   
   
 }
 
+# test run:
+signalp_parallel(inp, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
 
+inp_large <- CBSResult(in_fasta = large_aa)
+
+signalp_parallel(inp_large, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
 
 #large_aa <- readAAStringSet(system.file("extdata", "Ppalm_prot_ALI_PLTG.fasta", package = "SecretSanta"))
 #large_inp <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "Ppalm_prot_ALI_PLTG.fasta", package = "SecretSanta")))
