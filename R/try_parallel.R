@@ -174,7 +174,7 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
   } else {
     message('Input fasta contains >500 sequences, entering batch mode...')
     split_fasta <- split_XStringSet(fasta, 500, 'signalp_chunk')
-    lapply(split_fasta, simple_signalp)
+    lapply(split_fasta, simple_signalp) # => might fail with sequences larger than 4000 residues! need to skip those
   }
   
   
