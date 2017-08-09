@@ -70,6 +70,11 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
     } else {stop('out_fasta attribute is empty')}
   }
   
+  # Hack - throw away too long seqeunces, longer than 4000 residues
+  fasta <- fasta[width(fasta) < 4000]
+  warning(paste('Some long sequenses have been throw away'))
+  
+  
   # check signalp versions and organism type
   allowed_versions = c(2,3,4,4.1)
   allowed_organisms = c('euk', 'gram+', 'gram-')
