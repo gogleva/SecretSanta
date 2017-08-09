@@ -67,10 +67,34 @@ TO DO:
 - Write vignettes
 
 
-
 ### Installation:
 
 for private git_hub repo:
 ```
 install_github("gogleva/SecretSanta", auth_token = 'd0b6ce8fcc6e31ecb98bab6ef273ccab6eb4227a')
+```
+
+
+### Coverage estimation with covr:
+
+```
+install_github("jimhester/covr")
+library(covr)
+my_cov <- package_coverage("SecretSanta")
+```
+
+Results, 09.08.2107:
+
+```
+SecretSanta Coverage: 77.84%
+R/archived_functions.R: 0.00%
+R/objects.R: 19.23%
+R/manage_paths.R: 73.91%
+R/check_khdel.R: 95.00%
+R/parse_signalp.R: 97.37%
+R/run_tmhmm.R: 97.37%
+R/run_signalp.R: 98.39%
+R/m-slicer.R: 100.00%
+R/run_targetp.R: 100.00%
+R/run_wolfpsort.R: 100.00%
 ```
