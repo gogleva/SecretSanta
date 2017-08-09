@@ -155,18 +155,19 @@ signalp_parallel(large_inp, version = 2, organism_type = 'euk', run_mode = 'star
 
 large_aa <- readAAStringSet(system.file("extdata", "Ppalm_prot_ALI_PLTG.fasta", package = "SecretSanta"))
 
-total_seq  <- c(1:length(large_aa))
-chunks <- split(total_seq, ceiling(seq_along(total_seq)/500))
-
-seq_chunker <- function(x) (large_aa[x])
-lapply(chunks, seq_chunker)
 
 
-split_XStringSet <- function(string_set, chunk_size, tmp_dir){
+
+split_XStringSet <- function(string_set, chunk_size){
                             
                       total_seq  <- c(1:length(string_set))
                       chunks <- split(total_seq, ceiling(seq_along(total_seq)/chunk_size))
-                      seq_chunker <- function(x) (string_set[x])
-                        
-                    
+                      seq_chunker <- function(x) {chunk <- string_set[x]
+                                                  out_tmp <- tempfile(pattern = 'fasta_chunks')
+                                                  writeXStringSet(chunk, out_tmp)
+                                                  }
+                      invisible(lapply(chunks, seq_chunker))
     }
+
+
+split_XStringSet(large_aa, 1000, 'SecretSanta_tmp/')
