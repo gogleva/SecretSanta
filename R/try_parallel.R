@@ -13,14 +13,14 @@ split_XStringSet <- function(string_set, chunk_size, prefix){
   
   total_seq  <- c(1:length(string_set))
   chunks <- split(total_seq, ceiling(seq_along(total_seq)/chunk_size))
-  seq_chunker <- function(x) {chunk <- string_set[x]
-  out_tmp <- tempfile(pattern = prefix)
-  writeXStringSet(chunk, out_tmp)
+  seq_chunker <- function(x) {
+                              chunk <- string_set[x]
+                              out_tmp <- tempfile(pattern = prefix)
+                              Biostrings::writeXStringSet(chunk, out_tmp)
   }
+  
   invisible(lapply(chunks, seq_chunker))
 }
-
-
 
 
 
