@@ -72,7 +72,7 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
   
   # Hack - throw away too long seqeunces, longer than 4000 residues
   fasta <- fasta[width(fasta) < 4000]
-  warning(paste('Some long sequenses have been throw away'))
+  warning(paste('Some long sequenses have been thrown away'))
   
   
   # check signalp versions and organism type
@@ -178,7 +178,7 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
     simple_signalp(fasta)
   } else {
     message('Input fasta contains >500 sequences, entering batch mode...')
-    split_fasta <- split_XStringSet(fasta, 500, 'signalp_chunk')
+    split_fasta <- split_XStringSet(fasta, 400, 'signalp_chunk')
     lapply(split_fasta, simple_signalp) # => might fail with sequences larger than 4000 residues! need to skip those
   }
   
