@@ -28,8 +28,29 @@ split_XStringSet <- function(string_set, chunk_size){
                                 lapply(chunks, seq_chunker) 
 }
 
+#' combine_SignalpResult function
+#'
+#' This function combines multiple instances of SignalpResult class, typically generated with parLapply
+#' @param arguments - a list of SignalpResult objects to be combined in one
+#' @export
+#' @examples 
+#' inp2 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "tail_prot.fasta", package = "SecretSanta")))
+#' inp3 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "tail2_prot.fasta", package = "SecretSanta")))
+#' inp4 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta")))
+#' 
+#' sp1 <- signalp(input_obj = inp2, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
+#' sp2 <- signalp(input_obj = inp3, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
+#' sp3 <- signalp(input_obj = inp4, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
+#' obj <- list(sp1, sp2, sp3)
+#  combined_sp <- combine_SignalpResult(obj)
+
 
 combine_SignalpResult <- function(arguments) {
+                                    if (all(sapply(arguments, is, 'SignalpResult'))) {
+                                    } else {                               
+                                      stop('Some objects from arguments list do not belong to SignalpResult class.')
+                                    }
+                                    
                                     c_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
                                     c_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
                                     c_mature_fasta <- do.call(c, (lapply(arguments, getMatfasta)))
@@ -41,9 +62,31 @@ combine_SignalpResult <- function(arguments) {
                                                        mature_fasta = c_mature_fasta,
                                                        sp_tibble = c_sp_tibble,
                                                        sp_version = c_sp_version)
-
 }
 
+
+#alist <- c(inp, inp2, inp3)
+#combine_SignalpResult(alist)
+
+# #####
+# inp <- CBSResult(in_fasta = aa)
+# inp2 <- CBSResult(in_fasta = aa2)
+# inp3 <- CBSResult(in_fasta = aa3)
+# 
+# #helper function to combine CBSResult class objects:
+
+combine_CBS <- function(...) {
+                              arguments <- list(...)
+                              comb_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
+                              comb_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
+                              c_obj <- CBSResult(in_fasta = comb_in_fasta,
+                                                 out_fasta = comb_out_fasta)
+
+}
+# 
+# #usage:
+# combine_CBS(inp, inp2)
+# combine_CBS(inp, inp2, inp3)
 
 
 
@@ -215,7 +258,7 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
 
 # 
 # aa2 <- readAAStringSet(system.file("extdata", "tail_prot.fasta", package = "SecretSanta"))
-# inp2 <- CBSResult(in_fasta = aa2)
+# 
 # 
 # aa3 <- readAAStringSet(system.file("extdata", "tail2_prot.fasta", package = "SecretSanta"))
 # 
@@ -241,7 +284,7 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
 # inp3 <- CBSResult(in_fasta = aa3)
 # 
 # #helper function to combine CBSResult class objects:
-# # chall I make it a class method? Probably yes
+
 # combine_CBS <- function(...) {
 #                               arguments <- list(...)
 #                               comb_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
@@ -256,18 +299,3 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
 # combine_CBS(inp, inp2, inp3)
 # 
 # 
-# # combine SPResult objects:
-# aa4 <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"))
-# inp4 <- CBSResult(in_fasta = aa4)
-# 
-# 
-# sp1 <- signalp(input_obj = inp2, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
-# sp2 <- signalp(input_obj = inp4, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
-# sp3 <- signalp(input_obj = inp3, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
-# 
-
-# 
-# # obj <- list(sp1, sp2, sp3)
-# # tt <- combine_SignalpResult(obj)
-# # combine_SignalpResult(sp1, sp2, sp3)
-# # magic: combine_SignalpResult works properly on unnamed lists only

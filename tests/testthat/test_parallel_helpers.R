@@ -34,6 +34,10 @@ test_that("combine_SignalpResult combines",
                              length(getSPtibble(combined_sp)))
             expect_identical(sum(unlist(lapply(lapply(c(sp1, sp2, sp3), getMatfasta), length))), 
                              length(getMatfasta(combined_sp)))
+            
+            alist <- c(inp2, inp3, inp4)
+            expect_error(combine_SignalpResult(alist), 
+                         'Some objects from arguments list do not belong to SignalpResult class.' )
                                                  
           })
 
