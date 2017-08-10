@@ -24,7 +24,21 @@ split_XStringSet <- function(string_set, chunk_size, prefix){
   lapply(chunks, seq_chunker) #or may be just return a list of sets - easier for parallel signalp?
 }
 
-
+combine_SignalpResult <- function(...) {
+  arguments <- list(...)
+  c_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
+  c_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
+  c_mature_fasta <- do.call(c, (lapply(arguments, getMatfasta)))
+  c_sp_tibble <- do.call(rbind, (lapply(arguments, getSPtibble)))
+  c_sp_version <- unlist((lapply(arguments, getSPversion))[1])
+  
+  c_obj <- SignalpResult(in_fasta = c_in_fasta,
+                         out_fasta = c_out_fasta,
+                         mature_fasta = c_mature_fasta,
+                         sp_tibble = c_sp_tibble,
+                         sp_version = c_sp_version)
+  
+}
 
 
 # parallel version of signalp:
@@ -169,7 +183,8 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
     result <- parLapply(cl, split_fasta, simple_signalp)
     #lapply(split_fasta, simple_signalp) # => might fail with sequences larger than 4000 residues! need to skip those
     stopCluster(cl)
-    return(do.call(c,result))
+   # return(combine_SignalpResult(result))
+    res <- unlist(do.call(c,result))
   }
   
   
@@ -229,8 +244,8 @@ sp1 <- signalp(input_obj = inp2, version = 2, organism_type = 'euk', run_mode = 
 sp2 <- signalp(input_obj = inp4, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
 sp3 <- signalp(input_obj = inp3, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
 
-combine_SignalpResult <- function(...) {
-                                    arguments <- list(...)
+combine_SignalpResult <- function(argumnets) {
+                                    #arguments <- list(...)
                                     c_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
                                     c_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
                                     c_mature_fasta <- do.call(c, (lapply(arguments, getMatfasta)))
@@ -245,4 +260,8 @@ combine_SignalpResult <- function(...) {
 
 }
 
-combine_SignalpResult(sp1, sp2)
+obj <- list(sp1, sp2, sp3)
+
+combine_SignalpResult(unlist(obj))
+
+combine_SignalpResult(sp1, sp2, sp3)
