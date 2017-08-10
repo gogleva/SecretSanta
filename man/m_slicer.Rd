@@ -4,17 +4,17 @@
 \alias{m_slicer}
 \title{m_slicer function}
 \usage{
-m_slicer(input_object, length_threshold)
+m_slicer(input_object, length_threshold, run_mode)
 }
 \arguments{
 \item{input_object}{an instance of CBSResult class or AAStringSet class containing protein sequences as on of the     attributes}
 
-\item{len_threshold}{sliced sequences below this threshold will be discarded}
-
-\item{run_mode}{\itemize {
+\item{run_mode}{\itemize{
 \item  \strong{slice} - to just slice input fasta, regardless of it's origin;
 \item  \strong{rescue} - to get proteins not predicted to be secreted on the initial run, generate slices; 
-}}
+  }}
+
+\item{len_threshold}{sliced sequences below this threshold will be discarded}
 }
 \description{
 Experimental option.
@@ -25,12 +25,15 @@ with mis-predicted start sites.
 }
 \examples{
 # Example 1: generate proteins with alterative translation start site for AAStringSet object
-aa <- readAAStringSet(system.file("extdata", "sample_prot.fasta", package = "SecretSanta"), use.names = TRUE)
-m_slicer(aa, 100)
+aa <- readAAStringSet(system.file("extdata", "small_prot.fasta", package = "SecretSanta"), use.names = TRUE)
+m_slicer(aa, 100, run_mode = 'slice')
 
 # Example 2: generate proteins with alterative translation start site for CBSResult object
 my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
 inp <- SignalpResult()
 inp <- setInfasta(inp, aa)
 s1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
+slices <- m_slicer(s1_sp2, length_threshold = 100, run_mode = 'rescue')
+inp_slices <- CBSResult(in_fasta = slices)
+s2_sp2_rescue <- signalp(inp_slices, version = 2, 'euk', run_mode = 'starter', paths = my_pa)# => throws an error! too many sequences or input exceeded maximal total residues
 }

@@ -28,8 +28,6 @@ split_XStringSet <- function(string_set, chunk_size, prefix){
 
 
 
-
-
 # parallel version of signalp:
 
 signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths) {
@@ -183,74 +181,81 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
   # to do: need to clean tmp files on exit signalp_chunk
   }
 
-test run:
-
-my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
-# #
-aa <- readAAStringSet(system.file("extdata", "sample_prot.fasta", package = "SecretSanta"))
-inp <- CBSResult(in_fasta = aa)
-
-aa2 <- readAAStringSet(system.file("extdata", "tail_prot.fasta", package = "SecretSanta"))
-inp2 <- CBSResult(in_fasta = aa2)
-
-aa3 <- readAAStringSet(system.file("extdata", "tail2_prot.fasta", package = "SecretSanta"))
-
-signalp_parallel(inp, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
-
-large_aa <- readAAStringSet(system.file("extdata", "Ppalm_prot_ALI_PLTG.fasta", package = "SecretSanta"))
-inp_large <- CBSResult(in_fasta = large_aa)
-
-
-# # # try parallel:
-signalp_parallel(inp_large, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
-
-#####
-inp <- CBSResult(in_fasta = aa)
-inp2 <- CBSResult(in_fasta = aa2)
-inp3 <- CBSResult(in_fasta = aa3)
-
-#helper function to combine CBSResult class objects:
-# chall I make it a class method? Probably yes
-combine_CBS <- function(...) {
-                              arguments <- list(...)
-                              comb_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
-                              comb_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
-                              c_obj <- CBSResult(in_fasta = comb_in_fasta,
-                                                 out_fasta = comb_out_fasta)
-
-}
-
-#usage:
-combine_CBS(inp, inp2)
-combine_CBS(inp, inp2, inp3)
-
-
-# combine SPResult objects:
-aa4 <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"))
-inp4 <- CBSResult(in_fasta = aa4)
-
-
-sp1 <- signalp(input_obj = inp2, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
-sp2 <- signalp(input_obj = inp4, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
-sp3 <- signalp(input_obj = inp3, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
-
-combine_SignalpResult <- function(arguments) {
-                                    #arguments <- list(...)
-                                    c_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
-                                    c_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
-                                    c_mature_fasta <- do.call(c, (lapply(arguments, getMatfasta)))
-                                    c_sp_tibble <- do.call(rbind, (lapply(arguments, getSPtibble)))
-                                    c_sp_version <- unlist((lapply(arguments, getSPversion))[1])
-
-                                    c_obj <- SignalpResult(in_fasta = c_in_fasta,
-                                                       out_fasta = c_out_fasta,
-                                                       mature_fasta = c_mature_fasta,
-                                                       sp_tibble = c_sp_tibble,
-                                                       sp_version = c_sp_version)
-
-}
-
-# obj <- list(sp1, sp2, sp3)
-# tt <- combine_SignalpResult(obj)
-# combine_SignalpResult(sp1, sp2, sp3)
-# magic: combine_SignalpResult works properly on unnamed lists only
+# test run:
+# 
+# my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+# # #
+# aa <- readAAStringSet(system.file("extdata", "sample_prot.fasta", package = "SecretSanta"))
+# inp <- CBSResult(in_fasta = aa)
+# 
+# aa2 <- readAAStringSet(system.file("extdata", "tail_prot.fasta", package = "SecretSanta"))
+# inp2 <- CBSResult(in_fasta = aa2)
+# 
+# aa3 <- readAAStringSet(system.file("extdata", "tail2_prot.fasta", package = "SecretSanta"))
+# 
+# signalp_parallel(inp, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
+# 
+# large_aa <- readAAStringSet(system.file("extdata", "Ppalm_prot_ALI_PLTG.fasta", package = "SecretSanta"))
+# inp_large <- CBSResult(in_fasta = large_aa)
+# 
+# 
+# aa_10k <- readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/signalp-2.0/large_20K.fasta")
+# inp_10K <- CBSResult(in_fasta = aa_10k)
+# system.time(signalp_parallel(inp_10K, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa))
+# 
+# 
+# r1 <- check_khdel(input_obj = inp_10K, run_mode = 'starter')
+# 
+# # # # try parallel:
+# signalp_parallel(inp_large, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
+# 
+# #####
+# inp <- CBSResult(in_fasta = aa)
+# inp2 <- CBSResult(in_fasta = aa2)
+# inp3 <- CBSResult(in_fasta = aa3)
+# 
+# #helper function to combine CBSResult class objects:
+# # chall I make it a class method? Probably yes
+# combine_CBS <- function(...) {
+#                               arguments <- list(...)
+#                               comb_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
+#                               comb_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
+#                               c_obj <- CBSResult(in_fasta = comb_in_fasta,
+#                                                  out_fasta = comb_out_fasta)
+# 
+# }
+# 
+# #usage:
+# combine_CBS(inp, inp2)
+# combine_CBS(inp, inp2, inp3)
+# 
+# 
+# # combine SPResult objects:
+# aa4 <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"))
+# inp4 <- CBSResult(in_fasta = aa4)
+# 
+# 
+# sp1 <- signalp(input_obj = inp2, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
+# sp2 <- signalp(input_obj = inp4, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
+# sp3 <- signalp(input_obj = inp3, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
+# 
+# combine_SignalpResult <- function(arguments) {
+#                                     #arguments <- list(...)
+#                                     c_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
+#                                     c_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
+#                                     c_mature_fasta <- do.call(c, (lapply(arguments, getMatfasta)))
+#                                     c_sp_tibble <- do.call(rbind, (lapply(arguments, getSPtibble)))
+#                                     c_sp_version <- unlist((lapply(arguments, getSPversion))[1])
+# 
+#                                     c_obj <- SignalpResult(in_fasta = c_in_fasta,
+#                                                        out_fasta = c_out_fasta,
+#                                                        mature_fasta = c_mature_fasta,
+#                                                        sp_tibble = c_sp_tibble,
+#                                                        sp_version = c_sp_version)
+# 
+# }
+# 
+# # obj <- list(sp1, sp2, sp3)
+# # tt <- combine_SignalpResult(obj)
+# # combine_SignalpResult(sp1, sp2, sp3)
+# # magic: combine_SignalpResult works properly on unnamed lists only
