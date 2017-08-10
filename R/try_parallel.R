@@ -2,29 +2,25 @@
 
 #' split_XStringSet function
 #'
-#' This function splits large XStringSet files into chunks of given size and writes them in tmp files
-#' @param string_set
-#' @param chunk_size
-#' @param prefix  file name prefix for tmp files
+#' This function splits large XStringSet files into chunks of given size and returns a list of AAStringSets, those could be written to tmp files.
+#' @param string_set - input AAStringSet that requires spliting;
+#' @param chunk_size - number of sequenses in a single chunk;
 #' @export
 #' @examples 
 #' large_aa <- readAAStringSet(system.file("extdata", "Ppalm_prot_ALI_PLTG.fasta", package = "SecretSanta"))
-#' split_XStringSet(large_aa, 1000, 'test')
-#' res <- split_XStringSet(large_aa, 1000, 'test')
+#' split_XStringSet(large_aa, 1000)
+#' res <- split_XStringSet(large_aa, 1000)
 
-
-split_XStringSet <- function(string_set, chunk_size, prefix){
+split_XStringSet <- function(string_set, chunk_size){
   
-  total_seq  <- c(1:length(string_set))
-  chunks <- split(total_seq, ceiling(seq_along(total_seq)/chunk_size))
-  seq_chunker <- function(x) {
-                              chunk <- string_set[x]
-                              #out_tmp <- tempfile(pattern = prefix)
-                              #Biostrings::writeXStringSet(chunk, out_tmp)
-  }
-  
-  lapply(chunks, seq_chunker) #or may be just return a list of sets - easier for parallel signalp?
+                total_seq  <- c(1:length(string_set))
+                chunks <- split(total_seq, ceiling(seq_along(total_seq)/chunk_size))
+                seq_chunker <- function(x) {chunk <- string_set[x]}
+                lapply(chunks, seq_chunker) 
 }
+
+
+
 combine_SignalpResult <- function(arguments) {
                                     #arguments <- list(...)
                                     c_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
@@ -172,7 +168,7 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
     simple_signalp(fasta)
   } else {
     message('Input fasta contains >500 sequences, entering batch mode...')
-    split_fasta <- split_XStringSet(fasta, 500, 'signalp_chunk')
+    split_fasta <- split_XStringSet(fasta, 500)
     # Calculate the number of cores
     no_cores <- detectCores()
    
@@ -199,13 +195,13 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
 
 # test run:
 # 
-my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
-# # #
-aa <- readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/medium_1K.fasta")
-inp <- CBSResult(in_fasta = aa)
-
-aa_2K <- readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/medium_2K.fasta")
-inp_2K <- CBSResult(in_fasta = aa_2K)
+# my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+# # # #
+# aa <- readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/medium_1K.fasta")
+# inp <- CBSResult(in_fasta = aa)
+# 
+# aa_2K <- readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/medium_2K.fasta")
+# inp_2K <- CBSResult(in_fasta = aa_2K)
 
 # 
 # aa2 <- readAAStringSet(system.file("extdata", "tail_prot.fasta", package = "SecretSanta"))
@@ -213,7 +209,7 @@ inp_2K <- CBSResult(in_fasta = aa_2K)
 # 
 # aa3 <- readAAStringSet(system.file("extdata", "tail2_prot.fasta", package = "SecretSanta"))
 # 
-signalp_parallel(inp, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
+#signalp_parallel(inp, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
 # 
 # large_aa <- readAAStringSet(system.file("extdata", "Ppalm_prot_ALI_PLTG.fasta", package = "SecretSanta"))
 # inp_large <- CBSResult(in_fasta = large_aa)

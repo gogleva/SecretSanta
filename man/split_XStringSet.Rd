@@ -4,16 +4,13 @@
 \alias{split_XStringSet}
 \title{split_XStringSet function}
 \usage{
-split_XStringSet(string_set, chunk_size, prefix)
-}
-\arguments{
-\item{prefix}{file name prefix for tmp files}
+split_XStringSet(string_set, chunk_size)
 }
 \description{
 This function splits large XStringSet files into chunks of given size and writes them in tmp files
 }
 \examples{
 large_aa <- readAAStringSet(system.file("extdata", "Ppalm_prot_ALI_PLTG.fasta", package = "SecretSanta"))
-split_XStringSet(large_aa, 1000, 'test')
-res <- split_XStringSet(large_aa, 1000, 'test')
+split_XStringSet(large_aa, 1000)
+res <- split_XStringSet(large_aa, 1000)
 }
