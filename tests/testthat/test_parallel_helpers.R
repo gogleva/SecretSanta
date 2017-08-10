@@ -7,6 +7,6 @@ test_that("test split_XStringSet",
             res <- split_XStringSet(large_aa, 1000)
             expect_is(res, 'list')
             expect_error(split_XStringSet(large_aa, 50000), 'Chunk size exceeds total seq number')
-            expect_error(split_XStringSet(large_inp, 100))
+            expect_error(split_XStringSet(large_inp, 100), 'Input string_set does not belong to XStringSet class')
           
           })

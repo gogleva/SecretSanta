@@ -12,17 +12,24 @@
 #' res <- split_XStringSet(large_aa, 1000)
 
 split_XStringSet <- function(string_set, chunk_size){
-  
-                total_seq  <- c(1:length(string_set))
-                chunks <- split(total_seq, ceiling(seq_along(total_seq)/chunk_size))
-                seq_chunker <- function(x) {chunk <- string_set[x]}
-                lapply(chunks, seq_chunker) 
+                                if (!(is(string_set, 'XStringSet'))) {
+                                  stop('Input string_set does not belong to XStringSet class')
+                                  }
+                                
+                                lst <- length(string_set)
+                                
+                                if (chunk_size > lst) {
+                                  stop('Chunk size exceeds total seq number')
+                                }
+                                
+                                total_seq  <- c(1:lst)
+                                chunks <- split(total_seq, ceiling(seq_along(total_seq)/chunk_size))
+                                seq_chunker <- function(x) {chunk <- string_set[x]}
+                                lapply(chunks, seq_chunker) 
 }
 
 
-
 combine_SignalpResult <- function(arguments) {
-                                    #arguments <- list(...)
                                     c_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
                                     c_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
                                     c_mature_fasta <- do.call(c, (lapply(arguments, getMatfasta)))
@@ -36,6 +43,9 @@ combine_SignalpResult <- function(arguments) {
                                                        sp_version = c_sp_version)
 
 }
+
+
+
 
 # parallel version of signalp:
 
