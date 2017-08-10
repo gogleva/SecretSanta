@@ -25,8 +25,21 @@ split_XStringSet <- function(string_set, chunk_size, prefix){
   
   lapply(chunks, seq_chunker) #or may be just return a list of sets - easier for parallel signalp?
 }
+combine_SignalpResult <- function(arguments) {
+                                    #arguments <- list(...)
+                                    c_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
+                                    c_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
+                                    c_mature_fasta <- do.call(c, (lapply(arguments, getMatfasta)))
+                                    c_sp_tibble <- do.call(rbind, (lapply(arguments, getSPtibble)))
+                                    c_sp_version <- unlist((lapply(arguments, getSPversion))[1])
 
+                                    c_obj <- SignalpResult(in_fasta = c_in_fasta,
+                                                       out_fasta = c_out_fasta,
+                                                       mature_fasta = c_mature_fasta,
+                                                       sp_tibble = c_sp_tibble,
+                                                       sp_version = c_sp_version)
 
+}
 
 # parallel version of signalp:
 
@@ -159,41 +172,48 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
     simple_signalp(fasta)
   } else {
     message('Input fasta contains >500 sequences, entering batch mode...')
-    split_fasta <- split_XStringSet(fasta, 10, 'signalp_chunk')
+    split_fasta <- split_XStringSet(fasta, 500, 'signalp_chunk')
     # Calculate the number of cores
-    no_cores <- detectCores() - 1
+    no_cores <- detectCores()
+   
     # Initiate cluster
+    
     cl <- makeCluster(no_cores)
     # run parallel process
+    
     clusterEvalQ(cl, library("SecretSanta"))
     clusterExport(cl=cl, varlist=c("my_pa"))
     result <- parLapply(cl, split_fasta, simple_signalp)
+  
     #lapply(split_fasta, simple_signalp) # => might fail with sequences larger than 4000 residues! need to skip those
     stopCluster(cl)
     res_comb <- do.call(c,result)
     return(combine_SignalpResult(unname(res_comb)))
-    #return(res_comb)
   }
-  
+}
   
   # simple_signalp(fasta)
   
   # to do: need to clean tmp files on exit signalp_chunk
-  }
+  #}
 
 # test run:
 # 
-# my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
 # # #
-# aa <- readAAStringSet(system.file("extdata", "sample_prot.fasta", package = "SecretSanta"))
-# inp <- CBSResult(in_fasta = aa)
+aa <- readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/medium_1K.fasta")
+inp <- CBSResult(in_fasta = aa)
+
+aa_2K <- readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/medium_2K.fasta")
+inp_2K <- CBSResult(in_fasta = aa_2K)
+
 # 
 # aa2 <- readAAStringSet(system.file("extdata", "tail_prot.fasta", package = "SecretSanta"))
 # inp2 <- CBSResult(in_fasta = aa2)
 # 
 # aa3 <- readAAStringSet(system.file("extdata", "tail2_prot.fasta", package = "SecretSanta"))
 # 
-# signalp_parallel(inp, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
+signalp_parallel(inp, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
 # 
 # large_aa <- readAAStringSet(system.file("extdata", "Ppalm_prot_ALI_PLTG.fasta", package = "SecretSanta"))
 # inp_large <- CBSResult(in_fasta = large_aa)
@@ -239,21 +259,7 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
 # sp2 <- signalp(input_obj = inp4, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
 # sp3 <- signalp(input_obj = inp3, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
 # 
-# combine_SignalpResult <- function(arguments) {
-#                                     #arguments <- list(...)
-#                                     c_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
-#                                     c_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
-#                                     c_mature_fasta <- do.call(c, (lapply(arguments, getMatfasta)))
-#                                     c_sp_tibble <- do.call(rbind, (lapply(arguments, getSPtibble)))
-#                                     c_sp_version <- unlist((lapply(arguments, getSPversion))[1])
-# 
-#                                     c_obj <- SignalpResult(in_fasta = c_in_fasta,
-#                                                        out_fasta = c_out_fasta,
-#                                                        mature_fasta = c_mature_fasta,
-#                                                        sp_tibble = c_sp_tibble,
-#                                                        sp_version = c_sp_version)
-# 
-# }
+
 # 
 # # obj <- list(sp1, sp2, sp3)
 # # tt <- combine_SignalpResult(obj)
