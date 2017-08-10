@@ -79,9 +79,7 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
   # simplesignalp, takes single AAStringSet as an input:
   
   simple_signalp <- function(aaSet) { 
-    # 
-    # 
-    # 
+
     # ---- Run prediction
     # convert fasta to a temporary file:
     out_tmp <- tempfile() #create a temporary file for fasta
@@ -207,7 +205,7 @@ inp2 <- CBSResult(in_fasta = aa2)
 inp3 <- CBSResult(in_fasta = aa3)
 
 #helper function to combine CBSResult class objects:
-
+# chall I make it a class method? Probably yes
 combine_CBS <- function(...) {
                               arguments <- list(...)
                               comb_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
@@ -220,3 +218,30 @@ combine_CBS <- function(...) {
 #usage:
 combine_CBS(inp, inp2)
 combine_CBS(inp, inp2, inp3)
+
+
+# combine SPResult objects:
+aa4 <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"))
+inp4 <- CBSResult(in_fasta = aa4)
+
+
+sp1 <- signalp(input_obj = inp2, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
+sp2 <- signalp(input_obj = inp4, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
+
+combine_SignalpResult <- function(...) {
+                                    arguments <- list(...)
+                                    c_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
+                                    c_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
+                                    c_mature_fasta <- do.call(c, (lapply(arguments, getMatfasta)))
+                                    c_sp_tibble <- do.call(c, (lapply(arguments, getSPtibble))) # does not work
+                                    c_sp_version <- unlist((lapply(arguments, getSPversion))[1])
+
+                                    c_obj <- SignalpResult(in_fasta = c_in_fasta,
+                                                       out_fasta = c_out_fasta,
+                                                       mature_fasta = c_mature_fasta,
+                                                       sp_tibble = c_sp_tibble,
+                                                       sp_version = c_sp_version)
+
+}
+
+combine_SignalpResult(sp1, sp2)
