@@ -8,7 +8,7 @@
 #' @examples 
 #' large_aa <- readAAStringSet(system.file("extdata", "Ppalm_prot_ALI_PLTG.fasta", package = "SecretSanta"))
 #' split_XStringSet(large_aa, 1000, 'test')
- 
+#' res <- split_XStringSet(large_aa, 1000, 'test')
 
 
 split_XStringSet <- function(string_set, chunk_size, prefix){
@@ -24,25 +24,7 @@ split_XStringSet <- function(string_set, chunk_size, prefix){
   lapply(chunks, seq_chunker) #or may be just return a list of sets - easier for parallel signalp?
 }
 
-#res <- split_XStringSet(large_aa, 1000, 'test')
 
-# ### experiments with parallelisation
-# 
-# library(parallel)
-# 
-# # function to split tmp fasta into multiple fastas
-# # run signalp for each of them
-# # combine the result
-# # lapply is my friend
-# 
-# # Calculate the number of cores
-# no_cores <- detectCores() - 1
-# # Initiate cluster
-# cl <- makeCluster(no_cores)
-# # large real-life file:
-# 
-# parLapply()
-# stopCluster(cl)
 
 
 # parallel version of signalp:
