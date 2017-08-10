@@ -190,27 +190,33 @@ inp <- CBSResult(in_fasta = aa)
 aa2 <- readAAStringSet(system.file("extdata", "tail_prot.fasta", package = "SecretSanta"))
 inp2 <- CBSResult(in_fasta = aa2)
 
+aa3 <- readAAStringSet(system.file("extdata", "tail2_prot.fasta", package = "SecretSanta"))
+
 signalp_parallel(inp, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
 
 large_aa <- readAAStringSet(system.file("extdata", "Ppalm_prot_ALI_PLTG.fasta", package = "SecretSanta"))
 inp_large <- CBSResult(in_fasta = large_aa)
-# #
+
+
 # # # try parallel:
 signalp_parallel(inp_large, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
 
 #####
 inp <- CBSResult(in_fasta = aa)
 inp2 <- CBSResult(in_fasta = aa2)
+inp3 <- CBSResult(in_fasta = aa3)
 
 #helper function to combine CBSResult class objects:
 
-combine_CBS <- function(x,y) {
-                              comb_in_fasta <- c(getInfasta(x), getInfasta(y))
-                              comb_out_fasta <- c(getOutfasta(x), getOutfasta(y))
+combine_CBS <- function(...) {
+                              arguments <- list(...)
+                              comb_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
+                              comb_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
                               c_obj <- CBSResult(in_fasta = comb_in_fasta,
                                                  out_fasta = comb_out_fasta)
 
 }
 
-
+#usage:
 combine_CBS(inp, inp2)
+combine_CBS(inp, inp2, inp3)
