@@ -160,7 +160,7 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
     simple_signalp(fasta)
   } else {
     message('Input fasta contains >500 sequences, entering batch mode...')
-    split_fasta <- split_XStringSet(fasta, 400, 'signalp_chunk')
+    split_fasta <- split_XStringSet(fasta, 100, 'signalp_chunk')
     # Calculate the number of cores
     no_cores <- detectCores() - 1
     # Initiate cluster
@@ -168,9 +168,10 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
     # run parallel process
     clusterEvalQ(cl, library("SecretSanta"))
     clusterExport(cl=cl, varlist=c("my_pa"))
-    parLapply(cl, split_fasta, simple_signalp)
+    result <- parLapply(cl, split_fasta, simple_signalp)
     #lapply(split_fasta, simple_signalp) # => might fail with sequences larger than 4000 residues! need to skip those
     stopCluster(cl)
+    return(do.call(c,result))
   }
   
   
@@ -181,12 +182,19 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
 
 # test run:
 
-# my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
 # # 
-# large_aa <- readAAStringSet(system.file("extdata", "Ppalm_prot_ALI_PLTG.fasta", package = "SecretSanta"))
-# # signalp_parallel(inp, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
-# inp_large <- CBSResult(in_fasta = large_aa)
+aa <- readAAStringSet(system.file("extdata", "sample_prot.fasta", package = "SecretSanta"))
+inp <- CBSResult(in_fasta = aa)
+
+aa2 <- readAAStringSet(system.file("extdata", "small_prot.fasta", package = "SecretSanta"))
+inp2 <- CBSResult(in_fasta = aa2)
+
+signalp_parallel(inp, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
+
+large_aa <- readAAStringSet(system.file("extdata", "Ppalm_prot_ALI_PLTG.fasta", package = "SecretSanta"))
+inp_large <- CBSResult(in_fasta = large_aa)
 # # 
 # # # try parallel:
-# signalp_parallel(inp_large, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
+signalp_parallel(inp_large, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
 
