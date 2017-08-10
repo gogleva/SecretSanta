@@ -64,18 +64,18 @@ combine_SignalpResult <- function(arguments) {
                                                        sp_version = c_sp_version)
 }
 
+#' combine_CBSResult function
+#'
+#' Minimal function to combine objects of CBSResult class.
+#' @param arguments - a list of CBSResult objects to be combined
+#' @export
+#' @examples 
+#' inp2 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "tail_prot.fasta", package = "SecretSanta")))
+#' inp3 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "tail2_prot.fasta", package = "SecretSanta")))
+#' inp4 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta")))
+#' combined_CBS <- combine_CBSResult(inp2, inp3, inp4)
 
-#alist <- c(inp, inp2, inp3)
-#combine_SignalpResult(alist)
-
-# #####
-# inp <- CBSResult(in_fasta = aa)
-# inp2 <- CBSResult(in_fasta = aa2)
-# inp3 <- CBSResult(in_fasta = aa3)
-# 
-# #helper function to combine CBSResult class objects:
-
-combine_CBS <- function(...) {
+combine_CBSResult <- function(...) {
                               arguments <- list(...)
                               comb_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
                               comb_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
@@ -83,11 +83,6 @@ combine_CBS <- function(...) {
                                                  out_fasta = comb_out_fasta)
 
 }
-# 
-# #usage:
-# combine_CBS(inp, inp2)
-# combine_CBS(inp, inp2, inp3)
-
 
 
 # parallel version of signalp:
