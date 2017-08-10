@@ -74,9 +74,20 @@ combine_SignalpResult <- function(arguments) {
 #' inp3 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "tail2_prot.fasta", package = "SecretSanta")))
 #' inp4 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta")))
 #' combined_CBS <- combine_CBSResult(inp2, inp3, inp4)
+#' combine_CBSResult(sp1, sp2, sp3)
 
 combine_CBSResult <- function(...) {
                               arguments <- list(...)
+                              
+                              if (all(sapply(arguments, is, 'CBSResult'))) {
+                              } else {                               
+                                stop('Some or all objects from the arguments list do not belong to CBSResult class.')
+                              }
+                              
+                              if (any(sapply(arguments, is, 'SignalpResult'))) {
+                                warning('Only in_fasta and out_fasta slots will be combined')
+                              }
+                              
                               comb_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
                               comb_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
                               c_obj <- CBSResult(in_fasta = comb_in_fasta,
