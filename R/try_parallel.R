@@ -1,3 +1,5 @@
+# HELPER FUNCTIONS FOR PARALLEL SIGNALP:
+
 #' split_XStringSet function
 #'
 #' This function splits large XStringSet files into chunks of given size and writes them in tmp files
@@ -23,6 +25,10 @@ split_XStringSet <- function(string_set, chunk_size, prefix){
   
   lapply(chunks, seq_chunker) #or may be just return a list of sets - easier for parallel signalp?
 }
+
+
+
+
 
 # parallel version of signalp:
 
@@ -155,7 +161,7 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
     simple_signalp(fasta)
   } else {
     message('Input fasta contains >500 sequences, entering batch mode...')
-    split_fasta <- split_XStringSet(fasta, 100, 'signalp_chunk')
+    split_fasta <- split_XStringSet(fasta, 10, 'signalp_chunk')
     # Calculate the number of cores
     no_cores <- detectCores() - 1
     # Initiate cluster
@@ -244,9 +250,7 @@ combine_SignalpResult <- function(arguments) {
 
 }
 
-obj <- list(sp1, sp2, sp3)
-tt <- combine_SignalpResult(obj)
-combine_SignalpResult(sp1, sp2, sp3)
-
-
+# obj <- list(sp1, sp2, sp3)
+# tt <- combine_SignalpResult(obj)
+# combine_SignalpResult(sp1, sp2, sp3)
 # magic: combine_SignalpResult works properly on unnamed lists only
