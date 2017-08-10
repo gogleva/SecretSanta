@@ -167,7 +167,8 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
     #lapply(split_fasta, simple_signalp) # => might fail with sequences larger than 4000 residues! need to skip those
     stopCluster(cl)
     res_comb <- do.call(c,result)
-    return(res_comb)
+    return(combine_SignalpResult(unname(res_comb)))
+    #return(res_comb)
   }
   
   
