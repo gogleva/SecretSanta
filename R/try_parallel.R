@@ -316,7 +316,6 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
     stopCluster(cl)
  
     res_comb <- do.call(c,result)
-    return(res_comb)
     return(combine_SignalpResult(unname(res_comb)))
   }
 }
