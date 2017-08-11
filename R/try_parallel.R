@@ -213,7 +213,6 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
     # make a system call of signalp based on the tmp file
 
     full_pa <- as.character(paths %>% dplyr::filter(tool == signalp_version) %>% dplyr::select(path))
-
     message(paste('Number of submitted sequences...', length(aaSet)))
 
     # ----
@@ -226,15 +225,9 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
                      "Prediction", "Dmaxcut", "Networks-used")
       # reorder columns to match sp2/3 output:
 
-      sp <- sp %>% dplyr::select("gene_id",
-                                 "Cmax",
-                                 "Cpos",
-                                 "Ymax",
-                                 "Ypos",
-                                 "Smax",
-                                 "Spos",
-                                 "Smean",
-                                 "Prediction")
+      sp <- sp %>% dplyr::select("gene_id", "Cmax", "Cpos",
+                                 "Ymax", "Ypos", "Smax",
+                                 "Spos", "Smean", "Prediction")
 
       sp <- sp %>% dplyr::filter(Prediction == 'Y')
       sp <- dplyr::mutate(sp, Prediction = ifelse(Prediction == 'Y', 'Signal peptide'))
@@ -277,24 +270,17 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
   # estimate how big is the file, if required - split it into smaller chunks and run
   # signalp as an embarassingly parallel process
 
-  # Hack - throw away too long seqeunces, longer than 4000 residues
-
-  if (truncate == T) {
-    # truncate sequences up to 1999 residues and rename the truncated ones
-    } else {
-    fasta <- fasta[width(fasta) < 2000]}
-    drop_n <- length(fasta[width(fasta) >= 2000])
-    warning(paste(drop_n, 'long sequenses have been thrown away'))
-  }
-
+  # Deal with long sequences if any present in the input
+  
+  fasta <- truncate_seq(truncate = truncate, fasta, 2000)
 
   # to do: check total number of residues
 
-  if (length(fasta) < 500) {message('Ok for single processing')
+  if (length(fasta) < 200) {message('Ok for single processing')
     simple_signalp(fasta)
   } else {
     message('Input fasta contains >500 sequences, entering batch mode...')
-    split_fasta <- split_XStringSet(fasta, 500)
+    split_fasta <- split_XStringSet(fasta, 200)
 
     # Calculate the number of cores
     no_cores <- detectCores()
@@ -349,11 +335,3 @@ microbenchmark::microbenchmark(signalp(inp_2K, version = 2, organism_type = 'euk
 microbenchmark::microbenchmark(signalp(inp_2K, version = 3, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
 microbenchmark::microbenchmark(signalp(inp_2K, version = 4, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
 
-
-
-
-
-
-truncate_seq(truncate = T, seq_set = aa_1K)
-
-names(aa_1K[width(aa_1K) >= 2000])
