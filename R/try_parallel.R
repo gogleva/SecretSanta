@@ -96,6 +96,37 @@ combine_CBSResult <- function(...) {
 }
 
 
+#### truncation:
+
+
+
+
+
+
+truncate_seq <- function(truncate, seq_set, threshold) {
+  drop_n <- length(seq_set[width(seq_set) >= threshold])
+  
+  if (truncate == F) {
+    seq_set <- seq_set[width(seq_set) < threshold]
+    warning(paste(drop_n, 'long sequenses have been thrown away'))
+    return(seq_set)
+    
+  } else if (truncate == T) {
+    message(paste(drop_n, 'sequences to be truncated'))
+    seq_keep <- seq_set[width(seq_set) < threshold] # not so long sequences
+    seq_trunc <- seq_set[width(seq_set) >= threshold] # sequences we need to truncate
+    t_names <- paste(unname(sapply(names(seq_trunc), crop_names)),
+                     '_truncated',
+                     sep = '')
+    names(seq_trunc) <- t_names #new names for sequences to be truncated
+    seq_trunc <- Biostrings::subseq(seq_trunc, 1, threshold - 1)
+    seq_set <- c(seq_keep, seq_trunc)
+    
+    if (all(width(seq_set) < threshold)) return(seq_set)
+  }
+}
+
+
 # parallel version of signalp:
 
 #' signalp_parallel function
@@ -132,6 +163,11 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
   
   if (is.null(truncate)) truncate = TRUE else truncate
   if (is.logical(truncate)) {} else {stop('truncate parameter must be logical')}
+  
+  # ------ Helper functions:
+  
+  # helper function: crop long names for AAStringSet object, return character vector
+  crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
 
   # ----- Check that inputs are valid
 
@@ -185,9 +221,6 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
     # make a system call of signalp based on the tmp file
 
     full_pa <- as.character(paths %>% dplyr::filter(tool == signalp_version) %>% dplyr::select(path))
-
-    # helper function: crop long names for AAStringSet object, return character vector
-    crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
 
     message(paste('Number of submitted sequences...', length(aaSet)))
 
@@ -326,22 +359,7 @@ microbenchmark::microbenchmark(signalp(inp_2K, version = 4, organism_type = 'euk
 
 
 
-#### truncation:
 
-truncate_seq <- function(truncate, seq_set) {
-              drop_n <- length(seq_set[width(seq_set) >= 2000])
-              
-              if (truncate == F) {
-                seq_set <- seq_set[width(seq_set) < 2000]
-                warning(paste(drop_n, 'long sequenses have been thrown away'))
-                
-              } else if (truncate == T) {
-                message(paste(drop_n, 'sequences to be truncated'))
-                seq_keep <- seq_set[width(seq_set) < 2000]
-                seq_trunc <- seq_set[width(seq_set) >= 2000]
-                
-                }
-}
 
 
 truncate_seq(truncate = T, seq_set = aa_1K)
