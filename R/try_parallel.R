@@ -98,7 +98,35 @@ combine_CBSResult <- function(...) {
 
 # parallel version of signalp:
 
-signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths) {
+#' signalp_parallel function
+#'
+#' This function calls local signalp to predict the presence and location of signal peptide cleavage sites in amino acid sequences; automatically splits large input files (>500 sequnces) and runs signalp prediction as an embarassingly parallel process on all the CPUs available.
+#' @param input_object    an instance of CBSResult class containing protein sequences as on of the attributes
+#' @param version  signalp version to run, supported versions:
+#' \itemize{
+#' \item 2
+#' \item 3
+#' \item 4
+#' \item 4.1
+#' } 
+#' @param organism_type possible values: 
+#' \itemize{
+#' \item euk - for eukaryotes;
+#' \item gram+ - for gram-positive bacteria;
+#' \item gram- - for gram-negative bacteria;
+#' }
+#' @param run_mode
+#' \itemize{
+#' \item starter - if it is the first step in pipeline;
+#' \item piper - if you run this function on the output of other CBS tools;
+#' }
+#' @param paths   tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function
+#' @param truncate logical, if TRUE - sequences longer 2000 residues will be truncated to this length limit and renamed. Default = TRUE.
+#' @return an object of SignalpResult class
+#' @export
+#' @examples
+
+signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths, truncate) {
   
   # ----- Check that inputs are valid
   
@@ -107,7 +135,8 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
   
   # check that supplied runnig mode is valid
   
-  if (run_mode %in% c('piper', 'starter')) {} else {stop("Run mode is invalid. Please use 'starter' to initiate prediction pipelie or 'piper' to continue")}
+  if (run_mode %in% c('piper', 'starter')) {} else {
+    stop("Run mode is invalid. Please use 'starter' to initiate prediction pipelie or 'piper' to continue")}
   
   # check that input_object contains non-empty in/out_fasta for starter/piper
   
@@ -120,10 +149,6 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
       fasta <- getOutfasta(input_obj)
     } else {stop('out_fasta attribute is empty')}
   }
-  
-  # Hack - throw away too long seqeunces, longer than 4000 residues
-  fasta <- fasta[width(fasta) < 4000]
-  warning(paste('Some long sequenses have been thrown away'))
   
   # check signalp versions and organism type
   allowed_versions = c(2,3,4,4.1)
@@ -143,7 +168,7 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
     stop('Input signalp version or specified organism type are invalid.')  
   }
   
-  # simplesignalp, takes single AAStringSet as an input and runs signalp on it - function body from run_signalp
+  # simple signalp, takes single AAStringSet as an input and runs signalp on it - function body from run_signalp
   
   simple_signalp <- function(aaSet) { 
 
@@ -221,6 +246,15 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
   
   # estimate how big is the file, if required - split it into smaller chunks and run
   # signalp as an embarassingly parallel process
+  
+  # Hack - throw away too long seqeunces, longer than 4000 residues
+  
+  
+  fasta <- fasta[width(fasta) < 4000]
+  warning(paste('Some long sequenses have been thrown away'))
+  
+  
+  # to do: check total number of residues
   
   if (length(fasta) < 500) {message('Ok for single processing')
     simple_signalp(fasta)
