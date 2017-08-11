@@ -254,9 +254,13 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
 
   # Hack - throw away too long seqeunces, longer than 4000 residues
 
-
-  fasta <- fasta[width(fasta) < 4000]
-  warning(paste('Some long sequenses have been thrown away'))
+  if (truncate == T) {
+    # truncate sequences up to 1999 residues and rename the truncated ones
+    } else {
+    fasta <- fasta[width(fasta) < 2000]}
+    drop_n <- length(fasta[width(fasta) >= 2000])
+    warning(paste(drop_n, 'long sequenses have been thrown away'))
+  }
 
 
   # to do: check total number of residues
@@ -319,3 +323,27 @@ microbenchmark::microbenchmark(signalp(inp_2K, version = 4, organism_type = 'euk
 microbenchmark::microbenchmark(signalp(inp_2K, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1) # fails due to the input limits
 microbenchmark::microbenchmark(signalp(inp_2K, version = 3, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
 microbenchmark::microbenchmark(signalp(inp_2K, version = 4, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
+
+
+
+#### truncation:
+
+truncate_seq <- function(truncate, seq_set) {
+              drop_n <- length(seq_set[width(seq_set) >= 2000])
+              
+              if (truncate == F) {
+                seq_set <- seq_set[width(seq_set) < 2000]
+                warning(paste(drop_n, 'long sequenses have been thrown away'))
+                
+              } else if (truncate == T) {
+                message(paste(drop_n, 'sequences to be truncated'))
+                seq_keep <- seq_set[width(seq_set) < 2000]
+                seq_trunc <- seq_set[width(seq_set) >= 2000]
+                
+                }
+}
+
+
+truncate_seq(truncate = T, seq_set = aa_1K)
+
+names(aa_1K[width(aa_1K) >= 2000])
