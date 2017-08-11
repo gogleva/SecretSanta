@@ -314,8 +314,8 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
     clusterExport(cl=cl, varlist=c("my_pa")) # or path?
     result <- parLapply(cl, split_fasta, simple_signalp)
 
-    stopCluster(cl)
-    return(result)
+   # stopCluster(cl)
+    result
 #    res_comb <- do.call(c,result)
  #   return(combine_SignalpResult(unname(res_comb)))
   }
