@@ -304,10 +304,10 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
     split_fasta <- split_XStringSet(fasta, 500)
 
     # Calculate the number of cores
-    no_cores <- detectCores()
+  #  no_cores <- detectCores()
 
     # Initiate cluster
-    cl <- makeCluster(no_cores)
+    cl <- makeCluster(16)
     # run parallel process
 
     clusterEvalQ(cl, library("SecretSanta"))
