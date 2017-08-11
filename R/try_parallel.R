@@ -307,7 +307,7 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
   #  no_cores <- detectCores()
 
     # Initiate cluster
-    cl <- makeCluster(16)
+    cl <- makeCluster(4)
     # run parallel process
 
     clusterEvalQ(cl, library("SecretSanta"))
@@ -317,7 +317,7 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
  
     res_comb <- do.call(c,result)
     return(res_comb)
- #   return(combine_SignalpResult(unname(res_comb)))
+    return(combine_SignalpResult(unname(res_comb)))
   }
 }
   
