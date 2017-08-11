@@ -39,14 +39,14 @@ split_XStringSet <- function(string_set, chunk_size, residue_lim = NULL){
                                 
 }
 
-res_2K <- split_XStringSet(aa_2K, 500)
-
-get_residue_lim <- function(x) {sum(width(x))}
-which(sapply(unname(res_2K), get_residue_lim) >= 200000)
-
-large_aa <- readAAStringSet(system.file("extdata", "Ppalm_prot_ALI_PLTG.fasta", package = "SecretSanta"))
-split_XStringSet(large_aa, 1000)
-res <- split_XStringSet(large_aa, 1000)
+# res_2K <- split_XStringSet(aa_2K, 500)
+# 
+# get_residue_lim <- function(x) {sum(width(x))}
+# which(sapply(unname(res_2K), get_residue_lim) >= 200000)
+# 
+# large_aa <- readAAStringSet(system.file("extdata", "Ppalm_prot_ALI_PLTG.fasta", package = "SecretSanta"))
+# split_XStringSet(large_aa, 1000)
+# res <- split_XStringSet(large_aa, 1000)
 
 #' combine_SignalpResult function
 #'
