@@ -4,12 +4,15 @@
 \alias{split_XStringSet}
 \title{split_XStringSet function}
 \usage{
-split_XStringSet(string_set, chunk_size)
+split_XStringSet(string_set, chunk_size, residue_lim = NULL)
 }
 \arguments{
 \item{string_set}{- input AAStringSet that requires spliting;}
 
 \item{chunk_size}{- number of sequenses in a single chunk;}
+
+\item{residue_lim}{- total number of residues/nucleotides allowed per chunk, if not met - smaller chunks are created
+recursively for the offending chunk.}
 }
 \description{
 This function splits large XStringSet files into chunks of given size and returns a list of AAStringSets, those could be written to tmp files.
