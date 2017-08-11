@@ -320,6 +320,9 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
   }
 }
   
+## HPC tests:
+
+# 'parallel mode fails on HPC; parallelisation is working technically, but we do not need all the CPUs available, just 4 * n batches
 
 # # test run:
 #  
