@@ -125,7 +125,6 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
   fasta <- fasta[width(fasta) < 4000]
   warning(paste('Some long sequenses have been thrown away'))
   
-  
   # check signalp versions and organism type
   allowed_versions = c(2,3,4,4.1)
   allowed_organisms = c('euk', 'gram+', 'gram-')
@@ -144,8 +143,7 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
     stop('Input signalp version or specified organism type are invalid.')  
   }
   
-
-  # simplesignalp, takes single AAStringSet as an input:
+  # simplesignalp, takes single AAStringSet as an input and runs signalp on it - function body from run_signalp
   
   simple_signalp <- function(aaSet) { 
 
@@ -221,65 +219,64 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths)
     if (validObject(out_obj)) {return(out_obj)}
   }
   
-  # estimate how big is the file, if required - split it into smaller chunks
+  # estimate how big is the file, if required - split it into smaller chunks and run
+  # signalp as an embarassingly parallel process
   
   if (length(fasta) < 500) {message('Ok for single processing')
     simple_signalp(fasta)
   } else {
     message('Input fasta contains >500 sequences, entering batch mode...')
     split_fasta <- split_XStringSet(fasta, 500)
+    
     # Calculate the number of cores
     no_cores <- detectCores()
    
     # Initiate cluster
-    
     cl <- makeCluster(no_cores)
     # run parallel process
     
     clusterEvalQ(cl, library("SecretSanta"))
-    clusterExport(cl=cl, varlist=c("my_pa"))
+    clusterExport(cl=cl, varlist=c("my_pa")) # or path?
     result <- parLapply(cl, split_fasta, simple_signalp)
   
-    #lapply(split_fasta, simple_signalp) # => might fail with sequences larger than 4000 residues! need to skip those
     stopCluster(cl)
     res_comb <- do.call(c,result)
     return(combine_SignalpResult(unname(res_comb)))
   }
 }
   
-  # simple_signalp(fasta)
-  
-  # to do: need to clean tmp files on exit signalp_chunk
-  #}
+
+# to do: need to clean tmp files on exit signalp_chunk
 
 # test run:
-# 
-# my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
-# # # #
-# aa <- readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/medium_1K.fasta")
-# inp <- CBSResult(in_fasta = aa)
-# 
-# aa_2K <- readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/medium_2K.fasta")
-# inp_2K <- CBSResult(in_fasta = aa_2K)
+ 
+my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
 
-# 
-# aa2 <- readAAStringSet(system.file("extdata", "tail_prot.fasta", package = "SecretSanta"))
-# 
-# 
-# aa3 <- readAAStringSet(system.file("extdata", "tail2_prot.fasta", package = "SecretSanta"))
-# 
-#signalp_parallel(inp, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
-# 
-# large_aa <- readAAStringSet(system.file("extdata", "Ppalm_prot_ALI_PLTG.fasta", package = "SecretSanta"))
-# inp_large <- CBSResult(in_fasta = large_aa)
-# 
-# 
-# aa_10k <- readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/signalp-2.0/large_20K.fasta")
-# inp_10K <- CBSResult(in_fasta = aa_10k)
-# system.time(signalp_parallel(inp_10K, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa))
-# 
-# 
-# r1 <- check_khdel(input_obj = inp_10K, run_mode = 'starter')
-# 
-# # # # try parallel:
-# signalp_parallel(inp_large, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
+aa_1K <- readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/medium_1K.fasta")
+inp_1K <- CBSResult(in_fasta = aa_1K)
+
+aa_2K <- readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/medium_2K.fasta")
+inp_2K <- CBSResult(in_fasta = aa_2K)
+
+sp_1K_par <- signalp_parallel(inp_1K, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
+
+# profile 1K input, parallel
+microbenchmark::microbenchmark(signalp_parallel(inp_1K, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
+microbenchmark::microbenchmark(signalp_parallel(inp_1K, version = 3, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
+microbenchmark::microbenchmark(signalp_parallel(inp_1K, version = 4, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
+
+# profile 2K input, parallel
+microbenchmark::microbenchmark(signalp_parallel(inp_2K, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
+microbenchmark::microbenchmark(signalp_parallel(inp_2K, version = 3, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
+microbenchmark::microbenchmark(signalp_parallel(inp_2K, version = 4, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
+
+
+# profile 2K input, non-parallel
+microbenchmark::microbenchmark(signalp(inp_2K, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1) # fails due to the input limits
+microbenchmark::microbenchmark(signalp(inp_2K, version = 3, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
+microbenchmark::microbenchmark(signalp(inp_2K, version = 4, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
+
+# profile 1K input, non-parallel
+microbenchmark::microbenchmark(signalp(inp_2K, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1) # fails due to the input limits
+microbenchmark::microbenchmark(signalp(inp_2K, version = 3, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
+microbenchmark::microbenchmark(signalp(inp_2K, version = 4, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
