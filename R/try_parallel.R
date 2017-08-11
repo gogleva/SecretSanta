@@ -5,13 +5,17 @@
 #' This function splits large XStringSet files into chunks of given size and returns a list of AAStringSets, those could be written to tmp files.
 #' @param string_set - input AAStringSet that requires spliting;
 #' @param chunk_size - number of sequenses in a single chunk;
+#' @param residue_limit - total number of residues/nucleotides allowed per chunk, if not met - smaller chunks are created
+#' recursively for the offending chunk.
 #' @export
 #' @examples 
 #' large_aa <- readAAStringSet(system.file("extdata", "Ppalm_prot_ALI_PLTG.fasta", package = "SecretSanta"))
 #' split_XStringSet(large_aa, 1000)
 #' res <- split_XStringSet(large_aa, 1000)
 
-split_XStringSet <- function(string_set, chunk_size){
+split_XStringSet <- function(string_set, chunk_size, residue_limit = NULL){
+                                
+                                
                                 if (!(is(string_set, 'XStringSet'))) {
                                   stop('Input string_set does not belong to XStringSet class')
                                   }
@@ -27,6 +31,11 @@ split_XStringSet <- function(string_set, chunk_size){
                                 seq_chunker <- function(x) {chunk <- string_set[x]}
                                 lapply(chunks, seq_chunker) 
 }
+
+
+large_aa <- readAAStringSet(system.file("extdata", "Ppalm_prot_ALI_PLTG.fasta", package = "SecretSanta"))
+split_XStringSet(large_aa, 1000)
+res <- split_XStringSet(large_aa, 1000)
 
 #' combine_SignalpResult function
 #'
