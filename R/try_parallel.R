@@ -315,8 +315,9 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
     result <- parLapply(cl, split_fasta, simple_signalp)
 
     stopCluster(cl)
-    res_comb <- do.call(c,result)
-    return(combine_SignalpResult(unname(res_comb)))
+    return(result)
+#    res_comb <- do.call(c,result)
+ #   return(combine_SignalpResult(unname(res_comb)))
   }
 }
   
