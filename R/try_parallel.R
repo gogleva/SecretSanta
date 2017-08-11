@@ -5,15 +5,13 @@
 #' This function splits large XStringSet files into chunks of given size and returns a list of AAStringSets, those could be written to tmp files.
 #' @param string_set - input AAStringSet that requires spliting;
 #' @param chunk_size - number of sequenses in a single chunk;
-#' @param residue_lim - total number of residues/nucleotides allowed per chunk, if not met - smaller chunks are created
-#' recursively for the offending chunk.
 #' @export
 #' @examples 
 #' large_aa <- readAAStringSet(system.file("extdata", "Ppalm_prot_ALI_PLTG.fasta", package = "SecretSanta"))
 #' split_XStringSet(large_aa, 1000)
 #' res <- split_XStringSet(large_aa, 1000)
 
-split_XStringSet <- function(string_set, chunk_size, residue_lim = NULL){
+split_XStringSet <- function(string_set, chunk_size){
                                 
                                 
                                 if (!(is(string_set, 'XStringSet'))) {
@@ -31,11 +29,11 @@ split_XStringSet <- function(string_set, chunk_size, residue_lim = NULL){
                                 total_seq  <- c(1:lst)
                                 chunks <- split(total_seq, ceiling(seq_along(total_seq)/chunk_size))
                                 seq_chunker <- function(x) {chunk <- string_set[x]}
-                                res <- lapply(chunks, seq_chunker) 
+                                lapply(chunks, seq_chunker) 
                                 
                                 # check total number of residues in the resulting chunks:
-                                get_residue_lim <- function(x) {sum(width(x))}
-                                which(sapply(unname(res), get_residue_lim) >= 200000)
+                            #    get_residue_lim <- function(x) {sum(width(x))}
+                             #   which(sapply(unname(res), get_residue_lim) >= 200000)
                                 
 }
 
@@ -302,7 +300,7 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
   } else {
     message('Input fasta contains >600 sequences, entering batch mode...')
     split_fasta <- split_XStringSet(fasta, 500)
-
+  
     # Calculate the number of cores
     no_cores <- detectCores()
 
@@ -314,7 +312,7 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
     clusterExport(cl=cl, varlist=c("my_pa")) # or path?
     result <- parLapply(cl, split_fasta, simple_signalp)
     stopCluster(cl)
- 
+
     res_comb <- do.call(c,result)
     return(combine_SignalpResult(unname(res_comb)))
   }
