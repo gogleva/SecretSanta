@@ -5,7 +5,7 @@
 #' This function splits large XStringSet files into chunks of given size and returns a list of AAStringSets, those could be written to tmp files.
 #' @param string_set - input AAStringSet that requires spliting;
 #' @param chunk_size - number of sequenses in a single chunk;
-#' @param residue_limit - total number of residues/nucleotides allowed per chunk, if not met - smaller chunks are created
+#' @param residue_lim - total number of residues/nucleotides allowed per chunk, if not met - smaller chunks are created
 #' recursively for the offending chunk.
 #' @export
 #' @examples 
@@ -13,7 +13,7 @@
 #' split_XStringSet(large_aa, 1000)
 #' res <- split_XStringSet(large_aa, 1000)
 
-split_XStringSet <- function(string_set, chunk_size, residue_limit = NULL){
+split_XStringSet <- function(string_set, chunk_size, residue_lim = NULL){
                                 
                                 
                                 if (!(is(string_set, 'XStringSet'))) {
@@ -26,12 +26,20 @@ split_XStringSet <- function(string_set, chunk_size, residue_limit = NULL){
                                   stop('Chunk size exceeds total seq number')
                                 }
                                 
+                                get_residue_lim <- function(x) {sum(width(x))}
+                                
                                 total_seq  <- c(1:lst)
                                 chunks <- split(total_seq, ceiling(seq_along(total_seq)/chunk_size))
                                 seq_chunker <- function(x) {chunk <- string_set[x]}
                                 lapply(chunks, seq_chunker) 
+                                
+                                
 }
 
+res_2K <- split_XStringSet(aa_2K, 500)
+
+get_residue_lim <- function(x) {sum(width(x))}
+which(sapply(unname(res_2K), get_residue_lim) >= 200000)
 
 large_aa <- readAAStringSet(system.file("extdata", "Ppalm_prot_ALI_PLTG.fasta", package = "SecretSanta"))
 split_XStringSet(large_aa, 1000)
@@ -285,11 +293,11 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
 
   # to do: check total number of residues
 
-  if (length(fasta) < 200) {message('Ok for single processing')
+  if (length(fasta) <= 600) {message('Ok for single processing')
     simple_signalp(fasta)
   } else {
-    message('Input fasta contains >500 sequences, entering batch mode...')
-    split_fasta <- split_XStringSet(fasta, 200)
+    message('Input fasta contains >600 sequences, entering batch mode...')
+    split_fasta <- split_XStringSet(fasta, 500)
 
     # Calculate the number of cores
     no_cores <- detectCores()
