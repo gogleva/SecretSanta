@@ -304,10 +304,10 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
     split_fasta <- split_XStringSet(fasta, 500)
 
     # Calculate the number of cores
-  #  no_cores <- detectCores()
+    no_cores <- detectCores()
 
     # Initiate cluster
-    cl <- makeCluster(4)
+    cl <- makeCluster(no_cores)
     # run parallel process
 
     clusterEvalQ(cl, library("SecretSanta"))
@@ -326,15 +326,16 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
 
 # # test run:
 #  
-# my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+ my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
 # 
-# aa_1K <- readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/medium_1K.fasta")
-# inp_1K <- CBSResult(in_fasta = aa_1K)
+aa_1K <- readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/medium_1K.fasta")
+inp_1K <- CBSResult(in_fasta = aa_1K)
 # 
-# aa_2K <- readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/medium_2K.fasta")
-# inp_2K <- CBSResult(in_fasta = aa_2K)
+aa_2K <- readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/medium_2K.fasta")
+inp_2K <- CBSResult(in_fasta = aa_2K)
 # 
-# sp_1K_par <- signalp_parallel(inp_1K, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
+sp_1K_par <- signalp_parallel(inp_1K, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa, truncate = T)
+
 # 
 # # profile 1K input, parallel
 # microbenchmark::microbenchmark(signalp_parallel(inp_1K, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
