@@ -6,7 +6,8 @@ Description: Functions and integarted workflow for automated secretome predictio
   and annotation based on input amino acid sequences
 Depends: R (>= 3.4.0),
         dplyr,
-        Biostrings
+        Biostrings,
+        parallel
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
