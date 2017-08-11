@@ -131,7 +131,8 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
   # ----- Set default value for parameters if not provided:
   
   if (is.null(truncate)) truncate = TRUE else truncate
-  
+  if (is.logical(truncate)) {} else {stop('truncate parameter must be logical')}
+
   # ----- Check that inputs are valid
 
   # check that input object belong to CBSResult class
