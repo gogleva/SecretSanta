@@ -33,7 +33,7 @@ split_XStringSet <- function(string_set, chunk_size){
                                 
 }
 
-combine_SignalpResult function
+#combine_SignalpResult function
 #'
 #' This function combines multiple instances of SignalpResult class, typically generated with parLapply
 #' @param arguments - a list of SignalpResult objects to be combined in one

@@ -2,7 +2,7 @@
 % Please edit documentation in R/try_parallel.R
 \name{combine_SignalpResult}
 \alias{combine_SignalpResult}
-\title{combine_SignalpResult function}
+\title{This function combines multiple instances of SignalpResult class, typically generated with parLapply}
 \usage{
 combine_SignalpResult(arguments)
 }
