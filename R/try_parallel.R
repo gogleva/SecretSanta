@@ -309,7 +309,13 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
     stopCluster(cl)
 
     res_comb <- do.call(c,result)
-    return(combine_SignalpResult(unname(res_comb)))
+    combined_SignalpResult <- combine_SignalpResult(unname(res_comb))
+    
+    sp_count <- nrow(getSPtibble(combined_SignalpResult))    
+    message(paste('Number of candidate sequences with signal peptides...', sp_count))
+    if (sp_count == 0) {warning('Signal peptide prediction yeilded 0 candidates')}
+    
+    return(combined_SignalpResult)
   }
 }
   
