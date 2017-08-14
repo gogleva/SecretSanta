@@ -208,7 +208,12 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
   organism_type <- tolower(organism_type)
   
   # check that previous sp_version is not the same as one requested to run this time
-
+  
+  if (.hasSlot(input_obj, 'sp_version')) {
+    if (getSPversion(input_obj) == version) {warning('You are about to run the same version of signalp that was used to generate the input object.')}
+  }
+  
+  
   signalp_version <- paste("signalp", version, sep = '')
   message(paste('Version used...', signalp_version))
 
@@ -325,8 +330,8 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
 # # test run:
 
 my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
-# aa_1K <- readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/medium_1K.fasta")
-# inp_1K <- CBSResult(in_fasta = aa_1K)
+aa_1K <- readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/medium_1K.fasta")
+inp_1K <- SignalpResult(in_fasta = aa_1K)
 
 # aa_2K <- readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/medium_2K.fasta")
 # inp_2K <- CBSResult(in_fasta = aa_2K)
