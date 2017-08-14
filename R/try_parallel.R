@@ -328,6 +328,9 @@ s2_sp_1K_par <- signalp_parallel(sp_1K_par, version = 2, organism_type = 'euk', 
 
 #### DEBUG truncate_seq:
 
+sp_1K_par <- signalp_parallel(inp_1K, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa, truncate = T)
+test_inp <- CBSResult(in_fasta = getOutfasta(sp_1K_par))
+test_fasta <- getInfasta(test_inp)
 
 truncate_seq <- function(truncate, seq_set, threshold) {
   drop_n <- length(seq_set[width(seq_set) >= threshold])
