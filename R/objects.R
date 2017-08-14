@@ -185,7 +185,7 @@ SignalpResult <- setClass(
                                  ),
                  
                     prototype = list(mature_fasta = Biostrings::AAStringSet(),
-                                sp_version = 2,
+                                sp_version = numeric(0),
                                 sp_tibble = tibble::tibble()
                                 ),
                     

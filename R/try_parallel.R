@@ -206,6 +206,8 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
   allowed_versions = c(2,3,4,4.1)
   allowed_organisms = c('euk', 'gram+', 'gram-')
   organism_type <- tolower(organism_type)
+  
+  # check that previous sp_version is not the same as one requested to run this time
 
   signalp_version <- paste("signalp", version, sep = '')
   message(paste('Version used...', signalp_version))
@@ -322,7 +324,7 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
 
 # # test run:
 
-#  my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
 # aa_1K <- readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/medium_1K.fasta")
 # inp_1K <- CBSResult(in_fasta = aa_1K)
 
