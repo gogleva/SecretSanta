@@ -334,39 +334,3 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
 # 
 # s2_sp_1K_par <- signalp_parallel(sp_1K_par, version = 2, organism_type = 'euk', run_mode = 'piper', paths = my_pa, truncate = T)
 # 
-# #### DEBUG truncate_seq:
-# 
-# sp_1K_par <- signalp_parallel(inp_1K, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa, truncate = T)
-# test_inp <- CBSResult(in_fasta = getOutfasta(sp_1K_par))
-# test_fasta <- getInfasta(test_inp)
-# 
-# truncate_seq(truncate = T, test_fasta, 100)
-# truncate_seq(truncate = T, test_fasta, 1000)
-# #truncate_seq breaks with high threshold values
-# 
-# 
-# truncate_seq <- function(truncate, seq_set, threshold) {
-#   
-#   drop_n <- length(seq_set[width(seq_set) >= threshold])
-#   
-#   if (drop_n == 0) return(seq_set)
-#   
-#   if (truncate == F) {
-#     seq_set <- seq_set[width(seq_set) < threshold]
-#     warning(paste(drop_n, 'long sequenses have been thrown away'))
-#     return(seq_set)
-#     
-#   } else if (truncate == T) {
-#     message(paste(drop_n, 'sequences to be truncated'))
-#     seq_keep <- seq_set[width(seq_set) < threshold] # not so long sequences
-#     seq_trunc <- seq_set[width(seq_set) >= threshold] # sequences we need to truncate
-#     t_names <- paste(unname(sapply(names(seq_trunc), crop_names)),
-#                      '_truncated',
-#                      sep = '')
-#     names(seq_trunc) <- t_names #new names for sequences to be truncated
-#     seq_trunc <- Biostrings::subseq(seq_trunc, 1, threshold - 1)
-#     seq_set <- sample(c(seq_keep, seq_trunc)) # shuffle AAStringset to avoid having all the heavy sequences in the last chunk
-#     
-#     if (all(width(seq_set) < threshold)) return(seq_set)
-#   }
-# }
