@@ -284,7 +284,7 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
 
   # Deal with long sequences if any present in the input
   
-  fasta <- truncate_seq(truncate = truncate, fasta, 2000)
+  fasta <- truncate_seq(truncate = truncate, fasta, 2000) # does it break here?
 
   # to do: check total number of residues
 
@@ -326,25 +326,28 @@ sp_1K_par <- signalp_parallel(inp_1K, version = 2, organism_type = 'euk', run_mo
 
 s2_sp_1K_par <- signalp_parallel(sp_1K_par, version = 2, organism_type = 'euk', run_mode = 'piper', paths = my_pa, truncate = T)
 
+#### DEBUG truncate_seq:
 
 
-# # profile 1K input, parallel
-# microbenchmark::microbenchmark(signalp_parallel(inp_1K, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
-# microbenchmark::microbenchmark(signalp_parallel(inp_1K, version = 3, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
-# microbenchmark::microbenchmark(signalp_parallel(inp_1K, version = 4, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
-# 
-# # profile 2K input, parallel
-# microbenchmark::microbenchmark(signalp_parallel(inp_2K, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
-# microbenchmark::microbenchmark(signalp_parallel(inp_2K, version = 3, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
-# microbenchmark::microbenchmark(signalp_parallel(inp_2K, version = 4, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
-# 
-# 
-# # profile 2K input, non-parallel
-# microbenchmark::microbenchmark(signalp(inp_2K, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1) # fails due to the input limits
-# microbenchmark::microbenchmark(signalp(inp_2K, version = 3, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
-# microbenchmark::microbenchmark(signalp(inp_2K, version = 4, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
-# 
-# # profile 1K input, non-parallel
-# microbenchmark::microbenchmark(signalp(inp_2K, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1) # fails due to the input limits
-# microbenchmark::microbenchmark(signalp(inp_2K, version = 3, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
-# microbenchmark::microbenchmark(signalp(inp_2K, version = 4, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
+truncate_seq <- function(truncate, seq_set, threshold) {
+  drop_n <- length(seq_set[width(seq_set) >= threshold])
+  
+  if (truncate == F) {
+    seq_set <- seq_set[width(seq_set) < threshold]
+    warning(paste(drop_n, 'long sequenses have been thrown away'))
+    return(seq_set)
+    
+  } else if (truncate == T) {
+    message(paste(drop_n, 'sequences to be truncated'))
+    seq_keep <- seq_set[width(seq_set) < threshold] # not so long sequences
+    seq_trunc <- seq_set[width(seq_set) >= threshold] # sequences we need to truncate
+    t_names <- paste(unname(sapply(names(seq_trunc), crop_names)),
+                     '_truncated',
+                     sep = '')
+    names(seq_trunc) <- t_names #new names for sequences to be truncated
+    seq_trunc <- Biostrings::subseq(seq_trunc, 1, threshold - 1)
+    seq_set <- sample(c(seq_keep, seq_trunc)) # shuffle AAStringset to avoid having all the heavy sequences in the last chunk
+    
+    if (all(width(seq_set) < threshold)) return(seq_set)
+  }
+}
