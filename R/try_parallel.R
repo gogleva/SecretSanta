@@ -332,6 +332,11 @@ sp_1K_par <- signalp_parallel(inp_1K, version = 2, organism_type = 'euk', run_mo
 test_inp <- CBSResult(in_fasta = getOutfasta(sp_1K_par))
 test_fasta <- getInfasta(test_inp)
 
+truncate_seq(truncate = T, test_fasta, 100)
+
+#truncate_seq breaks with high threshold values
+
+
 truncate_seq <- function(truncate, seq_set, threshold) {
   drop_n <- length(seq_set[width(seq_set) >= threshold])
   
