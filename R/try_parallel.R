@@ -320,21 +320,17 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
   
 ## HPC tests:
 
-# 'parallel mode fails on HPC; parallelisation is working technically, but we do not need all the CPUs available, just 4 * n batches
-
 # # test run:
-# #  
+
 #  my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
-# # 
 # aa_1K <- readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/medium_1K.fasta")
 # inp_1K <- CBSResult(in_fasta = aa_1K)
-# # 
+
 # aa_2K <- readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/medium_2K.fasta")
 # inp_2K <- CBSResult(in_fasta = aa_2K)
-# # 
+
 # sp_1K_par <- signalp_parallel(inp_1K, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa, truncate = T)
 
-# 
 # # profile 1K input, parallel
 # microbenchmark::microbenchmark(signalp_parallel(inp_1K, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
 # microbenchmark::microbenchmark(signalp_parallel(inp_1K, version = 3, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
@@ -355,24 +351,3 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
 # microbenchmark::microbenchmark(signalp(inp_2K, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1) # fails due to the input limits
 # microbenchmark::microbenchmark(signalp(inp_2K, version = 3, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
 # microbenchmark::microbenchmark(signalp(inp_2K, version = 4, organism_type = 'euk', run_mode = 'starter', paths = my_pa), times = 1)
-# 
-# 
-# #### testing truncation and split_XStringSet
-# 
-# # #not truncated
-# # aa_2K <- readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/medium_2K.fasta")
-# # length(aa_2K) #2000 sequences
-# # 
-# # aa_2K_split <- split_XStringSet(aa_2K, 500) # 4 chunks
-# # get_residue_sum <- function(x) {sum(width(x))}
-# # sapply(unname(aa_2K_split), get_residue_sum)
-# # 
-# # # [1] 166909 177570 190625 189467
-# # 
-# # # try runcation:
-# # 
-# # aa_2K_tr <- truncate_seq(truncate = T, seq_set = aa_2K, threshold = 2000)
-# # sum(width(aa_2K)) > sum(width(aa_2K_tr))
-# # 
-# # aa_2K_tr_split <- split_XStringSet(aa_2K_tr, 500) # 4 chunks
-# # sapply(unname(aa_2K_tr_split), get_residue_sum)

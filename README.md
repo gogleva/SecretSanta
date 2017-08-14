@@ -58,11 +58,11 @@ SOLVED:
 TO DO:
 
 - clean tmp files after the signalp run?
-- plotting functions for individual peptides (will require full output) signalp
-- prediction graphs (?) when each candidate was rejected -->?
 - set default options for some parameters, more flexible filters for SP?
 - replace simple signalp with parallelised version
 - unit tests and integration tests for parallelised signalp
+- plotting functions for individual peptides (will require full output) signalp
+- prediction graphs (?) when each candidate was rejected -->?
 - Add warning if input belongs to the same tool/version as the tool intended to use
 - parallelise TMHMM, targetp, wolf?
 - install SecretSanta from scratch and manage dependencies: Biostrings not imported without bioconductor?
@@ -72,6 +72,7 @@ TO DO:
 - Write vignettes
 - Add links and references to the tool papers
 - more HPC tests
+- does parLapply work on Windows? what to use if not?
 
 
 
