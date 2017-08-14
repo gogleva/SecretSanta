@@ -52,19 +52,28 @@ SOLVED:
 - exsaustive unit test of inputs/outputs
 - function and class to run targetP
 - function: M-slicer - for alternative translation start sites (could be mitochondrial?)
-
+- speed up signalp run by splitting large input file into several smaller ones and run them as a series of small jobs
+- Add check for empty inputs/ Message if the tool returns 0 candidates to pass further
 
 TO DO:
 
 - clean tmp files after the signalp run?
-- speed up signalp run by splitting large input file into several smaller ones and run them as a series of small jobs
 - plotting functions for individual peptides (will require full output) signalp
 - prediction graphs (?) when each candidate was rejected -->?
 - set default options for some parameters, more flexible filters for SP?
-- Add links and references to the tool papers
+- replace simple signalp with parallelised version
+- unit tests and integration tests for parallelised signalp
 - Add warning if input belongs to the same tool/version as the tool intended to use
-- Add check for empty inputs/ Message if the tool returns 0 candidates to pass further
+- parallelise TMHMM, targetp, wolf?
+- install SecretSanta from scratch and manage dependencies: Biostrings not imported without bioconductor?
+- add unit tests for large inputs
+- consider having separate helper functions that are used by all/several runners:
+(truncate_seq, crop_names, smth else?)
 - Write vignettes
+- Add links and references to the tool papers
+- more HPC tests
+
+
 
 
 ### Installation:
