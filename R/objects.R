@@ -38,15 +38,20 @@ CBSResult <- setClass("CBSResult",
                 {
                   # check number of input sequences:
                   
-                  if (length(object@in_fasta) == 1) {
-                    return('input contains just 1 sequence, it is recommended to use web CBS tools instead:
-                           http://www.cbs.dtu.dk/services/')
-                  }
+                  # Not entirely sure about the consecuences of this:
+               #   if (length(object@in_fasta) == 1) {
+                #    return('input contains just 1 sequence, it is recommended to use web CBS tools instead:
+                 #          http://www.cbs.dtu.dk/services/')
+                  #}
                   
                   #check that input is not a dna!
                   
                   al <- Biostrings::alphabetFrequency(object@in_fasta)
-                  most_frequent <- colnames(al[, colSums(al != 0) > 0])
+                  if (nrow(al) == 1) {
+                      most_frequent <- names(al[, colSums(al != 0) > 0]) 
+                  } else {
+                      most_frequent <- colnames(al[, colSums(al != 0) > 0]) # does not work if in_fasta contains just 1 seq
+                  }
                   
                   if (all(c("A", "C", "G", "T") %in% most_frequent)) {
                     return("Input sequence is DNA, please provide amino acid sequence.")
