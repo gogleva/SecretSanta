@@ -317,4 +317,5 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
     
     return(combined_SignalpResult)
   }
+    closeAllConnections()
 }

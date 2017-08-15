@@ -39,11 +39,14 @@ CBSResult <- setClass("CBSResult",
                   #check that input is not dna or rna
                   
                   al <- Biostrings::alphabetFrequency(object@in_fasta)
+                  
+                                
                   if (nrow(al) == 1) {
-                      most_frequent <- names(al[, colSums(al != 0) > 0]) 
-                  } else {
-                      most_frequent <- colnames(al[, colSums(al != 0) > 0])
-                  }
+                       most_frequent <- names(rev(sort(al[, colSums(al != 0) > 0])))[1:4] 
+                   } else {
+                       most_frequent <- names(rev(sort(colSums(al[, colSums(al != 0) > 0])))[1:4])
+                   }
+                  # 
                   
                   if (all(c("A", "C", "G", "T") %in% most_frequent)) {
                     return("Input sequence is DNA, please provide amino acid sequence.")
