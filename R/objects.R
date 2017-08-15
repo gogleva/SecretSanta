@@ -36,15 +36,7 @@ CBSResult <- setClass("CBSResult",
                 
                 validity = function(object)
                 {
-                  # check number of input sequences:
-                  
-                  # Not entirely sure about the consecuences of this:
-               #   if (length(object@in_fasta) == 1) {
-                #    return('input contains just 1 sequence, it is recommended to use web CBS tools instead:
-                 #          http://www.cbs.dtu.dk/services/')
-                  #}
-                  
-                  #check that input is not a dna!
+                  #check that input is not dna or rna
                   
                   al <- Biostrings::alphabetFrequency(object@in_fasta)
                   if (nrow(al) == 1) {
