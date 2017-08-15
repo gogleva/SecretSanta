@@ -36,6 +36,19 @@ CBSResult <- setClass("CBSResult",
                 
                 validity = function(object)
                 {
+                  #check that input is not a dna!
+                  
+                  al <- Biostrings::alphabetFrequency(object@in_fasta)
+                  most_frequent <- colnames(al[, colSums(al != 0) > 0])
+                  
+                  if (all(c("A", "C", "G", "T") %in% most_frequent)) {
+                    return("Input sequence is DNA")
+                  }
+                  
+                  if (all(c("A", "C", "G", "U") %in% most_frequent)) {
+                    return("Input sequence is RNA")
+                  }
+                  
                   if (length(object@in_fasta) < length(object@out_fasta)) {
                     return("Number of output sequences is grater than the number of input sequences.")
                   }
