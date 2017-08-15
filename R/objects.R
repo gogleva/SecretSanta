@@ -36,6 +36,13 @@ CBSResult <- setClass("CBSResult",
                 
                 validity = function(object)
                 {
+                  # check number of input sequences:
+                  
+                  if (length(object@in_fasta) == 1) {
+                    return('input contains just 1 sequence, it is recommended to use web CBS tools instead:
+                           http://www.cbs.dtu.dk/services/')
+                  }
+                  
                   #check that input is not a dna!
                   
                   al <- Biostrings::alphabetFrequency(object@in_fasta)
@@ -48,6 +55,7 @@ CBSResult <- setClass("CBSResult",
                   if (all(c("A", "C", "G", "U") %in% most_frequent)) {
                     return("Input sequence is RNA, please provide amino acid sequence.")
                   }
+                  
                   
                   if (length(object@in_fasta) < length(object@out_fasta)) {
                     return("Number of output sequences is grater than the number of input sequences.")
@@ -80,6 +88,8 @@ setGeneric(name = "setInfasta",
              standardGeneric("setInfasta")    
            }  
 )
+
+#CBSResult(in_fasta = dna)
 
 #' @export
 setMethod(f = "setInfasta",
