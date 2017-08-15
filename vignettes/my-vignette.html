@@ -10,11 +10,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<meta name="author" content="Vignette Author" />
+<meta name="author" content="Anna Gogleva" />
 
 <meta name="date" content="2017-08-15" />
 
-<title>Vignette Title</title>
+<title>SecretSanta: automated prediction of secreted proteins.</title>
 
 
 
@@ -68,21 +68,47 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<h1 class="title toc-ignore">Vignette Title</h1>
-<h4 class="author"><em>Vignette Author</em></h4>
+<h1 class="title toc-ignore">SecretSanta: automated prediction of secreted proteins.</h1>
+<h4 class="author"><em>Anna Gogleva</em></h4>
 <h4 class="date"><em>2017-08-15</em></h4>
 
 
 
-<p>Secret Santa: automated secretiome prediction and annotation</p>
-<p>Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The <code>html_vignette</code> output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The <code>html_vignette</code> format:</p>
+<p>Motivation</p>
+<p>Secreted proteins</p>
+<p>SecretSanta provides an interface to CBS tools, so that you can easily pipe and combine predictions from multiple tools in a single pipeline.</p>
+<div id="installation-of-external-dependencies" class="section level2">
+<h2>Installation of external dependencies</h2>
+</div>
+<div id="signalp" class="section level2">
+<h2>Signalp</h2>
 <ul>
-<li>Never uses retina figures</li>
-<li>Has a smaller default figure size</li>
-<li>Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style</li>
+<li>signalp2</li>
+<li>signalp3</li>
+<li>signalp4</li>
 </ul>
-<div id="vignette-info" class="section level2">
-<h2>Vignette Info</h2>
+<p>In case of large input files SecretSanta runs signalp as an embarassingly parallel process, suitable for clusters.</p>
+</div>
+<div id="targetp" class="section level2">
+<h2>Targetp</h2>
+</div>
+<div id="tmhmm" class="section level2">
+<h2>TMHMM</h2>
+</div>
+<div id="wolfpsort" class="section level2">
+<h2>WolfPsort</h2>
+</div>
+<div id="check-for-terminal-er-retention-motifs" class="section level2">
+<h2>Check for terminal ER-retention motifs</h2>
+</div>
+<div id="m-slicer" class="section level2">
+<h2>M-slicer</h2>
+</div>
+<div id="building-pipelines-simple-workflow" class="section level2">
+<h2>Building pipelines, simple workflow</h2>
+</div>
+<div id="building-pipelines-stringent-workflow" class="section level2">
+<h2>Building pipelines, stringent workflow</h2>
 <p>Note the various macros within the <code>vignette</code> section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the <code>title</code> field and the <code>\VignetteIndexEntry</code> to match the title of your vignette.</p>
 </div>
 <div id="styles" class="section level2">
