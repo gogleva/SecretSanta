@@ -9,7 +9,13 @@ test_that("signalp correctly responds to invalid inputs",
                                 use.names = TRUE)
           inp <- setInfasta(inp, aa)
           
-          # test with inp_object belonging to an incorrecr class:
+          # test with dna in the in_fasta slot:
+          dna <- readAAStringSet(system.file("extdata", "sample_dna.fasta", package = "SecretSanta"))
+          expect_error(CBSResult(in_fasta = dna),
+                       'invalid class “CBSResult” object: Input sequence is DNA')
+
+          
+          # test with inp_object belonging to an incorrect class:
           expect_error(suppressMessages(signalp(aa, version = 2, 'euk', run_mode = "starter", paths = my_pa)),
                     "input_object does not belong to CBSResult superclass")
           
