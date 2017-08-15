@@ -9,7 +9,7 @@ test_that("signalp correctly responds to invalid inputs",
                                 use.names = TRUE)
           inp <- setInfasta(inp, aa)
           
-          # test with dna in the in_fasta slot:
+          # test with dna set in the in_fasta slot:
           dna <- readAAStringSet(system.file("extdata", "sample_dna.fasta", package = "SecretSanta"))
           expect_error(CBSResult(in_fasta = dna),
                        'invalid class “CBSResult” object: Input sequence is DNA')

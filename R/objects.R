@@ -42,11 +42,11 @@ CBSResult <- setClass("CBSResult",
                   most_frequent <- colnames(al[, colSums(al != 0) > 0])
                   
                   if (all(c("A", "C", "G", "T") %in% most_frequent)) {
-                    return("Input sequence is DNA")
+                    return("Input sequence is DNA, please provide amino acid sequence.")
                   }
                   
                   if (all(c("A", "C", "G", "U") %in% most_frequent)) {
-                    return("Input sequence is RNA")
+                    return("Input sequence is RNA, please provide amino acid sequence.")
                   }
                   
                   if (length(object@in_fasta) < length(object@out_fasta)) {
