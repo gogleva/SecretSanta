@@ -16,7 +16,7 @@ signalp_parallel(input_obj, version, organism_type, run_mode, paths,
 \item 4.1
 }}
 
-\item{organism_type}{possible values: 
+\item{organism_type}{possible values:
 \itemize{
 \item euk - for eukaryotes;
 \item gram+ - for gram-positive bacteria;
