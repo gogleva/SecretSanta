@@ -6,3 +6,4 @@ sandbox.R
 package_tools.R
 /inst/extdata
 TMHMM_*
+inst/doc

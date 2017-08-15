@@ -42,7 +42,7 @@ CBSResult <- setClass("CBSResult",
                   if (nrow(al) == 1) {
                       most_frequent <- names(al[, colSums(al != 0) > 0]) 
                   } else {
-                      most_frequent <- colnames(al[, colSums(al != 0) > 0]) # does not work if in_fasta contains just 1 seq
+                      most_frequent <- colnames(al[, colSums(al != 0) > 0])
                   }
                   
                   if (all(c("A", "C", "G", "T") %in% most_frequent)) {
