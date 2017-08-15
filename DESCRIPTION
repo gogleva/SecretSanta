@@ -7,7 +7,8 @@ Description: Functions and integarted workflow for automated secretome predictio
 Depends: R (>= 3.4.0),
         dplyr,
         Biostrings,
-        parallel
+        parallel,
+        readr
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
