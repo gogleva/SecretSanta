@@ -196,12 +196,7 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
   allowed_organisms = c('euk', 'gram+', 'gram-')
   organism_type <- tolower(organism_type)
   
-  # check that previous sp_version is not the same as one requested to run this time
-  
-  if (.hasSlot(input_obj, 'sp_version')) {
-    if (getSPversion(input_obj) == version) {warning('You are about to run the same version of signalp that was used to generate the input object.')}
-  }
-  
+  # 
   signalp_version <- paste("signalp", version, sep = '')
   message(paste('Version used...', signalp_version))
 
