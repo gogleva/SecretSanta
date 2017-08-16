@@ -130,7 +130,7 @@ combine_CBSResult <- function(...) {
 #' @export
 #' @examples
 
-signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths, truncate = NULL) {
+signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate = NULL) {
   
   # ----- Set default value for parameters if not provided:
   
@@ -291,7 +291,7 @@ signalp_parallel <- function(input_obj, version, organism_type, run_mode, paths,
   # to do: check total number of residues
 
   if (length(fasta) <= 600) {message('Ok for single processing')
-    simple_signalp(fasta)
+    return(simple_signalp(fasta))
   } else {
     message('Input fasta contains >600 sequences, entering batch mode...')
     split_fasta <- split_XStringSet(fasta, 500)
