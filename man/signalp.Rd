@@ -99,14 +99,11 @@ Example pipe would loook like this:
 # set paths for external dependencies with manage_paths()
 my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
 
-# initialise SignalpResult object
-inp <- SignalpResult()
-
 # read fasta file in AAStringSet object
 aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
 
-# assign this object to the input_fasta slot of SignalpResult object
-inp <- setInfasta(inp, aa)
+# assign this object to the input_fasta slot of empty CBSResult object
+inp <- CBSResult(in_fasta = aa)
 
 # run signalp2 on the initial file:
 step1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)

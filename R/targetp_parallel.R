@@ -129,25 +129,28 @@ targetp_parallel <- function(input_object, network_type, run_mode, paths) {
   
 
    # # Check input file size and decide how to run targetp: in parallel mode or not:
-   if (length(fasta) <= 500) {
+   if (length(fasta) <= 1000) {
      message('Ok for single processing')
      return(simple_targetp(fasta))
    } else {
      # split fasta:
-     split_fasta <- split_XStringSet(fasta, 500)
+     split_fasta <- split_XStringSet(fasta, 1000)
      
      # initiate cluster on all the cores available and supply required environment:
      no_cores <- detectCores()
      cl <- makeCluster(no_cores)
      clusterEvalQ(cl, library("SecretSanta"))
-     clusterExport(cl=cl, varlist=c(paths)) 
+     
+     clusterExport(cl=cl, varlist=c("my_pa"), envir=environment()) #  works oly with my_pa, not paths!
+     
+     # produces error: Error in get(name, envir = envir) : object 'signalp4' not found
      
      # run parallel targetp:
      result <- parLapply(cl, split_fasta, simple_targetp)
      stopCluster(cl)
      
      res_comb <- do.call(c,result)
-     combined_TargetpResult <- combine_TargetResult(unname(res_comb))
+     combined_TargetpResult <- combine_TargetpResult(unname(res_comb))
      
      # may be add some wraings/messages here:
      
@@ -159,17 +162,24 @@ targetp_parallel <- function(input_object, network_type, run_mode, paths) {
 }
 
 
-## large inputs:
-
-inp_10K <- CBSResult(in_fasta = readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/large_10K.fasta"))
-targetp(input_object = inp_1k, network_type = 'N', run_mode = 'starter', paths = my_pa)
-
-inp_100 <- CBSResult(in_fasta = readAAStringSet(""))
-
-
-
-# giant fasta:
-inp_40K <- CBSResult(i)
+# ## large inputs:
+# 
+# my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+# fasta_1K <- readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/medium_1K.fasta")
+# 
+# inp_1k <- CBSResult(in_fasta = readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/medium_1K.fasta"))
+# microbenchmark(targetp(input_object = inp_1k, network_type = 'N', run_mode = 'starter', paths = my_pa), times = 1)
+# microbenchmark(targetp_parallel(input_object = inp_1k, network_type = 'N', run_mode = 'starter', paths = my_pa), times = 1)
+# 
+# inp_10K <- CBSResult(in_fasta = readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/large_10K.fasta"))
+# microbenchmark(targetp_parallel(input_object = inp_10K, network_type = 'N', run_mode = 'starter', paths = my_pa), times = 1)
+# 
+# 
+# #
+# inp_100 <- CBSResult(in_fasta = readAAStringSet(""))
+# 
+# # giant fasta:
+#  inp_40K <- CBSResult(i)
 
 # 1K - works
 # 10K - fails

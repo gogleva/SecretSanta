@@ -320,7 +320,7 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
     # run parallel process
 
     clusterEvalQ(cl, library("SecretSanta"))
-    clusterExport(cl=cl, varlist=c(paths)) # or path?
+    clusterExport(cl=cl, varlist=c("my_pa")) # or path?
     result <- parLapply(cl, split_fasta, simple_signalp)
     stopCluster(cl)
 
