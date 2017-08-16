@@ -22,7 +22,7 @@
 #' }
 #' @param paths   tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function
 #' @return an object of SignalpResult class
-#' @export
+#' 
 #' @examples
 #' Example pipe would loook like this:
 #' 
