@@ -124,6 +124,55 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="check-that-all-the-external-dependencies-are-present-and-executable-in-principle" class="section level3">
 <h3>Check that all the external dependencies are present and executable in principle:</h3>
+<p>To do this create a 2-column space-separated text file with listed paths for external dependencies. Example path_file:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(SecretSanta)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pp &lt;-<span class="st">  </span><span class="kw">suppressMessages</span>(readr::<span class="kw">read_delim</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;sample_paths&quot;</span>,
+                                                      <span class="dt">package=</span><span class="st">&quot;SecretSanta&quot;</span>),
+                                          <span class="dt">delim =</span> <span class="st">' '</span>,
+                                          <span class="dt">col_names =</span> <span class="ot">FALSE</span>))</code></pre></div>
+<p>Sample input file listing paths to external dependencies:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">X1</th>
+<th align="left">X2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">SignalP4</td>
+<td align="left">/home/anna/anna/Labjournal/SecretSanta_external/signalp-4.1/signalp</td>
+</tr>
+<tr class="even">
+<td align="left">SignalP3</td>
+<td align="left">/home/anna/anna/Labjournal/SecretSanta_external/signalp-3.0/signalp</td>
+</tr>
+<tr class="odd">
+<td align="left">signalp2</td>
+<td align="left">/home/anna/anna/Labjournal/SecretSanta_external/signalp-2.0/signalp</td>
+</tr>
+<tr class="even">
+<td align="left">targetp</td>
+<td align="left">/home/anna/anna/soft/targetp-1.1/targetp</td>
+</tr>
+<tr class="odd">
+<td align="left">TMHMM</td>
+<td align="left">/home/anna/anna/Labjournal/SecretSanta_external/tmhmm-2.0c/bin/tmhmm</td>
+</tr>
+<tr class="even">
+<td align="left">WoLFPSORT</td>
+<td align="left">/home/anna/anna/Labjournal/SecretSanta_external/WoLFPSort-master/bin/runWolfPsortSummary</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">santa_paths &lt;-<span class="kw">manage_paths</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;sample_paths&quot;</span>, <span class="dt">package=</span><span class="st">&quot;SecretSanta&quot;</span>))</code></pre></div>
+<pre><code>## All paths are valid</code></pre>
+<pre><code>## signalp2 test run completed</code></pre>
+<pre><code>## signalp3 test run completed</code></pre>
+<pre><code>## signalp4 test run completed</code></pre>
+<pre><code>## targetp test run completed</code></pre>
+<pre><code>## tmhmm test run completed</code></pre>
+<pre><code>## wolfpsort test run completed</code></pre>
 </div>
 </div>
 <div id="signalp" class="section level2">

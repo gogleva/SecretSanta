@@ -48,18 +48,30 @@ For prediction of secreted proteins SecretSanta relies on a set of existing [CBS
 ### Tools for prediction of transmembrane domains
 - **TMHMM**
 
-
 ### Check that all the external dependencies are present and executable in principle:
+To do this create a 2-column space-separated text file with listed paths for external dependencies. 
+Example path_file:
+
+```{r, message = FALSE}
+library(SecretSanta)
+```
+
+```{r, echo = TRUE}
+pp <-  suppressMessages(readr::read_delim(system.file("extdata", "sample_paths",
+                                                      package="SecretSanta"),
+                                          delim = ' ',
+                                          col_names = FALSE))
+```
+
+Sample input file listing paths to external dependencies:
+```{r, echo=FALSE}
+knitr::kable(pp)
+```
 
 
-
-
-
-
-
-
-
-
+```{r, echo = TRUE}
+santa_paths <-manage_paths(system.file("extdata", "sample_paths", package="SecretSanta"))
+```
 
 
 
