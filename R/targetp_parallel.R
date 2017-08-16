@@ -31,9 +31,10 @@ combine_TargetpResult <- function(arguments) {
                          tp_tibble = c_tp_tibble)
                          }
 
-#' targetp_parallel function
+#' targetp function
 #'
 #' This function calls local targetp to predict subcellular localisation of a protein.
+#' Parallelised
 #' @param input_object    an instance of CBSResult class containing protein sequences as on of the attributes
 #' @param network_type possible values: 
 #' \itemize{
@@ -58,7 +59,7 @@ combine_TargetpResult <- function(arguments) {
 #' tp_result <- targetp(input_object = inp, network_type = 'N', run_mode = 'starter', paths = my_pa)
 
 
-targetp_parallel <- function(input_object, network_type, run_mode, paths) {
+targetp <- function(input_object, network_type, run_mode, paths) {
   
   # helper function: crop long names for AAStringSet object, return character vector
   crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
