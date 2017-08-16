@@ -86,6 +86,11 @@ tmhmm <- function(input_obj, paths, TM) {
                          out_mature_fasta = fasta[candidate_ids],
                          tm_tibble = tm)
   
+  # clean TMP files before exiting:
+  
+  junk <- dir(pattern = 'TMHMM*')
+  file.remove(junk) 
+  
   if (validObject(out_obj)) {return(out_obj)}
   }
 
