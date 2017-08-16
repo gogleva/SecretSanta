@@ -14,7 +14,6 @@
 #' }
 #' @param paths   tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function
 #' @return an object of TargetpResult class
-#' @export
 #' @examples 
 #' my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
 #' # initialise SignalpResult object
