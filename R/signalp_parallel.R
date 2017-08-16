@@ -129,19 +129,17 @@ combine_CBSResult <- function(...) {
 #' @return an object of SignalpResult class
 #' @export
 #' @examples
+#' 
 #' Example pipe would loook like this:
 #' 
 #' # set paths for external dependencies with manage_paths()
 #' my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
 #' 
-#' # initialise SignalpResult object
-#' inp <- SignalpResult()
-#' 
 #' # read fasta file in AAStringSet object
 #' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
 #' 
-#' # assign this object to the input_fasta slot of SignalpResult object
-#' inp <- setInfasta(inp, aa)
+#' # assign this object to the input_fasta slot of empty CBSResult object
+#' inp <- CBSResult(in_fasta = aa)
 #' 
 #' # run signalp2 on the initial file:
 #' step1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
@@ -288,7 +286,7 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
     sp_Cpos <- sp %>% dplyr::select(Cpos) %>% unlist(use.names = FALSE)
     cropped_fasta <- subseq(out_fasta_sp, start = sp_Cpos, end = -1)
 
-    # costruct output object
+    # construct output object
 
     out_obj <- SignalpResult(in_fasta = aaSet,
                              out_fasta = out_fasta_sp,
@@ -301,9 +299,10 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
   # estimate how big is the file, if required - split it into smaller chunks and run
   # signalp as an embarassingly parallel process
 
-  # Deal with long sequences if any present in the input
+  # Handle long sequences if any present in the input, id necessary - run signalp as 
+  # an embarassingly parallel process
   
-  fasta <- truncate_seq(truncate = truncate, fasta, 2000) # does it break here?
+  fasta <- truncate_seq(truncate = truncate, fasta, 2000)
 
   # to do: check total number of residues
 
@@ -321,7 +320,7 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
     # run parallel process
 
     clusterEvalQ(cl, library("SecretSanta"))
-    clusterExport(cl=cl, varlist=c("my_pa")) # or path?
+    clusterExport(cl=cl, varlist=c(paths)) # or path?
     result <- parLapply(cl, split_fasta, simple_signalp)
     stopCluster(cl)
 
