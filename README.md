@@ -11,7 +11,7 @@ Species: Oomycetes, Fungi, (Plants)
 -----------
 1) predict
 - use signalP(2-3-4) functionality
-- TargetP (?)
+- TargetP 
 - SP cleavage
 - TMHMM on mature peptides
 - (K/H)DEL removal
@@ -20,7 +20,17 @@ Species: Oomycetes, Fungi, (Plants)
 - pipe them
 
 2) annotate
+- InterProSacan
+- HMMs for specific motifs:
+    - RxLR
+    - WY
+    - ER
+    - CRN
+    - NLS signals
 
+3) Compare annotations and sequence-based prediction of signal peptides -> remove false positives
+
+4) visualise inter-species comparisons
 
 
 Expansion:
@@ -58,7 +68,8 @@ SOLVED:
 - unit tests and integration tests for parallelised signalp
 - pesky closed connection warnings fixed
 - clean tmp files after the TMHMM run (solved)
-- does parLapply work on Windows? what to use if not? (they say it does)
+- does parLapply work on Windows? what to use if not? (they say it does), even if not -
+stand alone CBS tools are available only for Unix, se we should not care about Windows so much.
 
 
 TO DO (required minimum):
@@ -69,14 +80,17 @@ TO DO (required minimum):
 - set default options for C/Y/D/S scores in signalp => more flexible filtering?
 - install SecretSanta from scratch and manage dependencies: Biostrings not imported without bioconductor?
 - fix signalp4 vs signalp 4.1 conflicts
-- add unit tests for large inputs
+- add unit tests for large inputs in signalp:
+    - 1K,
+    - 2K,
+    - long sequences
 - consider having separate helper functions that are used by all/several runners:
     - truncate_seq
     - crop_names
     - smth else?
 - Write vignettes for SecretSanta predict
-- Add links and references to the tool papers
-- more HPC tests
+- Add links and references to the tool papers in function docs and vignette
+
 
 expansion:
 - plotting functions for individual peptides (will require full output) signalp

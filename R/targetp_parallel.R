@@ -1,3 +1,39 @@
+#combine_TaretpResult function
+#'
+#' This helper function combines multiple instances of TargetpResult class, typically generated with parLapply
+#' @param arguments - a list of TargetpResult objects to be combined in one
+#' @export
+#' @examples 
+#' inp2 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "tail_prot.fasta", package = "SecretSanta")))
+#' inp3 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "tail2_prot.fasta", package = "SecretSanta")))
+#' inp4 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta")))
+#' 
+#' tp1 <- targetp(input_obj = inp2, network_type = 'N', run_mode = 'starter', paths = my_pa)
+#' tp2 <- targetp(input_obj = inp3, network_type = 'N', run_mode = 'starter', paths = my_pa)
+#' tp3 <- targetp(input_obj = inp4, network_type = 'N', run_mode = 'starter', paths = my_pa)
+#' 
+#' obj <- list(tp1, tp2, tp3)
+#  combined_tp <- combine_TargetpResult(obj)
+
+
+combine_TargetpResult <- function(arguments) {
+  if (all(sapply(arguments, is, 'TargetpResult'))) {
+  } else {                               
+    stop('Some objects from arguments list do not belong to TargetpResult class.')
+  }
+  
+  c_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
+  c_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
+  c_tp_tibble <- do.call(rbind, (lapply(arguments, getTPtibble)))
+  
+  c_obj <- TargetpResult(in_fasta = c_in_fasta,
+                         out_fasta = c_out_fasta,
+                         tp_tibble = c_tp_tibble)
+                         }
+
+
+
+
 #' targetp_parallel function
 #'
 #' This function calls local targetp to predict subcellular localisation of a protein.
@@ -30,6 +66,8 @@ targetp_parallel <- function(input_object, network_type, run_mode, paths) {
   
   # check that input_object contains non-empty in/out_fasta for starter/piper
   
+  # this bit is ugly
+  
   if (run_mode == 'starter') {
     if (length(getInfasta(input_object)) != 0) {
       fasta <- getInfasta(input_object)
@@ -40,6 +78,7 @@ targetp_parallel <- function(input_object, network_type, run_mode, paths) {
     } else {stop('out_fasta attribute is empty')}
   }
   
+  
   allowed_networks = c('P', 'N')
   
   if (network_type %in% allowed_networks) {
@@ -49,6 +88,9 @@ targetp_parallel <- function(input_object, network_type, run_mode, paths) {
   }
   
   #----- Run targetp prediction:
+  
+  
+  
   
   # convert fasta to a temporary file:
   out_tmp <- tempfile() #create a temporary file for fasta
@@ -92,3 +134,18 @@ targetp_parallel <- function(input_object, network_type, run_mode, paths) {
   )
   if (validObject(out_obj)) {return(out_obj)}
 }
+
+
+## large inputs:
+
+inp_10K <- CBSResult(in_fasta = readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/large_10K.fasta"))
+targetp(input_object = inp_1k, network_type = 'N', run_mode = 'starter', paths = my_pa)
+
+
+
+# giant fasta:
+inp_40K <- CBSResult(i)
+
+# 1K - works
+# 10K - fails
+# what abot very long sequences? not documented
