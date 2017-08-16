@@ -61,16 +61,19 @@ SOLVED:
 - does parLapply work on Windows? what to use if not? (they say it does)
 
 
-TO DO:
+TO DO (required minimum):
 
 - parallel targetp
 - parallel TMHMM
 - parallel wolfpsort
-- set default options for some parameters, more flexible filters for SP?
+- set default options for C/Y/D/S scores in signalp => more flexible filtering?
 - install SecretSanta from scratch and manage dependencies: Biostrings not imported without bioconductor?
+- fix signalp4 vs signalp 4.1 conflicts
 - add unit tests for large inputs
 - consider having separate helper functions that are used by all/several runners:
-(truncate_seq, crop_names, smth else?)
+    - truncate_seq
+    - crop_names
+    - smth else?
 - Write vignettes for SecretSanta predict
 - Add links and references to the tool papers
 - more HPC tests

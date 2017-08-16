@@ -41,12 +41,18 @@ For prediction of secreted proteins SecretSanta relies on a set of existing [CBS
 - **taretp**
     + Download stand alone targetp http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?targetp
     + readme ...
-    + Hint, ensure that path is not too long (threshold)
+    + Hint, ensure that path is not too long (threshold!)
     
 - **WolfPsort**
 
 ### Tools for prediction of transmembrane domains
 - **TMHMM**
+
+
+### Check that all the external dependencies are present and executable in principle:
+
+
+
 
 
 
