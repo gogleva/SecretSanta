@@ -313,7 +313,8 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
     message(paste('Number of candidate sequences with signal peptides...', sp_count))
     if (sp_count == 0) {warning('Signal peptide prediction yeilded 0 candidates')}
     
+    closeAllConnections()
     return(combined_SignalpResult)
   }
-    closeAllConnections()
+   
 }
