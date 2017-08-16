@@ -531,13 +531,12 @@ ErResult <- setClass("ErResult",
 #' 
 #' @slot tp_tibble        tibble with outputs obtained from targetp
 #' \itemize{
-#'   \item gene_id - unique id of the sequence
-#'   \item length - length of the protein sequence
-#'   \item mTP - mitochondrial NN score
-#'   \item sp - signal peptide NN score
-#'   \item other - any onther NN score
-#'   \item TP_localization - 	Prediction of localization, based on the scores; 
-#'   the possible values are:
+#' \item gene_id - unique id of the sequence
+#' \item length - length of the protein sequence
+#' \item mTP - mitochondrial NN score
+#' \item sp - signal peptide NN score
+#' \item other - any onther NN score
+#' \item TP_localization - 	Prediction of localization, based on the scores; the possible values are:
 #'   } 
 #'   \itemize{
 #'      \item C	- Chloroplast, i.e. the sequence contains cTP, a chloroplast transit peptide;

@@ -102,7 +102,7 @@ combine_CBSResult <- function(...) {
 
 # parallel version of signalp:
 
-#' signalp_parallel function
+#' signalp function
 #'
 #' This function calls local signalp to predict the presence and location of signal peptide cleavage sites in amino acid sequences; automatically splits large input files (>500 sequnces) and runs signalp prediction as an embarassingly parallel process on all the CPUs available.
 #' @param input_object    an instance of CBSResult class containing protein sequences as on of the attributes
@@ -129,6 +129,9 @@ combine_CBSResult <- function(...) {
 #' @return an object of SignalpResult class
 #' @export
 #' @examples
+#' my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+#' inp <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta")))u
+#' sp1 <- signalp(inp, version = 4, run_mode = 'starter', organism_type = 'euk', paths = my_pa, truncate = T)
 
 signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate = NULL) {
   
