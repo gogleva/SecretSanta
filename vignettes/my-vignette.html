@@ -12,7 +12,7 @@
 
 <meta name="author" content="Anna Gogleva" />
 
-<meta name="date" content="2017-08-15" />
+<meta name="date" content="2017-08-16" />
 
 <title>SecretSanta: automated prediction of secreted proteins.</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">SecretSanta: automated prediction of secreted proteins.</h1>
 <h4 class="author"><em>Anna Gogleva</em></h4>
-<h4 class="date"><em>2017-08-15</em></h4>
+<h4 class="date"><em>2017-08-16</em></h4>
 
 
 
@@ -78,6 +78,20 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>SecretSanta provides an interface to CBS tools, so that you can easily pipe and combine predictions from multiple tools in a single pipeline.</p>
 <div id="installation-of-external-dependencies" class="section level2">
 <h2>Installation of external dependencies</h2>
+<p>For prediction of secreted proteins SecretSanta relies on a set of existing <a href="http://www.cbs.dtu.dk/services/">CBS tools</a>. Please install them and configure according to the listed requirements. Currently R intreface is implemented for the following tools:</p>
+<ul>
+<li><strong>signalp2.0</strong>
+<ul>
+<li>Download stand alone signalp2 <a href="http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+2.0" class="uri">http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+2.0</a></li>
+<li>Follow the instructions provided in the signalp-2.0.readme file.</li>
+</ul></li>
+<li><strong>signalp3.0</strong>
+<ul>
+<li>Download stand alone signalp3 <a href="http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+3.0" class="uri">http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+3.0</a></li>
+<li>Follow the instructions provided in the signalp-3.0.readme file.</li>
+</ul></li>
+<li><strong>signalp4.0</strong> Download stand alone signalp4 <a href="http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?signalp" class="uri">http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?signalp</a></li>
+</ul>
 </div>
 <div id="signalp" class="section level2">
 <h2>Signalp</h2>

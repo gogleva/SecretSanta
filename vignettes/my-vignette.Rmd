@@ -17,6 +17,24 @@ SecretSanta provides an interface to CBS tools, so that you can easily pipe and 
 
 ## Installation of external dependencies
 
+For prediction of secreted proteins SecretSanta relies on a set of existing [CBS tools](http://www.cbs.dtu.dk/services/). Please install them and configure according to the listed requirements. Currently R intreface is implemented for the following tools:
+
+- **signalp2.0**
+    + Download stand alone signalp2 http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+2.0
+    + Follow the instructions provided in the signalp-2.0.readme file.
+
+- **signalp3.0**
+    + Download stand alone signalp3 http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+3.0
+    + Follow the instructions provided in the signalp-3.0.readme file.
+
+- **signalp4.0**
+Download stand alone signalp4 http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?signalp
+
+
+
+
+
+
 ## Signalp
 
 - signalp2

@@ -61,9 +61,12 @@ SOLVED:
 
 TO DO:
 
-- clean tmp files after the signalp run?
+- clean tmp files after the TMHMM run
+- parallel targetp
+- parallel TMHMM
+- parallel wolfpsort
+
 - set default options for some parameters, more flexible filters for SP?
-- parallelise TMHMM, targetp, wolf?
 - install SecretSanta from scratch and manage dependencies: Biostrings not imported without bioconductor?
 - add unit tests for large inputs
 - consider having separate helper functions that are used by all/several runners:
@@ -72,7 +75,6 @@ TO DO:
 - Add links and references to the tool papers
 - more HPC tests
 - does parLapply work on Windows? what to use if not? (they say it does, any)
--
 
 expansion:
 - plotting functions for individual peptides (will require full output) signalp
