@@ -56,12 +56,13 @@ SOLVED:
 - Add check for empty inputs/ Message if the tool returns 0 candidates to pass further
 - replace simple signalp with parallelised version
 - unit tests and integration tests for parallelised signalp
+- pesky closed connection warnings fixed
+
 
 TO DO:
 
 - clean tmp files after the signalp run?
 - set default options for some parameters, more flexible filters for SP?
-- Add warning if input belongs to the same tool/version as the tool intended to use
 - parallelise TMHMM, targetp, wolf?
 - install SecretSanta from scratch and manage dependencies: Biostrings not imported without bioconductor?
 - add unit tests for large inputs
@@ -70,7 +71,7 @@ TO DO:
 - Write vignettes for SecretSanta predict
 - Add links and references to the tool papers
 - more HPC tests
-- does parLapply work on Windows? what to use if not? (they say it does)
+- does parLapply work on Windows? what to use if not? (they say it does, any)
 -
 
 expansion:
