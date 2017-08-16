@@ -48,6 +48,14 @@ combine_TargetpResult <- function(arguments) {
 #' @param paths   tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function
 #' @return an object of TargetpResult class
 #' @export
+#' my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+#' # read fasta file in AAStringSet object
+#' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+# 
+#' # assign this object to the input_fasta slot of SignalpResult object
+#' inp <- CBSResult(in_fasta = aa)
+#' 
+#' tp_result <- targetp(input_object = inp, network_type = 'N', run_mode = 'starter', paths = my_pa)
 
 
 targetp_parallel <- function(input_object, network_type, run_mode, paths) {
@@ -133,6 +141,8 @@ targetp_parallel <- function(input_object, network_type, run_mode, paths) {
      message('Ok for single processing')
      return(simple_targetp(fasta))
    } else {
+     message('Input fasta contains >1000 sequences, entering batch mode...')
+     message(paste('Number of submitted sequences...', length(fasta)))
      # split fasta:
      split_fasta <- split_XStringSet(fasta, 1000)
      
@@ -154,6 +164,10 @@ targetp_parallel <- function(input_object, network_type, run_mode, paths) {
      
      # may be add some wraings/messages here:
      
+     tp_count <- nrow(getTPtibble(combined_TargetpResult))    
+     message(paste('Number of candidate secerted sequences...', tp_count))
+     if (tp_count == 0) {warning('Targetp prediction yeilded 0 extracellular candidates')}
+     
      closeAllConnections()
      return(combined_TargetpResult)
      
@@ -162,25 +176,3 @@ targetp_parallel <- function(input_object, network_type, run_mode, paths) {
 }
 
 
-# ## large inputs:
-# 
-# my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
-# fasta_1K <- readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/medium_1K.fasta")
-# 
-# inp_1k <- CBSResult(in_fasta = readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/medium_1K.fasta"))
-# microbenchmark(targetp(input_object = inp_1k, network_type = 'N', run_mode = 'starter', paths = my_pa), times = 1)
-# microbenchmark(targetp_parallel(input_object = inp_1k, network_type = 'N', run_mode = 'starter', paths = my_pa), times = 1)
-# 
-# inp_10K <- CBSResult(in_fasta = readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/test_fastas/large_10K.fasta"))
-# microbenchmark(targetp_parallel(input_object = inp_10K, network_type = 'N', run_mode = 'starter', paths = my_pa), times = 1)
-# 
-# 
-# #
-# inp_100 <- CBSResult(in_fasta = readAAStringSet(""))
-# 
-# # giant fasta:
-#  inp_40K <- CBSResult(i)
-
-# 1K - works
-# 10K - fails
-# what abot very long sequences? not documented

@@ -11,7 +11,7 @@ Species: Oomycetes, Fungi, (Plants)
 -----------
 1) predict
 - use signalP(2-3-4) functionality
-- TargetP 
+- TargetP
 - SP cleavage
 - TMHMM on mature peptides
 - (K/H)DEL removal
@@ -90,6 +90,7 @@ TO DO (required minimum):
     - smth else?
 - Write vignettes for SecretSanta predict
 - Add links and references to the tool papers in function docs and vignette
+- add progress bars for parallelised tools, may be
 
 
 expansion:
