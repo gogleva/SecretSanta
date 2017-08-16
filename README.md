@@ -57,15 +57,15 @@ SOLVED:
 - replace simple signalp with parallelised version
 - unit tests and integration tests for parallelised signalp
 - pesky closed connection warnings fixed
+- clean tmp files after the TMHMM run (solved)
+- does parLapply work on Windows? what to use if not? (they say it does)
 
 
 TO DO:
 
-- clean tmp files after the TMHMM run
 - parallel targetp
 - parallel TMHMM
 - parallel wolfpsort
-
 - set default options for some parameters, more flexible filters for SP?
 - install SecretSanta from scratch and manage dependencies: Biostrings not imported without bioconductor?
 - add unit tests for large inputs
@@ -74,13 +74,10 @@ TO DO:
 - Write vignettes for SecretSanta predict
 - Add links and references to the tool papers
 - more HPC tests
-- does parLapply work on Windows? what to use if not? (they say it does, any)
 
 expansion:
 - plotting functions for individual peptides (will require full output) signalp
 - prediction graphs (?) when each candidate was rejected -->?
-
-
 
 ### Installation:
 
@@ -88,7 +85,6 @@ for private git_hub repo:
 ```
 install_github("gogleva/SecretSanta", auth_token = 'd0b6ce8fcc6e31ecb98bab6ef273ccab6eb4227a')
 ```
-
 
 ### Coverage estimation with covr:
 
