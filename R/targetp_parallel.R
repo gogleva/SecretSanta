@@ -31,9 +31,6 @@ combine_TargetpResult <- function(arguments) {
                          tp_tibble = c_tp_tibble)
                          }
 
-
-
-
 #' targetp_parallel function
 #'
 #' This function calls local targetp to predict subcellular localisation of a protein.
@@ -54,6 +51,10 @@ combine_TargetpResult <- function(arguments) {
 
 
 targetp_parallel <- function(input_object, network_type, run_mode, paths) {
+  
+  # helper function: crop long names for AAStringSet object, return character vector
+  crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
+  
   # ----- Check that inputs are valid
   
   # check that input object belong to CBSResult class
@@ -66,8 +67,6 @@ targetp_parallel <- function(input_object, network_type, run_mode, paths) {
   
   # check that input_object contains non-empty in/out_fasta for starter/piper
   
-  # this bit is ugly
-  
   if (run_mode == 'starter') {
     if (length(getInfasta(input_object)) != 0) {
       fasta <- getInfasta(input_object)
@@ -78,7 +77,7 @@ targetp_parallel <- function(input_object, network_type, run_mode, paths) {
     } else {stop('out_fasta attribute is empty')}
   }
   
-  
+  # checked that specified networks are valid  
   allowed_networks = c('P', 'N')
   
   if (network_type %in% allowed_networks) {
@@ -87,52 +86,56 @@ targetp_parallel <- function(input_object, network_type, run_mode, paths) {
     stop('Specified network_type is invalid.')  
   }
   
-  #----- Run targetp prediction:
+# simple function to run targetp on relatively small input files ~1K proteins
   
+  simple_targetp <- function(aaSet){
+      #----- Run targetp prediction:
+      message(paste('Number of submitted sequences...', length(fasta)))
   
+      # convert fasta to a temporary file:
+      out_tmp <- tempfile() #create a temporary file for fasta
+      Biostrings::writeXStringSet(fasta, out_tmp) #write tmp fasta file
   
+      # get path to targetp executable
+      full_pa <- as.character(paths %>% dplyr::filter(tool == 'targetp') %>% dplyr::select(path))
   
-  # convert fasta to a temporary file:
-  out_tmp <- tempfile() #create a temporary file for fasta
-  Biostrings::writeXStringSet(fasta, out_tmp) #write tmp fasta file
+      # prep fasta:
+      # generate cropped names for input fasta
+      cropped_names <- unname(sapply(names(fasta), crop_names))
+      # replace long names with cropped names
+      names(fasta) <- cropped_names
   
-  # make a system call of targetp based on the tmp file
+      # prep networks argument:
+      NN <- paste('-', network_type, sep = '')
   
-  full_pa <- as.character(paths %>% dplyr::filter(tool == 'targetp') %>% dplyr::select(path))
+      #run targetp:
+      tp <- tibble::as.tibble(read.table(text = (system(paste(full_pa, NN, out_tmp), intern = TRUE)[1: length(fasta) + 8])))
   
-  # helper function: crop long names for AAStringSet object, return character vector
-  crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
-  message(paste('Number of submitted sequences...', length(fasta)))
+      if (network_type == 'N') {
+        names(tp) <- c('gene_id', 'length', 'mTP', 'sp', 'other', 'TP_localization', 'RC')}
+      else if (network_type == 'P') {
+        names(tp) <- c('gene_id', 'length', 'cTP', 'mTP', 'sp', 'other', 'TP_localization', 'RC')  
+      }
   
-  # generate cropped names for input fasta
-  cropped_names <- unname(sapply(names(fasta), crop_names))
-  # replace long names with cropped names
-  names(fasta) <- cropped_names
+      tp <- tp %>% dplyr::filter(TP_localization == 'S')
+      message(paste('Number of candidate secreted sequences', nrow(tp)))         
   
-  #run targetp:
+      candidate_ids <- tp %>% dplyr::select(gene_id) %>% unlist(use.names = FALSE)
+      out_fasta_tp <- fasta[candidate_ids]
   
-  NN <- paste('-', network_type, sep = '')
-  tp <- tibble::as.tibble(read.table(text = (system(paste(full_pa, NN, out_tmp), intern = TRUE)[1: length(fasta) + 8])))
-  if (network_type == 'N') {
-    names(tp) <- c('gene_id', 'length', 'mTP', 'sp', 'other', 'TP_localization', 'RC')}
-  else if (network_type == 'P') {
-    names(tp) <- c('gene_id', 'length', 'cTP', 'mTP', 'sp', 'other', 'TP_localization', 'RC')  
+      # generate output object:
+      out_obj <- TargetpResult(in_fasta = fasta,
+                           out_fasta = out_fasta_tp,
+                           tp_tibble = tp)
+  
+      if (validObject(out_obj)) {return(out_obj)}
   }
   
-  tp <- tp %>% dplyr::filter(TP_localization == 'S')
   
-  message(paste('Number of candidate secreted sequences', nrow(tp)))         
+   # Check input file size and decide how to run targetp: in parallel mode or not:
+   if (length(fasta <= 500)) {message('Ok for single processing')}
+      return(simple_targetp(fasta))
   
-  candidate_ids <- tp %>% dplyr::select(gene_id) %>% unlist(use.names = FALSE)
-  out_fasta_tp <- fasta[candidate_ids]
-  
-  # generate output object:
-  
-  out_obj <- TargetpResult(in_fasta = fasta,
-                           out_fasta = out_fasta_tp,
-                           tp_tibble = tp
-  )
-  if (validObject(out_obj)) {return(out_obj)}
 }
 
 
