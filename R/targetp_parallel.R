@@ -131,16 +131,31 @@ targetp_parallel <- function(input_object, network_type, run_mode, paths) {
    # # Check input file size and decide how to run targetp: in parallel mode or not:
    if (length(fasta) <= 500) {
      message('Ok for single processing')
-     return(length(fasta))
+     return(simple_targetp(fasta))
    } else {
-     stop('too many sequences')
+     # split fasta:
+     split_fasta <- split_XStringSet(fasta, 500)
+     
+     # initiate cluster on all the cores available and supply required environment:
+     no_cores <- detectCores()
+     cl <- makeCluster(no_cores)
+     clusterEvalQ(cl, library("SecretSanta"))
+     clusterExport(cl=cl, varlist=c(paths)) 
+     
+     # run parallel targetp:
+     result <- parLapply(cl, split_fasta, simple_targetp)
+     stopCluster(cl)
+     
+     res_comb <- do.call(c,result)
+     combined_TargetpResult <- combine_TargetResult(unname(res_comb))
+     
+     # may be add some wraings/messages here:
+     
+     closeAllConnections()
+     return(combined_TargetpResult)
+     
    } 
      
-   #    return(simple_targetp(fasta))
-   # } else {
-   #   stop('Input fasta contains >500 sequences, entering batch mode...')
-   # }
-  
 }
 
 
