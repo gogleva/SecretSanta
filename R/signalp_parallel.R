@@ -129,9 +129,28 @@ combine_CBSResult <- function(...) {
 #' @return an object of SignalpResult class
 #' @export
 #' @examples
+#' Example pipe would loook like this:
+#' 
+#' # set paths for external dependencies with manage_paths()
 #' my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
-#' inp <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta")))u
-#' sp1 <- signalp(inp, version = 4, run_mode = 'starter', organism_type = 'euk', paths = my_pa, truncate = T)
+#' 
+#' # initialise SignalpResult object
+#' inp <- SignalpResult()
+#' 
+#' # read fasta file in AAStringSet object
+#' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+#' 
+#' # assign this object to the input_fasta slot of SignalpResult object
+#' inp <- setInfasta(inp, aa)
+#' 
+#' # run signalp2 on the initial file:
+#' step1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
+#' 
+#' # run signalp3 on the result object, will automatically pass out_fasta slot to signalp3:
+#' step2_sp3 <- signalp(step1_sp2, version = 3, 'euk', run_mode = "piper", paths = my_pa)
+#' 
+#' # run signalp4 on the result object, will automatically pass out_fasta slot to signalp4:
+#' step3_sp4 <- signalp(step2_sp3, version = 4, 'euk', run_mode = "piper", paths = my_pa)
 
 signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate = NULL) {
   
