@@ -74,7 +74,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<p>SecretSanta predict module is based on a family of wraper functions around CBS tools to facilitate automated predicion of secreted proteins. Implemented S4 class systems restricts output to a format accepatble by all the featured tool. This enables easy piping of results between them. To speed-up processing of large input fasta files (several thousands of sequences) singalp and targetp predictions are automatically run as embarassingly parallel processes if number of input sequences exceedes a certain limit (… - for signalp; … - for targetp). Majority of the functions could be run in 2 modes: starter - in the case you initiate secretome pipeline with the above tool; and ‘piper’ - so that the tool expects to see output of other CBS tools.</p>
+<p><strong>SecretSanta predict</strong> is based on a family of wraper functions around <a href="http://www.cbs.dtu.dk/services/">CBS tools</a> to facilitate automated predicion of secreted proteins. Implemented S4 class systems restricts output to a format accepatble by all the featured tools. This enables easy piping of results between them and enables cration of custom pipelines easy. To speed-up processing of large input fasta files (containing several thousands of sequences) singalp and targetp predictions are automatically run as embarassingly parallel processes when number of input sequences exceedes a certain limit (… - for signalp; … - for targetp). Majority of the functions could be run in 2 modes: starter - in the case you initiate secretome pipeline with the above tool; and ‘piper’ - so that the tool expects to see output from other functions serving as wrappers around CBS tools.</p>
+<p><strong>SecretSanta annotate</strong></p>
+<p><strong>SecretSanta compare</strong></p>
+<p><strong>SecretSanta visualise</strong></p>
 <div id="installation-of-external-dependencies" class="section level2">
 <h2>Installation of external dependencies</h2>
 <p>For prediction of secreted proteins SecretSanta relies on a set of existing <a href="http://www.cbs.dtu.dk/services/">CBS tools</a>. Please install them and configure according to the listed requirements. Currently R intreface is implemented for the following tools:</p>
@@ -83,17 +86,22 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul>
 <li><strong>signalp2.0</strong>
 <ul>
-<li>Download stand alone signalp2 <a href="http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+2.0" class="uri">http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+2.0</a></li>
-<li>Follow the instructions provided in the signalp-2.0.readme file.</li>
+<li>Download stand alone signalp2.0 <a href="http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+2.0" class="uri">http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+2.0</a></li>
+<li>Unpack the archive</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash"><span class="kw">tar</span> -zxvf signalp-2.0.Linux.tar.Z
+<span class="kw">cd</span> signalp-2.0</code></pre></div>
+<ul>
+<li>Edit “General settings” in the top of the signalp file. Set value of ‘SIGNALP’ variable to be path to your signalp2.0 directory. Other variable usulay do not require changes. For more details please see signalp-2.0.readme.</li>
 </ul></li>
 <li><strong>signalp3.0</strong>
 <ul>
-<li>Download stand alone signalp3 <a href="http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+3.0" class="uri">http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+3.0</a></li>
+<li>Download stand alone signalp3.0 <a href="http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+3.0" class="uri">http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+3.0</a></li>
 <li>Follow the instructions provided in the signalp-3.0.readme file.</li>
 </ul></li>
 <li><strong>signalp4.0</strong>
 <ul>
-<li>Download stand alone signalp2 <a href="http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+4.0" class="uri">http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+4.0</a></li>
+<li>Download stand alone signalp4.0 <a href="http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+4.0" class="uri">http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+4.0</a></li>
 <li>Follow the instructions provided in the signalp-4.0.readme file.</li>
 </ul></li>
 <li><strong>signalp4.1</strong> - the most recent version

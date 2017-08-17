@@ -9,10 +9,14 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-SecretSanta predict module is based on a family of wraper functions around [CBS tools](http://www.cbs.dtu.dk/services/) tools to facilitate automated predicion of secreted proteins. Implemented S4 class systems restricts output to a format accepatble by all the featured tool. This enables easy piping of results between them. To speed-up processing of large input fasta files (several thousands of sequences) singalp and targetp predictions are automatically run as embarassingly parallel processes if number of input sequences exceedes a certain limit (... - for signalp; ... - for targetp).
-Majority of the functions could be run in 2 modes: starter - in the case you initiate secretome pipeline with the above tool; and 'piper' - so that the tool expects to see output of other CBS tools.
+**SecretSanta predict** is based on a family of wraper functions around [CBS tools](http://www.cbs.dtu.dk/services/) to facilitate automated predicion of secreted proteins. Implemented S4 class systems restricts output to a format accepatble by all the featured tools. This enables easy piping of results between them and enables cration of custom pipelines easy. To speed-up processing of large input fasta files (containing several thousands of sequences) singalp and targetp predictions are automatically run as embarassingly parallel processes when number of input sequences exceedes a certain limit (... - for signalp; ... - for targetp).
+Majority of the functions could be run in 2 modes: starter - in the case you initiate secretome pipeline with the above tool; and 'piper' - so that the tool expects to see output from other functions serving as wrappers around CBS tools.
 
+**SecretSanta annotate**
 
+**SecretSanta compare**
+
+**SecretSanta visualise**
 
 ## Installation of external dependencies
 
@@ -20,15 +24,20 @@ For prediction of secreted proteins SecretSanta relies on a set of existing [CBS
 
 ### Tools for prediction of signal peptides and cleavage sites:
 - **signalp2.0** 
-    + Download stand alone signalp2 http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+2.0
-    + Follow the instructions provided in the signalp-2.0.readme file.
+    + Download stand alone signalp2.0 http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+2.0
+    + Unpack the archive
+    ```{sh eval = FALSE}
+    tar -zxvf signalp-2.0.Linux.tar.Z
+    cd signalp-2.0
+    ```
+    + Edit "General settings" in the top of the signalp file. Set value of 'SIGNALP' variable to be path to your signalp2.0 directory. Other variable usulay do not require changes. For more details please see signalp-2.0.readme. 
 
 - **signalp3.0** 
-    + Download stand alone signalp3 http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+3.0
+    + Download stand alone signalp3.0 http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+3.0
     + Follow the instructions provided in the signalp-3.0.readme file.
  
 - **signalp4.0** 
-    + Download stand alone signalp2 http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+4.0
+    + Download stand alone signalp4.0 http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+4.0
     + Follow the instructions provided in the signalp-4.0.readme file.
 
 - **signalp4.1** - the most recent version
