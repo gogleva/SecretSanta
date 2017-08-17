@@ -120,7 +120,7 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
   
   # Crop names in the in_fasta filed of the input object:
   
-  #generate cropped names for input fasta
+  #generate cropped names for the input fasta ('full_fasta')
   full_fasta <- getInfasta(input_obj)
   cropped_names <- unname(sapply(names(full_fasta), crop_names))
   
@@ -128,23 +128,20 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
   names(full_fasta) <- cropped_names
   
 
-  # do file preps here
-
-  test_tripple <- list(getOutfasta(r1), getMatfasta(r1), getInfasta(r1))
-  simple_tmhmm(test_tripple)
+#  test_tupple <- list(getOutfasta(r1), getMatfasta(r1))
+# simple_tmhmm(test_tripple)
   
-  simple_tmhmm <- function(fasta_triple) {
-  # fasta triple - a lits of 3 elements: out_fasta, mature_fasta, in_fasta
+  simple_tmhmm <- function(fasta_tuple) {
+  # fasta tuple - a lits of 2 elements: out_fasta, mature_fasta
   # (out_fasta, mature_fasta, in_fasta)
   
       
       #----- Run tmhmm
       message("running TMHMM locally...")
     
-      outf <- fasta_triple[[1]] #original out_fasta
-      matf <- fasta_triple[[2]] #original mature_fasta
-      full_fasta <- fasta_triple[[3]] #original in_fasta
-      
+      outf <- fasta_tuple[[1]] #original out_fasta
+      matf <- fasta_tuple[[2]] #original mature_fasta
+     
       out_tmp <- tempfile()
       Biostrings::writeXStringSet(matf, out_tmp)
   
@@ -188,6 +185,8 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
      if (validObject(out_obj)) {return(out_obj)}
      
   }
+  
+  # estimate input file size
   
   
 }
