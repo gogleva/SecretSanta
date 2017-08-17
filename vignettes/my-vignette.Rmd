@@ -24,25 +24,38 @@ For prediction of secreted proteins SecretSanta relies on a set of existing [CBS
 
 ### Tools for prediction of signal peptides and cleavage sites:
 - **signalp2.0** 
+    + This version can run under IRIX, IRIX64, Linux, OSF1, SunOS.
     + Download stand alone signalp2.0 http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+2.0
     + Unpack the archive
     ```{sh eval = FALSE}
     tar -zxvf signalp-2.0.Linux.tar.Z
     cd signalp-2.0
     ```
-    + Edit "General settings" in the top of the signalp file. Set value of 'SIGNALP' variable to be path to your signalp2.0 directory. Other variable usulay do not require changes. For more details please see signalp-2.0.readme. 
+    + Edit "General settings" in the top of the signalp file. Set value of 'SIGNALP' variable to be path to your signalp2.0 directory. Other variables usually do not require changes. We will not use plotting functions from signalp, so gnuplot, ppmtogif and ghostview are not requred. For more details please see signalp-2.0.readme. 
 
 - **signalp3.0** 
+    + This version can will run on the most common UNIX platforms.
     + Download stand alone signalp3.0 http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+3.0
-    + Follow the instructions provided in the signalp-3.0.readme file.
+    + Unpack the archive
+    ```{sh eval = FALSE}
+    tar -zxvf signalp-3.0.Linux.tar.Z
+    cd signalp-3.0
+    ```
+    + Similar to signalp2, edit "General settings" in the top of the signalp file. Set value of 'SIGNALP' variable to be path to your signalp3.0 directory. Other variables usually do not require changes. We will not use plotting functions from signalp, so gnuplot, ppmtogif and ghostview are not requred. For more details please see signalp-3.0.readme.
+    
  
-- **signalp4.0** 
-    + Download stand alone signalp4.0 http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+4.0
-    + Follow the instructions provided in the signalp-4.0.readme file.
-
 - **signalp4.1** - the most recent version
-    + Download stand alone signalp4 http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?signalp
-    + Follow the instructions provided in the signalp-4.1.readme file.
+    + This version can run under Windows, OS X (Macintosh) and Linux.
+    + Download stand alone signalp4.0 http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+4.0
+    + Unpack the archive
+    ```{sh eval = FALSE}
+    tar -zxvf signalp-4.1.Linux.tar.Z
+    cd signalp-4.1
+    ```
+    + Edit "General settings" in the top of the signalp file. Set values for 'SIGNALP' and 'outputDir' variables.
+    For more details please see signalp-4.1.readme
+
+
 
 ### Tools for prediction of protein subcellular localisation:    
     
