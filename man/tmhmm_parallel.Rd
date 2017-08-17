@@ -18,7 +18,8 @@ predicted as TM domain, avoid this}
 }
 \description{
 This function calls local TMHMM, expects CBSresult class objects with populated mature_fasta slot.
-To generate it run signalp first.
+To generate CBSResult objects with mature_fasta slots run preffered version of signalp first.
+Parallel version
 }
 \examples{
           
@@ -26,6 +27,6 @@ my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSa
 inp <- SignalpResult()
 aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
 inp <- setInfasta(inp, aa)
-s1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
-tm <- tmhmm(s1_sp2, paths = my_pa, TM = 1)
+s1_sp2_10K <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
+tm <- tmhmm_parallel(s1_sp2, paths = my_pa, TM = 1)
 }

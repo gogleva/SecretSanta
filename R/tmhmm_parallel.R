@@ -53,14 +53,15 @@ combine_TMhmmResult <- function(arguments) {
 #'                  N-terminal signal peptide could be erroneously \cr
 #'                  predicted as TM domain, avoid this
 #' @param paths tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function
-#' @param TM  allowed number of TM domains in mature peptides, recommended value <= 1; use 0 for strict filtering             
+#' @param TM  allowed number of TM domains in mature peptides, recommended value <= 1; use 0 for strict filtering   
+#' @export        
 #' @examples 
 #'           
 #' my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
 #' inp <- SignalpResult()
 #' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
 #' inp <- setInfasta(inp, aa)
-#' s1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
+#' s1_sp2_10K <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
 #' tm <- tmhmm_parallel(s1_sp2, paths = my_pa, TM = 1)
 
 tmhmm_parallel <- function(input_obj, paths, TM) {
@@ -162,7 +163,7 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
     #split the files:
     
     split_out <- split_XStringSet(all_out_fasta, 500)
-    split_mature <- split_XStringSet(all_mature_fasta, 500)
+    split_mature <- split_XStringSet(all_mat_fasta, 500)
     fasta_tuples <- mapply(list, split_out, split_mature, SIMPLIFY=F)
     
     # do the parallel jobs
