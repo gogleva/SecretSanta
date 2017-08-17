@@ -1,3 +1,46 @@
+# HELPER FUNCTIONS FOR tmhmm_parallel
+
+#combine_TMhmmResult function
+#'
+#' This function combines multiple instances of TMhmmResult class, typically generated with parLapply
+#' @param arguments - a list of TMhmmResult objects to be combined in one
+#' @export
+#' @examples 
+#' inp2 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "tail_prot.fasta", package = "SecretSanta")))
+#' inp4 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta")))
+#' 
+#' sp1 <- signalp(input_obj = inp2, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
+#' sp3 <- signalp(input_obj = inp4, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
+#' 
+#' tm1 <- tmhmm(sp1, paths = my_pa, TM = 1)
+#' tm3 <- tmhmm(sp3, paths = my_pa, TM = 1)
+
+#' obj <- list(tm1, tm3)
+#'  combined_tm <- combine_TMhmmResult(obj)
+
+
+combine_TMhmmResult <- function(arguments) {
+  if (all(sapply(arguments, is, 'TMhmmResult'))) {
+  } else {                               
+    stop('Some objects from arguments list do not belong to TMhmmResult class.')
+  }
+  
+  c_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
+  c_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
+  c_in_mature_fasta <- do.call(c, (lapply(arguments, getOutMatfasta)))
+  c_out_mature_fasta <- do.call(c, (lapply(arguments, getInMatfasta)))
+  c_tm_tibble <- do.call(rbind, (lapply(arguments, getTMtibble)))
+  
+  
+  c_obj <- TMhmmResult(in_fasta = c_in_fasta,
+                       out_fasta = c_out_fasta,
+                       in_mature_fasta = c_in_mature_fasta,
+                       out_mature_fasta = c_out_mature_fasta,
+                       tm_tibble = c_tm_tibble)
+
+}
+
+
 #' tmhmm function
 #'
 #' This function calls local TMHMM, expects CBSresult class objects with populated mature_fasta slot.
@@ -20,8 +63,7 @@
 
 tmhmm_parallel <- function(input_obj, paths, TM) {
   
-  # Check the inputs:
-  
+  # Check that inputs are valid:
   
   if (TM >= 2) {warning('Recommended TM threshold values for mature peprides is 1')}  
   # check that input object belongs to a valid class
