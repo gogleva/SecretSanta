@@ -24,8 +24,6 @@ split_XStringSet <- function(string_set, chunk_size){
                                   stop('Chunk size exceeds total seq number')
                                 }
                                 
-                                get_residue_lim <- function(x) {sum(width(x))}
-                                
                                 total_seq  <- c(1:lst)
                                 chunks <- split(total_seq, ceiling(seq_along(total_seq)/chunk_size))
                                 seq_chunker <- function(x) {chunk <- string_set[x]}
