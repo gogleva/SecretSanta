@@ -156,14 +156,14 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
   all_out_fasta <- getOutfasta(input_obj)
   all_tup <- list(all_out_fasta, all_mat_fasta)
   
-  if (length(all_mat_fasta) <= 500) {
+  if (length(all_mat_fasta) <= 10) {
     message('Ok for single file processing')
     return(simple_tmhmm(all_tup))
   } else {
     #split the files:
     
-    split_out <- split_XStringSet(all_out_fasta, 500)
-    split_mature <- split_XStringSet(all_mat_fasta, 500)
+    split_out <- split_XStringSet(all_out_fasta, 10)
+    split_mature <- split_XStringSet(all_mat_fasta, 10)
     fasta_tuples <- mapply(list, split_out, split_mature, SIMPLIFY=F)
     
     # do the parallel jobs
@@ -182,17 +182,16 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
     stopCluster(cl)
     
     res_comb <- do.call(c,result)
-    combined_TMhmmResult <- combine_TMhmmResult(unname(res_comb))
+   # combined_TMhmmResult <- combine_TMhmmResult(unname(res_comb))
     
-    tm_count <- nrow(getTMtibble(combined_TMhmmResult))    
-    message(paste('Number of candidate sequences with less than', TM, 'TM domains...', tm_count))
-    if (tm_count == 0) {warning(paste('TMHMM prediction yeilded 0 candidates with less than', TM, 'TM doamins'))}
+    #tm_count <- nrow(getTMtibble(combined_TMhmmResult))    
+    #message(paste('Number of candidate sequences with less than', TM, 'TM domains...', tm_count))
+    #if (tm_count == 0) {warning(paste('TMHMM prediction yeilded 0 candidates with less than', TM, 'TM doamins'))}
     
     closeAllConnections()
-    return(combined_TMhmmResult)
+    #return(combined_TMhmmResult)
+    return(res_comb)
     
   }
-  
-  
 }
 
