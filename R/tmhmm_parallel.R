@@ -40,11 +40,13 @@ combine_TMhmmResult <- function(arguments) {
 
 }
 
+# parallel version of TMHMM
 
 #' tmhmm function
-#'
+#' 
 #' This function calls local TMHMM, expects CBSresult class objects with populated mature_fasta slot.
-#' To generate it run signalp first.
+#' To generate CBSResult objects with mature_fasta slots run preffered version of signalp first.
+#' Parallel version
 #' @param input_obj input object, an instance of CBSResult class, \cr
 #'                  input should contain mature_fasta; in the full-length proteins \cr
 #'                  N-terminal signal peptide could be erroneously \cr
@@ -63,7 +65,10 @@ combine_TMhmmResult <- function(arguments) {
 
 tmhmm_parallel <- function(input_obj, paths, TM) {
   
-  # Check that inputs are valid:
+  # helper function: crop long names for AAStringSet object, return character vector
+  crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
+  
+  # ----- Check that inputs are valid:
   
   if (TM >= 2) {warning('Recommended TM threshold values for mature peprides is 1')}  
   # check that input object belongs to a valid class
@@ -79,63 +84,71 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
   } else {
     stop('the input object does not contain mature_fasta slot')}
   
-  
-  #----- Run tmhmm
-  message("running TMHMM locally...")
+  # Input fasta file:
   
   fasta <- getMatfasta(input_obj) 
-  out_tmp <- tempfile()
-  Biostrings::writeXStringSet(fasta, out_tmp)
-  
-  message(paste('Number of submitted sequences...', length(fasta)))
   
   
-  full_pa <- as.character(paths %>% dplyr::filter(tool == 'tmhmm') %>% dplyr::select(path))
-  tm <- tibble::as.tibble(read.table(text = (system(paste(full_pa, out_tmp, '--short'), intern = TRUE))))
-  names(tm) <- c("gene_id", "length", "ExpAA",
-                 "First60", "PredHel", "Topology")
+  # simple tmhmm, takes AAStringSet object as an input
   
-  # clean output values remove '... =' value
-  clean_outp <- function(x) {unlist(stringr::str_split(x, '='))[2]}
+  simple_tmhmm <- function() {
   
-  tm <- dplyr::mutate(tm,
-                      length = sapply(tm$length, clean_outp, USE.NAMES = FALSE),
-                      ExpAA = sapply(tm$ExpAA, clean_outp, USE.NAMES = FALSE),
-                      First60 = sapply(tm$First60, clean_outp, USE.NAMES = FALSE),
-                      PredHel = sapply(tm$PredHel, clean_outp, USE.NAMES = FALSE),
-                      Topology = sapply(tm$Topology, clean_outp, USE.NAMES = FALSE)
-  )
+      #----- Run tmhmm
+      message("running TMHMM locally...")
   
-  # change this lines in accordance with TM_thershold
-  tm <- (tm %>% dplyr::filter(PredHel <= TM))
+      out_tmp <- tempfile()
+      Biostrings::writeXStringSet(fasta, out_tmp)
   
-  message(paste('Number of candidate sequences with signal peptides and 0 TM domains in mature sequence...', nrow(tm)))
+      message(paste('Number of submitted sequences...', length(fasta)))
   
-  # helper function: crop long names for AAStringSet object, return character vector
-  crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
+      full_pa <- as.character(paths %>% dplyr::filter(tool == 'tmhmm') %>% dplyr::select(path))
+      tm <- tibble::as.tibble(read.table(text = (system(paste(full_pa, out_tmp, '--short'), intern = TRUE))))
+      names(tm) <- c("gene_id", "length", "ExpAA",
+                     "First60", "PredHel", "Topology")
   
-  #generate cropped names for input fasta
-  full_fasta <- getInfasta(input_obj)
-  cropped_names <- unname(sapply(names(full_fasta), crop_names))
+      # helper function to clean output values remove '... =' value
+      clean_outp <- function(x) {unlist(stringr::str_split(x, '='))[2]}
   
-  #replace long names with cropped names
-  names(full_fasta) <- cropped_names
+      tm <- dplyr::mutate(tm,
+                          length = sapply(tm$length, clean_outp, USE.NAMES = FALSE),
+                          ExpAA = sapply(tm$ExpAA, clean_outp, USE.NAMES = FALSE),
+                          First60 = sapply(tm$First60, clean_outp, USE.NAMES = FALSE),
+                          PredHel = sapply(tm$PredHel, clean_outp, USE.NAMES = FALSE),
+                          Topology = sapply(tm$Topology, clean_outp, USE.NAMES = FALSE)
+      )
   
-  #get ids of candidate secreted proteins
-  candidate_ids <- tm %>% dplyr::select(gene_id) %>% unlist(use.names = FALSE)
-  out_fasta_tm <- full_fasta[candidate_ids]
+     # select entries matching TM threshold:
+     tm <- (tm %>% dplyr::filter(PredHel <= TM))
   
-  out_obj <- TMhmmResult(in_fasta = getOutfasta(input_obj), # original in fasta, full length proteins
-                         out_fasta = out_fasta_tm, # out fasta, full length proteins
-                         in_mature_fasta = fasta,
-                         out_mature_fasta = fasta[candidate_ids],
-                         tm_tibble = tm)
+     message(paste('Number of candidate sequences with signal peptides and 0 TM domains in mature sequence...', nrow(tm)))
   
-  # clean TMP files before exiting:
+
   
-  junk <- dir(pattern = 'TMHMM*')
-  file.remove(junk) 
+     #generate cropped names for input fasta
+     full_fasta <- getInfasta(input_obj)
+     cropped_names <- unname(sapply(names(full_fasta), crop_names))
   
-  if (validObject(out_obj)) {return(out_obj)}
+     #replace long names with cropped names
+     names(full_fasta) <- cropped_names
+  
+     #get ids of candidate secreted proteins
+     candidate_ids <- tm %>% dplyr::select(gene_id) %>% unlist(use.names = FALSE)
+     out_fasta_tm <- full_fasta[candidate_ids]
+  
+     out_obj <- TMhmmResult(in_fasta = getOutfasta(input_obj), # original in fasta, full length proteins
+                            out_fasta = out_fasta_tm, # out fasta, full length proteins
+                            in_mature_fasta = fasta,
+                            out_mature_fasta = fasta[candidate_ids],
+                            tm_tibble = tm)
+  
+     # clean TMP files before exiting:
+  
+     junk <- dir(pattern = 'TMHMM*')
+     file.remove(junk) 
+     if (validObject(out_obj)) {return(out_obj)}
+     
+  }
+  
+  
 }
 
