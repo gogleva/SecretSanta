@@ -12,7 +12,7 @@
 
 <meta name="author" content="Anna Gogleva" />
 
-<meta name="date" content="2017-08-16" />
+<meta name="date" content="2017-08-17" />
 
 <title>SecretSanta: automated prediction of secreted proteins.</title>
 
@@ -70,12 +70,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">SecretSanta: automated prediction of secreted proteins.</h1>
 <h4 class="author"><em>Anna Gogleva</em></h4>
-<h4 class="date"><em>2017-08-16</em></h4>
+<h4 class="date"><em>2017-08-17</em></h4>
 
 
 
-<p>SecretSanta offers a family of wrappers around CBS tools to facilitate automated predicion of secreted proteins. Implemented S4 class systems restricts output to a particular format, this enables easy piping of results between multiple tools.</p>
-<p>SecretSanta provides an interface to CBS tools, so that you can easily pipe and combine predictions from multiple tools in a single pipeline.</p>
+<p>SecretSanta predict module is based on a family of wraper functions around CBS tools to facilitate automated predicion of secreted proteins. Implemented S4 class systems restricts output to a format accepatble by all the featured tool. This enables easy piping of results between them. To speed-up processing of large input fasta files (several thousands of sequences) singalp and targetp predictions are automatically run as embarassingly parallel processes if number of input sequences exceedes a certain limit (… - for signalp; … - for targetp). Majority of the functions could be run in 2 modes: starter - in the case you initiate secretome pipeline with the above tool; and ‘piper’ - so that the tool expects to see output of other CBS tools.</p>
 <div id="installation-of-external-dependencies" class="section level2">
 <h2>Installation of external dependencies</h2>
 <p>For prediction of secreted proteins SecretSanta relies on a set of existing <a href="http://www.cbs.dtu.dk/services/">CBS tools</a>. Please install them and configure according to the listed requirements. Currently R intreface is implemented for the following tools:</p>
@@ -111,9 +110,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul>
 <li>Download stand alone targetp <a href="http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?targetp" class="uri">http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?targetp</a></li>
 <li>readme …</li>
-<li>Hint, ensure that path is not too long (threshold!)</li>
+<li>Hint: ensure that path is not too long (threshold!)</li>
 </ul></li>
-<li><strong>WolfPsort</strong></li>
+<li><strong>WolfPsort</strong>
+<ul>
+<li></li>
+<li></li>
+</ul></li>
 </ul>
 </div>
 <div id="tools-for-prediction-of-transmembrane-domains" class="section level3">

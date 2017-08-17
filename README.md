@@ -89,9 +89,11 @@ TO DO (required minimum):
     - 2K,
     - long sequences
 - Write vignettes for SecretSanta predict
+    - Installation instructions
     - Add links and references to the tool papers in function docs and vignette
 - why parallel version of TMHMM is so much slower
-- export cluster environment: try to get rid of my_pa    
+- export cluster environment: try to get rid of my_pa
+- fix some ugly bits in the code    
 
 
 
