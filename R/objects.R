@@ -438,11 +438,11 @@ TMhmmResult <- setClass("TMhmmResult",
                              }
                              
                            # check that ids in out_mature_fasta match ids in out_fasta
-                             
-                             if (!(identical(names(object@out_mature_fasta), names(object@out_fasta)))) {
-                               return("Out_fasta ids do not match out_mature_fasta ids")
-                             }
-                           }  
+                              
+                               if (!(identical(names(object@out_mature_fasta), names(object@out_fasta)))) {
+                                 return("out_fasta ids do not match out_mature_fasta ids")
+                               }
+                            }  
 )
 
 

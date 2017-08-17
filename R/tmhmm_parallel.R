@@ -27,8 +27,8 @@ combine_TMhmmResult <- function(arguments) {
   
   c_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
   c_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
-  c_in_mature_fasta <- do.call(c, (lapply(arguments, getOutMatfasta)))
-  c_out_mature_fasta <- do.call(c, (lapply(arguments, getInMatfasta)))
+  c_in_mature_fasta <- do.call(c, (lapply(arguments, getInMatfasta)))
+  c_out_mature_fasta <- do.call(c, (lapply(arguments, getOutMatfasta)))
   c_tm_tibble <- do.call(rbind, (lapply(arguments, getTMtibble)))
   
   
@@ -182,16 +182,14 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
     stopCluster(cl)
     
     res_comb <- do.call(c,result)
-   # combined_TMhmmResult <- combine_TMhmmResult(unname(res_comb))
+    combined_TMhmmResult <- combine_TMhmmResult(unname(res_comb))
     
-    #tm_count <- nrow(getTMtibble(combined_TMhmmResult))    
-    #message(paste('Number of candidate sequences with less than', TM, 'TM domains...', tm_count))
-    #if (tm_count == 0) {warning(paste('TMHMM prediction yeilded 0 candidates with less than', TM, 'TM doamins'))}
+    tm_count <- nrow(getTMtibble(combined_TMhmmResult))    
+    message(paste('Number of candidate sequences with less than', TM, 'TM domains...', tm_count))
+    if (tm_count == 0) {warning(paste('TMHMM prediction yeilded 0 candidates with less than', TM, 'TM doamins'))}
     
     closeAllConnections()
-    #return(combined_TMhmmResult)
-    return(res_comb)
-    
-  }
+    return(combined_TMhmmResult)
+    #return(res_comb)
+    }
 }
-
