@@ -16,7 +16,7 @@
 #' tm3 <- tmhmm(sp3, paths = my_pa, TM = 1)
 
 #' obj <- list(tm1, tm3)
-#'  combined_tm <- combine_TMhmmResult(obj)
+#' combined_tm <- combine_TMhmmResult(obj)
 
 
 combine_TMhmmResult <- function(arguments) {

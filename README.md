@@ -71,12 +71,16 @@ SOLVED:
 - does parLapply work on Windows? what to use if not? (they say it does), even if not -
 stand alone CBS tools are available only for Unix, se we should not care about Windows so much.
 - parallel targetp: replace simple targetp, microbenchmark, test on custer, run unit and integration tests
+- parallel TMHMM (implemented, but slower than simple tmhmm)
+- parallel wolfpsort (not required, is already fast enough)
+- consider having separate helper functions that are used by all/several runners (solved):
+    - truncate_seq
+    - smth else?
+- add progress bars for parallelised tools, may be -> creates performance overhead - so, dropped    
 
 
 TO DO (required minimum):
 
-- parallel TMHMM
-- parallel wolfpsort
 - set default options for C/Y/D/S scores in signalp => more flexible filtering?
 - install SecretSanta from scratch and manage dependencies: Biostrings not imported without bioconductor?
 - fix signalp4 vs signalp 4.1 conflicts
@@ -84,13 +88,11 @@ TO DO (required minimum):
     - 1K,
     - 2K,
     - long sequences
-- consider having separate helper functions that are used by all/several runners:
-    - truncate_seq
-    - crop_names
-    - smth else?
 - Write vignettes for SecretSanta predict
-- Add links and references to the tool papers in function docs and vignette
-- add progress bars for parallelised tools, may be
+    - Add links and references to the tool papers in function docs and vignette
+- why parallel version of TMHMM is so much slower
+- export cluster environment: try to get rid of my_pa    
+
 
 
 expansion:
