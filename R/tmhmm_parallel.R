@@ -117,10 +117,17 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
   } else {
     stop('the input object does not contain mature_fasta slot')}
   
-  # Input fasta file:
   
-  fasta <- getMatfasta(input_obj) 
+  # Crop names in the in_fasta filed of the input object:
   
+  #generate cropped names for input fasta
+  full_fasta <- getInfasta(input_obj)
+  cropped_names <- unname(sapply(names(full_fasta), crop_names))
+  
+  #replace long names with cropped names
+  names(full_fasta) <- cropped_names
+  
+
   # do file preps here
 
   test_tripple <- list(getOutfasta(r1), getMatfasta(r1), getInfasta(r1))
@@ -163,12 +170,6 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
      tm <- (tm %>% dplyr::filter(PredHel <= TM))
   
      message(paste('Number of candidate sequences with signal peptides and 0 TM domains in mature sequence...', nrow(tm)))
-  
-     #generate cropped names for input fasta
-     cropped_names <- unname(sapply(names(full_fasta), crop_names))
-  
-     #replace long names with cropped names
-     names(full_fasta) <- cropped_names
   
      #get ids of candidate secreted proteins
      candidate_ids <- tm %>% dplyr::select(gene_id) %>% unlist(use.names = FALSE)
