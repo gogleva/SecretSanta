@@ -41,39 +41,6 @@ combine_TMhmmResult <- function(arguments) {
 }
 
 
-# # prepare and split SihnlapResult object for parallel processing with TMHMM
-# 
-# prep_and_split_SignalpResult <- function(sp_object){
-#   
-#             out <- getOutfasta(sp_object)
-#             mature <- getMatfasta(sp_object)
-#                       
-# }
-# 
-
-inp_1K <- CBSResult(in_fasta = readAAStringSet("SecretSanta_external/test_fastas/medium_1K.fasta"))
-r1 <- signlap(inp_1k, version = 4, 'euk', run_mode = "starter", paths = my_pa)
- 
-out <- getOutfasta(r1)
-mature <- getMatfasta(r1)
-
-split_out <- split_XStringSet(out, 10)
-split_mature <- split_XStringSet(mature, 10)
-
-cc <- mapply(list, split_out, split_mature, SIMPLIFY=F)
-
-#get all the 2nd elemnts:
-sapply(cc, '[', 2)
-
-#get all the 1st elements
-sapply(cc, '[', 1)
-
-
-fasta_tup <- list(out, mature)
-
-
-
-
 # parallel version of TMHMM
 
 #' tmhmm function
@@ -192,7 +159,37 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
     message('Ok for single file processing')
     return(simple_tmhmm(all_tup))
   } else {
-    stop('the file is too large')
+    #split the files:
+    
+    split_out <- split_XStringSet(all_out_fasta, 500)
+    split_mature <- split_XStringSet(all_mature_fasta, 500)
+    fasta_tuples <- mapply(list, split_out, split_mature, SIMPLIFY=F)
+    
+    # do the parallel jobs
+    
+    # Calculate the number of cores
+    no_cores <- detectCores()
+    
+    # Initiate cluster
+    cl <- makeCluster(no_cores)
+    # run parallel process
+    
+    clusterEvalQ(cl, library("SecretSanta"))
+    clusterExport(cl=cl, varlist=c("my_pa")) # or path?
+    
+    result <- parLapply(cl, fasta_tuples, simple_tmhmm)
+    stopCluster(cl)
+    
+    res_comb <- do.call(c,result)
+    combined_TMhmmResult <- combine_TMhmmResultResult(unname(res_comb))
+    
+    tm_count <- nrow(getTMtibble(combined_TMhmmResult))    
+    message(paste('Number of candidate sequences with less than', TM, 'TM domains...', tm_count))
+    if (tm_count == 0) {warning(paste('TMHMM prediction yeilded 0 candidates with less than', TM, 'TM doamins'))}
+    
+    closeAllConnections()
+    return(combined_TMhmmResult)
+    
   }
   
   
