@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-**SecretSanta predict** is based on a family of wraper functions around [CBS tools](http://www.cbs.dtu.dk/services/) to facilitate automated predicion of secreted proteins. Implemented S4 class systems restricts output to a format accepatble by all the featured tools. This enables easy piping of results between them and enables cration of custom pipelines easy. To speed-up processing of large input fasta files (containing several thousands of sequences) singalp and targetp predictions are automatically run as embarassingly parallel processes when number of input sequences exceedes a certain limit (... - for signalp; ... - for targetp).
+**SecretSanta predict** is based on a family of wraper functions around [CBS tools](http://www.cbs.dtu.dk/services/) to facilitate automated predicion of secreted proteins. Implemented S4 class systems restricts output to a format accepatble by all the featured tools. This enables easy piping of results between individual predictors and enables creation of custom pipelines (vertical concatenation) and aid comparison of results between several tools (horizontal concatenation). To speed-up processing of large input fasta files (containing several thousands of sequences) singalp and targetp predictions are automatically run as embarassingly parallel processes when number of input sequences exceedes a certain limit (... - for signalp; ... - for targetp).
 Majority of the functions could be run in 2 modes: starter - in the case you initiate secretome pipeline with the above tool; and 'piper' - so that the tool expects to see output from other functions serving as wrappers around CBS tools.
 
 **SecretSanta annotate**
