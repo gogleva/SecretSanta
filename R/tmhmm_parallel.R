@@ -182,7 +182,7 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
     stopCluster(cl)
     
     res_comb <- do.call(c,result)
-    combined_TMhmmResult <- combine_TMhmmResultResult(unname(res_comb))
+    combined_TMhmmResult <- combine_TMhmmResult(unname(res_comb))
     
     tm_count <- nrow(getTMtibble(combined_TMhmmResult))    
     message(paste('Number of candidate sequences with less than', TM, 'TM domains...', tm_count))
