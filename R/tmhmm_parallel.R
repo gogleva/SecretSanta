@@ -94,7 +94,7 @@ fasta_tup <- list(out, mature)
 #' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
 #' inp <- setInfasta(inp, aa)
 #' s1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
-#' tm <- tmhmm(s1_sp2, paths = my_pa, TM = 1)
+#' tm <- tmhmm_parallel(s1_sp2, paths = my_pa, TM = 1)
 
 tmhmm_parallel <- function(input_obj, paths, TM) {
   
@@ -127,13 +127,9 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
   #replace long names with cropped names
   names(full_fasta) <- cropped_names
   
-
-#  test_tupple <- list(getOutfasta(r1), getMatfasta(r1))
-# simple_tmhmm(test_tripple)
-  
   simple_tmhmm <- function(fasta_tuple) {
   # fasta tuple - a lits of 2 elements: out_fasta, mature_fasta
-  # (out_fasta, mature_fasta, in_fasta)
+  # (out_fasta, mature_fasta)
   
       
       #----- Run tmhmm
@@ -187,6 +183,17 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
   }
   
   # estimate input file size
+  
+  all_mat_fasta <- getMatfasta(input_obj)
+  all_out_fasta <- getOutfasta(input_obj)
+  all_tup <- list(all_out_fasta, all_mat_fasta)
+  
+  if (length(all_mat_fasta) <= 500) {
+    message('Ok for single file processing')
+    return(simple_tmhmm(all_tup))
+  } else {
+    stop('the file is too large')
+  }
   
   
 }
