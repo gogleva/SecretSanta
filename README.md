@@ -70,11 +70,11 @@ SOLVED:
 - clean tmp files after the TMHMM run (solved)
 - does parLapply work on Windows? what to use if not? (they say it does), even if not -
 stand alone CBS tools are available only for Unix, se we should not care about Windows so much.
+- parallel targetp: replace simple targetp, microbenchmark, test on custer, run unit and integration tests
 
 
 TO DO (required minimum):
 
-- parallel targetp
 - parallel TMHMM
 - parallel wolfpsort
 - set default options for C/Y/D/S scores in signalp => more flexible filtering?
