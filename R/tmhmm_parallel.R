@@ -69,6 +69,9 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
   # helper function: crop long names for AAStringSet object, return character vector
   crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
   
+  # helper function to clean output values remove '... =' value
+  clean_outp <- function(x) {unlist(stringr::str_split(x, '='))[2]}  
+  
   # ----- Check that inputs are valid:
   
   if (TM >= 2) {warning('Recommended TM threshold values for mature peprides is 1')}  
@@ -95,11 +98,13 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
   #replace long names with cropped names
   names(full_fasta) <- cropped_names
   
+  #full pathway to tmhmm:
+  full_pa <- as.character(paths %>% dplyr::filter(tool == 'tmhmm') %>% dplyr::select(path))
+  
   simple_tmhmm <- function(fasta_tuple) {
   # fasta tuple - a lits of 2 elements: out_fasta, mature_fasta
   # (out_fasta, mature_fasta)
   
-      
       #----- Run tmhmm
       message("running TMHMM locally...")
     
@@ -111,13 +116,9 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
   
       message(paste('Number of submitted sequences...', length(matf)))
   
-      full_pa <- as.character(paths %>% dplyr::filter(tool == 'tmhmm') %>% dplyr::select(path))
       tm <- tibble::as.tibble(read.table(text = (system(paste(full_pa, out_tmp, '--short'), intern = TRUE))))
       names(tm) <- c("gene_id", "length", "ExpAA",
                      "First60", "PredHel", "Topology")
-  
-      # helper function to clean output values remove '... =' value
-      clean_outp <- function(x) {unlist(stringr::str_split(x, '='))[2]}
   
       tm <- dplyr::mutate(tm,
                           length = sapply(tm$length, clean_outp, USE.NAMES = FALSE),
@@ -189,7 +190,9 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
     if (tm_count == 0) {warning(paste('TMHMM prediction yeilded 0 candidates with less than', TM, 'TM doamins'))}
     
     closeAllConnections()
+    
+    junk <- dir(pattern = 'TMHMM*')
+    file.remove(junk) 
     return(combined_TMhmmResult)
-    #return(res_comb)
     }
 }
