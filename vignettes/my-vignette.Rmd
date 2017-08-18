@@ -118,7 +118,7 @@ library(SecretSanta)
 ```
 
 ```{r, echo = FALSE}
-pp <-  suppressMessages(readr::read_delim(system.file("extdata", "sample_paths",
+pp <-  suppressMessages(readr::read_delim(system.file("extdata", "santa_paths",
                                                       package="SecretSanta"),
                                           delim = ' ',
                                           col_names = FALSE))
