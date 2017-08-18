@@ -14,7 +14,7 @@
 
 <meta name="date" content="2017-08-18" />
 
-<title>SecretSanta: automated prediction of secreted proteins.</title>
+<title>SecretSanta: flexible pipelines for automated prediction of secreted proteins.</title>
 
 
 
@@ -68,13 +68,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<h1 class="title toc-ignore">SecretSanta: automated prediction of secreted proteins.</h1>
+<h1 class="title toc-ignore">SecretSanta: flexible pipelines for automated prediction of secreted proteins.</h1>
 <h4 class="author"><em>Anna Gogleva</em></h4>
 <h4 class="date"><em>2017-08-18</em></h4>
 
 
 
-<p><strong>SecretSanta predict</strong> is based on a family of wraper functions around <a href="http://www.cbs.dtu.dk/services/">CBS tools</a> to facilitate automated predicion of secreted proteins. The wrappers are designed to work together. They produce output in a format recognosible by all of them. This enables easy piping of results between individual predictors and enables creation of custom pipelines (vertical concatenation) and aids comparison of results between several tools (horizontal concatenation).</p>
+<p><strong>SecretSanta predict</strong> is based on a family of wraper functions around <a href="http://www.cbs.dtu.dk/services/">CBS tools</a>. The wrappers are designed to work together. They produce output in a format recognosible by all of them. This enables easy piping of results between individual predictors and enables creation of custom pipelines (vertical concatenation) and aids comparison of results between several tools (horizontal concatenation).</p>
 <p>To speed-up processing of large input fasta files (containing several thousands of sequences) singalp and targetp predictions are automatically run as embarassingly parallel processes when number of input sequences exceedes a certain limit (600 - for signalp; 500 - for targetp).</p>
 <p>Majority of the functions could be run in 2 modes: starter - in the case you initiate secretome pipeline with the above tool; and ‘piper’ - so that the tool expects to see output from other wraper functions.</p>
 <p><strong>SecretSanta annotate</strong> not implemented yet</p>
@@ -83,10 +83,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="installation-of-external-dependencies" class="section level2">
 <h2>Installation of external dependencies</h2>
 <p>For prediction of secreted proteins SecretSanta relies on a set of existing <a href="http://www.cbs.dtu.dk/services/">CBS tools</a>. Please install them and configure according to the listed requirements. Currently R intreface is implemented for the following tools:</p>
+<p></p>
 <div id="tools-for-prediction-of-signal-peptides-and-cleavage-sites" class="section level3">
 <h3>Tools for prediction of signal peptides and cleavage sites:</h3>
 <ul>
-<li><strong>signalp2.0</strong>
+<li><strong>signalp-2.0</strong>
 <ul>
 <li>This version can run under IRIX, IRIX64, Linux, OSF1, SunOS.</li>
 <li>Download stand alone signalp2.0 <a href="http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+2.0" class="uri">http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+2.0</a></li>
@@ -95,9 +96,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash"><span class="kw">tar</span> -zxvf signalp-2.0.Linux.tar.Z
 <span class="kw">cd</span> signalp-2.0</code></pre></div>
 <ul>
-<li>Edit “General settings” at the top of the signalp file. Set value of ‘SIGNALP’ variable to be path to your signalp2.0 directory. Other variables usually do not require changes. We will not use plotting functions from signalp, so gnuplot, ppmtogif and ghostview are not requred. For more details please check signalp-2.0.readme.</li>
+<li>Edit “General settings” at the top of the signalp file. Set value of ‘SIGNALP’ variable to be path to your signalp2.0 directory. Other variables usually do not require changes. We will not use plotting functions from signalp, so gnuplot, ppmtogif and ghostview are not requred. For more details please check <code>signalp-2.0.readme</code>.</li>
 </ul></li>
-<li><strong>signalp3.0</strong>
+</ul>
+<p></p>
+<ul>
+<li><strong>signalp-3.0</strong>
 <ul>
 <li>This version can will run on the most common UNIX platforms.</li>
 <li>Download stand alone signalp3.0 <a href="http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+3.0" class="uri">http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+3.0</a></li>
@@ -106,9 +110,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash"><span class="kw">tar</span> -zxvf signalp-3.0.Linux.tar.Z
 <span class="kw">cd</span> signalp-3.0</code></pre></div>
 <ul>
-<li>Similar to signalp2, edit “General settings” at the top of the signalp file. Set value of ‘SIGNALP’ variable to be path to your signalp3.0 directory. Other variables usually do not require changes. We will not use plotting functions from signalp, so gnuplot, ppmtogif and ghostview are not requred. For more details please check signalp-3.0.readme.</li>
+<li>Similar to signalp2, edit “General settings” at the top of the signalp file. Set value of ‘SIGNALP’ variable to be path to your signalp3.0 directory. Other variables usually do not require changes. We will not use plotting functions from signalp, so gnuplot, ppmtogif and ghostview are not requred. For more details please check <code>signalp-3.0.readme</code>.</li>
 </ul></li>
-<li><strong>signalp4.1</strong> - the most recent version
+</ul>
+<p></p>
+<ul>
+<li><strong>signalp-4.1</strong> - the most recent version
 <ul>
 <li>This version can run under Windows, OS X (Macintosh) and Linux.</li>
 <li>Download stand alone signalp4.0 <a href="http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+4.0" class="uri">http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+4.0</a></li>
@@ -117,14 +124,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash"><span class="kw">tar</span> -zxvf signalp-4.1.Linux.tar.Z
 <span class="kw">cd</span> signalp-4.1</code></pre></div>
 <ul>
-<li>Edit “General settings” at the top of the signalp file. Set values for ‘SIGNALP’ and ‘outputDir’ variables. For more details please check signalp-4.1.readme</li>
+<li>Edit “General settings” at the top of the signalp file. Set values for ‘SIGNALP’ and ‘outputDir’ variables. For more details please check <code>signalp-4.1.readme</code>.</li>
 </ul></li>
 </ul>
+<p></p>
 </div>
 <div id="tools-for-prediction-of-protein-subcellular-localisation" class="section level3">
 <h3>Tools for prediction of protein subcellular localisation:</h3>
 <ul>
-<li><strong>taretp1.1</strong>
+<li><strong>taretp-1.1</strong>
 <ul>
 <li>tatgetp1.1 will run on the most common UNIX platforms<br />
 </li>
@@ -136,38 +144,51 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul>
 <li>Edit the paragraph labeled “GENERAL SETTINGS, customise” at the top of the targetp file. Set values for ‘TARGETP’ and ‘TMP’ variables. Ensure, that the path to targetp does not exceed 60 characters, otherwise targetp might fail.</li>
 </ul></li>
+</ul>
+<p></p>
+<ul>
 <li><strong>WoLFPsort</strong>
 <ul>
-<li>cLone WoLFPsort</li>
+<li>Clone WoLFPsort</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash"><span class="kw">git</span> clone https://github.com/fmaguire/WoLFPSort.git
 <span class="kw">cd</span> WoLFPSort</code></pre></div>
 <ul>
-<li>copy the binaries from the appropriate platform specific binary directory <code>./bin/binByPlatform/binary-?</code> to <code>./bin/</code></li>
+<li>Copy the binaries from the appropriate platform specific binary directory <code>./bin/binByPlatform/binary-?</code> to <code>./bin/</code></li>
+<li>For more details please check the <code>INSTALL</code> file.</li>
+</ul></li>
 </ul>
-``` nan</li>
-</ul>
+<p></p>
 </div>
 <div id="tools-for-prediction-of-transmembrane-domains" class="section level3">
 <h3>Tools for prediction of transmembrane domains</h3>
 <ul>
-<li><strong>TMHMM</strong></li>
+<li><strong>tmhmm-2.0</strong>
+<ul>
+<li>tmhmm-2.0 will run on the most common UNIX platforms<br />
+</li>
+<li>Download stand alone tmhmm (<a href="http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?tmhmm" class="uri">http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?tmhmm</a>)</li>
+<li>Upack the archive:</li>
 </ul>
+<div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash"><span class="kw">tar</span> -zxvf tmhmm-2.0c.Linux.tar.gz
+<span class="kw">cd</span> tmhmm-2.0c</code></pre></div>
+<ul>
+<li>Set correct path for perl 5.x in the first line of <code>bin/tmhmm</code> and <code>bin/tmhmmformat.pl</code> scripts.</li>
+<li>For more details please check the <code>README</code> file.</li>
+</ul></li>
+</ul>
+<p></p>
 </div>
-<div id="check-that-all-the-external-dependencies-are-present-and-executable-in-principle" class="section level3">
-<h3>Check that all the external dependencies are present and executable in principle:</h3>
-<p>To do this create a 2-column space-separated text file with listed paths for external dependencies. Example path_file:</p>
+<div id="checking-that-all-the-external-dependencies-are-present-and-executable-in-principle" class="section level3">
+<h3>Checking that all the external dependencies are present and executable in principle:</h3>
+<p>To do this create a 2-column space-separated text file with listed paths for all the external dependencies.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(SecretSanta)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pp &lt;-<span class="st">  </span><span class="kw">suppressMessages</span>(readr::<span class="kw">read_delim</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;sample_paths&quot;</span>,
-                                                      <span class="dt">package=</span><span class="st">&quot;SecretSanta&quot;</span>),
-                                          <span class="dt">delim =</span> <span class="st">' '</span>,
-                                          <span class="dt">col_names =</span> <span class="ot">FALSE</span>))</code></pre></div>
 <p>Sample input file listing paths to external dependencies:</p>
 <table>
 <thead>
 <tr class="header">
-<th align="left">X1</th>
-<th align="left">X2</th>
+<th align="left">tool</th>
+<th align="left">path</th>
 </tr>
 </thead>
 <tbody>
@@ -197,14 +218,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </tr>
 </tbody>
 </table>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">santa_paths &lt;-<span class="kw">manage_paths</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;sample_paths&quot;</span>, <span class="dt">package=</span><span class="st">&quot;SecretSanta&quot;</span>))</code></pre></div>
-<pre><code>## All paths are valid</code></pre>
-<pre><code>## signalp2 test run completed</code></pre>
-<pre><code>## signalp3 test run completed</code></pre>
-<pre><code>## signalp4 test run completed</code></pre>
-<pre><code>## targetp test run completed</code></pre>
-<pre><code>## tmhmm test run completed</code></pre>
-<pre><code>## wolfpsort test run completed</code></pre>
+<p>To check that all the required dependencies are installed correctly and can be executed in principle, run <code>manage_paths</code> function. Note, that <code>manage_paths</code> function is case insensitive and converts all the tool names to the lower case. For CBS tool names please use simple character strings without version numbers. The only exception is signalp - that requires version number in one-digit format.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">santa_paths &lt;-<span class="st"> </span><span class="kw">manage_paths</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;sample_paths&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;SecretSanta&quot;</span>))
+## All paths are valid
+## signalp2 test run completed
+## signalp3 test run completed
+## signalp4 test run completed
+## targetp test run completed
+## tmhmm test run completed
+## wolfpsort test run completed</code></pre></div>
 </div>
 </div>
 <div id="signalp" class="section level2">
