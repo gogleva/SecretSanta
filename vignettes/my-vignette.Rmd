@@ -7,9 +7,10 @@ vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
----
+bibliography: Santa.bib
+---  
 
-**SecretSanta predict** is based on a family of wraper functions around [CBS tools](http://www.cbs.dtu.dk/services/). The wrappers are designed to work together. They produce output in a format recognosible by all of them. This enables easy piping of results between individual predictors and enables creation of custom pipelines (vertical concatenation) and aids comparison of results between several tools (horizontal concatenation).
+**SecretSanta predict** is based on a family of wraper functions around [CBS tools](http://www.cbs.dtu.dk/services/). The wrappers are designed to work together. They produce output in a format recognosible by all of them. This enables easy piping of results between individual predictors and enables creation of custom pipelines and makes comparison of outputs between several tools easier.
 
 To speed-up processing of large input fasta files (containing several thousands of sequences) singalp and targetp predictions are automatically run as embarassingly parallel processes when number of input sequences exceedes a certain limit (600 - for signalp; 500 - for targetp).
 
@@ -131,13 +132,17 @@ Sample input file listing paths to external dependencies:
 knitr::kable(pp)
 ```
 
-To check that all the required dependencies are installed correctly and can be executed in principle, run ```manage_paths``` function. Note, that ```manage_paths``` function is case insensitive and converts all the tool names to the lower case. For CBS tool names please use simple character strings without version numbers. The only exception is signalp - that requires version number in one-digit format.
+To check that all the required dependencies are installed correctly and can be executed in principle, run ```manage_paths``` function. Note, that ```manage_paths``` function is case insensitive and converts all the tool names to the lower case. For CBS tool names please use simple character strings without version numbers. The only exception is signalp family of tools, they require version number in one-digit format to be distinguishable.
 
 ```{r, echo = TRUE, collapse = TRUE}
 santa_paths <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
 ```
 
 ## Signalp
+Signalp is used for prediction of signal peptides and cleavage sites 
+[@Love2014].
+[@Nielsen1997]
+
 
 - signalp2
 - signalp3
@@ -158,8 +163,6 @@ In case of large input files SecretSanta runs signalp as an embarassingly parall
 ## Building pipelines, simple workflow
 
 ## Building pipelines, stringent workflow
-
-
 
 
 

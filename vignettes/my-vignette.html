@@ -74,7 +74,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<p><strong>SecretSanta predict</strong> is based on a family of wraper functions around <a href="http://www.cbs.dtu.dk/services/">CBS tools</a>. The wrappers are designed to work together. They produce output in a format recognosible by all of them. This enables easy piping of results between individual predictors and enables creation of custom pipelines (vertical concatenation) and aids comparison of results between several tools (horizontal concatenation).</p>
+<p><strong>SecretSanta predict</strong> is based on a family of wraper functions around <a href="http://www.cbs.dtu.dk/services/">CBS tools</a>. The wrappers are designed to work together. They produce output in a format recognosible by all of them. This enables easy piping of results between individual predictors and enables creation of custom pipelines and makes comparison of outputs between several tools easier.</p>
 <p>To speed-up processing of large input fasta files (containing several thousands of sequences) singalp and targetp predictions are automatically run as embarassingly parallel processes when number of input sequences exceedes a certain limit (600 - for signalp; 500 - for targetp).</p>
 <p>Majority of the functions could be run in 2 modes: starter - in the case you initiate secretome pipeline with the above tool; and ‘piper’ - so that the tool expects to see output from other wraper functions.</p>
 <p><strong>SecretSanta annotate</strong> not implemented yet</p>
@@ -218,7 +218,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </tr>
 </tbody>
 </table>
-<p>To check that all the required dependencies are installed correctly and can be executed in principle, run <code>manage_paths</code> function. Note, that <code>manage_paths</code> function is case insensitive and converts all the tool names to the lower case. For CBS tool names please use simple character strings without version numbers. The only exception is signalp - that requires version number in one-digit format.</p>
+<p>To check that all the required dependencies are installed correctly and can be executed in principle, run <code>manage_paths</code> function. Note, that <code>manage_paths</code> function is case insensitive and converts all the tool names to the lower case. For CBS tool names please use simple character strings without version numbers. The only exception is signalp family of tools, they require version number in one-digit format to be distinguishable.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">santa_paths &lt;-<span class="st"> </span><span class="kw">manage_paths</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;sample_paths&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;SecretSanta&quot;</span>))
 ## All paths are valid
 ## signalp2 test run completed
@@ -231,6 +231,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="signalp" class="section level2">
 <h2>Signalp</h2>
+<p>Signalp is used for prediction of signal peptides and cleavage sites <span class="citation">(Love, Huber, and Anders 2014)</span>. <span class="citation">(Henrik Nielsen and Heijne 1997)</span></p>
 <ul>
 <li>signalp2</li>
 <li>signalp3</li>
@@ -446,6 +447,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <blockquote>
 <p>“He who gives up [code] safety for [code] speed deserves neither.” (<a href="https://twitter.com/hadleywickham/status/504368538874703872">via</a>)</p>
 </blockquote>
+<div id="refs" class="references">
+<div id="ref-Nielsen1997">
+<p>Henrik Nielsen, S�ren Brunak, Jacob Engelbrecht, and Gunnar von Heijne. 1997. “Identification of Prokaryotic and Eukaryotic Signal Peptides and Prediction of Their Cleavage Sites.” <em>Protein Engineering</em> 10: 1–6.</p>
+</div>
+<div id="ref-Love2014">
+<p>Love, Michael I., Wolfgang Huber, and Simon Anders. 2014. “Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2.” <em>Genome Biology</em> 15 (12): 550. <a href="http://dx.doi.org/10.1186/s13059-014-0550-8" class="uri">http://dx.doi.org/10.1186/s13059-014-0550-8</a>.</p>
+</div>
+</div>
 </div>
 <div class="footnotes">
 <hr />
