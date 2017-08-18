@@ -93,6 +93,7 @@ TO DO (required minimum):
     - Add links and references to the tool papers in function docs and vignette
 - why parallel version of TMHMM is so much slower
 - export cluster environment: try to get rid of my_pa
+- code profiling to speed-up wrappers
 - fix some ugly bits in the code    
 
 

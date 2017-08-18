@@ -116,8 +116,13 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
       Biostrings::writeXStringSet(matf, out_tmp)
   
       message(paste('Number of submitted sequences...', length(matf)))
-  
-      tm <- tibble::as.tibble(read.table(text = (system(paste(full_pa, out_tmp, '--short'), intern = TRUE))))
+      
+      full_pa <- as.character(paths %>% dplyr::filter(tool == 'tmhmm') %>% dplyr::select(path))
+      con <- system(paste(full_pa, out_tmp, '--short'), intern = TRUE)
+      con_tmp <- tempfile()
+      write(con, con_tmp)
+      tm <- suppressMessages(readr::read_delim(con_tmp, '\t', col_names = F))
+      #tm <- tibble::as.tibble(read.table(text = (system(paste(full_pa, out_tmp, '--short'), intern = TRUE))))
       names(tm) <- c("gene_id", "length", "ExpAA",
                      "First60", "PredHel", "Topology")
   
