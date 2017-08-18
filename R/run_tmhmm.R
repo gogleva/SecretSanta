@@ -46,10 +46,12 @@ tmhmm <- function(input_obj, paths, TM) {
   
   
   full_pa <- as.character(paths %>% dplyr::filter(tool == 'tmhmm') %>% dplyr::select(path))
-  
-  tm <- tibble::as.tibble(read.table(text = (system(paste(full_pa, out_tmp, '--short'), intern = TRUE)))) # this is slow
-  
   con <- system(paste(full_pa, out_tmp, '--short'), intern = TRUE)
+  con_tmp <- tempfile()
+  write(con, con_tmp)
+  tm <- readr::read_delim(con_tmp, '\t', col_names = F)
+  
+  #tm <- tibble::as.tibble(read.table(text = (system(paste(full_pa, out_tmp, '--short'), intern = TRUE)))) # this is slow
   
   names(tm) <- c("gene_id", "length", "ExpAA",
                      "First60", "PredHel", "Topology")
