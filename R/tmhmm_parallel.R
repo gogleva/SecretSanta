@@ -122,7 +122,7 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
       con_tmp <- tempfile()
       write(con, con_tmp)
       tm <- suppressMessages(readr::read_delim(con_tmp, '\t', col_names = F))
-      #tm <- tibble::as.tibble(read.table(text = (system(paste(full_pa, out_tmp, '--short'), intern = TRUE))))
+      
       names(tm) <- c("gene_id", "length", "ExpAA",
                      "First60", "PredHel", "Topology")
   

@@ -74,10 +74,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<p><strong>SecretSanta predict</strong> is based on a family of wraper functions around <a href="http://www.cbs.dtu.dk/services/">CBS tools</a> to facilitate automated predicion of secreted proteins. Implemented S4 class systems restricts output to a format accepatble by all the featured tools. This enables easy piping of results between individual predictors and enables creation of custom pipelines (vertical concatenation) and aid comparison of results between several tools (horizontal concatenation). To speed-up processing of large input fasta files (containing several thousands of sequences) singalp and targetp predictions are automatically run as embarassingly parallel processes when number of input sequences exceedes a certain limit (… - for signalp; … - for targetp). Majority of the functions could be run in 2 modes: starter - in the case you initiate secretome pipeline with the above tool; and ‘piper’ - so that the tool expects to see output from other functions serving as wrappers around CBS tools.</p>
-<p><strong>SecretSanta annotate</strong></p>
-<p><strong>SecretSanta compare</strong></p>
-<p><strong>SecretSanta visualise</strong></p>
+<p><strong>SecretSanta predict</strong> is based on a family of wraper functions around <a href="http://www.cbs.dtu.dk/services/">CBS tools</a> to facilitate automated predicion of secreted proteins. The wrappers are designed to work together. They produce output in a format recognosible by all of them. This enables easy piping of results between individual predictors and enables creation of custom pipelines (vertical concatenation) and aids comparison of results between several tools (horizontal concatenation).</p>
+<p>To speed-up processing of large input fasta files (containing several thousands of sequences) singalp and targetp predictions are automatically run as embarassingly parallel processes when number of input sequences exceedes a certain limit (600 - for signalp; 500 - for targetp).</p>
+<p>Majority of the functions could be run in 2 modes: starter - in the case you initiate secretome pipeline with the above tool; and ‘piper’ - so that the tool expects to see output from other wraper functions.</p>
+<p><strong>SecretSanta annotate</strong> not implemented yet</p>
+<p><strong>SecretSanta compare</strong> not implemented yet</p>
+<p><strong>SecretSanta visualise</strong> not implemented yet</p>
 <div id="installation-of-external-dependencies" class="section level2">
 <h2>Installation of external dependencies</h2>
 <p>For prediction of secreted proteins SecretSanta relies on a set of existing <a href="http://www.cbs.dtu.dk/services/">CBS tools</a>. Please install them and configure according to the listed requirements. Currently R intreface is implemented for the following tools:</p>
@@ -93,7 +95,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash"><span class="kw">tar</span> -zxvf signalp-2.0.Linux.tar.Z
 <span class="kw">cd</span> signalp-2.0</code></pre></div>
 <ul>
-<li>Edit “General settings” in the top of the signalp file. Set value of ‘SIGNALP’ variable to be path to your signalp2.0 directory. Other variables usually do not require changes. We will not use plotting functions from signalp, so gnuplot, ppmtogif and ghostview are not requred. For more details please see signalp-2.0.readme.</li>
+<li>Edit “General settings” at the top of the signalp file. Set value of ‘SIGNALP’ variable to be path to your signalp2.0 directory. Other variables usually do not require changes. We will not use plotting functions from signalp, so gnuplot, ppmtogif and ghostview are not requred. For more details please check signalp-2.0.readme.</li>
 </ul></li>
 <li><strong>signalp3.0</strong>
 <ul>
@@ -104,7 +106,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash"><span class="kw">tar</span> -zxvf signalp-3.0.Linux.tar.Z
 <span class="kw">cd</span> signalp-3.0</code></pre></div>
 <ul>
-<li>Similar to signalp2, edit “General settings” in the top of the signalp file. Set value of ‘SIGNALP’ variable to be path to your signalp3.0 directory. Other variables usually do not require changes. We will not use plotting functions from signalp, so gnuplot, ppmtogif and ghostview are not requred. For more details please see signalp-3.0.readme.</li>
+<li>Similar to signalp2, edit “General settings” at the top of the signalp file. Set value of ‘SIGNALP’ variable to be path to your signalp3.0 directory. Other variables usually do not require changes. We will not use plotting functions from signalp, so gnuplot, ppmtogif and ghostview are not requred. For more details please check signalp-3.0.readme.</li>
 </ul></li>
 <li><strong>signalp4.1</strong> - the most recent version
 <ul>
@@ -115,24 +117,35 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash"><span class="kw">tar</span> -zxvf signalp-4.1.Linux.tar.Z
 <span class="kw">cd</span> signalp-4.1</code></pre></div>
 <ul>
-<li>Edit “General settings” in the top of the signalp file. Set values for ‘SIGNALP’ and ‘outputDir’ variables. For more details please see signalp-4.1.readme</li>
+<li>Edit “General settings” at the top of the signalp file. Set values for ‘SIGNALP’ and ‘outputDir’ variables. For more details please check signalp-4.1.readme</li>
 </ul></li>
 </ul>
 </div>
 <div id="tools-for-prediction-of-protein-subcellular-localisation" class="section level3">
 <h3>Tools for prediction of protein subcellular localisation:</h3>
 <ul>
-<li><strong>taretp</strong>
+<li><strong>taretp1.1</strong>
 <ul>
+<li>tatgetp1.1 will run on the most common UNIX platforms<br />
+</li>
 <li>Download stand alone targetp <a href="http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?targetp" class="uri">http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?targetp</a></li>
-<li>readme …</li>
-<li>Hint: ensure that path is not too long (threshold!)</li>
-</ul></li>
-<li><strong>WolfPsort</strong>
+<li>Unpack the archive:</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash"><span class="kw">tar</span> -zxvf targetp-1.1b.Linux.tar.Z 
+<span class="kw">cd</span> targetp-1.1</code></pre></div>
 <ul>
-<li></li>
-<li></li>
+<li>Edit the paragraph labeled “GENERAL SETTINGS, customise” at the top of the targetp file. Set values for ‘TARGETP’ and ‘TMP’ variables. Ensure, that the path to targetp does not exceed 60 characters, otherwise targetp might fail.</li>
 </ul></li>
+<li><strong>WoLFPsort</strong>
+<ul>
+<li>cLone WoLFPsort</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash"><span class="kw">git</span> clone https://github.com/fmaguire/WoLFPSort.git
+<span class="kw">cd</span> WoLFPSort</code></pre></div>
+<ul>
+<li>copy the binaries from the appropriate platform specific binary directory <code>./bin/binByPlatform/binary-?</code> to <code>./bin/</code></li>
+</ul>
+``` nan</li>
 </ul>
 </div>
 <div id="tools-for-prediction-of-transmembrane-domains" class="section level3">
