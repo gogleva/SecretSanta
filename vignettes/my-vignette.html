@@ -74,9 +74,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<p><strong>SecretSanta predict</strong> is based on a family of wraper functions around <a href="http://www.cbs.dtu.dk/services/">CBS tools</a>. The wrappers are designed to work together. They produce output in a format recognosible by all of them. This enables easy piping of results between individual predictors and enables creation of custom pipelines and makes comparison of outputs between several tools easier.</p>
-<p>To speed-up processing of large input fasta files (containing several thousands of sequences) singalp and targetp predictions are automatically run as embarassingly parallel processes when number of input sequences exceedes a certain limit (600 - for signalp; 500 - for targetp).</p>
-<p>Majority of the functions could be run in 2 modes: starter - in the case you initiate secretome pipeline with the above tool; and ‘piper’ - so that the tool expects to see output from other wraper functions.</p>
+<p><strong>SecretSanta predict</strong> is based on a family of wraper functions around <a href="http://www.cbs.dtu.dk/services/">CBS tools</a>. The wrappers are designed to work together. They produce output in a format recognosible by all of them. This alows to pipe results between individual predictors easily, as well as create flexible custom pipelines and compare outputs between several tools.</p>
+<p>Put somewhere: here we cover classical secretion mostly</p>
+<p>To speed-up processing of large input fasta files (with several thousands of sequences) reccommended initial steps of the pipeline (<code>singalp</code> and <code>targetp</code>) are automatically run as embarassingly parallel processes when number of input sequences exceedes a certain limit (600 - for <code>signalp</code>; 500 - for <code>targetp</code>).</p>
+<p>Majority of the functions could be run in 2 modes: <strong>starter</strong> - in the case you initiate secretome pipeline with the above tool; and <strong>piper</strong> - for downstream/intermediate steps, so that the tool expects an output from another wraper function.</p>
 <p><strong>SecretSanta annotate</strong> not implemented yet</p>
 <p><strong>SecretSanta compare</strong> not implemented yet</p>
 <p><strong>SecretSanta visualise</strong> not implemented yet</p>
@@ -179,8 +180,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul>
 <p></p>
 </div>
-<div id="checking-that-all-the-external-dependencies-are-present-and-executable-in-principle" class="section level3">
-<h3>Checking that all the external dependencies are present and executable in principle:</h3>
+</div>
+<div id="checking-that-all-the-external-dependencies-are-present-and-executable-in-principle" class="section level2">
+<h2>Checking that all the external dependencies are present and executable in principle:</h2>
 <p>To do this create a 2-column space-separated text file with listed paths for all the external dependencies.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(SecretSanta)</code></pre></div>
 <p>Sample input file listing paths to external dependencies:</p>
@@ -228,14 +230,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## tmhmm test run completed
 ## wolfpsort test run completed</code></pre></div>
 </div>
-</div>
 <div id="signalp" class="section level2">
 <h2>Signalp</h2>
-<p>Signalp is used for prediction of signal peptides and cleavage sites <span class="citation">(Love, Huber, and Anders 2014)</span>. <span class="citation">(Henrik Nielsen and Heijne 1997)</span></p>
+<p>Signalp is a softaware tool to predict classical signal peptides and cleavage sites <span class="citation">(Henrik Nielsen and Heijne 1997)</span> in eukaryotes nad bacteria. The method combines prediction of signal peptides and cleavage cites based on a combination of artificial neural networks as well as hidden Markov models. The latter allows to distinguish between signal peptides and non-cleaved signal anchors.</p>
+<p>Currently SecretSanta provides an interface for three recent versions of signalp. The reason for this - signalp4 - seems to be a bit to stringent for secreted proteins from oomycetes and some other organisms(?)</p>
 <ul>
-<li>signalp2</li>
-<li>signalp3</li>
-<li>signalp4</li>
+<li><p>signalp2.0</p></li>
+<li><p>signalp3.0</p></li>
+<li><p>signalp4.1</p></li>
 </ul>
 <p>In case of large input files SecretSanta runs signalp as an embarassingly parallel process, suitable for clusters.</p>
 </div>
@@ -443,16 +445,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </tr>
 </tbody>
 </table>
-<p>Also a quote using <code>&gt;</code>:</p>
-<blockquote>
-<p>“He who gives up [code] safety for [code] speed deserves neither.” (<a href="https://twitter.com/hadleywickham/status/504368538874703872">via</a>)</p>
-</blockquote>
+<div id="references" class="section level3 unnumbered">
+<h3>References</h3>
 <div id="refs" class="references">
 <div id="ref-Nielsen1997">
 <p>Henrik Nielsen, S�ren Brunak, Jacob Engelbrecht, and Gunnar von Heijne. 1997. “Identification of Prokaryotic and Eukaryotic Signal Peptides and Prediction of Their Cleavage Sites.” <em>Protein Engineering</em> 10: 1–6.</p>
 </div>
-<div id="ref-Love2014">
-<p>Love, Michael I., Wolfgang Huber, and Simon Anders. 2014. “Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2.” <em>Genome Biology</em> 15 (12): 550. <a href="http://dx.doi.org/10.1186/s13059-014-0550-8" class="uri">http://dx.doi.org/10.1186/s13059-014-0550-8</a>.</p>
 </div>
 </div>
 </div>

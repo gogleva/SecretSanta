@@ -10,11 +10,13 @@ vignette: >
 bibliography: Santa.bib
 ---  
 
-**SecretSanta predict** is based on a family of wraper functions around [CBS tools](http://www.cbs.dtu.dk/services/). The wrappers are designed to work together. They produce output in a format recognosible by all of them. This enables easy piping of results between individual predictors and enables creation of custom pipelines and makes comparison of outputs between several tools easier.
+**SecretSanta predict** is based on a family of wraper functions around [CBS tools](http://www.cbs.dtu.dk/services/). The wrappers are designed to work together. They produce output in a format recognosible by all of them. This alows to pipe results between individual predictors easily, as well as create flexible custom pipelines and compare outputs between several tools. 
 
-To speed-up processing of large input fasta files (containing several thousands of sequences) singalp and targetp predictions are automatically run as embarassingly parallel processes when number of input sequences exceedes a certain limit (600 - for signalp; 500 - for targetp).
+Put somewhere: here we cover classical secretion mostly
 
-Majority of the functions could be run in 2 modes: starter - in the case you initiate secretome pipeline with the above tool; and 'piper' - so that the tool expects to see output from other wraper functions.
+To speed-up processing of large input fasta files (with several thousands of sequences) reccommended initial steps of the pipeline (```singalp``` and ```targetp```) are automatically run as embarassingly parallel processes when number of input sequences exceedes a certain limit (600 - for ```signalp```; 500 - for ```targetp```).
+
+Majority of the functions could be run in 2 modes: **starter** - in the case you initiate secretome pipeline with the above tool; and **piper** - for downstream/intermediate steps, so that the tool expects an output from another wraper function.
 
 **SecretSanta annotate**
 not implemented yet
@@ -111,7 +113,7 @@ For prediction of secreted proteins SecretSanta relies on a set of existing [CBS
 
 \newline
 
-### Checking that all the external dependencies are present and executable in principle:
+## Checking that all the external dependencies are present and executable in principle:
 To do this create a 2-column space-separated text file with listed paths for all the external dependencies. 
 
 ```{r, message = FALSE}
@@ -139,14 +141,17 @@ santa_paths <- manage_paths(system.file("extdata", "sample_paths", package = "Se
 ```
 
 ## Signalp
-Signalp is used for prediction of signal peptides and cleavage sites 
-[@Love2014].
-[@Nielsen1997]
 
+Signalp is a softaware tool to predict classical signal peptides and cleavage sites [@Nielsen1997] in eukaryotes nad bacteria. The method combines prediction of signal peptides and cleavage cites based on a combination of artificial neural networks as well as hidden Markov models. The latter allows to distinguish between signal peptides and non-cleaved signal anchors. 
 
-- signalp2
-- signalp3
-- signalp4
+Currently SecretSanta provides an interface for three recent versions of signalp. The reason for this - signalp4 - seems to be a bit to stringent for secreted proteins from oomycetes and some other organisms(?)
+
+- signalp2.0
+
+- signalp3.0
+
+- signalp4.1
+
 
 In case of large input files SecretSanta runs signalp as an embarassingly parallel process, suitable for clusters.
 
@@ -201,7 +206,4 @@ You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footn
 knitr::kable(head(mtcars, 10))
 ```
 
-Also a quote using `>`:
-
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+### References
