@@ -12,7 +12,7 @@
 
 <meta name="author" content="Anna Gogleva" />
 
-<meta name="date" content="2017-08-18" />
+<meta name="date" content="2017-08-19" />
 
 <title>SecretSanta: flexible pipelines for automated prediction of secreted proteins.</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">SecretSanta: flexible pipelines for automated prediction of secreted proteins.</h1>
 <h4 class="author"><em>Anna Gogleva</em></h4>
-<h4 class="date"><em>2017-08-18</em></h4>
+<h4 class="date"><em>2017-08-19</em></h4>
 
 
 
@@ -183,9 +183,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="checking-that-all-the-external-dependencies-are-present-and-executable-in-principle" class="section level2">
 <h2>Checking that all the external dependencies are present and executable in principle:</h2>
-<p>To do this create a 2-column space-separated text file with listed paths for all the external dependencies.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(SecretSanta)</code></pre></div>
-<p>Sample input file listing paths to external dependencies:</p>
+<p>To do this create a 2-column space-separated text file with listed paths for all the external dependencies. Sample input file listing paths to external dependencies:</p>
 <table>
 <thead>
 <tr class="header">
@@ -220,7 +219,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </tr>
 </tbody>
 </table>
-<p>To check that all the required dependencies are installed correctly and can be executed in principle, run <code>manage_paths</code> function. Note, that <code>manage_paths</code> function is case insensitive and converts all the tool names to the lower case. For CBS tool names please use simple character strings without version numbers. The only exception is signalp family of tools, they require version number in one-digit format to be distinguishable.</p>
+<p>To check that all the required dependencies are installed correctly and can be executed in principle, run <code>manage_paths</code> function. Note, that <code>manage_paths</code> function is case insensitive and converts all the tool names to the lower case.</p>
+<p>For CBS tool names please use simple character strings without version numbers. The only exception is signalp family of tools, they require version number in one-digit format in the first column to be distinguishable.</p>
+<p>Please note tnat aliases will not work when tools are called from R and changing <code>$PATH</code> variable is not necessary.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">santa_paths &lt;-<span class="st"> </span><span class="kw">manage_paths</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;sample_paths&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;SecretSanta&quot;</span>))
 ## All paths are valid
 ## signalp2 test run completed
