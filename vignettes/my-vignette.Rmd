@@ -10,6 +10,10 @@ vignette: >
 bibliography: Santa.bib
 ---  
 
+To distinguish between CBS tools <span style="color:magenta"> **signalp** </span>
+SecretSanta functions calling the same tools <span style="color:green"> signlap</span>
+
+
 **SecretSanta predict** is based on a family of wraper functions around [CBS tools](http://www.cbs.dtu.dk/services/). The wrappers are designed to work together. They produce output in a format recognosible by all of them. This alows to pipe results between individual predictors easily, as well as create flexible custom pipelines and compare outputs between several tools. 
 
 Put somewhere: here we cover classical secretion mostly
@@ -130,11 +134,11 @@ names(pp) <- c('tool', 'path')
 knitr::kable(pp)
 ```
 
-To check that all the required dependencies are installed correctly and can be executed in principle, run ```manage_paths``` function. Note, that ```manage_paths``` function is case insensitive and converts all the tool names to the lower case. 
-
 For CBS tool names please use simple character strings without version numbers. The only exception here are different versions of signalp, which require version number in one-digit format in the first column to be distinguishable.
 
 Please note tnat aliases will not work when tools are called from R and changing ```$PATH``` variable is not necessary.
+
+To check that all the required dependencies are installed correctly and can be executed in principle, run ```manage_paths``` function. Note, that ```manage_paths``` function is case insensitive and converts all the tool names to the lower case. 
 
 ```{r, echo = TRUE, collapse = TRUE}
 santa_paths <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
@@ -144,7 +148,7 @@ santa_paths <- manage_paths(system.file("extdata", "sample_paths", package = "Se
 
 Signalp is a softaware tool to predict classical signal peptides and cleavage sites [@Nielsen1997] in eukaryotes and bacteria. The method combines prediction of signal peptides and cleavage cites based on a combination of artificial neural networks as well as hidden Markov models. The latter allows to distinguish between signal peptides and non-cleaved signal anchors. 
 
-Currently ```signalp``` function from SecretSanta provides an interface for the three recent versions of signalp. The reason behind this is that signalp4 is not sensitive enough to predict some classes of secreted oomycete and fungal effectors [@Sperschneider2015]. Thus, providing acces to the older versions provide greater flexibility for building prediction pipelines for a wider taxonomic range of species. 
+Currently ```signalp``` function from SecretSanta provides an interface for the three recent versions of signalp. The reason behind this is that signalp4 is not sensitive enough to predict some classes of secreted oomycete and fungal effectors [@Sperschneider2015]. Thus, providing acces to the older versions provide greater flexibility for building versatile prediction pipelines for a wider taxonomic range of species. 
 
 - signalp2.0 [@Nielsen1998]
 - signalp3.0 []

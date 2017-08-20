@@ -74,6 +74,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
+<p>To distinguish between CBS tools <span style="color:magenta"> <strong>signalp</strong> </span> SecretSanta functions calling the same tools <span style="color:green"> signlap</span></p>
 <p><strong>SecretSanta predict</strong> is based on a family of wraper functions around <a href="http://www.cbs.dtu.dk/services/">CBS tools</a>. The wrappers are designed to work together. They produce output in a format recognosible by all of them. This alows to pipe results between individual predictors easily, as well as create flexible custom pipelines and compare outputs between several tools.</p>
 <p>Put somewhere: here we cover classical secretion mostly</p>
 <p>To speed-up processing of large input fasta files (with several thousands of sequences) reccommended initial steps of the pipeline (<code>singalp</code> and <code>targetp</code>) are automatically run as embarassingly parallel processes when number of input sequences exceedes a certain limit (600 - for <code>signalp</code>; 500 - for <code>targetp</code>).</p>
@@ -219,9 +220,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </tr>
 </tbody>
 </table>
-<p>To check that all the required dependencies are installed correctly and can be executed in principle, run <code>manage_paths</code> function. Note, that <code>manage_paths</code> function is case insensitive and converts all the tool names to the lower case.</p>
 <p>For CBS tool names please use simple character strings without version numbers. The only exception here are different versions of signalp, which require version number in one-digit format in the first column to be distinguishable.</p>
 <p>Please note tnat aliases will not work when tools are called from R and changing <code>$PATH</code> variable is not necessary.</p>
+<p>To check that all the required dependencies are installed correctly and can be executed in principle, run <code>manage_paths</code> function. Note, that <code>manage_paths</code> function is case insensitive and converts all the tool names to the lower case.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">santa_paths &lt;-<span class="st"> </span><span class="kw">manage_paths</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;sample_paths&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;SecretSanta&quot;</span>))
 ## All paths are valid
 ## signalp2 test run completed
@@ -234,7 +235,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="signalp" class="section level2">
 <h2>Signalp</h2>
 <p>Signalp is a softaware tool to predict classical signal peptides and cleavage sites <span class="citation">(Henrik Nielsen and Heijne 1997)</span> in eukaryotes and bacteria. The method combines prediction of signal peptides and cleavage cites based on a combination of artificial neural networks as well as hidden Markov models. The latter allows to distinguish between signal peptides and non-cleaved signal anchors.</p>
-<p>Currently <code>signalp</code> function from SecretSanta provides an interface for the three recent versions of signalp. The reason behind this is that signalp4 is not sensitive enough to predict some classes of secreted oomycete and fungal effectors <span class="citation">(Sperschneider J 2015)</span>. Thus, providing acces to the older versions provide greater flexibility for building prediction pipelines for a wider taxonomic range of species.</p>
+<p>Currently <code>signalp</code> function from SecretSanta provides an interface for the three recent versions of signalp. The reason behind this is that signalp4 is not sensitive enough to predict some classes of secreted oomycete and fungal effectors <span class="citation">(Sperschneider J 2015)</span>. Thus, providing acces to the older versions provide greater flexibility for building versatile prediction pipelines for a wider taxonomic range of species.</p>
 <ul>
 <li>signalp2.0 <span class="citation">(Nielsen and Krogh 1998)</span></li>
 <li>signalp3.0 []</li>
