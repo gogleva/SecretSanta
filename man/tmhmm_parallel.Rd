@@ -29,4 +29,5 @@ aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = 
 inp <- setInfasta(inp, aa)
 s1_sp2_10K <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
 tm <- tmhmm_parallel(s1_sp2, paths = my_pa, TM = 1)
+profvis(tmhmm_parallel(s1_sp2, paths = my_pa, TM = 1))
 }

@@ -22,5 +22,5 @@ sp3 <- signalp(input_obj = inp4, version = 2, organism_type = 'euk', run_mode = 
 tm1 <- tmhmm(sp1, paths = my_pa, TM = 1)
 tm3 <- tmhmm(sp3, paths = my_pa, TM = 1)
 obj <- list(tm1, tm3)
- combined_tm <- combine_TMhmmResult(obj)
+combined_tm <- combine_TMhmmResult(obj)
 }
