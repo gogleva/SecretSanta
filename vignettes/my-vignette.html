@@ -266,7 +266,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## Number of submitted sequences... 100
 ## signalp &lt; 4, calling parser for the output...
 ## Number of candidate sequences with signal peptides... 8</code></pre></div>
-<p>The above code under the hood will run <strong>signalp-2.0</strong> prediction and output result as an instance of <code>SignalpResult</code> class.</p>
+<p>The above code under the hood will run <strong>signalp-2.0</strong> prediction and output result as an instance of <code>SignalpResult</code> class, which is belongs to a more genric <code>CBSResult()</code> superclass.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(step1_sp2)</code></pre></div>
 <pre><code>## [1] &quot;SignalpResult&quot;
 ## attr(,&quot;package&quot;)
@@ -286,51 +286,51 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getInfasta</span>(step1_sp2)</code></pre></div>
 <pre><code>##   A AAStringSet instance of length 100
 ##       width seq                                        names               
-##   [1]   650 MQRLVQRDKDAPVVREGDDD...DRLSLNALLEAFPPMNSRL ALI_PLTG_96
-##   [2]   275 MATNPPTVAPVELRELNFAF...NRAGGYAAGRLGGVDIDSV ALI_PLTG_47
-##   [3]   298 MDGEIQGLMVSGIGIAAGSN...DLIWLLLSACWQRMALEHP ALI_PLTG_86
-##   [4]    64 RRIWTDVATAFVSSCREFCS...TGATYRQTCWHQCRTGFSC ALI_PLTG_29
-##   [5]   343 MECGISKTNKFQGSWAIDSG...VIIGRSMLHCAGLDKCFWG ALI_PLTG_50
+##   [1]   154 MYLKFAFMATVATAVVNIAI...AKLLLAYLNDFKRTSGLRS ALI_PLTG_73
+##   [2]   240 MTRQGYLIVHDKRSRPTVRY...VTPHYVPTHFGRGNNQEAH ALI_PLTG_2
+##   [3]  1327 MGDARIVLTTLISEKLLAPG...HPGMDQPDNNDVDMSDWGQ ALI_PLTG_12
+##   [4]   653 MKIVALVTFCIATLDSSIVF...EDPVYPLVKEYSDVVSKHP ALI_PLTG_23
+##   [5]   121 MHFNALKRAAELAGSPDIIT...GNAFVLKVSAKSRLMYDLR ALI_PLTG_57
 ##   ...   ... ...
-##  [96]   456 QFLSELRKVSVSTKLDGVQR...QSQQNSRPREGCCSSCIIF ALI_PLTG_4
-##  [97]   136 MLAVNLDGLHHLLVADKRKV...CNMTGIYISRMLSLPSIQQ ALI_PLTG_65
-##  [98]   119 MLQATTSKDARQPLHVDTNN...LMQLKRRRSMNLSHPSLFK ALI_PLTG_44
-##  [99]   210 MKLSSVCTIIFGLVFIDFNN...DGSVTTAAQKAAALVKANA ALI_PLTG_5
-## [100]    64 MNDIIIEDTSMRLPGIAVSA...HVLQHFDASNYQAVLCEKL ALI_PLTG_66</code></pre>
+##  [96]   962 MADLQESLLAKVDAEKAVDT...TAQKMESVDECIELLELGP ALI_PLTG_94
+##  [97]   336 MKTDIGSTSPSYGSYAVLVP...EDPEREEVVAYVLRWLRLQ ALI_PLTG_21
+##  [98]   566 MCTSFSDQEDKKLVVLATEY...PRLDRKFFGLQVAPPPTSQ ALI_PLTG_99
+##  [99]   570 MPPKKGSSTPELLEPYERHS...SAIKQRLQEQLLVVMQSGY ALI_PLTG_16
+## [100]   173 MTMDFKDEGFLNTYLGMDVN...KSATMAGVPMTKHCFSIHR ALI_PLTG_76</code></pre>
 <p>Please note, that by default <code>signlap</code> truncates all the input sequnces longer than 2000 a.a, in this case ’_truncated’ is added to the original sequence ids to keep track of the changes. Alternative option - is discard long sequences completely before the analysis, to do so set <code>truncate = FALSE</code> when running <code>signalp</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getSPtibble</span>(step1_sp2)</code></pre></div>
 <pre><code>## # A tibble: 8 x 9
 ##       gene_id  Cmax  Cpos  Ymax  Ypos  Smax  Spos  Smean     Prediction
 ##        &lt;fctr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fctr&gt;         &lt;fctr&gt;
-## 1 ALI_PLTG_73    22    22 0.316    22 0.927     3  0.721 Signal peptide
-## 2 ALI_PLTG_59    22    17 0.288    19 0.948     1  0.666 Signal peptide
-## 3 ALI_PLTG_72    22    22 0.804    22 0.986     8  0.805 Signal peptide
-## 4 ALI_PLTG_83    22    34 0.506    20 0.956    13  0.846 Signal peptide
-## 5 ALI_PLTG_38    22    20 0.696    20 0.994     9  0.954 Signal peptide
-## 6 ALI_PLTG_81    22    33 0.388    33 0.826    25  0.471 Signal peptide
-## 7 ALI_PLTG_23    22    22 0.683    22 0.969     8  0.803 Signal peptide
-## 8  ALI_PLTG_5    22    25 0.687    25 0.906     3  0.637 Signal peptide</code></pre>
+## 1 ALI_PLTG_73    95    22 0.316    22 0.927     3  0.721 Signal peptide
+## 2 ALI_PLTG_23    95    22 0.683    22 0.969     8  0.803 Signal peptide
+## 3 ALI_PLTG_83    95    34 0.506    20 0.956    13  0.846 Signal peptide
+## 4 ALI_PLTG_81    95    33 0.388    33 0.826    25  0.471 Signal peptide
+## 5 ALI_PLTG_59    95    17 0.288    19 0.948     1  0.666 Signal peptide
+## 6 ALI_PLTG_72    95    22 0.804    22 0.986     8  0.805 Signal peptide
+## 7 ALI_PLTG_38    95    20 0.696    20 0.994     9  0.954 Signal peptide
+## 8  ALI_PLTG_5    95    25 0.687    25 0.906     3  0.637 Signal peptide</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getOutfasta</span>(step1_sp2)</code></pre></div>
 <pre><code>##   A AAStringSet instance of length 8
 ##     width seq                                          names               
 ## [1]   154 MYLKFAFMATVATAVVNIAIG...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
-## [2]   125 MLMSTPAALMLRLAQSSLKPT...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
-## [3]   118 MRLKFSILIFGAVLLATTTNA...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
-## [4]   164 MVSTSRVFALLLLPSPSARIF...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
-## [5]   495 MVVRVLLVVLALLAVGVQSKA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
-## [6]   133 MNFLKSKKTSTQATLLVSPLI...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
-## [7]   653 MKIVALVTFCIATLDSSIVFA...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
+## [2]   653 MKIVALVTFCIATLDSSIVFA...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
+## [3]   164 MVSTSRVFALLLLPSPSARIF...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
+## [4]   133 MNFLKSKKTSTQATLLVSPLI...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [5]   125 MLMSTPAALMLRLAQSSLKPT...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
+## [6]   118 MRLKFSILIFGAVLLATTTNA...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
+## [7]   495 MVVRVLLVVLALLAVGVQSKA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
 ## [8]   210 MKLSSVCTIIFGLVFIDFNNV...SDGSVTTAAQKAAALVKANA ALI_PLTG_5</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getMatfasta</span>(step1_sp2)</code></pre></div>
 <pre><code>##   A AAStringSet instance of length 8
 ##     width seq                                          names               
 ## [1]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
-## [2]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
-## [3]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
-## [4]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
-## [5]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
-## [6]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
-## [7]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
+## [2]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
+## [3]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
+## [4]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [5]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
+## [6]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
+## [7]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
 ## [8]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getSPversion</span>(step1_sp2)</code></pre></div>
 <pre><code>## [1] 2</code></pre>
@@ -387,12 +387,30 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
 </div>
 <div id="tmhmm" class="section level2">
 <h2>TMHMM</h2>
-<p><strong>TMHMM</strong> predicts transmembrane a-helixes and helps to identify integral membrane proteins based on HMMs [<span class="citation">Krogh, Bjorn Larsson, and Sonnhammer (2001)</span>; Sonnhammer1998]. It is important to exclude proteins with trans membrane domains locates after signal peptide, as they will be retained in the membrane. Quite often <strong>TMHMM</strong> is not able to distinguish between N-terminal signal peptides and transmembrane domain. So, it is better to run it on the mature sequences with signal peptides removed. <code>tmhmm</code> function can handle input objects of CBSResult superclass having <code>mature_fasta</code> slot.</p>
+<p><strong>TMHMM</strong> predicts transmembrane a-helixes and helps to identify integral membrane proteins based on HMMs [<span class="citation">Krogh, Bjorn Larsson, and Sonnhammer (2001)</span>; Sonnhammer1998]. It is important to exclude proteins with trans membrane domains locates after signal peptide, as they will be retained in the membrane. Quite often <strong>TMHMM</strong> is not able to distinguish between N-terminal signal peptides and transmembrane domain. So, it is better to run it on the mature sequences with signal peptides removed. <code>tmhmm</code> function can handle input objects of SignalpResult class with non-empty <code>mature_fasta</code> slot (see starters and pipers table for allowed inputs).</p>
 <p>Here we will use output of the <code>signalp</code> function as an iput:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tm &lt;-<span class="st"> </span><span class="kw">tmhmm</span>(step1_sp2, <span class="dt">paths =</span> santa_paths, <span class="dt">TM =</span> <span class="dv">0</span>)
 ## running TMHMM locally...
 ## Submitted sequences... 8
 ## Candidate sequences with signal peptides and 0 TM domains in mature sequence... 8</code></pre></div>
+<p>Attempts to run <code>tmhmm</code> on the <code>CBSResult</code> object lacking <code>mature_fasta</code> slot will result in an error:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tm2 &lt;-<span class="st"> </span><span class="kw">tmhmm</span>(inp, <span class="dt">paths =</span> santa_paths, <span class="dt">TM =</span> <span class="dv">0</span>)
+## Error in tmhmm(inp, paths = santa_paths, TM = 0): the input object does not contain mature_fasta slot</code></pre></div>
+<p><code>tmhmm</code> outputs insatces of <code>TMhmmResult</code> class, againg ineriting from <code>CBSResult</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(tm)</code></pre></div>
+<pre><code>## [1] &quot;TMhmmResult&quot;
+## attr(,&quot;package&quot;)
+## [1] &quot;SecretSanta&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">slotNames</span>(tm)</code></pre></div>
+<pre><code>## [1] &quot;in_mature_fasta&quot;  &quot;out_mature_fasta&quot; &quot;tm_tibble&quot;       
+## [4] &quot;in_fasta&quot;         &quot;out_fasta&quot;</code></pre>
+<p><code>TMhmmResult</code> object contains 5 slots:</p>
+<ul>
+<li><code>in_fasta</code> and <code>out_fasta</code> are common attriburtes of all classes inheriting from CBSResult class;</li>
+<li><code>tm_tibble</code> - parsed tragetp tabular output for candidates not having more transmembrane domains than specified by <code>TM</code> threshold;</li>
+<li><code>in_mature_fasta</code> - mature sequences used as an input for <code>tmhmm</code></li>
+<li><code>out_mature_fasta</code> - outputed mature sequences not having more transmembrane domains than specified by <code>TM</code> threshold.</li>
+</ul>
 </div>
 <div id="targetp" class="section level2">
 <h2>Targetp</h2>

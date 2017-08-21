@@ -177,7 +177,7 @@ step1_sp2 <- signalp(inp,
 
 ```
 
-The above code under the hood will run **signalp-2.0** prediction and output result as an instance of ```SignalpResult``` class.
+The above code under the hood will run **signalp-2.0** prediction and output result as an instance of ```SignalpResult``` class, which is belongs to a more genric ``CBSResult()`` superclass.
 
 ```{r}
 class(step1_sp2)
@@ -251,15 +251,32 @@ step3_sp4 <- signalp(step2_sp3,
 With the input fasta files containig more than 1000 sequences,``signalp`` will automatically switch parallel mode: will split the input into smaller chunks and will run prediction as an embarassingly parallel proces using all the CPUs available. Accurate execution time depend on the number if CPUs available and the input file size. With 48 CPUs it takes ~2 minutes to run ``signalp`` on the input fasta file with more than 40'000 seqeunces.
 
 ## TMHMM
-**TMHMM** predicts transmembrane a-helixes and helps to identify integral membrane proteins based on HMMs [@Krogh2001; Sonnhammer1998]. It is important to exclude proteins with trans membrane domains locates after signal peptide, as they will be retained in the membrane. Quite often **TMHMM** is not able to distinguish between N-terminal signal peptides and transmembrane domain. So, it is better to run it on the mature sequences with signal peptides removed. ``tmhmm`` function can handle input objects of CBSResult superclass having ```mature_fasta``` slot.
+**TMHMM** predicts transmembrane a-helixes and helps to identify integral membrane proteins based on HMMs [@Krogh2001; Sonnhammer1998]. It is important to exclude proteins with trans membrane domains locates after signal peptide, as they will be retained in the membrane. Quite often **TMHMM** is not able to distinguish between N-terminal signal peptides and transmembrane domain. So, it is better to run it on the mature sequences with signal peptides removed. ``tmhmm`` function can handle input objects of SignalpResult class with non-empty ```mature_fasta``` slot (see starters and pipers table for allowed inputs). 
 
 Here we will use output of the ``signalp`` function as an iput:
 
 ```{r, collapse=TRUE}
 tm <- tmhmm(step1_sp2, paths = santa_paths, TM = 0)
 ```
+Attempts to run ``tmhmm`` on the ``CBSResult`` object lacking ``mature_fasta`` slot will result in an error:
 
+```{r, collapse=TRUE, error=TRUE}
+tm2 <- tmhmm(inp, paths = santa_paths, TM = 0)
 
+```
+``tmhmm`` outputs insatces of ``TMhmmResult`` class, againg ineriting from ``CBSResult``.
+
+```{r}
+class(tm)
+slotNames(tm)
+```
+
+``TMhmmResult`` object contains 5 slots:
+
++ ``in_fasta`` and ``out_fasta`` are common attriburtes of all classes inheriting from CBSResult class; 
++ ``tm_tibble`` - parsed tragetp tabular output for candidates not having more transmembrane domains than specified by ``TM`` threshold;
++ ``in_mature_fasta`` - mature sequences used as an input for ```tmhmm```
++ ``out_mature_fasta`` - outputed mature sequences not having more transmembrane domains than specified by ``TM`` threshold.
 
 
 ## Targetp

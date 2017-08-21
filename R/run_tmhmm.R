@@ -2,7 +2,7 @@
 #'
 #' This function calls local TMHMM, expects CBSresult class objects with populated mature_fasta slot.
 #' To generate it run signalp first.
-#' @param input_obj input object, an instance of CBSResult class, \cr
+#' @param input_obj input object, an instance of SignalpResult class, \cr
 #'                  input should contain mature_fasta; in the full-length proteins \cr
 #'                  N-terminal signal peptide could be erroneously \cr
 #'                  predicted as TM domain, avoid this
@@ -22,7 +22,7 @@ tmhmm <- function(input_obj, paths, TM) {
 
   if (TM >= 2) {warning('Recommended TM threshold values for mature peprides is 1')}  
   # check that input object belongs to a valid class
-  if (is(input_obj, "CBSResult")) {} else {stop('input_object does not belong to CBSResult superclass')}
+  if (is(input_obj, "SignalpResult")) {} else {stop('input_object does not belong to SignalpResult class')}
   
   # check that input object contains non-empty mature fasta slot
   s <- getSlots(class(input_obj))

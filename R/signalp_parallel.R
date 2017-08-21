@@ -13,7 +13,6 @@
 
 split_XStringSet <- function(string_set, chunk_size){
                                 
-                                
                                 if (!(is(string_set, 'XStringSet'))) {
                                   stop('Input string_set does not belong to XStringSet class')
                                   }

@@ -77,24 +77,36 @@ stand alone CBS tools are available only for Unix, se we should not care about W
     - truncate_seq
     - smth else?
 - add progress bars for parallelised tools, may be -> creates performance overhead - so, dropped    
-
+- Write vignettes for SecretSanta predict
+    - Installation instructions (done)
+    - Add links and references to the tool papers in function docs and vignette (done)
 
 TO DO (required minimum):
 
 - set default options for C/Y/D/S scores in signalp => more flexible filtering?
-- install SecretSanta from scratch and manage dependencies: Biostrings not imported without bioconductor?
 - fix signalp4 vs signalp 4.1 conflicts
 - add unit tests for large inputs in signalp:
     - 1K,
     - 2K,
     - long sequences
-- Write vignettes for SecretSanta predict
-    - Installation instructions
-    - Add links and references to the tool papers in function docs and vignette
 - why parallel version of TMHMM is so much slower
 - export cluster environment: try to get rid of my_pa
 - code profiling to speed-up wrappers
 - fix some ugly bits in the code    
+- Vignettes: individual functions:
+    - signalp (done)
+    - targetp (next)
+    - TMHMM (done)
+    - WoLFpsort
+    - check_khdel
+    - M-slicer
+- Vignettes: pipelines:
+    - summary on starters and pipers;
+    - short pipeline
+    - long pipeline
+
+
+
 
 
 
