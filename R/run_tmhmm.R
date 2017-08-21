@@ -48,7 +48,7 @@ tmhmm <- function(input_obj, paths, TM) {
   con <- system(paste(full_pa, out_tmp, '--short'), intern = TRUE)
   con_tmp <- tempfile()
   write(con, con_tmp)
-  tm <- readr::read_delim(con_tmp, '\t', col_names = F)
+  tm <- suppressMessages(readr::read_delim(con_tmp, '\t', col_names = F))
   
   names(tm) <- c("gene_id", "length", "ExpAA",
                      "First60", "PredHel", "Topology")
