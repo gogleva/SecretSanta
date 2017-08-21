@@ -29,3 +29,12 @@ an object of TargetpResult class
 This function calls local targetp to predict subcellular localisation of a protein.
 Parallelised
 }
+\examples{
+my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+# read fasta file in AAStringSet object
+aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+# assign this object to the input_fasta slot of SignalpResult object
+inp <- CBSResult(in_fasta = aa)
+
+tp_result <- targetp(input_object = inp, network_type = 'N', run_mode = 'starter', paths = my_pa)
+}

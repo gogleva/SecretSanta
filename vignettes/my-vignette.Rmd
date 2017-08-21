@@ -240,7 +240,7 @@ step2_sp3 <- signalp(step1_sp2,
 
 Similar with the **signalp3** -> **signalp4** pipig:
 
-```{r, collapse = TRUE, cache = TRUE}
+```{r, collapse = TRUE}
 step3_sp4 <- signalp(step2_sp3,
                      version = 4,
                      organism_type = 'euk', 
@@ -297,10 +297,7 @@ signal peptide (SP), chloroplast transit peptide (cTP) or mitochondrial targetin
 It is possible to run ``targetp`` in both *piper* and *starter* modes.
 Imagine, we want to start our pipeline by running ``targetp`` using already created ``inp`` object as an input:
 ```{r}
-tp <- targetp(input_object = inp,
-            network_type = 'N',
-            paths = santa_paths,
-            run_mode = 'starter')
+targetp()
 ```
 ## WolfPsort
 

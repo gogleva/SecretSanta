@@ -47,9 +47,9 @@ combine_TargetpResult <- function(arguments) {
 #' \item piper - if you run this function on the output of other CBS tools;
 #' }
 #' @param paths   tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function
-#' @return an object of TargetpResult class
 #' @export
-#' 
+#' @return an object of TargetpResult class
+#' @examples 
 #' my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
 #' # read fasta file in AAStringSet object
 #' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
