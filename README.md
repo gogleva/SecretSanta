@@ -70,7 +70,7 @@ SOLVED:
 - clean tmp files after the TMHMM run (solved)
 - does parLapply work on Windows? what to use if not? (they say it does), even if not -
 stand alone CBS tools are available only for Unix, se we should not care about Windows so much.
-- parallel targetp: replace simple targetp, microbenchmark, test on custer, run unit and integration tests
+- parallel targetp: replace simple targetp, microbenchmark, test on cluster, run unit and integration tests
 - parallel TMHMM (implemented, but slower than simple tmhmm)
 - parallel wolfpsort (not required, is already fast enough)
 - consider having separate helper functions that are used by all/several runners (solved):

@@ -49,6 +49,7 @@ combine_TargetpResult <- function(arguments) {
 #' @param paths   tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function
 #' @return an object of TargetpResult class
 #' @export
+#' 
 #' my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
 #' # read fasta file in AAStringSet object
 #' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)

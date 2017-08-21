@@ -7,7 +7,7 @@
 tmhmm(input_obj, paths, TM)
 }
 \arguments{
-\item{input_obj}{input object, an instance of CBSResult class, \cr
+\item{input_obj}{input object, an instance of SignalpResult class, \cr
 input should contain mature_fasta; in the full-length proteins \cr
 N-terminal signal peptide could be erroneously \cr
 predicted as TM domain, avoid this}
