@@ -42,7 +42,7 @@ tmhmm <- function(input_obj, paths, TM) {
   out_tmp <- tempfile()
   Biostrings::writeXStringSet(fasta, out_tmp)
   
-  message(paste('Number of submitted sequences...', length(fasta)))
+  message(paste('Submitted sequences...', length(fasta)))
 
   full_pa <- as.character(paths %>% dplyr::filter(tool == 'tmhmm') %>% dplyr::select(path))
   con <- system(paste(full_pa, out_tmp, '--short'), intern = TRUE)
@@ -67,7 +67,7 @@ tmhmm <- function(input_obj, paths, TM) {
   # change this lines in accordance with TM_thershold
   tm <- (tm %>% dplyr::filter(PredHel <= TM))
   
-  message(paste('Number of candidate sequences with signal peptides and 0 TM domains in mature sequence...', nrow(tm)))
+  message(paste('Candidate sequences with signal peptides and 0 TM domains in mature sequence...', nrow(tm)))
   
   # helper function: crop long names for AAStringSet object, return character vector
   crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
