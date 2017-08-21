@@ -9,16 +9,15 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 bibliography: Santa.bib
 ---  
-
-To distinguish between CBS tools <span style="color:magenta"> **signalp** </span>
-SecretSanta functions calling the same tools <span style="color:green"> signlap</span>
-
-
+Put somewhere: here we cover classical secretion mostly
 **SecretSanta predict** is based on a family of wraper functions around [CBS tools](http://www.cbs.dtu.dk/services/). The wrappers are designed to work together. They produce output in a format recognosible by all of them. This alows to pipe results between individual predictors easily, as well as create flexible custom pipelines and compare outputs between several tools. 
 
-Put somewhere: here we cover classical secretion mostly
+To speed-up processing of large input fasta files (with several thousands of sequences) reccommended initial steps of the pipeline are automatically run as embarassingly parallel processes when number of input sequences exceedes a certain limit.
 
-To speed-up processing of large input fasta files (with several thousands of sequences) reccommended initial steps of the pipeline (```singalp``` and ```targetp```) are automatically run as embarassingly parallel processes when number of input sequences exceedes a certain limit (600 - for ```signalp```; 500 - for ```targetp```).
+To avoid confusion, here and after names of CBS tools will be shown in bold magenta, corresponding R functions from the SecretSanta package would have standard code highlighting. For example:
+
++ <span style="color:magenta"> **signalp** </span> - CBS signalp;
++ ```signalp``` - SecretSanta wrap function around <span style="color:magenta"> **signalp** </span>;
 
 Majority of the functions could be run in 2 modes: **starter** - in the case you initiate secretome pipeline with the above tool; and **piper** - for downstream/intermediate steps, so that the tool expects an output from another wraper function.
 
@@ -140,7 +139,7 @@ Please note tnat aliases will not work when tools are called from R and changing
 
 To check that all the required dependencies are installed correctly and can be executed in principle, run ```manage_paths``` function. Note, that ```manage_paths``` function is case insensitive and converts all the tool names to the lower case. 
 
-```{r, echo = TRUE, collapse = TRUE}
+```{r, echo = TRUE, collapse = TRUE, tidy = TRUE}
 santa_paths <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
 ```
 

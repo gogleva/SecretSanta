@@ -12,7 +12,7 @@
 
 <meta name="author" content="Anna Gogleva" />
 
-<meta name="date" content="2017-08-19" />
+<meta name="date" content="2017-08-21" />
 
 <title>SecretSanta: flexible pipelines for automated prediction of secreted proteins.</title>
 
@@ -70,14 +70,18 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">SecretSanta: flexible pipelines for automated prediction of secreted proteins.</h1>
 <h4 class="author"><em>Anna Gogleva</em></h4>
-<h4 class="date"><em>2017-08-19</em></h4>
+<h4 class="date"><em>2017-08-21</em></h4>
 
 
 
-<p>To distinguish between CBS tools <span style="color:magenta"> <strong>signalp</strong> </span> SecretSanta functions calling the same tools <span style="color:green"> signlap</span></p>
 <p><strong>SecretSanta predict</strong> is based on a family of wraper functions around <a href="http://www.cbs.dtu.dk/services/">CBS tools</a>. The wrappers are designed to work together. They produce output in a format recognosible by all of them. This alows to pipe results between individual predictors easily, as well as create flexible custom pipelines and compare outputs between several tools.</p>
 <p>Put somewhere: here we cover classical secretion mostly</p>
-<p>To speed-up processing of large input fasta files (with several thousands of sequences) reccommended initial steps of the pipeline (<code>singalp</code> and <code>targetp</code>) are automatically run as embarassingly parallel processes when number of input sequences exceedes a certain limit (600 - for <code>signalp</code>; 500 - for <code>targetp</code>).</p>
+<p>To speed-up processing of large input fasta files (with several thousands of sequences) reccommended initial steps of the pipeline are automatically run as embarassingly parallel processes when number of input sequences exceedes a certain limit.</p>
+<p>To avoid confusion, here and after names of CBS tools will be shown in bold magenta, corresponding R functions from the SecretSanta package would have standard code highlighting. For example:</p>
+<ul>
+<li><span style="color:magenta"> <strong>signalp</strong> </span> - CBS signalp;</li>
+<li><code>signalp</code> - SecretSanta wrap function around <span style="color:magenta"> <strong>signalp</strong> </span>;</li>
+</ul>
 <p>Majority of the functions could be run in 2 modes: <strong>starter</strong> - in the case you initiate secretome pipeline with the above tool; and <strong>piper</strong> - for downstream/intermediate steps, so that the tool expects an output from another wraper function.</p>
 <p><strong>SecretSanta annotate</strong> not implemented yet</p>
 <p><strong>SecretSanta compare</strong> not implemented yet</p>
