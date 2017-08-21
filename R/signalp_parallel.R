@@ -240,7 +240,7 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
     # make a system call of signalp based on the tmp file
 
     full_pa <- as.character(paths %>% dplyr::filter(tool == signalp_version) %>% dplyr::select(path))
-    message(paste('Number of submitted sequences...', length(aaSet)))
+    message(paste('Submitted sequences...', length(aaSet)))
 
     # ----
     if (version >= 4) {
@@ -267,7 +267,7 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
       sp <- parse_signalp(input = con, input_type = "system_call")
     }
 
-    message(paste('Number of candidate sequences with signal peptides...', nrow(sp)))
+    message(paste('Candidate sequences with signal peptides...', nrow(sp)))
 
     if (nrow(sp) == 0) {warning('Signal peptide prediction yeilded 0 candidates')}
 
@@ -326,7 +326,7 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
     combined_SignalpResult <- combine_SignalpResult(unname(res_comb))
     
     sp_count <- nrow(getSPtibble(combined_SignalpResult))    
-    message(paste('Number of candidate sequences with signal peptides...', sp_count))
+    message(paste('Candidate sequences with signal peptides...', sp_count))
     if (sp_count == 0) {warning('Signal peptide prediction yeilded 0 candidates')}
     
     closeAllConnections()
