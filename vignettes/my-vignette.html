@@ -269,6 +269,118 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <pre><code>## [1] &quot;SignalpResult&quot;
 ## attr(,&quot;package&quot;)
 ## [1] &quot;SecretSanta&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">slotNames</span>(step1_sp2)</code></pre></div>
+<pre><code>## [1] &quot;mature_fasta&quot; &quot;sp_version&quot;   &quot;sp_tibble&quot;    &quot;in_fasta&quot;    
+## [5] &quot;out_fasta&quot;</code></pre>
+<p><code>SignalpResult</code> object contains 5 slots:</p>
+<ul>
+<li><p><code>in_fasta</code> - original set of input amino acid sequences;</p></li>
+<li><p><code>sp_tibble</code> - parsed <strong>signalp</strong> tabular output for positive candidates;</p></li>
+<li><p><code>out_fasta</code> - full length amino acid sequences of positive candidates;</p></li>
+<li><p><code>mature_fasta</code> - mature sequence for the candidate secreted proteins, i.e sequences with removed N-terminal signal peptides;</p></li>
+<li><p><code>sp_version</code> - version of <strong>signalp</strong> used.</p></li>
+</ul>
+<p>You can use accessor methods to access contents of individual slots:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getInfasta</span>(step1_sp2)</code></pre></div>
+<pre><code>##   A AAStringSet instance of length 100
+##       width seq                                        names               
+##   [1]  1818 MMAEDGASLASPDSGGFPLR...QTAEETIRSLKESESQTAX ALI_PLTG_36
+##   [2]    94 MVEPSSPECVVQIIKDEKLK...LLVCGFIYFAVLQSWLLES ALI_PLTG_1
+##   [3]   154 MYLKFAFMATVATAVVNIAI...AKLLLAYLNDFKRTSGLRS ALI_PLTG_73
+##   [4]   454 MLYVKLSKCVFCAEEFPCLG...DRLTKRSHVIATTKKVSAP ALI_PLTG_68
+##   [5]   570 MPPKKGSSTPELLEPYERHS...SAIKQRLQEQLLVVMQSGY ALI_PLTG_16
+##   ...   ... ...
+##  [96]   121 MHFNALKRAAELAGSPDIIT...GNAFVLKVSAKSRLMYDLR ALI_PLTG_57
+##  [97]   107 MGEEIPVDDCVACPDGGYQE...QECIVCFGDMEITDLEFPI ALI_PLTG_40
+##  [98]   842 MAGDFGTKTTTLCARTRLRS...LGCLLYELMTGQVCTLISS ALI_PLTG_45
+##  [99]   298 MDGEIQGLMVSGIGIAAGSN...DLIWLLLSACWQRMALEHP ALI_PLTG_86
+## [100]   136 MLAVNLDGLHHLLVADKRKV...CNMTGIYISRMLSLPSIQQ ALI_PLTG_65</code></pre>
+<p>Please note, that by default <code>signlap</code> truncates all the input sequnces longer than 2000 a.a, in this case ’_truncated’ is added to the original sequence ids to keep track of the changes. Alternative option - is discard long sequences completely before the analysis, to do so set <code>truncate = FALSE</code> when running <code>signalp</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getSPtibble</span>(step1_sp2)</code></pre></div>
+<pre><code>## # A tibble: 8 x 9
+##       gene_id  Cmax  Cpos  Ymax  Ypos  Smax  Spos  Smean     Prediction
+##        &lt;fctr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fctr&gt;         &lt;fctr&gt;
+## 1 ALI_PLTG_73    88    22 0.316    22 0.927     3  0.721 Signal peptide
+## 2 ALI_PLTG_23    88    22 0.683    22 0.969     8  0.803 Signal peptide
+## 3  ALI_PLTG_5    88    25 0.687    25 0.906     3  0.637 Signal peptide
+## 4 ALI_PLTG_83    88    34 0.506    20 0.956    13  0.846 Signal peptide
+## 5 ALI_PLTG_38    88    20 0.696    20 0.994     9  0.954 Signal peptide
+## 6 ALI_PLTG_72    88    22 0.804    22 0.986     8  0.805 Signal peptide
+## 7 ALI_PLTG_59    88    17 0.288    19 0.948     1  0.666 Signal peptide
+## 8 ALI_PLTG_81    88    33 0.388    33 0.826    25  0.471 Signal peptide</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getOutfasta</span>(step1_sp2)</code></pre></div>
+<pre><code>##   A AAStringSet instance of length 8
+##     width seq                                          names               
+## [1]   154 MYLKFAFMATVATAVVNIAIG...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
+## [2]   653 MKIVALVTFCIATLDSSIVFA...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
+## [3]   210 MKLSSVCTIIFGLVFIDFNNV...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [4]   164 MVSTSRVFALLLLPSPSARIF...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
+## [5]   495 MVVRVLLVVLALLAVGVQSKA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
+## [6]   118 MRLKFSILIFGAVLLATTTNA...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
+## [7]   125 MLMSTPAALMLRLAQSSLKPT...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
+## [8]   133 MNFLKSKKTSTQATLLVSPLI...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getMatfasta</span>(step1_sp2)</code></pre></div>
+<pre><code>##   A AAStringSet instance of length 8
+##     width seq                                          names               
+## [1]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
+## [2]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
+## [3]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [4]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
+## [5]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
+## [6]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
+## [7]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
+## [8]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getSPversion</span>(step1_sp2)</code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<p>Next, imaging we would like to run all the <strong>signalp</strong> version on the same input for comparison. To do so, simply change <code>version</code> parameter:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">step1_sp3 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
+                     <span class="dt">version =</span> <span class="dv">3</span>,
+                     <span class="dt">organism_type =</span> <span class="st">'euk'</span>, 
+                     <span class="dt">run_mode =</span> <span class="st">&quot;starter&quot;</span>,
+                     <span class="dt">paths =</span> santa_paths)
+## Version used... signalp3
+## running signalP locally...
+## 2 sequences to be truncated
+## Ok for single processing
+## Number of submitted sequences... 100
+## signalp &lt; 4, calling parser for the output...
+## Number of candidate sequences with signal peptides... 8
+
+step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
+                     <span class="dt">version =</span> <span class="dv">4</span>,
+                     <span class="dt">organism_type =</span> <span class="st">'euk'</span>, 
+                     <span class="dt">run_mode =</span> <span class="st">&quot;starter&quot;</span>,
+                     <span class="dt">paths =</span> santa_paths)
+## Version used... signalp4
+## running signalP locally...
+## 2 sequences to be truncated
+## Ok for single processing
+## Number of submitted sequences... 100
+## Number of candidate sequences with signal peptides... 5</code></pre></div>
+<p>In this case <code>signalp-4.1</code> version resulted in fewer number of candidates. Please note, taht despite differences in the output format generated by multiple versions of <strong>signalp</strong>, <code>signalp</code> returns <code>sp_tibble</code> in a standard format.</p>
+<p>In order to pipe result from differenr versions of <strong>signalp</strong> just switch to the <code>run_mode = 'piper'</code> for the second and other downstream steps. Say, we want to do the following piping: <strong>signalp2</strong> -&gt; <strong>signalp3</strong> -&gt; <strong>signalp4</strong>. We will re-use <code>step1_sp2</code> object generated earlier in the <code>starter</code> mode and use as an input for the next step:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">step2_sp3 &lt;-<span class="st"> </span><span class="kw">signalp</span>(step1_sp2,
+                     <span class="dt">version =</span> <span class="dv">3</span>,
+                     <span class="dt">organism_type =</span> <span class="st">'euk'</span>, 
+                     <span class="dt">run_mode =</span> <span class="st">&quot;piper&quot;</span>,
+                     <span class="dt">paths =</span> santa_paths)
+## Version used... signalp3
+## running signalP locally...
+## Ok for single processing
+## Number of submitted sequences... 8
+## signalp &lt; 4, calling parser for the output...
+## Number of candidate sequences with signal peptides... 8</code></pre></div>
+<p>Similar with the <strong>signalp3</strong> -&gt; <strong>signalp4</strong> pipig:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">step3_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(step2_sp3,
+                     <span class="dt">version =</span> <span class="dv">4</span>,
+                     <span class="dt">organism_type =</span> <span class="st">'euk'</span>, 
+                     <span class="dt">run_mode =</span> <span class="st">&quot;piper&quot;</span>,
+                     <span class="dt">paths =</span> santa_paths)
+## Version used... signalp4
+## running signalP locally...
+## Ok for single processing
+## Number of submitted sequences... 8
+## Number of candidate sequences with signal peptides... 5</code></pre></div>
 </div>
 <div id="targetp" class="section level2">
 <h2>Targetp</h2>
