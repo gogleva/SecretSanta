@@ -61,24 +61,6 @@ pipe_signalp <- function(piping_sequence, input_fasta) {
 #}
 
 
-#to do: teach run_signalp to output fasta file and/or tibble with results
-
-#' Convert \code{data.frame} to \code{list}.
-#' 
-#' @importFrom magrittr %>%
-#' @name %>%
-#' @rdname pipe
-#' @param x A \code{data.frame} object.
-#' @examples
-#' my_result <- foo(iris)
-#'
-foo <- function(x) {
-  x %>%
-    as.list()
-}
-
-
-
 #' signalp function
 #'
 #' This function calls local signalp to predict the presence and location of signal peptide cleavage sites in amino acid sequences.

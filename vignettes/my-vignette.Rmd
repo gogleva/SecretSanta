@@ -15,12 +15,12 @@ Put somewhere: here we cover classical secretion mostly
 
 To speed-up processing of large input fasta files (with several thousands of sequences) reccommended initial steps of the pipeline are automatically run as embarassingly parallel processes when number of input sequences exceedes a certain limit.
 
-To avoid confusion, here and after names of CBS tools will be shown in bold magenta, corresponding R functions from the SecretSanta package would have standard code highlighting. For example:
+To avoid confusion, here and after names of external tools will be shown in bold magenta, corresponding R functions from the SecretSanta package would have standard code highlighting. For example:
 
-+ <span style="color:magenta"> **signalp** </span> - CBS signalp;
-+ ```signalp``` - SecretSanta wrap function around <span style="color:magenta"> **signalp** </span>;
++ **signalp** - CBS signalp and it's associated derivative files;
++ ```signalp``` - SecretSanta wrap function around **signalp**;
 
-Majority of the functions could be run in 2 modes: **starter** - in the case you initiate secretome pipeline with the above tool; and **piper** - for downstream/intermediate steps, so that the tool expects an output from another wraper function.
+Majority of the functions could be run in 2 modes: *starter* - in the case you initiate secretome pipeline with the above tool; and *piper* - for downstream/intermediate steps, so that the tool expects an output from another wraper function.
 
 **SecretSanta annotate**
 not implemented yet
@@ -46,7 +46,7 @@ For prediction of secreted proteins SecretSanta relies on a set of existing [CBS
     tar -zxvf signalp-2.0.Linux.tar.Z
     cd signalp-2.0
     ```
-    + Edit "General settings" at the top of the signalp file. Set value of 'SIGNALP' variable to be path to your signalp2.0 directory. Other variables usually do not require changes. We will not use plotting functions from signalp, so gnuplot, ppmtogif and ghostview are not requred. For more details please check ```signalp-2.0.readme```. 
+    + Edit "General settings" at the top of the **signalp** file. Set value of 'SIGNALP' variable to be path to your **signalp-2.0** directory. Other variables usually do not require changes. We will not use plotting functions from signalp, so gnuplot, ppmtogif and ghostview are not requred. For more details please check ```signalp-2.0.readme```. 
 
 \newline
 
@@ -58,7 +58,7 @@ For prediction of secreted proteins SecretSanta relies on a set of existing [CBS
     tar -zxvf signalp-3.0.Linux.tar.Z
     cd signalp-3.0
     ```
-    + Similar to signalp2, edit "General settings" at the top of the signalp file. Set value of 'SIGNALP' variable to be path to your signalp3.0 directory. Other variables usually do not require changes. We will not use plotting functions from signalp, so gnuplot, ppmtogif and ghostview are not requred. For more details please check ```signalp-3.0.readme```.
+    + Similar to **signalp-2.0**, edit "General settings" at the top of the signalp file. Set value of 'SIGNALP' variable to be path to your **signalp-3.0** directory. Other variables usually do not require changes. We will not use plotting functions from **signalp**, so gnuplot, ppmtogif and ghostview are not requred. For more details please check ```signalp-3.0.readme```.
     
 \newline
  
@@ -70,7 +70,7 @@ For prediction of secreted proteins SecretSanta relies on a set of existing [CBS
     tar -zxvf signalp-4.1.Linux.tar.Z
     cd signalp-4.1
     ```
-    + Edit "General settings" at the top of the signalp file. Set values for 'SIGNALP' and 'outputDir' variables.
+    + Edit "General settings" at the top of the **signalp** file. Set values for 'SIGNALP' and 'outputDir' variables.
     For more details please check ```signalp-4.1.readme```.
 
 \newline
@@ -78,16 +78,16 @@ For prediction of secreted proteins SecretSanta relies on a set of existing [CBS
 ### Tools for prediction of protein subcellular localisation:    
     
 - **taretp-1.1**
-    + tatgetp1.1 will run on the most common UNIX platforms  
+    + **tatgetp-1.1** will run on the most common UNIX platforms  
     + Download stand alone targetp http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?targetp
     + Unpack the archive:
     ```{sh eval = FALSE}
     tar -zxvf targetp-1.1b.Linux.tar.Z 
     cd targetp-1.1
     ```
-    + Edit the paragraph labeled "GENERAL SETTINGS, customise" at the top of the targetp file.
+    + Edit the paragraph labeled "GENERAL SETTINGS, customise" at the top of the **targetp** file.
     Set values for 'TARGETP' and 'TMP' variables. Ensure, that the path to targetp does not exceed 60 characters,
-    otherwise targetp might fail.
+    otherwise **targetp-1.1** might fail.
 
 \newline
 
@@ -104,7 +104,7 @@ For prediction of secreted proteins SecretSanta relies on a set of existing [CBS
 
 ### Tools for prediction of transmembrane domains
 - **tmhmm-2.0**
-    + tmhmm-2.0 will run on the most common UNIX platforms  
+    + **tmhmm-2.0** will run on the most common UNIX platforms  
     + Download stand alone tmhmm (http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?tmhmm)
     + Upack the archive:
     ```{sh eval = FALSE}
@@ -133,29 +133,57 @@ names(pp) <- c('tool', 'path')
 knitr::kable(pp)
 ```
 
-For CBS tool names please use simple character strings without version numbers. The only exception here are different versions of <span style="color:magenta">**signalp**</span>, which require version number in one-digit format in the first column to be distinguishable.
+For CBS tool names please use simple character strings without version numbers. The only exception here are different versions of **signalp**, which require version number in one-digit format in the first column to be distinguishable.
 
 Please note that aliases will not work when tools are called from R and changing ```$PATH``` variable is not necessary.
 
 To check that all the required dependencies are installed correctly and can be executed in principle, run ```manage_paths``` function. Note, that ```manage_paths``` is case insensitive and will  convert all the tool names to the lower case. 
 
 ```{r, echo = TRUE, collapse = TRUE, tidy = TRUE}
-santa_paths <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+santa_paths <- manage_paths(system.file("extdata",
+                                        "sample_paths",
+                                        package = "SecretSanta"))
 ```
 
 ## Signalp
 
-<span style="color:magenta"> **Signalp** </span> is a softaware tool to predict classical signal peptides and cleavage sites [@Nielsen1997] in eukaryotes and bacteria. The method combines prediction of signal peptides and cleavage cites based on a combination of artificial neural networks as well as hidden Markov models. The latter allows to distinguish between signal peptides and non-cleaved signal anchors. 
+**signalp** is a softaware tool to predict classical signal peptides and cleavage sites [@Nielsen1997] in eukaryotes and bacteria. The method combines prediction of signal peptides and cleavage cites based on a combination of artificial neural networks as well as hidden Markov models. The latter allows to distinguish between signal peptides and non-cleaved signal anchors. 
 
-Currently ```signalp``` function from SecretSanta provides an interface for the three recent versions of <span style="color:magenta"> **signalp** </span>. The reason behind this is that <span style="color:magenta"> **signalp4**  and **signalp4.1** </span> are not sensitive enough to predict some classes of secreted oomycete and fungal effectors [@Sperschneider2015]. Thus, providing acces to the older versions provide greater flexibility for building versatile prediction pipelines for a wider taxonomic range of species. 
+Currently ```signalp``` function from SecretSanta provides an interface for the three recent versions of  **signalp**. The reason behind this is that **signalp-4** and **signalp-4.1** are not sensitive enough to predict certain classes of secreted oomycete and fungal effectors [@Sperschneider2015]. Thus, providing acces to the older versions provide greater flexibility for building versatile prediction pipelines for a wider taxonomic range of species. 
 
-- signalp2.0 [@Nielsen1998]
-- signalp3.0 []
-- signalp4.1
+- **signalp-2.0** [@Nielsen1998]
+- **signalp-3.0** [@Bendtsen2004] 
+- **signalp-4.0** [@Petersen2011]
 
 In case of large input files SecretSanta runs signalp as an embarassingly parallel process, suitable for clusters.
+To run signalp prediction, first read fasta file with amino acid sequences and store it's contents in a separate variable:
+```{r}
+aa <- readAAStringSet(system.file("extdata",
+                                  "sample_prot_100.fasta",
+                                  package = "SecretSanta"))
+```
+Initialise object of CBSResult class with ```aa``` as ```in_fasta``` attribute.
+```{r}                      
+inp <- CBSResult(in_fasta = aa)
+```
+Since this is the first step in our secretome prediction pipeline, we will run ```signalp``` in a *starter* mode. Here we select version number 2 (**signalp-2.0**) and specify ```santa_path``` object generated earlier as a path container for external dependencies:
 
-To run signalp prediction:
+```{r,  collapse = TRUE}
+step1_sp2 <- signalp(inp,
+                     version = 2,
+                     organism_type = 'euk', 
+                     run_mode = "starter",
+                     paths = santa_paths)
+
+```
+
+The above code under the hood will run **signalp-2.0** prediction and output result as an instance of ```SignalpResult``` class.
+
+```{r}
+class(step1_sp2)
+```
+
+
 
 ## Targetp
 

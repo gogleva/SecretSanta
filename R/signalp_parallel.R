@@ -219,7 +219,7 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
   message(paste('Version used...', signalp_version))
 
   if ((version %in% allowed_versions) & (organism_type %in% allowed_organisms)) {
-    message("running signalP locally...")
+    message("running signalp locally...")
   } else {
     message('Allowed versions include...:')
     message(cat(allowed_versions))
