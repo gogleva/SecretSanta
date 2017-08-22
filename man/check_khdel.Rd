@@ -19,12 +19,14 @@ This function checks presence of terminal KDEL/HDEL sequences in the candidate s
 }
 \examples{
 # check ER retention signals in CBSResult object before running signalp or any other predictions
-inp <- SignalpResult()
 aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
-inp <- setInfasta(inp, aa)
+inp <- SignalpResult(in_fasta = aa)
 et_s <- check_khdel(inp, run_mode = 'starter')
 
-# check ER retention signal in the signalp output, 'starter' mode
+my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+step1_sp2 <- signalp(inp, version = 4, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
+
+# check ER retention signal in the signalp output, 'starter' mode (will process in_fasta field)
 et_sp <- check_khdel(step1_sp2, run_mode = 'starter')
 
 # check ER retention signal in the signalp output, 'piper' mode

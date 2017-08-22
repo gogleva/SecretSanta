@@ -17,5 +17,4 @@ inp2 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "tail_prot.f
 inp3 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "tail2_prot.fasta", package = "SecretSanta")))
 inp4 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta")))
 combined_CBS <- combine_CBSResult(inp2, inp3, inp4)
-combine_CBSResult(sp1, sp2, sp3)
 }
