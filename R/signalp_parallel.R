@@ -36,6 +36,7 @@ split_XStringSet <- function(string_set, chunk_size){
 #' @param arguments - a list of SignalpResult objects to be combined in one
 #' @export
 #' @examples 
+#' my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
 #' inp2 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "tail_prot.fasta", package = "SecretSanta")))
 #' inp3 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "tail2_prot.fasta", package = "SecretSanta")))
 #' inp4 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta")))
@@ -44,7 +45,7 @@ split_XStringSet <- function(string_set, chunk_size){
 #' sp2 <- signalp(input_obj = inp3, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
 #' sp3 <- signalp(input_obj = inp4, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
 #' obj <- list(sp1, sp2, sp3)
-#  combined_sp <- combine_SignalpResult(obj)
+#' combined_sp <- combine_SignalpResult(obj)
 
 
 combine_SignalpResult <- function(arguments) {
