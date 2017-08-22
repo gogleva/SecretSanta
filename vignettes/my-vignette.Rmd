@@ -390,14 +390,14 @@ This is an experimental option. ``m_slicer`` function takes the input amino acid
 
 slice <- m_slicer(aa,  # a set of amino acid seqeunces
                   run_mode = 'slice',
-                  length_threshold = 100 # minimal length of the ouytputed slices
+                  length_threshold = 100 # minimal length of the outputed slices
 )
 ```
 
 ```{r m_slicer rescue}
 rescue <- m_slicer(step1_sp2,  # a set of amino acid seqeunces
                   run_mode = 'rescue',
-                  length_threshold = 100 # minimal length of the ouytputed slices
+                  length_threshold = 100
 )
 
 ```
