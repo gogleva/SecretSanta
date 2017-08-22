@@ -275,7 +275,7 @@ slotNames(tm)
 
 + ``in_fasta`` and ``out_fasta`` are common attriburtes of all classes inheriting from CBSResult class; 
 
-+ ``tm_tibble`` - parsed tragetp tabular output for candidates not having more transmembrane domains than specified by ``TM`` threshold;
++ ``tm_tibble`` - parsed **tmhmm** tabular output for candidates not having more transmembrane domains than specified by ``TM`` threshold;
 
 + ``in_mature_fasta`` - mature sequences used as an input for ```tmhmm```
 
@@ -296,9 +296,49 @@ signal peptide (SP), chloroplast transit peptide (cTP) or mitochondrial targetin
 
 It is possible to run ``targetp`` in both *piper* and *starter* modes.
 Imagine, we want to start our pipeline by running ``targetp`` using already created ``inp`` object as an input:
-```{r}
-targetp()
+```{r, collapse = TRUE}
+tp <- targetp(inp, 
+        network_type = 'N',  # for non-plant networks
+        run_mode = 'starter',
+        paths = santa_paths
+)
 ```
+
+Alternatively, we can run targetp on the output of other functions, for example ``signalp`` in the *piper* mode:
+
+```{r, collapse = TRUE}
+tp_pipe <- targetp(step1_sp2,
+                   network_type = 'N',
+                   run_mode = 'piper',
+                   paths = santa_paths
+        )
+```
+
+In both cases ``targetp`` will output an object of ``TargetpResult`` class with the following slots:
+
+```{r}
+class(tp)
+slotNames(tp)
+```
+
++ ``in_fasta`` and ``out_fasta`` are common attriburtes of all classes inheriting from ``CBSResult`` class; 
+
++ ``tp_tibble`` - parsed tragetp tabular output for candidates not ttargeted to mitochondria or plastids, i.e most likely to be secreted.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## WolfPsort
 
 ## Check for terminal ER-retention motifs
