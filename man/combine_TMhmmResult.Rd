@@ -13,6 +13,7 @@ combine_TMhmmResult(arguments)
 This function combines multiple instances of TMhmmResult class, typically generated with parLapply
 }
 \examples{
+my_pa <- my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta")) 
 inp2 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "tail_prot.fasta", package = "SecretSanta")))
 inp4 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta")))
 
