@@ -371,18 +371,41 @@ er_result <- check_khdel(step1_sp2,
 ```
 This will return and object with 3 slots:
 
-```{r }
+```{r explain ErResult class}
 slotNames(er_result)
 ```
 + ``in_fasta`` and ``out_fasta`` are common attriburtes of all classes inheriting from ``CBSResult`` class; 
-+ ``retained`` - all the sequnces with C-terminal '(K/H)DEL' motifs, in case you would like to have a look at them
++ ``retained`` - all the sequnces with C-terminal '(K/H)DEL' motifs, in case you would like to have a look at them.
 
 ## M-slicer
 
-This is an experimental option.
+This is an experimental option. ``m_slicer`` function takes the input amino acid sequences and generates all posible subsequences startig with methionine based on the assumption that translation start sites might be mis-predicted in the original set of proteins -> signal peptides might be also mis-predicted. Output of this step can be used as an input for secretome prediction pipeline to rescue secreted proteins with mis-predicted start sites. Sequence ids for the newly generated slices are  build by concatenating original sequence id, 'slice' string and position of the Methionine sliced from. For example: ``ALI_PLTG_3_slice_M86``
+
+``m_slicer`` has 2 running modes:
+
++ ``slice`` - to simply slice input fasta regardless of it's origin;
+
+```{r m_slicer slice}
+
+slice <- m_slicer(aa,  # a set of amino acid seqeunces
+                  run_mode = 'slice',
+                  length_threshold = 100 # minimal length of the ouytputed slices
+)
+```
+
++ ``rescue`` - having output from any other up-stream fucntion it extracts proteins not predicted to be secreted on the initial run and generate slices for them.
+
+```{r m_slicer rescue}
+rescue <- m_slicer(step1_sp2,  # a set of amino acid seqeunces
+                  run_mode = 'rescue',
+                  length_threshold = 100 # minimal length of the ouytputed slices
+)
+```
+
+Results of both run modes could be used as an input for other ``SecretSanta`` predictors.
 
 
-An experimental option
+
 
 
 ## Pipers and/or starters

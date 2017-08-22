@@ -55,7 +55,6 @@ SOLVED:
 - -- targetp
 - -- wolfpsort
 - -- TMHMM
-
 - clean/complete all function documentation
 - unit tests
 - targetp keeps failing; solution: shorten the path!
@@ -85,6 +84,7 @@ stand alone CBS tools are available only for Unix, se we should not care about W
     - targetp (done)
     - TMHMM (done)
     - WoLFpsort (done)
+    - check_khdel (done)
 
 TO DO (required minimum):
 
@@ -99,7 +99,6 @@ TO DO (required minimum):
 - code profiling to speed-up wrappers
 - fix some ugly bits in the code ---> profiling again. Aim: not to be much slower that the wrapped tool
 - Vignettes: individual functions:
-    - check_khdel
     - M-slicer
 - Vignettes: pipelines:
     - summary on starters and pipers;
@@ -108,8 +107,7 @@ TO DO (required minimum):
 - Individual (and cool!) plotting functions for the outputs
 
 
-
-expansion:
+essential expantion:
 - plotting functions for individual peptides (will require full output) signalp
 - prediction graphs (?) when each candidate was rejected -->?
 
