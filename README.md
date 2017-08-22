@@ -93,10 +93,10 @@ TO DO (required minimum):
     - 1K,
     - 2K,
     - long sequences
-- why parallel version of TMHMM is so much slower
+- why parallel version of TMHMM is so much slower ---> do more profiling
 - export cluster environment: try to get rid of my_pa
 - code profiling to speed-up wrappers
-- fix some ugly bits in the code    
+- fix some ugly bits in the code ---> profiling again. Aim: not to be much slower that the wrapped tool
 - Vignettes: individual functions:
     - WoLFpsort
     - check_khdel
@@ -105,11 +105,9 @@ TO DO (required minimum):
     - summary on starters and pipers;
     - short pipeline
     - long pipeline
+- Individual (and cool!) plotting functions for the outputs
 
-
-
-
-
+  
 
 expansion:
 - plotting functions for individual peptides (will require full output) signalp
