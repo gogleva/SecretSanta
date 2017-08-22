@@ -18,8 +18,7 @@ Options include: plant, animal, fingi;}
 object of WolfResult class
 }
 \description{
-This function runs WoLF PSORT to predict protein cellular sub-localisation
-And returns the most probbale one. Provides additional supportig evidence that a protein might be secreted and deposited outside the cell. Recommended to run on the late stages of secretome prediction pipeline.
+This function runs WoLF PSORT to predict protein cellular sub-localisation, returns the most probbale one. Provides additional supportig evidence that a protein might be secreted and deposited outside the cell. Recommended to run on the late stages of secretome prediction pipeline.
 }
 \examples{
 my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))

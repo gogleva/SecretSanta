@@ -35,5 +35,5 @@ inp <- setInfasta(inp, aa)
 s1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
 slices <- m_slicer(s1_sp2, length_threshold = 100, run_mode = 'rescue')
 inp_slices <- CBSResult(in_fasta = slices)
-s2_sp2_rescue <- signalp(inp_slices, version = 2, 'euk', run_mode = 'starter', paths = my_pa)# => throws an error! too many sequences or input exceeded maximal total residues
+s2_sp2_rescue <- signalp(inp_slices, version = 2, 'euk', run_mode = 'starter', paths = my_pa)
 }
