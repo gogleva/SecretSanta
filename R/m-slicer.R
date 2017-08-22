@@ -44,6 +44,7 @@ m_slicer <- function(input_object, length_threshold, run_mode) {
                       infa <- getInfasta(input_object)
                       outfa <- getOutfasta(input_object)
                       input_object <- infa[infa %!in% outfa]
+                     
                       if (run_mode != 'rescue') {
                         stop("Please use run_mode 'rescue' for an input object of CBSResult class")
                       }
