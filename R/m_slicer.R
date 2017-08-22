@@ -8,17 +8,13 @@
 #' 
 #' @param input_object    an instance of CBSResult class or AAStringSet class containing protein sequences as on of the     attributes
 #' @param len_threshold   sliced sequences below this threshold will be discarded
-#' @param run_mode
-#' \itemize{
-#' \item  \strong{slice} - to just slice input fasta, regardless of it's origin;
-#' \item  \strong{rescue} - to get proteins not predicted to be secreted on the initial run, generate slices; 
-#'   }
-#' @export
+#' @param run_mode  \strong{slice} - to just slice input fasta, regardless of it's origin;
+#' \strong{rescue} - to get proteins not predicted to be secreted on the initial run, generate slices; 
+#' @export   
 #' @examples 
 #' # Example 1: generate proteins with alterative translation start site for AAStringSet object
 #' aa <- readAAStringSet(system.file("extdata", "small_prot.fasta", package = "SecretSanta"), use.names = TRUE)
 #' m_slicer(aa, 100, run_mode = 'slice')
-#' 
 #' # Example 2: generate proteins with alterative translation start site for CBSResult object
 #' my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
 #' inp <- SignalpResult()
@@ -29,6 +25,8 @@
 #' s2_sp2_rescue <- signalp(inp_slices, version = 2, 'euk', run_mode = 'starter', paths = my_pa)
 
 m_slicer <- function(input_object, length_threshold, run_mode) {
+                    
+                    message('SLICE!')
   
                     # helper functions:
                     '%!in%' <- function(x,y)!('%in%'(x,y))
@@ -41,14 +39,13 @@ m_slicer <- function(input_object, length_threshold, run_mode) {
                         stop("Please use run_mode 'slice' for an input object of AAStringSet class")
                         } 
                     } else if (is(input_object, 'CBSResult')) {
-                      infa <- getInfasta(input_object)
-                      outfa <- getOutfasta(input_object)
-                      input_object <- infa[infa %!in% outfa]
-                     
                       if (run_mode != 'rescue') {
                         stop("Please use run_mode 'rescue' for an input object of CBSResult class")
                       }
-
+                      
+                      infa <- getInfasta(input_object)
+                      outfa <- getOutfasta(input_object)
+                      input_object <- infa[infa %!in% outfa]
                     }
   
                     mi <- vmatchPattern('M', input_object)

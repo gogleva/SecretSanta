@@ -120,10 +120,8 @@ For prediction of secreted proteins SecretSanta relies on a set of existing [CBS
 ## Check that all the external dependencies are present and executable in principle:
 ```{r load SecretSanta, message=FALSE}
 library(SecretSanta)
-unloadNamespace("SecretSanta")
-library(SecretSanta)
-
 ```
+
 To do this create a 2-column space-separated text file with listed paths for all the external dependencies. Sample input file listing paths to external dependencies:
 
 ```{r paths example, echo = FALSE}
@@ -398,9 +396,7 @@ slice <- m_slicer(aa,  # a set of amino acid seqeunces
 
 + ``rescue`` - having output from any other up-stream fucntion it extracts proteins not predicted to be secreted on the initial run and generate slices for them.
 
-```{r}
-m_slicer(step1_sp2, 100, 'rescue')
-```
+
 Results of both run modes could be used as an input for other ``SecretSanta`` predictors.
 
 

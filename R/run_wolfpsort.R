@@ -3,7 +3,7 @@
 #' This function runs WoLF PSORT to predict protein cellular sub-localisation, returns the most probbale one. Provides additional supportig evidence that a protein might be secreted and deposited outside the cell. Recommended to run on the late stages of secretome prediction pipeline.
 #' @param input_obj Object of CSBResult class
 #' @param organism  set relevant taxonomic group,
-#'                  Options include: plant, animal, fingi;
+#'                  Options include: plant, animal, fungi;
 #' @param paths   tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function
 #' @return object of WolfResult class  
 #' @export

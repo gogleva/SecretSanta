@@ -10,7 +10,7 @@ wolfpsort(input_obj, organism, paths)
 \item{input_obj}{Object of CSBResult class}
 
 \item{organism}{set relevant taxonomic group,
-Options include: plant, animal, fingi;}
+Options include: plant, animal, fungi;}
 
 \item{paths}{tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function}
 }
