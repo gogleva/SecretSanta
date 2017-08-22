@@ -7,6 +7,8 @@
 signalp(input_obj, version, organism_type, run_mode, paths, truncate = NULL)
 }
 \arguments{
+\item{input_obj}{an instance of CBSResult class containing protein sequences as on of the attributes}
+
 \item{version}{signalp version to run, supported versions:
 \itemize{
 \item 2
@@ -30,8 +32,6 @@ signalp(input_obj, version, organism_type, run_mode, paths, truncate = NULL)
 \item{paths}{tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function}
 
 \item{truncate}{logical, if TRUE - sequences longer 2000 residues will be truncated to this length limit and renamed. If FALSE - long sequences will be excluded from the analysis. Default = TRUE.}
-
-\item{input_object}{an instance of CBSResult class containing protein sequences as on of the attributes}
 }
 \value{
 an object of SignalpResult class

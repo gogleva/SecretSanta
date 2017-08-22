@@ -9,10 +9,10 @@ m_slicer(input_object, length_threshold, run_mode)
 \arguments{
 \item{input_object}{an instance of CBSResult class or AAStringSet class containing protein sequences as on of the     attributes}
 
+\item{length_threshold}{sliced sequences below this threshold will be discarded}
+
 \item{run_mode}{\strong{slice} - to just slice input fasta, regardless of it's origin;
 \strong{rescue} - to get proteins not predicted to be secreted on the initial run, generate slices;}
-
-\item{len_threshold}{sliced sequences below this threshold will be discarded}
 }
 \description{
 Experimental option.

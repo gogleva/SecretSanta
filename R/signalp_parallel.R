@@ -66,7 +66,7 @@ combine_SignalpResult <- function(arguments) {
 #' combine_CBSResult function
 #'
 #' Minimal function to combine objects of CBSResult class.
-#' @param arguments - a list of CBSResult objects to be combined
+#' @param ... - a list of CBSResult objects to be combined
 #' @export
 #' @examples 
 #' inp2 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "tail_prot.fasta", package = "SecretSanta")))
@@ -98,7 +98,7 @@ combine_CBSResult <- function(...) {
 #' signalp function
 #'
 #' This function calls local signalp to predict the presence and location of signal peptide cleavage sites in amino acid sequences; automatically splits large input files (>500 sequnces) and runs signalp prediction as an embarassingly parallel process on all the CPUs available.
-#' @param input_object    an instance of CBSResult class containing protein sequences as on of the attributes
+#' @param input_obj   an instance of CBSResult class containing protein sequences as on of the attributes
 #' @param version  signalp version to run, supported versions:
 #' \itemize{
 #' \item 2
