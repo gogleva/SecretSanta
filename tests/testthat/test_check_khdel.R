@@ -21,9 +21,9 @@ test_that("terminal KHDEL/HDEL motifs are detected",
             sp <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
             expect_is(check_khdel(sp, run_mode = 'piper'), 'ErResult')
             expect_message(check_khdel(sp, run_mode = 'piper'),
-                           'Number of submitted sequences... 8')
+                           'Submitted sequences... 8')
             expect_message(check_khdel(sp, run_mode = 'piper'),
-                           'Number of sequences with terminal ER retention signals detected... 0')
+                           'Sequences with terminal ER retention signals detected... 0')
             
             # check outputs of TMHMM
             tm <- tmhmm(sp, paths = my_pa, TM = 1)
@@ -35,9 +35,9 @@ test_that("terminal KHDEL/HDEL motifs are detected",
             inp <- setInfasta(inp, br)
             expect_is(check_khdel(inp, run_mode = 'starter'),  'ErResult')
             expect_message(check_khdel(inp, run_mode = 'starter'),
-                           'Number of submitted sequences... 5')
+                           'Submitted sequences... 5')
             expect_message(check_khdel(inp, run_mode = 'starter'),
-                           'Number of sequences with terminal ER retention signals detected... 2')
+                           'Sequences with terminal ER retention signals detected... 2')
             
 
           })
