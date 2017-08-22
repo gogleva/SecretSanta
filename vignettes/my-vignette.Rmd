@@ -397,7 +397,7 @@ slice <- m_slicer(aa,  # a set of amino acid seqeunces
 + ``rescue`` - having output from any other up-stream function it extracts proteins not predicted to be secreted on the initial run and generate slices for them. 
 
 ```{r m_slicer rescue}
-rescued <- m_slicer(step1_sp2,  # a set of amino acid seqeunces
+rescued <- m_slicer(step1_sp2,  # signalp2 output
                   run_mode = 'rescue',
                   length_threshold = 100
 )
@@ -407,17 +407,14 @@ rescued <- m_slicer(step1_sp2,  # a set of amino acid seqeunces
 Results of both run modes could be used as an input for other ``SecretSanta`` predictors. Say, we want to run ``signalp`` on the rescued proteins. Note, that ``m_slicer`` outputs ``AAStringSet`` objects, so in order to pass it to ``signalp`` we need to create ``CBSResult`` object with ``in_fasta = rescued``.
 
 ```{r signalp for rescued proteins, collapse = TRUE}
-
-sp_rescue <- signalp(CBSResult(in_fasta = rescued),
-                     version = 4,
-                     organism_type = 'euk',
-                     run_mode = 'starter',
-                     paths = santa_paths
-                     )
+# r_inp <- CBSResult(in_fasta = rescued)
+# sp_rescue <- signalp(r_inp,
+#                     version = 2,
+#                     organism_type = 'euk',
+#                     run_mode = 'starter', 
+#                     paths = santa_paths,
+#                     truncate = T)
 ```
-
-
-
 
 ## Pipers and/or starters
 
