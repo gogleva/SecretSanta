@@ -31,7 +31,7 @@ check_khdel <- function(input_obj, run_mode) {
   # determine which fasta to take
   if (run_mode == 'piper') fasta <- getOutfasta(input_obj) else fasta <- getInfasta(input_obj)
   
-  message(paste('Number of submitted sequences...', length(fasta)))
+  message(paste('Submitted sequences...', length(fasta)))
   
   if (length(fasta) == 0) {stop('query fasta is empty, please ensure you are using correct run_mode')}
   
@@ -57,8 +57,8 @@ check_khdel <- function(input_obj, run_mode) {
                       retained = fasta[!un])
   
   ret_count <- length(fasta[!un])
-  message(paste('Number of sequences with terminal ER retention signals detected...', ret_count))
-  message(paste('Number of candidate without terminal ER retention signals detected...', length(non_retained)))
+  message(paste('Sequences with terminal ER retention signals detected...', ret_count))
+  message(paste('Candidate without terminal ER retention signals detected...', length(non_retained)))
   
   if (validObject(out_obj)) {return(out_obj)}
 }

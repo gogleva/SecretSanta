@@ -286,52 +286,52 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getInfasta</span>(step1_sp2)</code></pre></div>
 <pre><code>##   A AAStringSet instance of length 100
 ##       width seq                                        names               
-##   [1]   833 MTTFQDRVALEEEIESCSTT...MLMVLVPILIATFIYGISQ ALI_PLTG_37
-##   [2]   962 MADLQESLLAKVDAEKAVDT...TAQKMESVDECIELLELGP ALI_PLTG_94
-##   [3]   957 MTAAIRTATQNAQVLVAFHA...SARVMAKKLREHEELRRRR ALI_PLTG_19
-##   [4]   177 MPGLGICGEPLVSGITSNLG...AAQKAAALVQGGSARALRG ALI_PLTG_6
-##   [5]   155 MSVSSYAVSYLASMDQTSAG...TAAQKAAALVQGGARKLRM ALI_PLTG_8
+##   [1]   164 RLVNRSITTHIELCPLFVFG...ITDDLVFCVTRNYSLDGVA ALI_PLTG_69
+##   [2]   121 MHFNALKRAAELAGSPDIIT...GNAFVLKVSAKSRLMYDLR ALI_PLTG_57
+##   [3]   897 MFGRASANAVEASGSAEPKT...TVNPPLSLTARVNIELDTK ALI_PLTG_52
+##   [4]   116 GWLLSVKVTGVMCYGFDGTL...LYSLRVRTTGISQIRSVFA ALI_PLTG_90
+##   [5]  1327 MGDARIVLTTLISEKLLAPG...HPGMDQPDNNDVDMSDWGQ ALI_PLTG_12
 ##   ...   ... ...
-##  [96]   116 GWLLSVKVTGVMCYGFDGTL...LYSLRVRTTGISQIRSVFA ALI_PLTG_90
-##  [97]   206 MTLINLTPSSTTSDRIPYEL...WHRLMLNSGVKQQNLNTSP ALI_PLTG_55
-##  [98]   107 MGEEIPVDDCVACPDGGYQE...QECIVCFGDMEITDLEFPI ALI_PLTG_40
-##  [99]   182 MELSQTLKTLLNEHRKLVKL...NSLRGEAETDKAEKERISK ALI_PLTG_75
-## [100]   456 MLASKIVPLRRAASTVGARN...ALGSDAKYAGEHFRNPSKM ALI_PLTG_88</code></pre>
+##  [96]    90 MSSAQYVSTKVSVDMFNGGN...HMDADYHHVVDNCEEAWVA ALI_PLTG_48
+##  [97]   174 MDALRESEDLRIHSPTESSS...LRTRIEMSFGLLANNGRFI ALI_PLTG_30
+##  [98]    64 MNDIIIEDTSMRLPGIAVSA...HVLQHFDASNYQAVLCEKL ALI_PLTG_66
+##  [99]   347 MNNYGLQQPYHANILPFAFS...GLKPGPKPKHKRKKTKGGN ALI_PLTG_77
+## [100]   653 MKIVALVTFCIATLDSSIVF...EDPVYPLVKEYSDVVSKHP ALI_PLTG_23</code></pre>
 <p>Please note, that by default <code>signlap</code> truncates all the input sequnces longer than 2000 a.a, in this case ’_truncated’ is added to the original sequence ids to keep track of the changes. Alternative option - is discard long sequences completely before the analysis, to do so set <code>truncate = FALSE</code> when running <code>signalp</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getSPtibble</span>(step1_sp2)</code></pre></div>
 <pre><code>## # A tibble: 8 x 9
 ##       gene_id  Cmax  Cpos  Ymax  Ypos  Smax  Spos  Smean     Prediction
 ##        &lt;fctr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fctr&gt;         &lt;fctr&gt;
-## 1  ALI_PLTG_5   644    25 0.687    25 0.906     3  0.637 Signal peptide
-## 2 ALI_PLTG_81   644    33 0.388    33 0.826    25  0.471 Signal peptide
-## 3 ALI_PLTG_73   644    22 0.316    22 0.927     3  0.721 Signal peptide
-## 4 ALI_PLTG_83   644    34 0.506    20 0.956    13  0.846 Signal peptide
-## 5 ALI_PLTG_38   644    20 0.696    20 0.994     9  0.954 Signal peptide
-## 6 ALI_PLTG_59   644    17 0.288    19 0.948     1  0.666 Signal peptide
-## 7 ALI_PLTG_23   644    22 0.683    22 0.969     8  0.803 Signal peptide
-## 8 ALI_PLTG_72   644    22 0.804    22 0.986     8  0.805 Signal peptide</code></pre>
+## 1 ALI_PLTG_83   106    34 0.506    20 0.956    13  0.846 Signal peptide
+## 2 ALI_PLTG_72   106    22 0.804    22 0.986     8  0.805 Signal peptide
+## 3 ALI_PLTG_73   106    22 0.316    22 0.927     3  0.721 Signal peptide
+## 4 ALI_PLTG_38   106    20 0.696    20 0.994     9  0.954 Signal peptide
+## 5  ALI_PLTG_5   106    25 0.687    25 0.906     3  0.637 Signal peptide
+## 6 ALI_PLTG_81   106    33 0.388    33 0.826    25  0.471 Signal peptide
+## 7 ALI_PLTG_59   106    17 0.288    19 0.948     1  0.666 Signal peptide
+## 8 ALI_PLTG_23   106    22 0.683    22 0.969     8  0.803 Signal peptide</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getOutfasta</span>(step1_sp2)</code></pre></div>
 <pre><code>##   A AAStringSet instance of length 8
 ##     width seq                                          names               
-## [1]   210 MKLSSVCTIIFGLVFIDFNNV...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
-## [2]   133 MNFLKSKKTSTQATLLVSPLI...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [1]   164 MVSTSRVFALLLLPSPSARIF...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
+## [2]   118 MRLKFSILIFGAVLLATTTNA...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
 ## [3]   154 MYLKFAFMATVATAVVNIAIG...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
-## [4]   164 MVSTSRVFALLLLPSPSARIF...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
-## [5]   495 MVVRVLLVVLALLAVGVQSKA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
-## [6]   125 MLMSTPAALMLRLAQSSLKPT...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
-## [7]   653 MKIVALVTFCIATLDSSIVFA...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [8]   118 MRLKFSILIFGAVLLATTTNA...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72</code></pre>
+## [4]   495 MVVRVLLVVLALLAVGVQSKA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
+## [5]   210 MKLSSVCTIIFGLVFIDFNNV...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [6]   133 MNFLKSKKTSTQATLLVSPLI...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [7]   125 MLMSTPAALMLRLAQSSLKPT...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
+## [8]   653 MKIVALVTFCIATLDSSIVFA...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getMatfasta</span>(step1_sp2)</code></pre></div>
 <pre><code>##   A AAStringSet instance of length 8
 ##     width seq                                          names               
-## [1]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
-## [2]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [1]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
+## [2]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
 ## [3]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
-## [4]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
-## [5]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
-## [6]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
-## [7]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [8]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72</code></pre>
+## [4]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
+## [5]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [6]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [7]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
+## [8]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getSPversion</span>(step1_sp2)</code></pre></div>
 <pre><code>## [1] 2</code></pre>
 <p>Next, imaging we would like to run all the <strong>signalp</strong> version on the same input for comparison. To do so, simply change <code>version</code> parameter:</p>
@@ -416,36 +416,36 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
 <pre><code>## # A tibble: 8 x 6
 ##       gene_id length ExpAA First60 PredHel Topology
 ##         &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;
-## 1  ALI_PLTG_5    186  1.29    1.16       0        o
-## 2 ALI_PLTG_81    101  0.00    0.00       0        o
+## 1 ALI_PLTG_83    131  1.44    0.02       0        o
+## 2 ALI_PLTG_72     97  0.00    0.00       0        i
 ## 3 ALI_PLTG_73    133  0.00    0.00       0        o
-## 4 ALI_PLTG_83    131  1.44    0.02       0        o
-## 5 ALI_PLTG_38    476  0.13    0.09       0        o
-## 6 ALI_PLTG_59    109  0.00    0.00       0        o
-## 7 ALI_PLTG_23    632  0.00    0.00       0        o
-## 8 ALI_PLTG_72     97  0.00    0.00       0        i</code></pre>
+## 4 ALI_PLTG_38    476  0.13    0.09       0        o
+## 5  ALI_PLTG_5    186  1.29    1.16       0        o
+## 6 ALI_PLTG_81    101  0.00    0.00       0        o
+## 7 ALI_PLTG_59    109  0.00    0.00       0        o
+## 8 ALI_PLTG_23    632  0.00    0.00       0        o</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getInMatfasta</span>(tm)</code></pre></div>
 <pre><code>##   A AAStringSet instance of length 8
 ##     width seq                                          names               
-## [1]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
-## [2]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [1]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
+## [2]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
 ## [3]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
-## [4]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
-## [5]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
-## [6]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
-## [7]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [8]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72</code></pre>
+## [4]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
+## [5]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [6]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [7]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
+## [8]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getOutMatfasta</span>(tm)</code></pre></div>
 <pre><code>##   A AAStringSet instance of length 8
 ##     width seq                                          names               
-## [1]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
-## [2]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [1]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
+## [2]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
 ## [3]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
-## [4]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
-## [5]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
-## [6]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
-## [7]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [8]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72</code></pre>
+## [4]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
+## [5]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [6]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [7]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
+## [8]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23</code></pre>
 </div>
 <div id="targetp" class="section level2">
 <h2>Targetp</h2>
@@ -524,18 +524,34 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
 <pre><code>## # A tibble: 5 x 2
 ##       gene_id localization
 ##        &lt;fctr&gt;       &lt;fctr&gt;
-## 1  ALI_PLTG_5         extr
-## 2 ALI_PLTG_81         extr
-## 3 ALI_PLTG_73         extr
-## 4 ALI_PLTG_38         extr
+## 1 ALI_PLTG_73         extr
+## 2 ALI_PLTG_38         extr
+## 3  ALI_PLTG_5         extr
+## 4 ALI_PLTG_81         extr
 ## 5 ALI_PLTG_23         extr</code></pre>
-<p>Since <code>wolfpsort</code> has the same purpouse as <code>targetp</code> it makes sence to run these functions side by side and compare the results (see <a href="#Targetp">targetp results</a>).</p>
+<p>Since <code>wolfpsort</code> has the same purpouse as <code>targetp</code> it might be useful to run these functions side by side and compare the obtained results (see <a href="#Targetp">targetp results</a>).</p>
 </div>
 <div id="check-for-terminal-er-retention-motifs" class="section level2">
 <h2>Check for terminal ER-retention motifs</h2>
+<p>In addition to having signal peptides some proteins might have ER-retention signal in the C-terminal domain, preventing protein from being secreted ouside the cell. There are at least 2 known ER-retention motifs (‘KDEL’ and ‘HDEL’) <span class="citation">(Munro S 1987)</span>.</p>
+<p>The <code>check_khdel</code> function uses simple pattern matching to scan amino acid sequences and remove those with ER retention signal in the C-terminus. To run it, simply pass a <code>CBSResult</code> object as an input. You can run it in either <em>piper</em> or <em>starter</em> mode. The function does not rely on external dependencies, so providing path container is not required.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">er_result &lt;-<span class="st"> </span><span class="kw">check_khdel</span>(step1_sp2,
+                         <span class="dt">run_mode =</span> <span class="st">'piper'</span>)
+## checking for terminal ER retention signals...
+## Number of submitted sequences... 8
+## Number of sequences with terminal ER retention signals detected... 0
+## Number of candidate without terminal ER retention signals detected... 8</code></pre></div>
+<p>This will return and object with 3 slots:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">slotNames</span>(er_result)</code></pre></div>
+<pre><code>## [1] &quot;retained&quot;  &quot;in_fasta&quot;  &quot;out_fasta&quot;</code></pre>
+<ul>
+<li><code>in_fasta</code> and <code>out_fasta</code> are common attriburtes of all classes inheriting from <code>CBSResult</code> class;</li>
+<li><code>retained</code> - conatins all the sequnces with C-terminal ‘(K/H)DEL’ motifs.</li>
+</ul>
 </div>
 <div id="m-slicer" class="section level2">
 <h2>M-slicer</h2>
+<p>An experimental option</p>
 </div>
 <div id="pipers-andor-starters" class="section level2">
 <h2>Pipers and/or starters</h2>
@@ -547,190 +563,6 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
 </div>
 <div id="build-pipelines-stringent-workflow" class="section level2">
 <h2>Build pipelines, stringent workflow</h2>
-<p>Note the various macros within the <code>vignette</code> section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the <code>title</code> field and the <code>\VignetteIndexEntry</code> to match the title of your vignette.</p>
-</div>
-<div id="styles" class="section level2">
-<h2>Styles</h2>
-<p>The <code>html_vignette</code> template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:</p>
-<pre><code>output: 
-  rmarkdown::html_vignette:
-    css: mystyles.css</code></pre>
-</div>
-<div id="figures" class="section level2">
-<h2>Figures</h2>
-<p>The figure sizes have been customised so that you can easily put two images side-by-side.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="dv">1</span>:<span class="dv">10</span>)
-<span class="kw">plot</span>(<span class="dv">10</span>:<span class="dv">1</span>)</code></pre></div>
-<p><img src="data:image/png;base64,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" /><img src="data:image/png;base64,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" /></p>
-<p>You can enable figure captions by <code>fig_caption: yes</code> in YAML:</p>
-<pre><code>output:
-  rmarkdown::html_vignette:
-    fig_caption: yes</code></pre>
-<p>Then you can use the chunk option <code>fig.cap = &quot;Your figure caption.&quot;</code> in <strong>knitr</strong>.</p>
-</div>
-<div id="more-examples" class="section level2">
-<h2>More Examples</h2>
-<p>You can write math expressions, e.g. <span class="math inline">\(Y = X\beta + \epsilon\)</span>, footnotes<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>, and tables, e.g. using <code>knitr::kable()</code>.</p>
-<table>
-<thead>
-<tr class="header">
-<th></th>
-<th align="right">mpg</th>
-<th align="right">cyl</th>
-<th align="right">disp</th>
-<th align="right">hp</th>
-<th align="right">drat</th>
-<th align="right">wt</th>
-<th align="right">qsec</th>
-<th align="right">vs</th>
-<th align="right">am</th>
-<th align="right">gear</th>
-<th align="right">carb</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Mazda RX4</td>
-<td align="right">21.0</td>
-<td align="right">6</td>
-<td align="right">160.0</td>
-<td align="right">110</td>
-<td align="right">3.90</td>
-<td align="right">2.620</td>
-<td align="right">16.46</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="right">4</td>
-</tr>
-<tr class="even">
-<td>Mazda RX4 Wag</td>
-<td align="right">21.0</td>
-<td align="right">6</td>
-<td align="right">160.0</td>
-<td align="right">110</td>
-<td align="right">3.90</td>
-<td align="right">2.875</td>
-<td align="right">17.02</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="right">4</td>
-</tr>
-<tr class="odd">
-<td>Datsun 710</td>
-<td align="right">22.8</td>
-<td align="right">4</td>
-<td align="right">108.0</td>
-<td align="right">93</td>
-<td align="right">3.85</td>
-<td align="right">2.320</td>
-<td align="right">18.61</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td>Hornet 4 Drive</td>
-<td align="right">21.4</td>
-<td align="right">6</td>
-<td align="right">258.0</td>
-<td align="right">110</td>
-<td align="right">3.08</td>
-<td align="right">3.215</td>
-<td align="right">19.44</td>
-<td align="right">1</td>
-<td align="right">0</td>
-<td align="right">3</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td>Hornet Sportabout</td>
-<td align="right">18.7</td>
-<td align="right">8</td>
-<td align="right">360.0</td>
-<td align="right">175</td>
-<td align="right">3.15</td>
-<td align="right">3.440</td>
-<td align="right">17.02</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">3</td>
-<td align="right">2</td>
-</tr>
-<tr class="even">
-<td>Valiant</td>
-<td align="right">18.1</td>
-<td align="right">6</td>
-<td align="right">225.0</td>
-<td align="right">105</td>
-<td align="right">2.76</td>
-<td align="right">3.460</td>
-<td align="right">20.22</td>
-<td align="right">1</td>
-<td align="right">0</td>
-<td align="right">3</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td>Duster 360</td>
-<td align="right">14.3</td>
-<td align="right">8</td>
-<td align="right">360.0</td>
-<td align="right">245</td>
-<td align="right">3.21</td>
-<td align="right">3.570</td>
-<td align="right">15.84</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">3</td>
-<td align="right">4</td>
-</tr>
-<tr class="even">
-<td>Merc 240D</td>
-<td align="right">24.4</td>
-<td align="right">4</td>
-<td align="right">146.7</td>
-<td align="right">62</td>
-<td align="right">3.69</td>
-<td align="right">3.190</td>
-<td align="right">20.00</td>
-<td align="right">1</td>
-<td align="right">0</td>
-<td align="right">4</td>
-<td align="right">2</td>
-</tr>
-<tr class="odd">
-<td>Merc 230</td>
-<td align="right">22.8</td>
-<td align="right">4</td>
-<td align="right">140.8</td>
-<td align="right">95</td>
-<td align="right">3.92</td>
-<td align="right">3.150</td>
-<td align="right">22.90</td>
-<td align="right">1</td>
-<td align="right">0</td>
-<td align="right">4</td>
-<td align="right">2</td>
-</tr>
-<tr class="even">
-<td>Merc 280</td>
-<td align="right">19.2</td>
-<td align="right">6</td>
-<td align="right">167.6</td>
-<td align="right">123</td>
-<td align="right">3.92</td>
-<td align="right">3.440</td>
-<td align="right">18.30</td>
-<td align="right">1</td>
-<td align="right">0</td>
-<td align="right">4</td>
-<td align="right">4</td>
-</tr>
-</tbody>
-</table>
 <div id="references" class="section level3 unnumbered">
 <h3>References</h3>
 <div id="refs" class="references">
@@ -742,6 +574,9 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
 </div>
 <div id="ref-Krogh2001">
 <p>Krogh, Anders, Bjorn Larsson Gunnar von Heijne, and Erik L.L. Sonnhammer. 2001. “Predicting Transmembrane Protein Topology with a Hidden Markov Model: Application to Complete Genomes.” <em>J. Mol. Biol.</em>, no. 305: 567–80.</p>
+</div>
+<div id="ref-Munro1987">
+<p>Munro S, Pelham HBR. 1987. “A c-Terminal Signal Prevents Secretion of Luminal Er Proteins.” <em>Cell</em>, no. 48: 899–907.</p>
 </div>
 <div id="ref-Nielsen1998">
 <p>Nielsen, Henrik, and Anders Krogh. 1998. “Prediction of Signal Peptides and Signal Anchors by a Hidden Markov Model.” <em>Proceedings of the Sixth International Conference on Intelligent Systems for Molecular Biology (ISMB 6)</em>, 122–30.</p>
@@ -760,12 +595,6 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
 </div>
 </div>
 </div>
-</div>
-<div class="footnotes">
-<hr />
-<ol>
-<li id="fn1"><p>A footnote here.<a href="#fnref1">↩</a></p></li>
-</ol>
 </div>
 
 

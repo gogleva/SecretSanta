@@ -84,6 +84,7 @@ stand alone CBS tools are available only for Unix, se we should not care about W
     - signalp (done)
     - targetp (done)
     - TMHMM (done)
+    - WoLFpsort (done)
 
 TO DO (required minimum):
 
@@ -98,7 +99,6 @@ TO DO (required minimum):
 - code profiling to speed-up wrappers
 - fix some ugly bits in the code ---> profiling again. Aim: not to be much slower that the wrapped tool
 - Vignettes: individual functions:
-    - WoLFpsort
     - check_khdel
     - M-slicer
 - Vignettes: pipelines:
@@ -107,7 +107,7 @@ TO DO (required minimum):
     - long pipeline
 - Individual (and cool!) plotting functions for the outputs
 
-  
+
 
 expansion:
 - plotting functions for individual peptides (will require full output) signalp

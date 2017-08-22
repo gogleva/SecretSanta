@@ -357,13 +357,33 @@ To access contents of ``wolf_tibble`` slot use ``getWOlFtibble`` method:
 getWOLFtibble(wlf)
 ```
 
-Since ``wolfpsort`` has the same purpouse as ``targetp`` it might be useful to run these functions side by side and compare the results (see [targetp results](#Targetp)). 
+Since ``wolfpsort`` has the same purpouse as ``targetp`` it might be useful to run these functions side by side and compare the obtained results (see [targetp results](#Targetp)). 
  
-
-
 ## Check for terminal ER-retention motifs
+In addition to having signal peptides some proteins might have ER-retention signal in the C-terminal domain, preventing protein from being secreted ouside the cell. There are at least 2 known ER-retention motifs ('KDEL' and 'HDEL') [@Munro1987]. 
+
+The ``check_khdel`` function uses simple pattern matching to scan amino acid sequences and remove those with ER retention signal in the C-terminus. To run it, simply pass a ``CBSResult`` object as an input.  You can run it in either *piper* or *starter* mode. The function does not rely on external dependencies, so providing path container is not required.
+
+```{r check ER retention, collapse = TRUE}
+er_result <- check_khdel(step1_sp2,
+                         run_mode = 'piper')
+
+```
+This will return and object with 3 slots:
+
+```{r }
+slotNames(er_result)
+```
++ ``in_fasta`` and ``out_fasta`` are common attriburtes of all classes inheriting from ``CBSResult`` class; 
++ ``retained`` - all the sequnces with C-terminal '(K/H)DEL' motifs, in case you would like to have a look at them
 
 ## M-slicer
+
+This is an experimental option.
+
+
+An experimental option
+
 
 ## Pipers and/or starters
 
