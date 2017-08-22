@@ -127,7 +127,7 @@ combine_CBSResult <- function(...) {
 #' @export
 #' @examples
 #' 
-#' Example pipe would loook like this:
+#' #Example pipe would loook like this:
 #' 
 #' # set paths for external dependencies with manage_paths()
 #' my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
