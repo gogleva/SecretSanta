@@ -17,10 +17,11 @@ test_that("m-slicer treats input objects correctly",
             expect_true(length(r1) > length(aa))
             
             expect_error(m_slicer(aa, 100, run_mode = 'rescue'),
-                         "Please use run_mode 'slice' for an input object of AAStringSet class")
+                        "Please use run_mode 'slice' for an input object of AAStringSet class")
             
             #test the rescue mode:
             r2 <- m_slicer(s1_sp2, 100, run_mode = 'rescue')
+            
             expect_is(r2, 'AAStringSet')
             
           })

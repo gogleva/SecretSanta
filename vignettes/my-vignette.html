@@ -286,52 +286,52 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getInfasta</span>(step1_sp2)</code></pre></div>
 <pre><code>##   A AAStringSet instance of length 100
 ##       width seq                                        names               
-##   [1]   166 MFLNVAMSDNMHFGRELDEE...IPFICIVLLPMKANAATGK ALI_PLTG_18
-##   [2]  1006 MGNCCSTEASAVVSRRSGDK...EDMNIGSVYTGDADWLAGF ALI_PLTG_41
-##   [3]   119 MLQATTSKDARQPLHVDTNN...LMQLKRRRSMNLSHPSLFK ALI_PLTG_44
-##   [4]   411 MSTDIQTTQPHKKASSRRHQ...KDGLEKFCKGECPDICNKS ALI_PLTG_87
-##   [5]    99 MRDIYDRNHEELVFNVGPYP...KRRRERRTEFLVEWVGEEQ ALI_PLTG_64
+##   [1]   347 MNNYGLQQPYHANILPFAFS...GLKPGPKPKHKRKKTKGGN ALI_PLTG_77
+##   [2]   161 MELHCLTNDAALVRAVQKLN...NYYRHLEPSTAFVMEYPLH ALI_PLTG_39
+##   [3]   566 MCTSFSDQEDKKLVVLATEY...PRLDRKFFGLQVAPPPTSQ ALI_PLTG_99
+##   [4]   118 MRLKFSILIFGAVLLATTTN...IRYASMLQDFLNTYHRRGV ALI_PLTG_72
+##   [5]   331 MIPTQSYPVNEREFPRLNGR...SQIKAGTVQPANFKLKPPQ ALI_PLTG_58
 ##   ...   ... ...
-##  [96]   347 MNNYGLQQPYHANILPFAFS...GLKPGPKPKHKRKKTKGGN ALI_PLTG_77
-##  [97]   566 MCTSFSDQEDKKLVVLATEY...PRLDRKFFGLQVAPPPTSQ ALI_PLTG_99
-##  [98]   230 MNVALVRERALHTMNRPGET...GNLVLYRICQMTPLLFCIC ALI_PLTG_92
-##  [99]   167 MMNADAQLEDILRANEEDHL...ALDHVTPQVTPQLRPTLWG ALI_PLTG_46
-## [100]   169 EQQHELLTCLGGTLTGTQKN...RQYIAMTGDVKLTDALKQL ALI_PLTG_82</code></pre>
+##  [96]   650 MQRLVQRDKDAPVVREGDDD...DRLSLNALLEAFPPMNSRL ALI_PLTG_96
+##  [97]   168 MAPATDVKVKLVSMDGEAFE...FTEEEQQRILEENKWCEDV ALI_PLTG_14
+##  [98]   239 MSLNYLAHTNMRRARENFLK...KTYIEYEAVENNTLNKTEG ALI_PLTG_98
+##  [99]   240 MTRQGYLIVHDKRSRPTVRY...VTPHYVPTHFGRGNNQEAH ALI_PLTG_2
+## [100]   170 MQTDQRFKIKAPTATSTGLY...RPCAIEEHDIQVLQADNAN ALI_PLTG_54</code></pre>
 <p>Please note, that by default <code>signlap</code> truncates all the input sequnces longer than 2000 a.a, in this case ’_truncated’ is added to the original sequence ids to keep track of the changes. Alternative option - is discard long sequences completely before the analysis, to do so set <code>truncate = FALSE</code> when running <code>signalp</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getSPtibble</span>(step1_sp2)</code></pre></div>
 <pre><code>## # A tibble: 8 x 9
 ##       gene_id  Cmax  Cpos  Ymax  Ypos  Smax  Spos  Smean     Prediction
 ##        &lt;fctr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fctr&gt;         &lt;fctr&gt;
-## 1 ALI_PLTG_81   812    33 0.388    33 0.826    25  0.471 Signal peptide
-## 2 ALI_PLTG_23   812    22 0.683    22 0.969     8  0.803 Signal peptide
-## 3  ALI_PLTG_5   812    25 0.687    25 0.906     3  0.637 Signal peptide
-## 4 ALI_PLTG_73   812    22 0.316    22 0.927     3  0.721 Signal peptide
-## 5 ALI_PLTG_38   812    20 0.696    20 0.994     9  0.954 Signal peptide
-## 6 ALI_PLTG_72   812    22 0.804    22 0.986     8  0.805 Signal peptide
-## 7 ALI_PLTG_59   812    17 0.288    19 0.948     1  0.666 Signal peptide
-## 8 ALI_PLTG_83   812    34 0.506    20 0.956    13  0.846 Signal peptide</code></pre>
+## 1 ALI_PLTG_72    61    22 0.804    22 0.986     8  0.805 Signal peptide
+## 2 ALI_PLTG_23    61    22 0.683    22 0.969     8  0.803 Signal peptide
+## 3 ALI_PLTG_73    61    22 0.316    22 0.927     3  0.721 Signal peptide
+## 4 ALI_PLTG_81    61    33 0.388    33 0.826    25  0.471 Signal peptide
+## 5 ALI_PLTG_59    61    17 0.288    19 0.948     1  0.666 Signal peptide
+## 6 ALI_PLTG_83    61    34 0.506    20 0.956    13  0.846 Signal peptide
+## 7  ALI_PLTG_5    61    25 0.687    25 0.906     3  0.637 Signal peptide
+## 8 ALI_PLTG_38    61    20 0.696    20 0.994     9  0.954 Signal peptide</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getOutfasta</span>(step1_sp2)</code></pre></div>
 <pre><code>##   A AAStringSet instance of length 8
 ##     width seq                                          names               
-## [1]   133 MNFLKSKKTSTQATLLVSPLI...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [1]   118 MRLKFSILIFGAVLLATTTNA...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
 ## [2]   653 MKIVALVTFCIATLDSSIVFA...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [3]   210 MKLSSVCTIIFGLVFIDFNNV...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
-## [4]   154 MYLKFAFMATVATAVVNIAIG...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
-## [5]   495 MVVRVLLVVLALLAVGVQSKA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
-## [6]   118 MRLKFSILIFGAVLLATTTNA...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
-## [7]   125 MLMSTPAALMLRLAQSSLKPT...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
-## [8]   164 MVSTSRVFALLLLPSPSARIF...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83</code></pre>
+## [3]   154 MYLKFAFMATVATAVVNIAIG...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
+## [4]   133 MNFLKSKKTSTQATLLVSPLI...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [5]   125 MLMSTPAALMLRLAQSSLKPT...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
+## [6]   164 MVSTSRVFALLLLPSPSARIF...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
+## [7]   210 MKLSSVCTIIFGLVFIDFNNV...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [8]   495 MVVRVLLVVLALLAVGVQSKA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getMatfasta</span>(step1_sp2)</code></pre></div>
 <pre><code>##   A AAStringSet instance of length 8
 ##     width seq                                          names               
-## [1]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [1]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
 ## [2]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [3]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
-## [4]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
-## [5]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
-## [6]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
-## [7]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
-## [8]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83</code></pre>
+## [3]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
+## [4]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [5]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
+## [6]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
+## [7]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [8]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getSPversion</span>(step1_sp2)</code></pre></div>
 <pre><code>## [1] 2</code></pre>
 <p>Next, imaging we would like to run all the <strong>signalp</strong> version on the same input for comparison. To do so, simply change <code>version</code> parameter:</p>
@@ -416,36 +416,36 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
 <pre><code>## # A tibble: 8 x 6
 ##       gene_id length ExpAA First60 PredHel Topology
 ##         &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;
-## 1 ALI_PLTG_81    101  0.00    0.00       0        o
+## 1 ALI_PLTG_72     97  0.00    0.00       0        i
 ## 2 ALI_PLTG_23    632  0.00    0.00       0        o
-## 3  ALI_PLTG_5    186  1.29    1.16       0        o
-## 4 ALI_PLTG_73    133  0.00    0.00       0        o
-## 5 ALI_PLTG_38    476  0.13    0.09       0        o
-## 6 ALI_PLTG_72     97  0.00    0.00       0        i
-## 7 ALI_PLTG_59    109  0.00    0.00       0        o
-## 8 ALI_PLTG_83    131  1.44    0.02       0        o</code></pre>
+## 3 ALI_PLTG_73    133  0.00    0.00       0        o
+## 4 ALI_PLTG_81    101  0.00    0.00       0        o
+## 5 ALI_PLTG_59    109  0.00    0.00       0        o
+## 6 ALI_PLTG_83    131  1.44    0.02       0        o
+## 7  ALI_PLTG_5    186  1.29    1.16       0        o
+## 8 ALI_PLTG_38    476  0.13    0.09       0        o</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getInMatfasta</span>(tm)</code></pre></div>
 <pre><code>##   A AAStringSet instance of length 8
 ##     width seq                                          names               
-## [1]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [1]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
 ## [2]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [3]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
-## [4]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
-## [5]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
-## [6]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
-## [7]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
-## [8]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83</code></pre>
+## [3]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
+## [4]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [5]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
+## [6]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
+## [7]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [8]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getOutMatfasta</span>(tm)</code></pre></div>
 <pre><code>##   A AAStringSet instance of length 8
 ##     width seq                                          names               
-## [1]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [1]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
 ## [2]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [3]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
-## [4]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
-## [5]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
-## [6]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
-## [7]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
-## [8]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83</code></pre>
+## [3]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
+## [4]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [5]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
+## [6]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
+## [7]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [8]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38</code></pre>
 </div>
 <div id="targetp" class="section level2">
 <h2>Targetp</h2>
@@ -524,10 +524,10 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
 <pre><code>## # A tibble: 5 x 2
 ##       gene_id localization
 ##        &lt;fctr&gt;       &lt;fctr&gt;
-## 1 ALI_PLTG_81         extr
-## 2 ALI_PLTG_23         extr
-## 3  ALI_PLTG_5         extr
-## 4 ALI_PLTG_73         extr
+## 1 ALI_PLTG_23         extr
+## 2 ALI_PLTG_73         extr
+## 3 ALI_PLTG_81         extr
+## 4  ALI_PLTG_5         extr
 ## 5 ALI_PLTG_38         extr</code></pre>
 <p>Since <code>wolfpsort</code> has the same purpouse as <code>targetp</code> it might be useful to run these functions side by side and compare the obtained results (see <a href="#Targetp">targetp results</a>).</p>
 </div>
@@ -560,6 +560,7 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
                   <span class="dt">run_mode =</span> <span class="st">'slice'</span>,
                   <span class="dt">length_threshold =</span> <span class="dv">100</span> <span class="co"># minimal length of the ouytputed slices</span>
 )</code></pre></div>
+<pre><code>## satrting slicing</code></pre>
 <ul>
 <li><code>rescue</code> - having output from any other up-stream fucntion it extracts proteins not predicted to be secreted on the initial run and generate slices for them.</li>
 </ul>

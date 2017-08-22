@@ -394,6 +394,14 @@ slice <- m_slicer(aa,  # a set of amino acid seqeunces
 )
 ```
 
+```{r m_slicer rescue}
+rescue <- m_slicer(step1_sp2,  # a set of amino acid seqeunces
+                  run_mode = 'rescue',
+                  length_threshold = 100 # minimal length of the ouytputed slices
+)
+
+```
+
 + ``rescue`` - having output from any other up-stream fucntion it extracts proteins not predicted to be secreted on the initial run and generate slices for them.
 
 
