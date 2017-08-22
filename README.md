@@ -80,6 +80,10 @@ stand alone CBS tools are available only for Unix, se we should not care about W
 - Write vignettes for SecretSanta predict
     - Installation instructions (done)
     - Add links and references to the tool papers in function docs and vignette (done)
+- Vignettes: individual functions:
+    - signalp (done)
+    - targetp (done)
+    - TMHMM (done)
 
 TO DO (required minimum):
 
@@ -94,9 +98,6 @@ TO DO (required minimum):
 - code profiling to speed-up wrappers
 - fix some ugly bits in the code    
 - Vignettes: individual functions:
-    - signalp (done)
-    - targetp (next)
-    - TMHMM (done)
     - WoLFpsort
     - check_khdel
     - M-slicer
