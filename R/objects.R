@@ -566,7 +566,6 @@ setMethod(f = "getInMatfasta",
           }
 )
 
-
 setGeneric(name = "getOutMatfasta",
            def = function(theObject)
            {
