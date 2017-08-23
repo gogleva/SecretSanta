@@ -294,13 +294,27 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
   fasta <- truncate_seq(truncate = truncate, fasta, 2000)
 
   # to do: check total number of residues
-
+  
+  # helper function to estimate approximate length threshold if chink size exceedes 200000
+  estimate_lim <- function(fasta_chunk){
+    len_lim <- (200000/ length(fasta_chunk) + 50)
+    if (sum(width(fasta_chunk)) >= 200000) {
+      message(paste('fasta size exceedes maximal total residue limit, sequences longer',
+                    round(len_lim),
+                    'will be truncated'))
+      fasta_trunc <- truncate_seq(truncate = truncate, fasta_chunk, len_lim)
+      return(fasta_trunc)
+    } else {
+      return(fasta_chunk)
+    }
+  }
+  
   if (length(fasta) <= 600) {message('Ok for single processing')
-    return(simple_signalp(fasta))
+    return(simple_signalp(estimate_lim(fasta)))
   } else {
     message('Input fasta contains >600 sequences, entering batch mode...')
-    split_fasta <- split_XStringSet(fasta, 500)
-  
+    split_fasta <- sapply(split_XStringSet(fasta, 500), estimate_lim) #split and check that chunks do not exceed 200K residue limit
+
     # Calculate the number of cores
     no_cores <- detectCores()
 
