@@ -164,7 +164,7 @@ aa <- readAAStringSet(system.file("extdata",
 ```
 Initialise object of CBSResult class with ```aa``` as ```in_fasta``` attribute.
 ```{r initialise CBSResult, cache=FALSE}                      
-inp <- CBSResult(in_fasta = aa[1:50])
+inp <- CBSResult(in_fasta = aa)
 ```
 Since this is the first step in our secretome prediction pipeline, we will run ```signalp``` in a *starter* mode. Here we select version number 2 (**signalp-2.0**) and specify ```santa_path``` object generated earlier as a path container for external dependencies:
 
