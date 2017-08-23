@@ -85,6 +85,7 @@ stand alone CBS tools are available only for Unix, se we should not care about W
     - TMHMM (done)
     - WoLFpsort (done)
     - check_khdel (done)
+    - M-slicer:slice (done)
 
 TO DO (required minimum):
 
@@ -99,7 +100,8 @@ TO DO (required minimum):
 - code profiling to speed-up wrappers
 - fix some ugly bits in the code ---> profiling again. Aim: not to be much slower that the wrapped tool
 - Vignettes: individual functions:
-    - M-slicer
+    - M-slicer: rescue still fails with signalp
+
 - Vignettes: pipelines:
     - summary on starters and pipers;
     - short pipeline

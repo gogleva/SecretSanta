@@ -407,21 +407,13 @@ rescued <- m_slicer(step1_sp2,  # signalp2 output
 Results of both run modes could be used as an input for other ``SecretSanta`` predictors. Say, we want to run ``signalp`` on the rescued proteins. Note, that ``m_slicer`` outputs ``AAStringSet`` objects, so in order to pass it to ``signalp`` we need to create ``CBSResult`` object with ``in_fasta = rescued``.
 
 ```{r signalp for rescued proteins, collapse = TRUE}
-# r_inp <- SignalpResult(in_fasta = rescued)
-# sp_rescue <- signalp(r_inp,
-#                     version = 2,
-#                     organism_type = 'euk',
-#                     run_mode = 'starter',
-#                     paths = santa_paths,
-#                     truncate = T)
-
-sp_rescue_inp <- signalp(inp,
-                    version = 2,
+r_inp <- SignalpResult(in_fasta = rescued)
+sp_rescue <- signalp(r_inp,
+                    version = 4,
                     organism_type = 'euk',
                     run_mode = 'starter',
                     paths = santa_paths,
                     truncate = T)
-
 ```
 
 ## Pipers and/or starters
