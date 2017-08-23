@@ -5,56 +5,29 @@
 \alias{setTMtibble}
 \alias{setTMtibble,TMhmmResult-method}
 \alias{setTMtibble}
-\alias{getTMtibble}
 \alias{getTMtibble,TMhmmResult-method}
 \alias{getTMtibble}
-\alias{getInMatfasta}
 \alias{getInMatfasta,TMhmmResult-method}
 \alias{getInMatfasta}
-\alias{getOutMatfasta}
 \alias{getOutMatfasta,TMhmmResult-method}
 \alias{getOutMatfasta}
-\title{Some title}
+\title{Accessors for TMhmmResul objects}
 \usage{
 setTMtibble(theObject, tm_tibble)
 
 \S4method{setTMtibble}{TMhmmResult}(theObject, tm_tibble)
 
-getTMtibble(theObject)
-
 \S4method{getTMtibble}{TMhmmResult}(theObject)
 
-getInMatfasta(theObject)
-
 \S4method{getInMatfasta}{TMhmmResult}(theObject)
-
-getOutMatfasta(theObject)
 
 \S4method{getOutMatfasta}{TMhmmResult}(theObject)
 }
 \arguments{
-\item{theObject}{some object}
+\item{theObject}{object of TMhmmREsult class}
 
-\item{tm_tibble}{tm output}
-
-\item{theObject}{some object}
-
-\item{tm_tibble}{tm output}
-
-\item{theObject}{some object}
-
-\item{in_mature_fasta}{fasta}
-
-\item{theObject}{some object}
-
-\item{out_mature_fasta}{some fasta}
+\item{tm_tibble}{parsed tmhmm output in tabular format}
 }
 \description{
-Some title
-
-Some title
-
-Some title
-
-Some title
+Accessors for TMhmmResul objects
 }

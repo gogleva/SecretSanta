@@ -5,30 +5,21 @@
 \alias{setTPtibble}
 \alias{setTPtibble,TargetpResult-method}
 \alias{setTPtibble}
-\alias{getTPtibble}
 \alias{getTPtibble,TargetpResult-method}
 \alias{getTPtibble}
-\title{Some title}
+\title{Accessors for TargetpResult objects}
 \usage{
 setTPtibble(theObject, tp_tibble)
 
 \S4method{setTPtibble}{TargetpResult}(theObject, tp_tibble)
 
-getTPtibble(theObject)
-
 \S4method{getTPtibble}{TargetpResult}(theObject)
 }
 \arguments{
-\item{theObject}{some object}
+\item{theObject}{an object of TargetpResult class}
 
-\item{tp_tibble}{tp result}
-
-\item{theObject}{some object}
-
-\item{tp_tibble}{tp result}
+\item{tp_tibble}{parsed targetp output in tabular format}
 }
 \description{
-Some title
-
-Some title
+Accessors for TargetpResult objects
 }

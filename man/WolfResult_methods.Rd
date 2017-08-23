@@ -5,30 +5,21 @@
 \alias{setWOLFtibble}
 \alias{setWOLFtibble,WolfResult-method}
 \alias{setWOLFtibble}
-\alias{getWOLFtibble}
 \alias{getWOLFtibble,WolfResult-method}
 \alias{getWOLFtibble}
-\title{Some title}
+\title{Accessors for WolfResult objects}
 \usage{
 setWOLFtibble(theObject, wolf_tibble)
 
 \S4method{setWOLFtibble}{WolfResult}(theObject, wolf_tibble)
 
-getWOLFtibble(theObject)
-
 \S4method{getWOLFtibble}{WolfResult}(theObject)
 }
 \arguments{
-\item{theObject}{some object}
+\item{theObject}{an object of WolfResult class}
 
-\item{wolf_tibble}{wolf result}
-
-\item{theObject}{some object}
-
-\item{wolf_tibble}{wolf result}
+\item{wolf_tibble}{parsed output of wolfpsort in tabular format}
 }
 \description{
-Some title
-
-Some title
+Accessors for WolfResult objects
 }

@@ -7,7 +7,6 @@
 \alias{setInfasta}
 \alias{getInfasta,CBSResult-method}
 \alias{getInfasta}
-\alias{setOutfasta}
 \alias{setOutfasta,CBSResult-method}
 \alias{setOutfasta}
 \alias{getOutfasta,CBSResult-method}
@@ -19,8 +18,6 @@ setInfasta(theObject, in_fasta)
 \S4method{setInfasta}{CBSResult}(theObject, in_fasta)
 
 \S4method{getInfasta}{CBSResult}(theObject)
-
-setOutfasta(theObject, out_fasta)
 
 \S4method{setOutfasta}{CBSResult}(theObject, out_fasta)
 

@@ -86,6 +86,7 @@ CBSResult <- setClass("CBSResult",
 #' Accessors for CBSResult objects
 #' @param theObject CBSResult object
 #' @param in_fasta input fasta, AAStringSet object
+#' @param out_fasta output fasta, AAStringSet object
 #' @export
 #' @docType methods
 #' @rdname CBS_methods
@@ -129,11 +130,6 @@ setMethod(f = "getInfasta",
             return(theObject@in_fasta)
           }
 )
-
-#' @param out_fasta output fasta, AAStringSet object
-#' @export
-#' @docType methods
-#' @rdname CBS_methods
 
 setGeneric(name = "setOutfasta",
            def = function(theObject, out_fasta)
@@ -417,9 +413,9 @@ WolfResult <- setClass("WolfResult",
                           slots = list(wolf_tibble = "tbl_df")
 )
 
-#' Some title
-#' @param theObject some object
-#' @param wolf_tibble wolf result
+#' Accessors for WolfResult objects
+#' @param theObject an object of WolfResult class
+#' @param wolf_tibble parsed output of wolfpsort in tabular format
 #' @export
 #' @docType methods
 #' @rdname WolfResult_methods
@@ -444,13 +440,6 @@ setMethod(f = "setWOLFtibble",
             return(theObject)
           }
 )
-
-#' Some title
-#' @param theObject some object
-#' @param wolf_tibble wolf result
-#' @export
-#' @docType methods
-#' @rdname WolfResult_methods
 
 setGeneric(name = "getWOLFtibble",
            def = function(theObject)
@@ -517,11 +506,9 @@ TMhmmResult <- setClass("TMhmmResult",
 )
 
 
-# setter for tm_tible
-
-#' Some title
-#' @param theObject some object
-#' @param tm_tibble tm output
+#' Accessors for TMhmmResul objects
+#' @param theObject object of TMhmmREsult class
+#' @param tm_tibble parsed tmhmm output in tabular format
 #' @export
 #' @docType methods
 #' @rdname TMhmmResult_methods
@@ -532,11 +519,9 @@ setGeneric(name = "setTMtibble",
              standardGeneric("setTMtibble")    
            }  
 )
-
 #' @export
 #' @rdname  TMhmmResult_methods
 #' @aliases setTMtibble
-
 setMethod(f = "setTMtibble",
           signature = "TMhmmResult",
           definition = function(theObject, tm_tibble)
@@ -547,24 +532,15 @@ setMethod(f = "setTMtibble",
           }
 )
 
-#' Some title
-#' @param theObject some object
-#' @param tm_tibble tm output
-#' @export
-#' @docType methods
-#' @rdname TMhmmResult_methods
-
 setGeneric(name = "getTMtibble",
            def = function(theObject)
            {
              standardGeneric("getTMtibble")    
            }  
 )
-
 #' @export
 #' @rdname  TMhmmResult_methods
 #' @aliases getTMtibble
-
 setMethod(f = "getTMtibble",
           signature = "TMhmmResult",
           definition = function(theObject)
@@ -573,25 +549,15 @@ setMethod(f = "getTMtibble",
           }
 )
 
-
-#' Some title
-#' @param theObject some object
-#' @param in_mature_fasta fasta
-#' @export
-#' @docType methods
-#' @rdname TMhmmResult_methods
-
 setGeneric(name = "getInMatfasta",
            def = function(theObject)
            {
              standardGeneric("getInMatfasta")    
            }  
 )
-
 #' @export
 #' @rdname  TMhmmResult_methods
 #' @aliases getInMatfasta
-
 setMethod(f = "getInMatfasta",
           signature = "TMhmmResult",
           definition = function(theObject)
@@ -600,12 +566,6 @@ setMethod(f = "getInMatfasta",
           }
 )
 
-#' Some title
-#' @param theObject some object
-#' @param out_mature_fasta some fasta
-#' @export
-#' @docType methods
-#' @rdname TMhmmResult_methods
 
 setGeneric(name = "getOutMatfasta",
            def = function(theObject)
@@ -613,11 +573,9 @@ setGeneric(name = "getOutMatfasta",
              standardGeneric("getOutMatfasta")    
            }  
 )
-
 #' @export
 #' @rdname  TMhmmResult_methods
 #' @aliases getOutMatfasta
-
 setMethod(f = "getOutMatfasta",
           signature = "TMhmmResult",
           definition = function(theObject)
@@ -679,9 +637,9 @@ TargetpResult <- setClass("TargetpResult",
                         }  
 )
 
-#' Some title
-#' @param theObject some object
-#' @param tp_tibble tp result
+#' Accessors for TargetpResult objects
+#' @param theObject an object of TargetpResult class
+#' @param tp_tibble parsed targetp output in tabular format
 #' @export
 #' @docType methods
 #' @rdname TargetpResult_methods
@@ -706,13 +664,6 @@ setMethod(f = "setTPtibble",
             return(theObject)
           }
 )
-
-#' Some title
-#' @param theObject some object
-#' @param tp_tibble tp result
-#' @export
-#' @docType methods
-#' @rdname TargetpResult_methods
 
 setGeneric(name = "getTPtibble",
            def = function(theObject)
