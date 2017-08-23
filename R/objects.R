@@ -6,7 +6,10 @@
 #' @export CBSResult
 #' @examples
 #' # read fasta file in AAStringSet object
-#' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+#' aa <- readAAStringSet(system.file("extdata", 
+#'                                   "sample_prot_100.fasta",
+#'                                    package = "SecretSanta"),
+#'                       use.names = TRUE)
 #' 
 #' # create an emty instance of CBSResult class
 #' cbs <- CBSResult()
@@ -17,7 +20,7 @@
 #' # populate out_fasta attribute with aa
 #' cbs <- setOutfasta(cbs, aa)
 #' 
-#' # check that created CBSResult instance is valid
+#' # check that CBSResult instance is valid
 #' validObject(cbs)
 #' 
 #' # extract in_fasta attribute
@@ -108,13 +111,6 @@ setMethod(f = "setInfasta",
           }
 )
 
-#' Some title
-#' @param theObject some object
-#' @param in_fasta some fasta
-#' @export
-#' @docType methods
-#' @rdname CBS_methods
-
 setGeneric(name = "getInfasta",
            def = function(theObject)
            {
@@ -135,7 +131,6 @@ setMethod(f = "getInfasta",
 )
 
 #' Some title
-#' @param theObject some object
 #' @param out_fasta some fasta
 #' @export
 #' @docType methods
@@ -161,13 +156,6 @@ setMethod(f = "setOutfasta",
             return(theObject)
           }
 )
-
-#' Some title
-#' @param theObject some object
-#' @param out_fasta some fasta
-#' @export
-#' @docType methods
-#' @rdname CBS_methods
 
 setGeneric(name = "getOutfasta",
            def = function(theObject)
@@ -208,7 +196,10 @@ setMethod(f = "getOutfasta",
 #' @export SignalpResult 
 #' @examples 
 #' # read fasta file in AAStringSet object
-#' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+#' aa <- readAAStringSet(system.file("extdata",
+#'                                   "sample_prot_100.fasta",
+#'                                   package = "SecretSanta"),
+#'                       use.names = TRUE)
 #' 
 #' # create an emty instance of CBSResult class
 #' sr <- SignalpResult()
@@ -216,9 +207,17 @@ setMethod(f = "getOutfasta",
 #' # populate in_fasta attribute with aa
 #' sr <- setInfasta(sr, aa)
 #' 
-#' # run signalpeptide prediction and created fully pipulated instance of SignalpResult class
-#' my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
-#' step1_sp2 <- signalp(sr, version = 2, 'euk', run_mode = "starter", paths = my_pa)
+#' # run signalpeptide prediction and create fully populated instance of SignalpResult class
+#' my_pa <- manage_paths(system.file(
+#'                                   "extdata",
+#'                                   "sample_paths",
+#'                                    package = "SecretSanta")
+#'                                    )
+#' step1_sp2 <- signalp(sr,
+#'                      version = 2,
+#'                      'euk',
+#'                      run_mode = "starter",
+#'                      paths = my_pa)
 #' 
 #' # access specific slots:
 #' getOutfasta(step1_sp2)
@@ -454,8 +453,12 @@ WolfResult <- setClass("WolfResult",
                           slots = list(wolf_tibble = "tbl_df")
 )
 
-# setter for wolf_tible
-#' A generic method
+#' Some title
+#' @param theObject some object
+#' @param wolf_tibble wolf result
+#' @export
+#' @docType methods
+#' @rdname WolfResult_methods
 
 setGeneric(name = "setWOLFtibble",
            def = function(theObject, wolf_tibble)
@@ -465,6 +468,9 @@ setGeneric(name = "setWOLFtibble",
 )
 
 #' @export
+#' @rdname  WolfResult_methods
+#' @aliases setWOLFtibble
+
 setMethod(f = "setWOLFtibble",
           signature = "WolfResult",
           definition = function(theObject, wolf_tibble)
@@ -475,8 +481,12 @@ setMethod(f = "setWOLFtibble",
           }
 )
 
-# getter for wolf_tibble
-#' A generic method
+#' Some title
+#' @param theObject some object
+#' @param wolf_tibble wolf result
+#' @export
+#' @docType methods
+#' @rdname WolfResult_methods
 
 setGeneric(name = "getWOLFtibble",
            def = function(theObject)
@@ -486,6 +496,9 @@ setGeneric(name = "getWOLFtibble",
 )
 
 #' @export
+#' @rdname  WolfResult_methods
+#' @aliases getWOLFtibble
+
 setMethod(f = "getWOLFtibble",
           signature = "WolfResult",
           definition = function(theObject)
@@ -542,7 +555,12 @@ TMhmmResult <- setClass("TMhmmResult",
 
 # setter for tm_tible
 
-#' A generic method
+#' Some title
+#' @param theObject some object
+#' @param tm_tibble tm output
+#' @export
+#' @docType methods
+#' @rdname TMhmmResult_methods
 
 setGeneric(name = "setTMtibble",
            def = function(theObject, tm_tibble)
@@ -552,6 +570,9 @@ setGeneric(name = "setTMtibble",
 )
 
 #' @export
+#' @rdname  TMhmmResult_methods
+#' @aliases setTMtibble
+
 setMethod(f = "setTMtibble",
           signature = "TMhmmResult",
           definition = function(theObject, tm_tibble)
@@ -561,9 +582,13 @@ setMethod(f = "setTMtibble",
             return(theObject)
           }
 )
-# getter for tm_tibble
 
-#' A generic method
+#' Some title
+#' @param theObject some object
+#' @param tm_tibble tm output
+#' @export
+#' @docType methods
+#' @rdname TMhmmResult_methods
 
 setGeneric(name = "getTMtibble",
            def = function(theObject)
@@ -573,6 +598,9 @@ setGeneric(name = "getTMtibble",
 )
 
 #' @export
+#' @rdname  TMhmmResult_methods
+#' @aliases getTMtibble
+
 setMethod(f = "getTMtibble",
           signature = "TMhmmResult",
           definition = function(theObject)
@@ -582,9 +610,12 @@ setMethod(f = "getTMtibble",
 )
 
 
-# getter for in_mature_fasta
-
-#' A generic method
+#' Some title
+#' @param theObject some object
+#' @param in_mature_fasta fasta
+#' @export
+#' @docType methods
+#' @rdname TMhmmResult_methods
 
 setGeneric(name = "getInMatfasta",
            def = function(theObject)
@@ -594,6 +625,9 @@ setGeneric(name = "getInMatfasta",
 )
 
 #' @export
+#' @rdname  TMhmmResult_methods
+#' @aliases getInMatfasta
+
 setMethod(f = "getInMatfasta",
           signature = "TMhmmResult",
           definition = function(theObject)
@@ -602,9 +636,12 @@ setMethod(f = "getInMatfasta",
           }
 )
 
-# getter for out_mature_fasta
-
-#' A generic method
+#' Some title
+#' @param theObject some object
+#' @param out_mature_fasta some fasta
+#' @export
+#' @docType methods
+#' @rdname TMhmmResult_methods
 
 setGeneric(name = "getOutMatfasta",
            def = function(theObject)
@@ -614,6 +651,9 @@ setGeneric(name = "getOutMatfasta",
 )
 
 #' @export
+#' @rdname  TMhmmResult_methods
+#' @aliases getOutMatfasta
+
 setMethod(f = "getOutMatfasta",
           signature = "TMhmmResult",
           definition = function(theObject)
@@ -675,9 +715,12 @@ TargetpResult <- setClass("TargetpResult",
                         }  
 )
 
-# setter for tp_tible
-
-#' A generic method
+#' Some title
+#' @param theObject some object
+#' @param tp_tibble tp result
+#' @export
+#' @docType methods
+#' @rdname TargetpResult_methods
 
 setGeneric(name = "setTPtibble",
            def = function(theObject, tp_tibble)
@@ -687,6 +730,9 @@ setGeneric(name = "setTPtibble",
 )
 
 #' @export
+#' @rdname  TargetpResult_methods
+#' @aliases setTPtibble
+
 setMethod(f = "setTPtibble",
           signature = "TargetpResult",
           definition = function(theObject, tp_tibble)
@@ -696,9 +742,13 @@ setMethod(f = "setTPtibble",
             return(theObject)
           }
 )
-# getter for tm_tibble
 
-#' A generic method
+#' Some title
+#' @param theObject some object
+#' @param tp_tibble tp result
+#' @export
+#' @docType methods
+#' @rdname TargetpResult_methods
 
 setGeneric(name = "getTPtibble",
            def = function(theObject)
@@ -708,6 +758,9 @@ setGeneric(name = "getTPtibble",
 )
 
 #' @export
+#' @rdname  TargetpResult_methods
+#' @aliases getTPtibble
+
 setMethod(f = "getTPtibble",
           signature = "TargetpResult",
           definition = function(theObject)

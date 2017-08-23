@@ -19,7 +19,10 @@ i.e those that passed tool filters}
 
 \examples{
 # read fasta file in AAStringSet object
-aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+aa <- readAAStringSet(system.file("extdata", 
+                                  "sample_prot_100.fasta",
+                                   package = "SecretSanta"),
+                      use.names = TRUE)
 
 # create an emty instance of CBSResult class
 cbs <- CBSResult()
@@ -30,7 +33,7 @@ cbs <- setInfasta(cbs, aa)
 # populate out_fasta attribute with aa
 cbs <- setOutfasta(cbs, aa)
 
-# check that created CBSResult instance is valid
+# check that CBSResult instance is valid
 validObject(cbs)
 
 # extract in_fasta attribute

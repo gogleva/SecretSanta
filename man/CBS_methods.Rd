@@ -5,13 +5,11 @@
 \alias{setInfasta}
 \alias{setInfasta,CBSResult-method}
 \alias{setInfasta}
-\alias{getInfasta}
 \alias{getInfasta,CBSResult-method}
 \alias{getInfasta}
 \alias{setOutfasta}
 \alias{setOutfasta,CBSResult-method}
 \alias{setOutfasta}
-\alias{getOutfasta}
 \alias{getOutfasta,CBSResult-method}
 \alias{getOutfasta}
 \title{Some title}
@@ -20,15 +18,11 @@ setInfasta(theObject, in_fasta)
 
 \S4method{setInfasta}{CBSResult}(theObject, in_fasta)
 
-getInfasta(theObject)
-
 \S4method{getInfasta}{CBSResult}(theObject)
 
 setOutfasta(theObject, out_fasta)
 
 \S4method{setOutfasta}{CBSResult}(theObject, out_fasta)
-
-getOutfasta(theObject)
 
 \S4method{getOutfasta}{CBSResult}(theObject)
 }
@@ -38,22 +32,8 @@ getOutfasta(theObject)
 \item{in_fasta}{some fasta}
 
 \item{out_fasta}{some fasta}
-
-\item{theObject}{some object}
-
-\item{in_fasta}{some fasta}
-
-\item{theObject}{some object}
-
-\item{theObject}{some object}
-
-\item{out_fasta}{some fasta}
 }
 \description{
-Some title
-
-Some title
-
 Some title
 
 Some title

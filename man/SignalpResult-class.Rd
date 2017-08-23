@@ -32,7 +32,10 @@ An S4 class to represent intermediate and final outputs of the signalp predictio
 
 \examples{
 # read fasta file in AAStringSet object
-aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+aa <- readAAStringSet(system.file("extdata",
+                                  "sample_prot_100.fasta",
+                                  package = "SecretSanta"),
+                      use.names = TRUE)
 
 # create an emty instance of CBSResult class
 sr <- SignalpResult()
@@ -40,9 +43,17 @@ sr <- SignalpResult()
 # populate in_fasta attribute with aa
 sr <- setInfasta(sr, aa)
 
-# run signalpeptide prediction and created fully pipulated instance of SignalpResult class
-my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
-step1_sp2 <- signalp(sr, version = 2, 'euk', run_mode = "starter", paths = my_pa)
+# run signalpeptide prediction and create fully populated instance of SignalpResult class
+my_pa <- manage_paths(system.file(
+                                  "extdata",
+                                  "sample_paths",
+                                   package = "SecretSanta")
+                                   )
+step1_sp2 <- signalp(sr,
+                     version = 2,
+                     'euk',
+                     run_mode = "starter",
+                     paths = my_pa)
 
 # access specific slots:
 getOutfasta(step1_sp2)
