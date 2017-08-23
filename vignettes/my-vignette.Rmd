@@ -415,7 +415,7 @@ sp_rescue <- signalp(r_inp,
                     paths = santa_paths,
                     truncate = T)
 ```
-The slicing procedure returned 11 additional potentially secreted candidates.
+The slicing procedure returned 15 additional potentially secreted candidates.
 
 ## Pipers and/or starters
 
