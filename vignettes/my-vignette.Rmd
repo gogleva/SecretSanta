@@ -140,7 +140,7 @@ Please note that aliases will not work when tools are called from R and changing
 
 To check that all the required dependencies are installed correctly and can be executed in principle, run ```manage_paths``` function. Note, that ```manage_paths``` is case insensitive and will  convert all the tool names to the lower case. 
 
-```{r manage_paths, echo = TRUE, collapse = TRUE}
+```{r manage_paths, echo = TRUE, collapse = TRUE, cache = TRUE}
 santa_paths <- manage_paths(system.file("extdata",
                                         "sample_paths",
                                         package = "SecretSanta"))
@@ -157,18 +157,18 @@ Currently ```signalp``` function from SecretSanta provides an interface for the 
 - **signalp-4.0** [@Petersen2011]
 
 To run signalp prediction, first read fasta file with amino acid sequences and store it's contents in a separate variable:
-```{r read aa fasta}
+```{r read aa fasta, }
 aa <- readAAStringSet(system.file("extdata",
                                   "sample_prot_100.fasta",
                                   package = "SecretSanta"))
 ```
 Initialise object of CBSResult class with ```aa``` as ```in_fasta``` attribute.
-```{r initialise CBSResult}                      
-inp <- CBSResult(in_fasta = aa)
+```{r initialise CBSResult, cache=FALSE}                      
+inp <- CBSResult(in_fasta = aa[1:50])
 ```
 Since this is the first step in our secretome prediction pipeline, we will run ```signalp``` in a *starter* mode. Here we select version number 2 (**signalp-2.0**) and specify ```santa_path``` object generated earlier as a path container for external dependencies:
 
-```{r run signalp2,  collapse = TRUE}
+```{r run signalp2,  collapse = TRUE, }
 step1_sp2 <- signalp(inp,
                      version = 2,
                      organism_type = 'euk', 
@@ -212,7 +212,7 @@ getSPversion(step1_sp2)
 
 Next, imaging we would like to run all the **signalp** version on the same input for comparison. To do so, simply change ``version`` parameter:
 
-```{r run signalp3 and 4, collapse = TRUE}
+```{r run signalp3 and 4, collapse = TRUE, }
 step1_sp3 <- signalp(inp,
                      version = 3,
                      organism_type = 'euk', 
@@ -255,7 +255,7 @@ With the input fasta files containig more than 1000 sequences,``signalp`` will a
 
 Here we will use output of the ``signalp`` function as an iput:
 
-```{r tmhmm legal, collapse=TRUE}
+```{r tmhmm legal, collapse=TRUE, cache=FALSE}
 tm <- tmhmm(step1_sp2, paths = santa_paths, TM = 0)
 ```
 Attempts to run ``tmhmm`` on the ``CBSResult`` object lacking ``mature_fasta`` slot will result in an error:
@@ -297,7 +297,7 @@ signal peptide (SP), chloroplast transit peptide (cTP) or mitochondrial targetin
 It is possible to run ``targetp`` in both *piper* and *starter* modes.
 Imagine, we want to start our pipeline by running ``targetp`` using already created ``inp`` object as an input:
 
-```{r tatgetp starter, collapse = TRUE}
+```{r tatgetp starter, collapse = TRUE, cache=FALSE}
 tp <- targetp(inp, 
         network_type = 'N',  # for non-plant networks
         run_mode = 'starter',
@@ -307,7 +307,7 @@ tp <- targetp(inp,
 
 Alternatively, we can run targetp on the output of other functions, for example ``signalp`` in the *piper* mode:
 
-```{r targetp piper, collapse = TRUE}
+```{r targetp piper, collapse = TRUE, cache=FALSE}
 tp_pipe <- targetp(step1_sp2,
                    network_type = 'N',
                    run_mode = 'piper',
@@ -337,7 +337,7 @@ getTPtibble(tp)
 
 ``wolfpsort`` function accepts objects of ``CBSResult`` class with non-empty ``out_fasta`` slot, so it is recommeded to run this prediction on later stages of the pipeline.
 
-```{r run wolfpsort, collapse = TRUE}
+```{r run wolfpsort, collapse = TRUE, cache=FALSE}
 wlf <- wolfpsort(step1_sp2,
                  organism = 'fungi',
                  paths = santa_paths) 
@@ -365,7 +365,7 @@ In addition to having signal peptides some proteins might have ER-retention sign
 
 The ``check_khdel`` function uses simple pattern matching to scan amino acid sequences and remove those with ER retention signal in the C-terminus. To run it, simply pass a ``CBSResult`` object as an input.  You can run it in either *piper* or *starter* mode. The function does not rely on external dependencies, so providing path container is not required.
 
-```{r check ER retention, collapse = TRUE}
+```{r check ER retention, collapse = TRUE, cache=FALSE}
 er_result <- check_khdel(step1_sp2,
                          run_mode = 'piper')
 
@@ -380,13 +380,13 @@ slotNames(er_result)
 
 ## M-slicer
 
-This is an experimental option. ``m_slicer`` function takes the input amino acid sequences and generates all posible subsequences startig with methionine based on the assumption that translation start sites might be mis-predicted in the original set of proteins -> signal peptides might be also mis-predicted. Output of this step can be used as an input for secretome prediction pipeline to rescue secreted proteins with mis-predicted start sites. Sequence ids for the newly generated slices are  build by concatenating original sequence id, 'slice' string and position of the Methionine sliced from. For example: ``ALI_PLTG_3_slice_M86``
+This is an experimental option. ``m_slicer`` function takes the input amino acid sequences and generates all posible subsequences startig with methionine based on the assumption that translation start sites might be mis-predicted in the original set of proteins -> signal peptides might be also mis-predicted. Output of this step can be used as an input for secretome prediction pipeline to rescue secreted proteins with mis-predicted start sites. Sequence ids for the newly generated slices are  build by concatenating original sequence id, 'slice' string and position of the Methionine sliced from. For example: ``ALI_PLTG_3_slice_M86`` means that ``ALI_PLTG_3`` seqeunce was sliced starting from methionine in the position 86.
 
 ``m_slicer`` has 2 running modes:
 
 + ``slice`` - to simply slice input fasta regardless of it's origin;
 
-```{r m_slicer slice}
+```{r m_slicer slice, cache=FALSE}
 
 slice <- m_slicer(aa,  # a set of amino acid seqeunces
                   run_mode = 'slice',
@@ -396,7 +396,7 @@ slice <- m_slicer(aa,  # a set of amino acid seqeunces
 
 + ``rescue`` - having output from any other up-stream function it extracts proteins not predicted to be secreted on the initial run and generate slices for them. 
 
-```{r m_slicer rescue}
+```{r m_slicer rescue, cache=FALSE}
 rescued <- m_slicer(step1_sp2,  # signalp2 output
                   run_mode = 'rescue',
                   length_threshold = 100
@@ -404,17 +404,18 @@ rescued <- m_slicer(step1_sp2,  # signalp2 output
 
 ```
 
-Results of both run modes could be used as an input for other ``SecretSanta`` predictors. Say, we want to run ``signalp`` on the rescued proteins. Note, that ``m_slicer`` outputs ``AAStringSet`` objects, so in order to pass it to ``signalp`` we need to create ``CBSResult`` object with ``in_fasta = rescued``.
+Results of both run modes could be used as an input for other ``SecretSanta`` predictors. Say, we want to run ``signalp`` on the rescued proteins. Note, that ``m_slicer`` outputs ``AAStringSet`` objects, so in order to pass it to ``signalp`` we first need to create ``CBSResult`` object with ``in_fasta = rescued``.
 
-```{r signalp for rescued proteins, collapse = TRUE}
+```{r signalp for rescued proteins, collapse = TRUE, cache=FALSE}
 r_inp <- SignalpResult(in_fasta = rescued)
 sp_rescue <- signalp(r_inp,
-                    version = 4,
+                    version = 2,
                     organism_type = 'euk',
                     run_mode = 'starter',
                     paths = santa_paths,
                     truncate = T)
 ```
+The slicing procedure returned 11 additional potentially secreted candidates.
 
 ## Pipers and/or starters
 

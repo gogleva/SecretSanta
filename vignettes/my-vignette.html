@@ -252,7 +252,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
                                   <span class="st">&quot;sample_prot_100.fasta&quot;</span>,
                                   <span class="dt">package =</span> <span class="st">&quot;SecretSanta&quot;</span>))</code></pre></div>
 <p>Initialise object of CBSResult class with <code>aa</code> as <code>in_fasta</code> attribute.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">inp &lt;-<span class="st"> </span><span class="kw">CBSResult</span>(<span class="dt">in_fasta =</span> aa)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">inp &lt;-<span class="st"> </span><span class="kw">CBSResult</span>(<span class="dt">in_fasta =</span> aa[<span class="dv">1</span>:<span class="dv">50</span>])</code></pre></div>
 <p>Since this is the first step in our secretome prediction pipeline, we will run <code>signalp</code> in a <em>starter</em> mode. Here we select version number 2 (<strong>signalp-2.0</strong>) and specify <code>santa_path</code> object generated earlier as a path container for external dependencies:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">step1_sp2 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
                      <span class="dt">version =</span> <span class="dv">2</span>,
@@ -263,9 +263,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## running signalp locally...
 ## 2 sequences to be truncated
 ## Ok for single processing
-## Submitted sequences... 100
+## Submitted sequences... 50
 ## signalp &lt; 4, calling parser for the output...
-## Candidate sequences with signal peptides... 8</code></pre></div>
+## Candidate sequences with signal peptides... 3</code></pre></div>
 <p>The above code under the hood will run <strong>signalp-2.0</strong> prediction and output result as an instance of <code>SignalpResult</code> class, which is belongs to a more genric <code>CBSResult()</code> superclass.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(step1_sp2)</code></pre></div>
 <pre><code>## [1] &quot;SignalpResult&quot;
@@ -284,54 +284,39 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul>
 <p>You can use accessor methods to access contents of individual slots:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getInfasta</span>(step1_sp2)</code></pre></div>
-<pre><code>##   A AAStringSet instance of length 100
-##       width seq                                        names               
-##   [1]  1999 MAGLGICGEPLVSGITSDLS...EKMELVEKLESQVASTENT ALI_PLTG_9_truncated
-##   [2]   118 MRLKFSILIFGAVLLATTTN...IRYASMLQDFLNTYHRRGV ALI_PLTG_72
-##   [3]   343 MAQPEGFTTPRQEDVVSSSP...LELYGESKNNHVRCCLVQK ALI_PLTG_56
-##   [4]   566 MCTSFSDQEDKKLVVLATEY...PRLDRKFFGLQVAPPPTSQ ALI_PLTG_99
-##   [5]   962 MADLQESLLAKVDAEKAVDT...TAQKMESVDECIELLELGP ALI_PLTG_94
-##   ...   ... ...
-##  [96]   176 MAGLGICGEPLVSGITSDLS...TAAQKAAALVKNSARILRA ALI_PLTG_7
-##  [97]    90 MSSAQYVSTKVSVDMFNGGN...HMDADYHHVVDNCEEAWVA ALI_PLTG_48
-##  [98]   168 MRLPEAHHWDAAARSESKSL...IWYLPLFAFLKTMKFCKLI ALI_PLTG_61
-##  [99]   136 MLAVNLDGLHHLLVADKRKV...CNMTGIYISRMLSLPSIQQ ALI_PLTG_65
-## [100]   155 MSVSSYAVSYLASMDQTSAG...TAAQKAAALVQGGARKLRM ALI_PLTG_8</code></pre>
+<pre><code>##   A AAStringSet instance of length 50
+##      width seq                                         names               
+##  [1]   157 MTIHSLLGGVYETRAAAFDP...AVGINTLVNDLAACEQPLNQ ALI_PLTG_43
+##  [2]   335 MSATKWASPSSSSSGSLGSS...AYLCKWLRDRFPELQIHKTP ALI_PLTG_20
+##  [3]    96 MKGDRQSTQKLSTISLPTFT...LPANTTALLQSMDAGIFRNF ALI_PLTG_26
+##  [4]   533 MQPTSSSAPQSDVVVADPPS...QQQQQEQQANSTALKNERSI ALI_PLTG_3
+##  [5]   107 MGEEIPVDDCVACPDGGYQE...LQECIVCFGDMEITDLEFPI ALI_PLTG_40
+##  ...   ... ...
+## [46]   275 MAHLLQAPGQDLAAEGHVDF...ILFLRMNDELWDANVFNECY ALI_PLTG_32
+## [47]   842 MAGDFGTKTTTLCARTRLRS...SLGCLLYELMTGQVCTLISS ALI_PLTG_45
+## [48]   318 MKGLRQQSKPNAQDERGGYG...CKGSDEAVLQFVARYRANHL ALI_PLTG_24
+## [49]   495 MVVRVLLVVLALLAVGVQSK...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
+## [50]    90 MSSAQYVSTKVSVDMFNGGN...LHMDADYHHVVDNCEEAWVA ALI_PLTG_48</code></pre>
 <p>Please note, that by default <code>signlap</code> truncates all the input sequnces longer than 2000 a.a, in this case ’_truncated’ is added to the original sequence ids to keep track of the changes. Alternative option - is discard long sequences completely before the analysis, to do so set <code>truncate = FALSE</code> when running <code>signalp</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getSPtibble</span>(step1_sp2)</code></pre></div>
-<pre><code>## # A tibble: 8 x 9
+<pre><code>## # A tibble: 3 x 9
 ##       gene_id  Cmax  Cpos  Ymax  Ypos  Smax  Spos  Smean     Prediction
 ##        &lt;fctr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fctr&gt;         &lt;fctr&gt;
-## 1 ALI_PLTG_72    22    22 0.804    22 0.986     8  0.805 Signal peptide
-## 2 ALI_PLTG_38    22    20 0.696    20 0.994     9  0.954 Signal peptide
-## 3 ALI_PLTG_59    22    17 0.288    19 0.948     1  0.666 Signal peptide
-## 4  ALI_PLTG_5    22    25 0.687    25 0.906     3  0.637 Signal peptide
-## 5 ALI_PLTG_23    22    22 0.683    22 0.969     8  0.803 Signal peptide
-## 6 ALI_PLTG_73    22    22 0.316    22 0.927     3  0.721 Signal peptide
-## 7 ALI_PLTG_83    22    34 0.506    20 0.956    13  0.846 Signal peptide
-## 8 ALI_PLTG_81    22    33 0.388    33 0.826    25  0.471 Signal peptide</code></pre>
+## 1  ALI_PLTG_5   203    25 0.687    25 0.906     3  0.637 Signal peptide
+## 2 ALI_PLTG_23   203    22 0.683    22 0.969     8  0.803 Signal peptide
+## 3 ALI_PLTG_38   203    20 0.696    20 0.994     9  0.954 Signal peptide</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getOutfasta</span>(step1_sp2)</code></pre></div>
-<pre><code>##   A AAStringSet instance of length 8
+<pre><code>##   A AAStringSet instance of length 3
 ##     width seq                                          names               
-## [1]   118 MRLKFSILIFGAVLLATTTNA...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
-## [2]   495 MVVRVLLVVLALLAVGVQSKA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
-## [3]   125 MLMSTPAALMLRLAQSSLKPT...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
-## [4]   210 MKLSSVCTIIFGLVFIDFNNV...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
-## [5]   653 MKIVALVTFCIATLDSSIVFA...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [6]   154 MYLKFAFMATVATAVVNIAIG...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
-## [7]   164 MVSTSRVFALLLLPSPSARIF...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
-## [8]   133 MNFLKSKKTSTQATLLVSPLI...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81</code></pre>
+## [1]   210 MKLSSVCTIIFGLVFIDFNNV...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [2]   653 MKIVALVTFCIATLDSSIVFA...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
+## [3]   495 MVVRVLLVVLALLAVGVQSKA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getMatfasta</span>(step1_sp2)</code></pre></div>
-<pre><code>##   A AAStringSet instance of length 8
+<pre><code>##   A AAStringSet instance of length 3
 ##     width seq                                          names               
-## [1]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
-## [2]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
-## [3]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
-## [4]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
-## [5]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [6]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
-## [7]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
-## [8]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81</code></pre>
+## [1]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [2]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
+## [3]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getSPversion</span>(step1_sp2)</code></pre></div>
 <pre><code>## [1] 2</code></pre>
 <p>Next, imaging we would like to run all the <strong>signalp</strong> version on the same input for comparison. To do so, simply change <code>version</code> parameter:</p>
@@ -344,9 +329,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## running signalp locally...
 ## 2 sequences to be truncated
 ## Ok for single processing
-## Submitted sequences... 100
+## Submitted sequences... 50
 ## signalp &lt; 4, calling parser for the output...
-## Candidate sequences with signal peptides... 8
+## Candidate sequences with signal peptides... 3
 
 step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
                      <span class="dt">version =</span> <span class="dv">4</span>,
@@ -357,8 +342,8 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
 ## running signalp locally...
 ## 2 sequences to be truncated
 ## Ok for single processing
-## Submitted sequences... 100
-## Candidate sequences with signal peptides... 5</code></pre></div>
+## Submitted sequences... 50
+## Candidate sequences with signal peptides... 3</code></pre></div>
 <p>In this case <code>signalp-4.1</code> version resulted in fewer number of candidates. Please note, taht despite differences in the output format generated by multiple versions of <strong>signalp</strong>, <code>signalp</code> returns <code>sp_tibble</code> in a standard format.</p>
 <p>In order to pipe result from differenr versions of <strong>signalp</strong> just switch to the <code>run_mode = 'piper'</code> for the second and other downstream steps. In this case <code>signalp</code> will run the anlysis using contents of <code>out_fasta</code> slot as an input. Say, we want to do the following piping: <strong>signalp2</strong> -&gt; <strong>signalp3</strong> -&gt; <strong>signalp4</strong>. We will re-use <code>step1_sp2</code> object generated earlier in the <code>starter</code> mode and use it as an input for the next step:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">step2_sp3 &lt;-<span class="st"> </span><span class="kw">signalp</span>(step1_sp2,
@@ -369,9 +354,9 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
 ## Version used... signalp3
 ## running signalp locally...
 ## Ok for single processing
-## Submitted sequences... 8
+## Submitted sequences... 3
 ## signalp &lt; 4, calling parser for the output...
-## Candidate sequences with signal peptides... 8</code></pre></div>
+## Candidate sequences with signal peptides... 3</code></pre></div>
 <p>Similar with the <strong>signalp3</strong> -&gt; <strong>signalp4</strong> pipig:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">step3_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(step2_sp3,
                      <span class="dt">version =</span> <span class="dv">4</span>,
@@ -381,8 +366,8 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
 ## Version used... signalp4
 ## running signalp locally...
 ## Ok for single processing
-## Submitted sequences... 8
-## Candidate sequences with signal peptides... 5</code></pre></div>
+## Submitted sequences... 3
+## Candidate sequences with signal peptides... 3</code></pre></div>
 <p>With the input fasta files containig more than 1000 sequences,<code>signalp</code> will automatically switch parallel mode: will split the input into smaller chunks and will run prediction as an embarassingly parallel proces using all the CPUs available. Accurate execution time depend on the number if CPUs available and the input file size. With 48 CPUs it takes ~2 minutes to run <code>signalp</code> on the input fasta file with more than 40’000 seqeunces.</p>
 </div>
 <div id="tmhmm" class="section level2">
@@ -391,8 +376,8 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
 <p>Here we will use output of the <code>signalp</code> function as an iput:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tm &lt;-<span class="st"> </span><span class="kw">tmhmm</span>(step1_sp2, <span class="dt">paths =</span> santa_paths, <span class="dt">TM =</span> <span class="dv">0</span>)
 ## running TMHMM locally...
-## Submitted sequences... 8
-## Candidate sequences with signal peptides and 0 TM domains in mature sequence... 8</code></pre></div>
+## Submitted sequences... 3
+## Candidate sequences with signal peptides and 0 TM domains in mature sequence... 3</code></pre></div>
 <p>Attempts to run <code>tmhmm</code> on the <code>CBSResult</code> object lacking <code>mature_fasta</code> slot will result in an error:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tm2 &lt;-<span class="st"> </span><span class="kw">tmhmm</span>(inp, <span class="dt">paths =</span> santa_paths, <span class="dt">TM =</span> <span class="dv">0</span>)
 ## Error in tmhmm(inp, paths = santa_paths, TM = 0): input_object does not belong to SignalpResult class</code></pre></div>
@@ -413,39 +398,24 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
 </ul>
 <p>To access individual slots you could use accessor functions:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getTMtibble</span>(tm)</code></pre></div>
-<pre><code>## # A tibble: 8 x 6
+<pre><code>## # A tibble: 3 x 6
 ##       gene_id length ExpAA First60 PredHel Topology
 ##         &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;
-## 1 ALI_PLTG_72     97  0.00    0.00       0        i
-## 2 ALI_PLTG_38    476  0.13    0.09       0        o
-## 3 ALI_PLTG_59    109  0.00    0.00       0        o
-## 4  ALI_PLTG_5    186  1.29    1.16       0        o
-## 5 ALI_PLTG_23    632  0.00    0.00       0        o
-## 6 ALI_PLTG_73    133  0.00    0.00       0        o
-## 7 ALI_PLTG_83    131  1.44    0.02       0        o
-## 8 ALI_PLTG_81    101  0.00    0.00       0        o</code></pre>
+## 1  ALI_PLTG_5    186  1.29    1.16       0        o
+## 2 ALI_PLTG_23    632  0.00    0.00       0        o
+## 3 ALI_PLTG_38    476  0.13    0.09       0        o</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getInMatfasta</span>(tm)</code></pre></div>
-<pre><code>##   A AAStringSet instance of length 8
+<pre><code>##   A AAStringSet instance of length 3
 ##     width seq                                          names               
-## [1]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
-## [2]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
-## [3]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
-## [4]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
-## [5]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [6]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
-## [7]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
-## [8]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81</code></pre>
+## [1]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [2]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
+## [3]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getOutMatfasta</span>(tm)</code></pre></div>
-<pre><code>##   A AAStringSet instance of length 8
+<pre><code>##   A AAStringSet instance of length 3
 ##     width seq                                          names               
-## [1]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
-## [2]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
-## [3]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
-## [4]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
-## [5]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [6]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
-## [7]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
-## [8]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81</code></pre>
+## [1]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [2]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
+## [3]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38</code></pre>
 </div>
 <div id="targetp" class="section level2">
 <h2>Targetp</h2>
@@ -458,8 +428,8 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
 )
 ## running targetp locally...
 ## Ok for single processing
-## Number of submitted sequences... 100
-## Number of candidate secreted sequences 10</code></pre></div>
+## Number of submitted sequences... 50
+## Number of candidate secreted sequences 4</code></pre></div>
 <p>Alternatively, we can run targetp on the output of other functions, for example <code>signalp</code> in the <em>piper</em> mode:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tp_pipe &lt;-<span class="st"> </span><span class="kw">targetp</span>(step1_sp2,
                    <span class="dt">network_type =</span> <span class="st">'N'</span>,
@@ -468,8 +438,8 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
         )
 ## running targetp locally...
 ## Ok for single processing
-## Number of submitted sequences... 8
-## Number of candidate secreted sequences 6</code></pre></div>
+## Number of submitted sequences... 3
+## Number of candidate secreted sequences 3</code></pre></div>
 <p>In both cases <code>targetp</code> will output an object of <code>TargetpResult</code> class with the following slots:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(tp)</code></pre></div>
 <pre><code>## [1] &quot;TargetpResult&quot;
@@ -483,19 +453,13 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
 </ul>
 <p>To access <code>tp_tibble</code> slot use <code>getTPtibble</code> method:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getTPtibble</span>(tp)</code></pre></div>
-<pre><code>## # A tibble: 10 x 7
-##        gene_id length   mTP    sp other TP_localization    RC
-##         &lt;fctr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;          &lt;fctr&gt; &lt;int&gt;
-##  1  ALI_PLTG_5    210 0.027 0.944 0.096               S     1
-##  2 ALI_PLTG_19    957 0.176 0.359 0.306               S     5
-##  3 ALI_PLTG_23    653 0.025 0.953 0.072               S     1
-##  4 ALI_PLTG_38    495 0.123 0.951 0.012               S     1
-##  5 ALI_PLTG_69    164 0.138 0.527 0.267               S     4
-##  6 ALI_PLTG_72    118 0.086 0.877 0.054               S     2
-##  7 ALI_PLTG_73    154 0.035 0.938 0.108               S     1
-##  8 ALI_PLTG_74    419 0.024 0.922 0.257               S     2
-##  9 ALI_PLTG_77    347 0.090 0.475 0.365               S     5
-## 10 ALI_PLTG_81    133 0.134 0.581 0.133               S     3</code></pre>
+<pre><code>## # A tibble: 4 x 7
+##       gene_id length   mTP    sp other TP_localization    RC
+##        &lt;fctr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;          &lt;fctr&gt; &lt;int&gt;
+## 1  ALI_PLTG_5    210 0.027 0.944 0.096               S     1
+## 2 ALI_PLTG_19    957 0.176 0.359 0.306               S     5
+## 3 ALI_PLTG_23    653 0.025 0.953 0.072               S     1
+## 4 ALI_PLTG_38    495 0.123 0.951 0.012               S     1</code></pre>
 <p><code>targetp</code> will automaticly switch to a parrallel mode if number of input sequences is garted than 1000.</p>
 </div>
 <div id="wolfpsort" class="section level2">
@@ -506,8 +470,8 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
                  <span class="dt">organism =</span> <span class="st">'fungi'</span>,
                  <span class="dt">paths =</span> santa_paths) 
 ## running WoLF PSORT locally...
-## Number of submitted sequences... 8
-## Number of candidate sequences with extracellular localisation... 5</code></pre></div>
+## Number of submitted sequences... 3
+## Number of candidate sequences with extracellular localisation... 3</code></pre></div>
 <p><code>wolfpsort</code> returns an object with 3 slots:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(wlf)</code></pre></div>
 <pre><code>## [1] &quot;WolfResult&quot;
@@ -521,14 +485,12 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
 </ul>
 <p>To access contents of <code>wolf_tibble</code> slot use <code>getWOlFtibble</code> method:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getWOLFtibble</span>(wlf)</code></pre></div>
-<pre><code>## # A tibble: 5 x 2
+<pre><code>## # A tibble: 3 x 2
 ##       gene_id localization
 ##        &lt;fctr&gt;       &lt;fctr&gt;
-## 1 ALI_PLTG_38         extr
-## 2  ALI_PLTG_5         extr
-## 3 ALI_PLTG_23         extr
-## 4 ALI_PLTG_73         extr
-## 5 ALI_PLTG_81         extr</code></pre>
+## 1  ALI_PLTG_5         extr
+## 2 ALI_PLTG_23         extr
+## 3 ALI_PLTG_38         extr</code></pre>
 <p>Since <code>wolfpsort</code> has the same purpouse as <code>targetp</code> it might be useful to run these functions side by side and compare the obtained results (see <a href="#Targetp">targetp results</a>).</p>
 </div>
 <div id="check-for-terminal-er-retention-motifs" class="section level2">
@@ -538,9 +500,9 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">er_result &lt;-<span class="st"> </span><span class="kw">check_khdel</span>(step1_sp2,
                          <span class="dt">run_mode =</span> <span class="st">'piper'</span>)
 ## checking for terminal ER retention signals...
-## Submitted sequences... 8
+## Submitted sequences... 3
 ## Sequences with terminal ER retention signals detected... 0
-## Candidate without terminal ER retention signals detected... 8</code></pre></div>
+## Candidate without terminal ER retention signals detected... 3</code></pre></div>
 <p>This will return and object with 3 slots:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">slotNames</span>(er_result)</code></pre></div>
 <pre><code>## [1] &quot;retained&quot;  &quot;in_fasta&quot;  &quot;out_fasta&quot;</code></pre>
@@ -551,7 +513,7 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
 </div>
 <div id="m-slicer" class="section level2">
 <h2>M-slicer</h2>
-<p>This is an experimental option. <code>m_slicer</code> function takes the input amino acid sequences and generates all posible subsequences startig with methionine based on the assumption that translation start sites might be mis-predicted in the original set of proteins -&gt; signal peptides might be also mis-predicted. Output of this step can be used as an input for secretome prediction pipeline to rescue secreted proteins with mis-predicted start sites. Sequence ids for the newly generated slices are build by concatenating original sequence id, ‘slice’ string and position of the Methionine sliced from. For example: <code>ALI_PLTG_3_slice_M86</code></p>
+<p>This is an experimental option. <code>m_slicer</code> function takes the input amino acid sequences and generates all posible subsequences startig with methionine based on the assumption that translation start sites might be mis-predicted in the original set of proteins -&gt; signal peptides might be also mis-predicted. Output of this step can be used as an input for secretome prediction pipeline to rescue secreted proteins with mis-predicted start sites. Sequence ids for the newly generated slices are build by concatenating original sequence id, ‘slice’ string and position of the Methionine sliced from. For example: <code>ALI_PLTG_3_slice_M86</code> means that <code>ALI_PLTG_3</code> seqeunce was sliced starting from methionine in the position 86.</p>
 <p><code>m_slicer</code> has 2 running modes:</p>
 <ul>
 <li><code>slice</code> - to simply slice input fasta regardless of it’s origin;</li>
@@ -570,23 +532,18 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
 <p>Results of both run modes could be used as an input for other <code>SecretSanta</code> predictors. Say, we want to run <code>signalp</code> on the rescued proteins. Note, that <code>m_slicer</code> outputs <code>AAStringSet</code> objects, so in order to pass it to <code>signalp</code> we need to create <code>CBSResult</code> object with <code>in_fasta = rescued</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">r_inp &lt;-<span class="st"> </span><span class="kw">SignalpResult</span>(<span class="dt">in_fasta =</span> rescued)
 sp_rescue &lt;-<span class="st"> </span><span class="kw">signalp</span>(r_inp,
-                    <span class="dt">version =</span> <span class="dv">4</span>,
+                    <span class="dt">version =</span> <span class="dv">2</span>,
                     <span class="dt">organism_type =</span> <span class="st">'euk'</span>,
                     <span class="dt">run_mode =</span> <span class="st">'starter'</span>,
                     <span class="dt">paths =</span> santa_paths,
                     <span class="dt">truncate =</span> T)
-## Version used... signalp4
+## Version used... signalp2
 ## running signalp locally...
 ## Ok for single processing
-## Submitted sequences... 546
-## Candidate sequences with signal peptides... 11
-
-<span class="co"># sp_rescue_inp &lt;- signalp(inp,</span>
-<span class="co">#                     version = 2,</span>
-<span class="co">#                     organism_type = 'euk',</span>
-<span class="co">#                     run_mode = 'starter',</span>
-<span class="co">#                     paths = santa_paths,</span>
-<span class="co">#                     truncate = T)</span></code></pre></div>
+## Submitted sequences... 342
+## signalp &lt; 4, calling parser for the output...
+## Candidate sequences with signal peptides... 9</code></pre></div>
+<p>The slicing procedure returned 11 additional potentially secreted candidates.</p>
 </div>
 <div id="pipers-andor-starters" class="section level2">
 <h2>Pipers and/or starters</h2>

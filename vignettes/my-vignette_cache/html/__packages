@@ -1,0 +1,10 @@
+base
+dplyr
+BiocGenerics
+S4Vectors
+IRanges
+XVector
+Biostrings
+readr
+SecretSanta
+bindrcpp
