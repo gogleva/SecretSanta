@@ -7,7 +7,7 @@ test_that("m-slicer treats input objects correctly",
             inp <- SignalpResult()
             aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"),
                                   use.names = TRUE)
-            inp <- setInfasta(inp[1:10], aa)
+            inp <- setInfasta(inp, aa[1:10])
             s1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
             
             # test with valid inputs

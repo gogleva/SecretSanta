@@ -80,7 +80,7 @@ CBSResult <- setClass("CBSResult",
 
 # Define accessors for CBSResult objects
 
-# setter for in_fasta
+#' A generic method
 
 setGeneric(name = "setInfasta",
            def = function(theObject, in_fasta)
@@ -89,9 +89,8 @@ setGeneric(name = "setInfasta",
            }  
 )
 
-#CBSResult(in_fasta = dna)
-
 #' @export
+
 setMethod(f = "setInfasta",
           signature = "CBSResult",
           definition = function(theObject, in_fasta)
@@ -103,6 +102,8 @@ setMethod(f = "setInfasta",
 )
 
 # getter for in_fasta
+
+#' A generic method
 
 setGeneric(name = "getInfasta",
            def = function(theObject)
@@ -123,6 +124,8 @@ setMethod(f = "getInfasta",
 
 # setter for out_fasta
 
+#' A generic method
+
 setGeneric(name = "setOutfasta",
            def = function(theObject, out_fasta)
            {
@@ -141,6 +144,8 @@ setMethod(f = "setOutfasta",
           }
 )
 # getter for out_fasta
+
+#' A generic method
 
 setGeneric(name = "getOutfasta",
            def = function(theObject)
@@ -246,6 +251,8 @@ SignalpResult <- setClass(
 
 # define accessor functions for SignalpResult object
 # setter for mature_fasta
+
+#' A generic method
 setGeneric(name = "setMatfasta",
            def = function(theObject, mature_fasta)
            {
@@ -264,6 +271,9 @@ setMethod(f = "setMatfasta",
           }
 )
 # getter for mature_fasta
+
+#' A generic method
+
 setGeneric(name = "getMatfasta",
            def = function(theObject)
            {
@@ -281,6 +291,9 @@ setMethod(f = "getMatfasta",
 )
 
 # setter for sp_version
+
+#' A generic method
+
 setGeneric(name = "setSPversion",
            def = function(theObject, sp_version)
            {
@@ -300,6 +313,9 @@ setMethod(f = "setSPversion",
 )
 
 # getter for sp_version
+
+#' A generic method
+
 setGeneric(name = "getSPversion",
            def = function(theObject)
            {
@@ -316,6 +332,9 @@ setMethod(f = "getSPversion",
           }
 )
 # setter for sp_tible
+
+#' A generic method
+
 setGeneric(name = "setSPtibble",
            def = function(theObject, sp_tibble)
            {
@@ -334,6 +353,9 @@ setMethod(f = "setSPtibble",
           }
 )
 # getter for sp_tibble
+
+#' A generic method
+
 setGeneric(name = "getSPtibble",
            def = function(theObject)
            {
@@ -365,6 +387,8 @@ WolfResult <- setClass("WolfResult",
 )
 
 # setter for wolf_tible
+#' A generic method
+
 setGeneric(name = "setWOLFtibble",
            def = function(theObject, wolf_tibble)
            {
@@ -384,6 +408,8 @@ setMethod(f = "setWOLFtibble",
 )
 
 # getter for wolf_tibble
+#' A generic method
+
 setGeneric(name = "getWOLFtibble",
            def = function(theObject)
            {
@@ -447,6 +473,9 @@ TMhmmResult <- setClass("TMhmmResult",
 
 
 # setter for tm_tible
+
+#' A generic method
+
 setGeneric(name = "setTMtibble",
            def = function(theObject, tm_tibble)
            {
@@ -465,6 +494,9 @@ setMethod(f = "setTMtibble",
           }
 )
 # getter for tm_tibble
+
+#' A generic method
+
 setGeneric(name = "getTMtibble",
            def = function(theObject)
            {
@@ -483,6 +515,9 @@ setMethod(f = "getTMtibble",
 
 
 # getter for in_mature_fasta
+
+#' A generic method
+
 setGeneric(name = "getInMatfasta",
            def = function(theObject)
            {
@@ -500,6 +535,9 @@ setMethod(f = "getInMatfasta",
 )
 
 # getter for out_mature_fasta
+
+#' A generic method
+
 setGeneric(name = "getOutMatfasta",
            def = function(theObject)
            {
@@ -537,14 +575,13 @@ ErResult <- setClass("ErResult",
 #' \item sp - signal peptide NN score
 #' \item other - any onther NN score
 #' \item TP_localization - 	Prediction of localization, based on the scores; the possible values are:
-#'   } 
+#' } 
 #'   \itemize{
 #'      \item C	- Chloroplast, i.e. the sequence contains cTP, a chloroplast transit peptide;
 #'      \item M	- Mitochondrion, i.e. the sequence contains mTP, a mitochondrial targeting peptide;
 #'      \item S -	Secretory pathway, i.e. the sequence contains SP, a signal peptide;
 #'      \item _ -	Any other location;
 #'      \item "don't know" - indicates that cutoff restrictions were set (see instructions) and the winning network output score was below the requested cutoff for that category.
-#'      }
 #'   \item RC - Reliability class, from 1 to 5, where 1 indicates the strongest prediction. RC is a measure of the size of the difference ('diff') between the highest (winning) and the second highest output scores. There are 5 reliability classes, defined as follows:
 #'   \itemize { 
 #'     \item 1 - diff > 0.800;
@@ -571,6 +608,9 @@ TargetpResult <- setClass("TargetpResult",
 )
 
 # setter for tp_tible
+
+#' A generic method
+
 setGeneric(name = "setTPtibble",
            def = function(theObject, tp_tibble)
            {
@@ -589,6 +629,9 @@ setMethod(f = "setTPtibble",
           }
 )
 # getter for tm_tibble
+
+#' A generic method
+
 setGeneric(name = "getTPtibble",
            def = function(theObject)
            {

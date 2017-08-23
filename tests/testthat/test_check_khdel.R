@@ -21,7 +21,7 @@ test_that("terminal KHDEL/HDEL motifs are detected",
             sp <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
             expect_is(check_khdel(sp, run_mode = 'piper'), 'ErResult')
             expect_message(check_khdel(sp, run_mode = 'piper'),
-                           'Submitted sequences... 8')
+                           'Submitted sequences... 1')
             expect_message(check_khdel(sp, run_mode = 'piper'),
                            'Sequences with terminal ER retention signals detected... 0')
             

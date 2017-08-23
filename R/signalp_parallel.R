@@ -132,7 +132,7 @@ combine_CBSResult <- function(...) {
 #' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
 #' 
 #' # assign this object to the input_fasta slot of empty CBSResult object
-#' inp <- CBSResult(in_fasta = aa)
+#' inp <- CBSResult(in_fasta = aa[1:10])
 #' 
 #' # run signalp2 on the initial file:
 #' step1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)

@@ -16,7 +16,7 @@
 #' parse_sp_path <- parse_signalp(input = s_path, input_type = "path")
 #' 
 #' # Parse signalp2 output, obtained from a system call:
-#' s_fasta <- system.file("extdata", "sample_prot.fasta", package = "SecretSanta") 
+#' s_fasta <- system.file("extdata", "small_prot.fasta", package = "SecretSanta") 
 #' secret_paths <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
 #' sp2_path <- secret_paths %>% filter(tool == 'signalp2') %>% select(path)
 #' 

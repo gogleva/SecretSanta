@@ -11,7 +11,7 @@
 #' @examples 
 #' # check ER retention signals in CBSResult object before running signalp or any other predictions
 #' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
-#' inp <- SignalpResult(in_fasta = aa)
+#' inp <- SignalpResult(in_fasta = aa[1:10])
 #' et_s <- check_khdel(inp, run_mode = 'starter')
 #' 
 #' my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
