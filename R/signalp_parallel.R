@@ -233,6 +233,8 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
     full_pa <- as.character(paths %>% dplyr::filter(tool == signalp_version) %>% dplyr::select(path))
     message(paste('Submitted sequences...', length(aaSet)))
 
+    #my_pa <- paths #for clusters
+    
     # ----
     if (version >= 4) {
       # runing signalp versios 4 and 4.1, potentially should work for 5
@@ -303,13 +305,16 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
   
     # Calculate the number of cores
     no_cores <- detectCores()
+    
+    paths <- paths
 
     # Initiate cluster
     cl <- makeCluster(no_cores)
     # run parallel process
 
     clusterEvalQ(cl, library("SecretSanta"))
-    clusterExport(cl=cl, varlist=c("my_pa")) # or path?
+   # clusterExport(cl=cl)
+    clusterExport(cl=cl, varlist=c("paths"), envir = environment()) #
     result <- parLapply(cl, split_fasta, simple_signalp)
     stopCluster(cl)
 
