@@ -80,7 +80,12 @@ CBSResult <- setClass("CBSResult",
 
 # Define accessors for CBSResult objects
 
-#' A generic method
+#' Some title
+#' @param theObject some object
+#' @param in_fasta some fasta
+#' @export
+#' @docType methods
+#' @rdname CBS_methods
 
 setGeneric(name = "setInfasta",
            def = function(theObject, in_fasta)
@@ -90,6 +95,8 @@ setGeneric(name = "setInfasta",
 )
 
 #' @export
+#' @rdname  CBS_methods
+#' @aliases setInfasta
 
 setMethod(f = "setInfasta",
           signature = "CBSResult",
@@ -101,9 +108,12 @@ setMethod(f = "setInfasta",
           }
 )
 
-# getter for in_fasta
-
-#' A generic method
+#' Some title
+#' @param theObject some object
+#' @param in_fasta some fasta
+#' @export
+#' @docType methods
+#' @rdname CBS_methods
 
 setGeneric(name = "getInfasta",
            def = function(theObject)
@@ -113,6 +123,8 @@ setGeneric(name = "getInfasta",
 )
 
 #' @export
+#' @rdname  CBS_methods
+#' @aliases getInfasta
 
 setMethod(f = "getInfasta",
           signature = "CBSResult",
@@ -122,9 +134,12 @@ setMethod(f = "getInfasta",
           }
 )
 
-# setter for out_fasta
-
-#' A generic method
+#' Some title
+#' @param theObject some object
+#' @param out_fasta some fasta
+#' @export
+#' @docType methods
+#' @rdname CBS_methods
 
 setGeneric(name = "setOutfasta",
            def = function(theObject, out_fasta)
@@ -134,6 +149,9 @@ setGeneric(name = "setOutfasta",
 )
 
 #' @export
+#' @rdname  CBS_methods
+#' @aliases setOutfasta
+
 setMethod(f = "setOutfasta",
           signature = "CBSResult",
           definition = function(theObject, out_fasta)
@@ -143,9 +161,13 @@ setMethod(f = "setOutfasta",
             return(theObject)
           }
 )
-# getter for out_fasta
 
-#' A generic method
+#' Some title
+#' @param theObject some object
+#' @param out_fasta some fasta
+#' @export
+#' @docType methods
+#' @rdname CBS_methods
 
 setGeneric(name = "getOutfasta",
            def = function(theObject)
@@ -155,6 +177,9 @@ setGeneric(name = "getOutfasta",
 )
 
 #' @export
+#' @rdname  CBS_methods
+#' @aliases getOutfasta
+
 setMethod(f = "getOutfasta",
           signature = "CBSResult",
           definition = function(theObject)
@@ -162,7 +187,6 @@ setMethod(f = "getOutfasta",
             return(theObject@out_fasta)
           }
 )
-
 
 #' An S4 class to represent intermediate and final outputs of the signalp prediction step
 #' 
@@ -252,7 +276,13 @@ SignalpResult <- setClass(
 # define accessor functions for SignalpResult object
 # setter for mature_fasta
 
-#' A generic method
+#' Some title
+#' @param theObject some object
+#' @param mature_fasta some fasta
+#' @export
+#' @docType methods
+#' @rdname SignalpResult_methods
+
 setGeneric(name = "setMatfasta",
            def = function(theObject, mature_fasta)
            {
@@ -261,6 +291,9 @@ setGeneric(name = "setMatfasta",
 )
 
 #' @export
+#' @rdname  SignalpResult_methods
+#' @aliases setMatfasta
+
 setMethod(f = "setMatfasta",
           signature = "SignalpResult",
           definition = function(theObject, mature_fasta)
@@ -270,9 +303,13 @@ setMethod(f = "setMatfasta",
             return(theObject)
           }
 )
-# getter for mature_fasta
 
-#' A generic method
+#' Some title
+#' @param theObject some object
+#' @param mature_fasta some fasta
+#' @export
+#' @docType methods
+#' @rdname SignalpResult_methods
 
 setGeneric(name = "getMatfasta",
            def = function(theObject)
@@ -282,6 +319,9 @@ setGeneric(name = "getMatfasta",
 )
 
 #' @export
+#' @rdname  SignalpResult_methods
+#' @aliases getMatfasta
+
 setMethod(f = "getMatfasta",
           signature = "SignalpResult",
           definition = function(theObject)
@@ -290,9 +330,12 @@ setMethod(f = "getMatfasta",
           }
 )
 
-# setter for sp_version
-
-#' A generic method
+#' Some title
+#' @param theObject some object
+#' @param sp_version sp
+#' @export
+#' @docType methods
+#' @rdname SignalpResult_methods
 
 setGeneric(name = "setSPversion",
            def = function(theObject, sp_version)
@@ -302,6 +345,9 @@ setGeneric(name = "setSPversion",
 )
 
 #' @export
+#' @rdname  SignalpResult_methods
+#' @aliases setSPversion
+
 setMethod(f = "setSPversion",
           signature = "SignalpResult",
           definition = function(theObject, sp_version)
@@ -312,9 +358,12 @@ setMethod(f = "setSPversion",
           }
 )
 
-# getter for sp_version
-
-#' A generic method
+#' Some title
+#' @param theObject some object
+#' @param sp_version sp
+#' @export
+#' @docType methods
+#' @rdname SignalpResult_methods
 
 setGeneric(name = "getSPversion",
            def = function(theObject)
@@ -324,6 +373,9 @@ setGeneric(name = "getSPversion",
 )
 
 #' @export
+#' @rdname  SignalpResult_methods
+#' @aliases getSPversion
+
 setMethod(f = "getSPversion",
           signature = "SignalpResult",
           definition = function(theObject)
@@ -333,7 +385,12 @@ setMethod(f = "getSPversion",
 )
 # setter for sp_tible
 
-#' A generic method
+#' Some title
+#' @param theObject some object
+#' @param sp_tibble sp output
+#' @export
+#' @docType methods
+#' @rdname SignalpResult_methods
 
 setGeneric(name = "setSPtibble",
            def = function(theObject, sp_tibble)
@@ -343,6 +400,9 @@ setGeneric(name = "setSPtibble",
 )
 
 #' @export
+#' @rdname  SignalpResult_methods
+#' @aliases setSPtibble
+
 setMethod(f = "setSPtibble",
           signature = "SignalpResult",
           definition = function(theObject, sp_tibble)
@@ -354,7 +414,12 @@ setMethod(f = "setSPtibble",
 )
 # getter for sp_tibble
 
-#' A generic method
+#' Some title
+#' @param theObject some object
+#' @param sp_tibble sp output
+#' @export
+#' @docType methods
+#' @rdname SignalpResult_methods
 
 setGeneric(name = "getSPtibble",
            def = function(theObject)
@@ -364,6 +429,9 @@ setGeneric(name = "getSPtibble",
 )
 
 #' @export
+#' @rdname  SignalpResult_methods
+#' @aliases getSPtibble
+
 setMethod(f = "getSPtibble",
           signature = "SignalpResult",
           definition = function(theObject)
@@ -582,8 +650,8 @@ ErResult <- setClass("ErResult",
 #'      \item S -	Secretory pathway, i.e. the sequence contains SP, a signal peptide;
 #'      \item _ -	Any other location;
 #'      \item "don't know" - indicates that cutoff restrictions were set (see instructions) and the winning network output score was below the requested cutoff for that category.
-#'   \item RC - Reliability class, from 1 to 5, where 1 indicates the strongest prediction. RC is a measure of the size of the difference ('diff') between the highest (winning) and the second highest output scores. There are 5 reliability classes, defined as follows:
-#'   \itemize { 
+#'      \item RC - Reliability class, from 1 to 5, where 1 indicates the strongest prediction. RC is a measure of the size of the difference ('diff') between the highest (winning) and the second highest output scores. There are 5 reliability classes, defined as follows:
+#'   \itemize{ 
 #'     \item 1 - diff > 0.800;
 #'     \item 2 - 0.800 > diff > 0.600
 #'     \item 3 - 0.600 > diff > 0.400
