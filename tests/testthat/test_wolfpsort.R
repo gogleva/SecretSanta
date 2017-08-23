@@ -23,7 +23,7 @@ test_that("wolfpsort outputs correct objects and handles invalid inputs correctl
           expect_is(wolfpsort(er, 'animal', my_pa), 'WolfResult')
           expect_is(wolfpsort(er_native, 'animal', my_pa), 'WolfResult')
           
-          expect_error(wolfpsort(aa, 'fungi', my_pa),
+          expect_error(wolfpsort(aa[1:10], 'fungi', my_pa),
                        'input_object does not belong to CBSResult superclass')
           expect_error(wolfpsort(inp, 'fungi', my_pa),
                        'the input object contains empty out_fasta slot')

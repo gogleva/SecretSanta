@@ -6,7 +6,7 @@ test_that("terminal KHDEL/HDEL motifs are detected",
             inp <- CBSResult()
             aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), 
                                   use.names = TRUE)
-            inp <- setInfasta(inp, aa)
+            inp <- setInfasta(inp, aa[1:10])
             
             # check valid inputs, starter mode on a CBSResult object:
             expect_is(check_khdel(inp, run_mode = 'starter'), 'ErResult')
