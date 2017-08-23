@@ -7,7 +7,7 @@ test_that("wolfpsort outputs correct objects and handles invalid inputs correctl
           my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
           inp <- SignalpResult()
           aa <- readAAStringSet(system.file("extdata", "sample_prot.fasta", package = "SecretSanta"), use.names = TRUE)
-          inp <- setInfasta(inp, aa)
+          inp <- setInfasta(inp, aa[1:10])
           step1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
           step2_sp3 <- signalp(step1_sp2, version = 3, 'euk', run_mode = 'piper', paths = my_pa)
           tm <- tmhmm(step1_sp2, paths = my_pa, TM = 1)

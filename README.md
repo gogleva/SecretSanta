@@ -86,12 +86,14 @@ stand alone CBS tools are available only for Unix, se we should not care about W
     - WoLFpsort (done)
     - check_khdel (done)
     - M-slicer:slice (done)
+    - M-slicer: rescue still fails with signalp (done)
 
 TO DO (required minimum):
 
 - set default options for C/Y/D/S scores in signalp => more flexible filtering?
 - fix signalp4 vs signalp 4.1 conflicts
-- add unit tests for large inputs in signalp:
+- add unit tests for large inputs in signalp - store them in a separate repo,
+take too long to run for R CMD check:
     - 1K,
     - 2K,
     - long sequences
@@ -99,9 +101,6 @@ TO DO (required minimum):
 - export cluster environment: try to get rid of my_pa
 - code profiling to speed-up wrappers
 - fix some ugly bits in the code ---> profiling again. Aim: not to be much slower that the wrapped tool
-- Vignettes: individual functions:
-    - M-slicer: rescue still fails with signalp
-
 - Vignettes: pipelines:
     - summary on starters and pipers;
     - short pipeline

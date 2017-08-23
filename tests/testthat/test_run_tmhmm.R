@@ -8,7 +8,7 @@ test_that("tmhmm outputs are correctly parsed for system calls",
           inp <- SignalpResult()
           aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"),
                                 use.names = TRUE)
-          inp <- setInfasta(inp, aa)
+          inp <- setInfasta(inp, aa[1:10])
           s1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
             
           # run tmhmm on the output of signalp step  

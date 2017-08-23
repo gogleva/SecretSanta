@@ -7,7 +7,7 @@ test_that("signalp correctly responds to invalid inputs",
           inp <- SignalpResult()
           aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"),
                                 use.names = TRUE)
-          inp <- setInfasta(inp, aa)
+          inp <- setInfasta(inp, aa[1:10])
           
           # test with dna set in the in_fasta slot:
           dna <- readAAStringSet(system.file("extdata", "sample_dna.fasta", package = "SecretSanta"))
