@@ -8,7 +8,9 @@ Depends: R (>= 3.4.0),
         dplyr,
         Biostrings,
         parallel,
-        readr
+        readr,
+        tibble,
+        stringr
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
