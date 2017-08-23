@@ -5,82 +5,41 @@
 \alias{setMatfasta}
 \alias{setMatfasta,SignalpResult-method}
 \alias{setMatfasta}
-\alias{getMatfasta}
 \alias{getMatfasta,SignalpResult-method}
 \alias{getMatfasta}
-\alias{setSPversion}
 \alias{setSPversion,SignalpResult-method}
 \alias{setSPversion}
-\alias{getSPversion}
 \alias{getSPversion,SignalpResult-method}
 \alias{getSPversion}
-\alias{setSPtibble}
 \alias{setSPtibble,SignalpResult-method}
 \alias{setSPtibble}
-\alias{getSPtibble}
 \alias{getSPtibble,SignalpResult-method}
 \alias{getSPtibble}
-\title{Some title}
+\title{Accessors for SignalpResult objects}
 \usage{
 setMatfasta(theObject, mature_fasta)
 
 \S4method{setMatfasta}{SignalpResult}(theObject, mature_fasta)
 
-getMatfasta(theObject)
-
 \S4method{getMatfasta}{SignalpResult}(theObject)
-
-setSPversion(theObject, sp_version)
 
 \S4method{setSPversion}{SignalpResult}(theObject, sp_version)
 
-getSPversion(theObject)
-
 \S4method{getSPversion}{SignalpResult}(theObject)
 
-setSPtibble(theObject, sp_tibble)
-
 \S4method{setSPtibble}{SignalpResult}(theObject, sp_tibble)
-
-getSPtibble(theObject)
 
 \S4method{getSPtibble}{SignalpResult}(theObject)
 }
 \arguments{
-\item{theObject}{some object}
+\item{theObject}{SignalpResult object}
 
-\item{mature_fasta}{some fasta}
+\item{mature_fasta}{seqeunces with clipped signal peptides, AAStringSet object}
 
-\item{sp_version}{sp}
+\item{sp_version}{version of signalp used to generate SignalpResult object}
 
-\item{sp_tibble}{sp output}
-
-\item{theObject}{some object}
-
-\item{mature_fasta}{some fasta}
-
-\item{theObject}{some object}
-
-\item{theObject}{some object}
-
-\item{sp_version}{sp}
-
-\item{theObject}{some object}
-
-\item{theObject}{some object}
-
-\item{sp_tibble}{sp output}
+\item{sp_tibble}{parsed signalp output in tabular format}
 }
 \description{
-Some title
-
-Some title
-
-Some title
-
-Some title
-
-Some title
-
-Some title
+Accessors for SignalpResult objects
 }

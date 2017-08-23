@@ -83,9 +83,9 @@ CBSResult <- setClass("CBSResult",
 
 # Define accessors for CBSResult objects
 
-#' Some title
-#' @param theObject some object
-#' @param in_fasta some fasta
+#' Accessors for CBSResult objects
+#' @param theObject CBSResult object
+#' @param in_fasta input fasta, AAStringSet object
 #' @export
 #' @docType methods
 #' @rdname CBS_methods
@@ -130,8 +130,7 @@ setMethod(f = "getInfasta",
           }
 )
 
-#' Some title
-#' @param out_fasta some fasta
+#' @param out_fasta output fasta, AAStringSet object
 #' @export
 #' @docType methods
 #' @rdname CBS_methods
@@ -275,9 +274,11 @@ SignalpResult <- setClass(
 # define accessor functions for SignalpResult object
 # setter for mature_fasta
 
-#' Some title
-#' @param theObject some object
-#' @param mature_fasta some fasta
+#' Accessors for SignalpResult objects
+#' @param theObject SignalpResult object
+#' @param mature_fasta seqeunces with clipped signal peptides, AAStringSet object
+#' @param sp_version version of signalp used to generate SignalpResult object
+#' @param sp_tibble parsed signalp output in tabular format
 #' @export
 #' @docType methods
 #' @rdname SignalpResult_methods
@@ -303,13 +304,6 @@ setMethod(f = "setMatfasta",
           }
 )
 
-#' Some title
-#' @param theObject some object
-#' @param mature_fasta some fasta
-#' @export
-#' @docType methods
-#' @rdname SignalpResult_methods
-
 setGeneric(name = "getMatfasta",
            def = function(theObject)
            {
@@ -328,13 +322,6 @@ setMethod(f = "getMatfasta",
             return(theObject@mature_fasta)
           }
 )
-
-#' Some title
-#' @param theObject some object
-#' @param sp_version sp
-#' @export
-#' @docType methods
-#' @rdname SignalpResult_methods
 
 setGeneric(name = "setSPversion",
            def = function(theObject, sp_version)
@@ -357,13 +344,6 @@ setMethod(f = "setSPversion",
           }
 )
 
-#' Some title
-#' @param theObject some object
-#' @param sp_version sp
-#' @export
-#' @docType methods
-#' @rdname SignalpResult_methods
-
 setGeneric(name = "getSPversion",
            def = function(theObject)
            {
@@ -382,14 +362,6 @@ setMethod(f = "getSPversion",
             return(theObject@sp_version)
           }
 )
-# setter for sp_tible
-
-#' Some title
-#' @param theObject some object
-#' @param sp_tibble sp output
-#' @export
-#' @docType methods
-#' @rdname SignalpResult_methods
 
 setGeneric(name = "setSPtibble",
            def = function(theObject, sp_tibble)
@@ -411,14 +383,6 @@ setMethod(f = "setSPtibble",
             return(theObject)
           }
 )
-# getter for sp_tibble
-
-#' Some title
-#' @param theObject some object
-#' @param sp_tibble sp output
-#' @export
-#' @docType methods
-#' @rdname SignalpResult_methods
 
 setGeneric(name = "getSPtibble",
            def = function(theObject)

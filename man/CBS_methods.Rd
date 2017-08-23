@@ -12,7 +12,7 @@
 \alias{setOutfasta}
 \alias{getOutfasta,CBSResult-method}
 \alias{getOutfasta}
-\title{Some title}
+\title{Accessors for CBSResult objects}
 \usage{
 setInfasta(theObject, in_fasta)
 
@@ -27,14 +27,12 @@ setOutfasta(theObject, out_fasta)
 \S4method{getOutfasta}{CBSResult}(theObject)
 }
 \arguments{
-\item{theObject}{some object}
+\item{theObject}{CBSResult object}
 
-\item{in_fasta}{some fasta}
+\item{in_fasta}{input fasta, AAStringSet object}
 
-\item{out_fasta}{some fasta}
+\item{out_fasta}{output fasta, AAStringSet object}
 }
 \description{
-Some title
-
-Some title
+Accessors for CBSResult objects
 }
