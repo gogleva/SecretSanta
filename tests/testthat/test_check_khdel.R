@@ -35,7 +35,7 @@ test_that("terminal KHDEL/HDEL motifs are detected",
             inp <- setInfasta(inp, br)
             expect_is(check_khdel(inp, run_mode = 'starter'),  'ErResult')
             expect_message(check_khdel(inp, run_mode = 'starter'),
-                           'Submitted sequences... 5')
+                           'Submitted sequences... 3')
             expect_message(check_khdel(inp, run_mode = 'starter'),
                            'Sequences with terminal ER retention signals detected... 2')
             

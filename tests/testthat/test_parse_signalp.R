@@ -22,7 +22,7 @@ test_that("signalp outputs are correctly parsed for system calls",
 
 test_that("signalp outputs are correctly parsed for files",
           {
-            s_path <- system.file("extdata", "sample_prot_signalp2_out", package = "SecretSanta") 
+            s_path <- system.file("extdata", "sample_prot_signalp2_out2", package = "SecretSanta") 
             parse_sp_path <- parse_signalp(input = s_path, input_type = "path")
             expect_is(parse_sp_path, 'tbl')
             expect_equal(ncol(parse_sp_path), 9)

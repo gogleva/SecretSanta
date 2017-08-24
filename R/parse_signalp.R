@@ -12,7 +12,7 @@
 #' @examples
 #' 
 #' # Parse signalp2 output, stored in a file:
-#' s_path <- system.file("extdata", "sample_prot_signalp2_out", package = "SecretSanta") 
+#' s_path <- system.file("extdata", "sample_prot_signalp2_out2", package = "SecretSanta") 
 #' parse_sp_path <- parse_signalp(input = s_path, input_type = "path")
 #' 
 #' # Parse signalp2 output, obtained from a system call:
