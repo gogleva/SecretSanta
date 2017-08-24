@@ -38,10 +38,11 @@ manage_paths <- function(path_file) {
   if (all(pp$status)) { 
     message('All paths are valid')
     # convert all the tool names to lower case to avoid confusion
-    pp <- dplyr::mutate(pp, tool = tolower(tool))
+    pp$tool <- tolower(pp$tool)
+    
     } else {
     message('Supplied file path does not exist.')
-    message(sapply(pp %>% dplyr::filter(status == FALSE) %>% dplyr::select(path), paste, '\n'))
+    message(sapply(pp %>% dplyr::filter_(~status == FALSE) %>% dplyr::select_(~path), paste, '\n'))
     message('Please check that supplied paths are correct and try again')
     }
   
@@ -49,7 +50,7 @@ manage_paths <- function(path_file) {
   # process a small sample fasta file
   
   my_tools <- c('signalp2', 'signalp3', 'signalp4', 'targetp', 'tmhmm', 'wolfpsort')
-  get_paths <- function(tool_name) {pp %>% filter(tool == tool_name) %>% select(path)}
+  get_paths <- function(tool_name) {pp %>% filter_(~tool == tool_name) %>% select_(~path)}
   
   # siganlp2:
   

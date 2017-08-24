@@ -131,7 +131,7 @@ targetp <- function(input_object, network_type, run_mode, paths) {
       Biostrings::writeXStringSet(aaSet, out_tmp) #write tmp fasta file
   
       # get path to targetp executable
-      full_pa <- as.character(paths %>% dplyr::filter(tool == 'targetp') %>% dplyr::select(path))
+      full_pa <- as.character(paths %>% dplyr::filter_(~tool == 'targetp') %>% dplyr::select_(~path))
   
       # prep fasta:
       # generate cropped names for input fasta
@@ -151,10 +151,10 @@ targetp <- function(input_object, network_type, run_mode, paths) {
         names(tp) <- c('gene_id', 'length', 'cTP', 'mTP', 'sp', 'other', 'TP_localization', 'RC')  
       }
   
-      tp <- tp %>% dplyr::filter(TP_localization == 'S')
+      tp <- tp %>% dplyr::filter_(~TP_localization == 'S')
       message(paste('Number of candidate secreted sequences', nrow(tp)))         
   
-      candidate_ids <- tp %>% dplyr::select(gene_id) %>% unlist(use.names = FALSE)
+      candidate_ids <- tp %>% dplyr::select_(~gene_id) %>% unlist(use.names = FALSE)
       out_fasta_tp <- aaSet[candidate_ids]
   
       # generate output object:

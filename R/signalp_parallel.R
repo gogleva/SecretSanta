@@ -291,7 +291,7 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
 
     # make a system call of signalp based on the tmp file
 
-    full_pa <- as.character(paths %>% dplyr::filter(tool == signalp_version) %>% dplyr::select(path))
+    full_pa <- as.character(paths %>% dplyr::filter_(~tool == signalp_version) %>% dplyr::select_(~path))
     message(paste('Submitted sequences...', length(aaSet)))
 
     # ----
@@ -308,7 +308,7 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
                                  "Ymax", "Ypos", "Smax",
                                  "Spos", "Smean", "Prediction")
 
-      sp <- sp %>% dplyr::filter(Prediction == 'Y')
+      sp <- sp %>% dplyr::filter_(~Prediction == 'Y')
       sp <- dplyr::mutate(sp, Prediction = ifelse(Prediction == 'Y', 'Signal peptide'))
 
 
@@ -328,12 +328,12 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
     # replace long names with cropped names
     names(aaSet) <- cropped_names
     # get ids of candidate secreted proteins
-    candidate_ids <- sp %>% dplyr::select(gene_id) %>% unlist(use.names = FALSE)
+    candidate_ids <- sp %>% dplyr::select_(~gene_id) %>% unlist(use.names = FALSE)
     out_fasta_sp <- aaSet[candidate_ids]
 
     # generate mature sequences
 
-    sp_Cpos <- sp %>% dplyr::select(Cpos) %>% unlist(use.names = FALSE)
+    sp_Cpos <- sp %>% dplyr::select_(~Cpos) %>% unlist(use.names = FALSE)
     cropped_fasta <- subseq(out_fasta_sp, start = sp_Cpos, end = -1)
 
     # construct output object
