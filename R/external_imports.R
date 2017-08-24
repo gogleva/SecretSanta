@@ -2,6 +2,9 @@
 #' @import parallel
 #' @import readr
 #' @import tibble
-#' @import Biostrings
+#' @importFrom Biostrings readAAStringSet
+#' @importFrom Biostrings subseq
+#' @importFrom Biostrings vcountPattern
+#' @importFrom Biostrings alphabetFrequency
 #' @import dplyr
 NULL
