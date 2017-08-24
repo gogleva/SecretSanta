@@ -10,6 +10,7 @@
 #' @param length_threshold   sliced sequences below this threshold will be discarded
 #' @param run_mode  \strong{slice} - to just slice input fasta, regardless of it's origin;
 #' \strong{rescue} - to get proteins not predicted to be secreted on the initial run, generate slices; 
+#' @return a set of sliced sequences, AAStringSet object
 #' @export   
 #' @examples 
 #' # Example 1: generate proteins with alterative translation start site for AAStringSet object

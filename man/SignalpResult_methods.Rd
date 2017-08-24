@@ -42,6 +42,9 @@ setMatfasta(theObject, mature_fasta)
 
 \item{sp_tibble}{parsed signalp output in tabular format}
 }
+\value{
+SignalpResult object
+}
 \description{
 An S4 class to represent intermediate and final outputs of the signalp prediction step
 

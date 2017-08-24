@@ -9,6 +9,9 @@ combine_SignalpResult(arguments)
 \arguments{
 \item{arguments}{- a list of SignalpResult objects to be combined in one}
 }
+\value{
+SignalpResult object
+}
 \description{
 This function combines multiple instances of SignalpResult class, typically generated with parLapply
 }

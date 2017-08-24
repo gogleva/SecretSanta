@@ -9,6 +9,9 @@ combine_TMhmmResult(arguments)
 \arguments{
 \item{arguments}{- a list of TMhmmResult objects to be combined in one}
 }
+\value{
+TMhmmResult object
+}
 \description{
 This function combines multiple instances of TMhmmResult class, typically generated with parLapply
 }

@@ -4,6 +4,7 @@
 #' @slot out_fasta       output fasta with only positive candidates,
 #'                       i.e those that passed tool filters
 #' @export CBSResult
+#' @return CBSREsult object
 #' @rdname CBS_methods
 #' @examples
 #' # read fasta file in AAStringSet object
@@ -191,6 +192,7 @@ setMethod(f = "getOutfasta",
 #'   }
 #' @export SignalpResult
 #' @rdname SignalpResult_methods 
+#' @return SignalpResult object
 #' @examples 
 #' # read fasta file in AAStringSet object
 #' aa <- readAAStringSet(system.file("extdata",
@@ -410,6 +412,7 @@ setMethod(f = "getSPtibble",
 #' }
 #' @export WolfResult
 #' @rdname  WolfResult_methods
+#' @return WolfResult object
 #' @example 
 #' ini <- WolfResult()
 
@@ -535,6 +538,7 @@ TMhmmResult <- setClass("TMhmmResult",
 #' @param tm_tibble parsed tmhmm output in tabular format
 #' @export
 #' @docType methods
+#' @return TMhmmREsult object
 #' @rdname TMhmmResult_methods
 
 setGeneric(name = "setTMtibble",
@@ -674,6 +678,7 @@ TargetpResult <- setClass("TargetpResult",
 #' @param theObject an object of TargetpResult class
 #' @param tp_tibble parsed targetp output in tabular format
 #' @export
+#' @return TargetpResult object
 #' @docType methods
 #' @rdname TargetpResult_methods
 

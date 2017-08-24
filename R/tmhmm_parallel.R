@@ -5,6 +5,7 @@
 #' This function combines multiple instances of TMhmmResult class, typically generated with parLapply
 #' @param arguments - a list of TMhmmResult objects to be combined in one
 #' @export
+#' @return TMhmmResult object
 #' @examples 
 #' my_pa <- my_pa <- manage_paths(
 #'                               system.file("extdata",
@@ -72,7 +73,8 @@ combine_TMhmmResult <- function(arguments) {
 #'                  N-terminal signal peptide could be erroneously \cr
 #'                  predicted as TM domain, avoid this
 #' @param paths tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function
-#' @param TM  allowed number of TM domains in mature peptides, recommended value <= 1; use 0 for strict filtering   
+#' @param TM  allowed number of TM domains in mature peptides, recommended value <= 1; use 0 for strict filtering 
+#' @return TMhmmResult object
 #' @export        
 #' @examples 
 #'           

@@ -22,6 +22,9 @@ setTPtibble(theObject, tp_tibble)
 
 \item{tp_tibble}{parsed targetp output in tabular format}
 }
+\value{
+TargetpResult object
+}
 \description{
 An S4 class to represent intermediate and final outputs of the targetP prediction step
 

@@ -7,8 +7,9 @@
 #'                  N-terminal signal peptide could be erroneously \cr
 #'                  predicted as TM domain, avoid this
 #' @param paths tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function
-#' @param TM  allowed number of TM domains in mature peptides, recommended value <= 1; use 0 for strict filtering             
+#' @param TM  allowed number of TM domains in mature peptides, recommended value <= 1; use 0 for strict filtering 
 #' @export
+#' @return TMhmmResult object
 #' @examples 
 #'           
 #' my_pa <- manage_paths(system.file("extdata", 

@@ -3,6 +3,7 @@
 #' This helper function combines multiple instances of TargetpResult class, typically generated with parLapply
 #' @param arguments - a list of TargetpResult objects to be combined in one
 #' @export
+#' @return TargetpResult object
 #' @examples 
 #' my_pa <- my_pa <- manage_paths(system.file("extdata",
 #'                                            "sample_paths",

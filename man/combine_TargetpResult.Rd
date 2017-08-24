@@ -9,6 +9,9 @@ combine_TargetpResult(arguments)
 \arguments{
 \item{arguments}{- a list of TargetpResult objects to be combined in one}
 }
+\value{
+TargetpResult object
+}
 \description{
 This helper function combines multiple instances of TargetpResult class, typically generated with parLapply
 }

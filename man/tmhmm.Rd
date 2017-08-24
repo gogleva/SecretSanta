@@ -16,6 +16,9 @@ predicted as TM domain, avoid this}
 
 \item{TM}{allowed number of TM domains in mature peptides, recommended value <= 1; use 0 for strict filtering}
 }
+\value{
+TMhmmResult object
+}
 \description{
 This function calls local TMHMM, expects CBSresult class objects with populated mature_fasta slot.
 To generate it run signalp first.

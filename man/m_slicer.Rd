@@ -14,6 +14,9 @@ m_slicer(input_object, length_threshold, run_mode)
 \item{run_mode}{\strong{slice} - to just slice input fasta, regardless of it's origin;
 \strong{rescue} - to get proteins not predicted to be secreted on the initial run, generate slices;}
 }
+\value{
+a set of sliced sequences, AAStringSet object
+}
 \description{
 Experimental option.
 This function generates all possible subsequences starting with M.

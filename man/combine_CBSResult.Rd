@@ -9,6 +9,9 @@ combine_CBSResult(...)
 \arguments{
 \item{...}{- a list of CBSResult objects to be combined}
 }
+\value{
+CBSResult object
+}
 \description{
 Minimal function to combine objects of CBSResult class.
 }

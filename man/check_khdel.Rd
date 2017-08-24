@@ -14,6 +14,9 @@ check_khdel(input_obj, run_mode)
 \item piper - if you run this function on the output of other CBS tools;
 }}
 }
+\value{
+ErResult object
+}
 \description{
 This function checks presence of terminal KDEL/HDEL sequences in the candidate secreted proteins.
 }

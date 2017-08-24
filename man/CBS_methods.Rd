@@ -32,6 +32,9 @@ setInfasta(theObject, in_fasta)
 
 \item{out_fasta}{output fasta, AAStringSet object}
 }
+\value{
+CBSREsult object
+}
 \description{
 An S4 class to represent minimal basic structure of CBS output objects.
 

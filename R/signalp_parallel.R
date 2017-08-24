@@ -5,6 +5,7 @@
 #' This function splits large XStringSet files into chunks of given size and returns a list of AAStringSets, those could be written to tmp files.
 #' @param string_set - input AAStringSet that requires spliting;
 #' @param chunk_size - number of sequenses in a single chunk;
+#' @return list of AAStringSet chunks
 #' @export
 #' @examples 
 #' aa <- readAAStringSet(system.file("extdata", 
@@ -37,6 +38,7 @@ split_XStringSet <- function(string_set, chunk_size){
 #' This function combines multiple instances of SignalpResult class, typically generated with parLapply
 #' @param arguments - a list of SignalpResult objects to be combined in one
 #' @export
+#' @return SignalpResult object
 #' @examples 
 #' my_pa <- manage_paths(system.file(
 #'                       "extdata",
@@ -109,6 +111,7 @@ combine_SignalpResult <- function(arguments) {
 #' Minimal function to combine objects of CBSResult class.
 #' @param ... - a list of CBSResult objects to be combined
 #' @export
+#' @return CBSResult object
 #' @examples 
 #' inp2 <- CBSResult(in_fasta = 
 #'                   readAAStringSet(

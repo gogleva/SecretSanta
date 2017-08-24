@@ -7,6 +7,7 @@
 #' \item starter - if it is the first step in pipeline;
 #' \item piper - if you run this function on the output of other CBS tools;
 #' }
+#' @return ErResult object
 #' @export
 #' @examples 
 #' # check ER retention signals in CBSResult object before running signalp or any other predictions

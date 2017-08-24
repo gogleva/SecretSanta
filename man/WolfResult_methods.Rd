@@ -22,6 +22,9 @@ setWOLFtibble(theObject, wolf_tibble)
 
 \item{wolf_tibble}{parsed output of wolfpsort in tabular format}
 }
+\value{
+WolfResult object
+}
 \description{
 An S4 class to represent outputs of WolfPsort
 

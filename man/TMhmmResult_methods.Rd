@@ -30,6 +30,9 @@ setTMtibble(theObject, tm_tibble)
 
 \item{tm_tibble}{parsed tmhmm output in tabular format}
 }
+\value{
+TMhmmREsult object
+}
 \description{
 An S4 class to represent intermediate and final outputs of the TMHMM prediction step
 
