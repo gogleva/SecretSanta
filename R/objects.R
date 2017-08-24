@@ -4,6 +4,7 @@
 #' @slot out_fasta       output fasta with only positive candidates,
 #'                       i.e those that passed tool filters
 #' @export CBSResult
+#' @rdname CBS_methods
 #' @examples
 #' # read fasta file in AAStringSet object
 #' aa <- readAAStringSet(system.file("extdata", 
@@ -14,8 +15,8 @@
 #' # create an emty instance of CBSResult class
 #' cbs <- CBSResult()
 #' 
-#' # populate in_fasta attribute with aa
-#' cbs <- setInfasta(cbs, aa)
+#' # populate in_fasta and out_fasta slots with aa
+#' cbs <- CBSResult(in_fasta = aa, out_fasta = aa)
 #' 
 #' # populate out_fasta attribute with aa
 #' cbs <- setOutfasta(cbs, aa)
@@ -90,7 +91,6 @@ CBSResult <- setClass("CBSResult",
 #' @export
 #' @docType methods
 #' @rdname CBS_methods
-#' @examples 
 
 setGeneric(name = "setInfasta",
            def = function(theObject, in_fasta)
@@ -189,7 +189,8 @@ setMethod(f = "getOutfasta",
 #'   \item Smean - the average S-score of the possible signal peptide (from position 1 to the position immediately before #              the maximal Y-score)
 #'   \item Prediction - final desision on whether the protein is secreted or not 
 #'   }
-#' @export SignalpResult 
+#' @export SignalpResult
+#' @rdname SignalpResult_methods 
 #' @examples 
 #' # read fasta file in AAStringSet object
 #' aa <- readAAStringSet(system.file("extdata",

@@ -14,3 +14,9 @@ split_XStringSet(string_set, chunk_size)
 \description{
 This function splits large XStringSet files into chunks of given size and returns a list of AAStringSets, those could be written to tmp files.
 }
+\examples{
+aa <- readAAStringSet(system.file("extdata", 
+                                   "sample_prot_100.fasta",
+                                   package = "SecretSanta"))
+split_XStringSet(aa,10)                                   
+}

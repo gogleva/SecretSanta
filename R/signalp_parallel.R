@@ -6,6 +6,11 @@
 #' @param string_set - input AAStringSet that requires spliting;
 #' @param chunk_size - number of sequenses in a single chunk;
 #' @export
+#' @examples 
+#' aa <- readAAStringSet(system.file("extdata", 
+#'                                    "sample_prot_100.fasta",
+#'                                    package = "SecretSanta"))
+#' split_XStringSet(aa,10)                                   
 
 split_XStringSet <- function(string_set, chunk_size){
                                 
