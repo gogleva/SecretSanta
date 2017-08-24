@@ -10,12 +10,21 @@
 #' @export
 #' @examples 
 #' # check ER retention signals in CBSResult object before running signalp or any other predictions
-#' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+#' aa <- readAAStringSet(system.file("extdata",
+#'                                   "sample_prot_100.fasta",
+#'                                    package = "SecretSanta"),
+#'                       use.names = TRUE)
 #' inp <- SignalpResult(in_fasta = aa[1:10])
 #' et_s <- check_khdel(inp, run_mode = 'starter')
 #' 
-#' my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
-#' step1_sp2 <- signalp(inp, version = 4, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
+#' my_pa <- manage_paths(system.file("extdata",
+#'                                   "sample_paths",
+#'                                    package = "SecretSanta"))
+#' step1_sp2 <- signalp(inp,
+#'                      version = 4,
+#'                      organism_type = 'euk',
+#'                      run_mode = 'starter',
+#'                      paths = my_pa)
 #' 
 #' # check ER retention signal in the signalp output, 'starter' mode (will process in_fasta field)
 #' et_sp <- check_khdel(step1_sp2, run_mode = 'starter')
