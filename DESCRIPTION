@@ -2,20 +2,20 @@ Package: SecretSanta
 Title: predict, annotate, classify, visualise secretomes
 Version: 0.0.0.9000
 Authors@R: person("Anna", "Gogleva", email = "anna.gogleva@slcu.cam.ac.uk", role = c("aut", "cre"))
-Description: Functions and integarted workflow for automated secretome prediction and annotation based on input amino acid sequences.
-biocViews: 
+Description: Functions and integarted workflow for automated secretome prediction and annotation.
 Depends: R (>= 3.4.0),
-        dplyr,
-        Biostrings,
-        parallel,
-        readr,
-        tibble,
-        stringr
+         Biostrings,
+         dplyr
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1.9000
-Imports: methods
+Imports: methods,
+        parallel,
+        readr,
+        tibble,
+        stringr,
+        magrittr
 Suggests:
     testthat,
     knitr,
