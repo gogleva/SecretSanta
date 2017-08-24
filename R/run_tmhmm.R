@@ -11,11 +11,19 @@
 #' @export
 #' @examples 
 #'           
-#' my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+#' my_pa <- manage_paths(system.file("extdata", 
+#'                       "sample_paths",
+#'                       package = "SecretSanta"))
 #' inp <- SignalpResult()
-#' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
-#' inp <- setInfasta(inp, aa)
-#' s1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
+#' aa <- readAAStringSet(system.file("extdata",
+#'                                   "sample_prot_100.fasta",
+#'                                    package = "SecretSanta"))
+#' inp <- setInfasta(inp, aa[1:10])
+#' s1_sp2 <- signalp(inp,
+#'                   version = 2,
+#'                   'euk',
+#'                   run_mode = "starter",
+#'                   paths = my_pa)
 #' tm <- tmhmm(s1_sp2, paths = my_pa, TM = 1)
 
 tmhmm <- function(input_obj, paths, TM) {
