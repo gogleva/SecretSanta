@@ -309,7 +309,7 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
                                  "Spos", "Smean", "Prediction")
 
       sp <- sp %>% dplyr::filter_(~Prediction == 'Y')
-      sp <- dplyr::mutate(sp, Prediction = ifelse(Prediction == 'Y', 'Signal peptide'))
+      sp$Prediction <- ifelse(sp$Prediction == 'Y', 'Signal peptide')
 
 
     } else if (version < 4) {

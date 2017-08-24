@@ -47,8 +47,8 @@ check_khdel <- function(input_obj, run_mode) {
   if (length(fasta) == 0) {stop('query fasta is empty, please ensure you are using correct run_mode')}
   
   # find and remove termial ER retention motifs
-  ER1 <- AAString('KDEL')
-  ER2 <- AAString('HDEL')
+  ER1 <- Biostrings::AAString('KDEL')
+  ER2 <- Biostrings::AAString('HDEL')
   tails <- subseq(fasta, -4, -1) # last 4 aminno acids in each protein
   un <- !(as.logical(vcountPattern(ER1, tails)) | as.logical(vcountPattern(ER2, tails)))
   
