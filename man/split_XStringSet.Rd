@@ -17,6 +17,7 @@ This function splits large XStringSet files into chunks of given size and return
 \examples{
 aa <- readAAStringSet(system.file("extdata", 
                                    "sample_prot_100.fasta",
-                                   package = "SecretSanta"))
+                                   package = "SecretSanta"
+                                  ))
 split_XStringSet(aa,10)                                   
 }

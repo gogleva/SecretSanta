@@ -14,3 +14,11 @@ An S4 class to represent intermediate and final outputs of the TMHMM prediction 
 \item{\code{retained}}{- sequences with ER retention signals}
 }}
 
+\examples{
+aa <- readAAStringSet(system.file("extdata", 
+                                  "small_prot.fasta",
+                                   package = "SecretSanta"),
+                      use.names = TRUE)
+er <- check_khdel(CBSResult(in_fasta = aa), run_mode = 'starter')
+class(er)
+}

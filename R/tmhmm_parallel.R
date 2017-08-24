@@ -209,7 +209,7 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
     cl <- makeCluster(no_cores)
     # run parallel process
     
-    clusterEvalQ(cl, library("SecretSanta"))
+    clusterEvalQ(cl,  envir = environment())
     clusterExport(cl=cl, varlist=c("my_pa")) # or path?
     
     result <- parLapply(cl, fasta_tuples, simple_tmhmm)

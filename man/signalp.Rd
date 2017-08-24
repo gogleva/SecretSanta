@@ -46,12 +46,14 @@ This function calls local signalp to predict the presence and location of signal
 # set paths for external dependencies with manage_paths()
 my_pa <- manage_paths(system.file("extdata",
                                   "sample_paths",
-                                   package = "SecretSanta"))
+                                  package = "SecretSanta"
+                                  ))
 
 # read fasta file in AAStringSet object
 aa <- readAAStringSet(system.file("extdata",
                                   "sample_prot_100.fasta",
-                                   package = "SecretSanta"))
+                                  package = "SecretSanta"
+                                  ))
 
 # assign this object to the input_fasta slot of empty CBSResult object
 inp <- CBSResult(in_fasta = aa[1:10])

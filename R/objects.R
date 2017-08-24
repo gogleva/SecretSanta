@@ -409,6 +409,9 @@ setMethod(f = "getSPtibble",
 #'   \item localization - the most probable localization
 #' }
 #' @export WolfResult
+#' @rdname  WolfResult_methods
+#' @example 
+#' ini <- WolfResult()
 
 WolfResult <- setClass("WolfResult",
                           contains = "CBSResult",
@@ -476,6 +479,25 @@ setMethod(f = "getWOLFtibble",
 #'   \item Topology - the topology predicted by N-best' 
 #' }
 #' @export TMhmmResult
+#' @rdname TMhmmResult_methods
+#' @examples 
+#' my_pa <- manage_paths(system.file("extdata", 
+#'                                   "sample_paths",
+#'                                   package = "SecretSanta"))
+#' inp <- SignalpResult()
+#' aa <- readAAStringSet(system.file("extdata", 
+#'                                   "small_prot.fasta",
+#'                                    package = "SecretSanta"))
+#'                                                           
+#' inp <- setInfasta(inp, aa)
+#' s1_sp2 <- signalp(inp,
+#'                  version = 2,
+#'                  'euk',
+#'                  run_mode = "starter",
+#'                  paths = my_pa)
+#' tm <- tmhmm(s1_sp2, paths = my_pa, TM = 1)
+#' class(tm)
+#' getTMtibble(tm)
 
 TMhmmResult <- setClass("TMhmmResult",
                            contains = "CBSResult",
@@ -589,6 +611,13 @@ setMethod(f = "getOutMatfasta",
 #'
 #' @slot retained - sequences with ER retention signals
 #' @export ErResult
+#' @examples
+#' aa <- readAAStringSet(system.file("extdata", 
+#'                                   "small_prot.fasta",
+#'                                    package = "SecretSanta"),
+#'                       use.names = TRUE)
+#' er <- check_khdel(CBSResult(in_fasta = aa), run_mode = 'starter')
+#' class(er)
 
 ErResult <- setClass("ErResult",
                       contains = "CBSResult",
@@ -623,6 +652,9 @@ ErResult <- setClass("ErResult",
 #'     }
 #' }
 #' @export TargetpResult
+#' @rdname TargetpResult_methods
+#' @example 
+#' ini <- TargetpResult()
 
 TargetpResult <- setClass("TargetpResult",
                         contains = "CBSResult",

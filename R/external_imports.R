@@ -9,6 +9,7 @@
 #' @importFrom Biostrings startIndex
 #' @importFrom Biostrings width
 #' @importFrom Biostrings alphabetFrequency
+#' @importFrom Biostrings writeXStringSet
 #' @importClassesFrom Biostrings AAString
 #' @importClassesFrom Biostrings AAStringSet
 #' @import dplyr

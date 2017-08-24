@@ -9,7 +9,8 @@
 #' @examples 
 #' aa <- readAAStringSet(system.file("extdata", 
 #'                                    "sample_prot_100.fasta",
-#'                                    package = "SecretSanta"))
+#'                                    package = "SecretSanta"
+#'                                   ))
 #' split_XStringSet(aa,10)                                   
 
 split_XStringSet <- function(string_set, chunk_size){
@@ -40,25 +41,29 @@ split_XStringSet <- function(string_set, chunk_size){
 #' my_pa <- manage_paths(system.file(
 #'                       "extdata",
 #'                       "sample_paths",
-#'                        package = "SecretSanta"))
+#'                       package = "SecretSanta"
+#'                       ))
 #'                                                  
 #' inp2 <- CBSResult(in_fasta =
 #'                   readAAStringSet(
 #'                   system.file("extdata",
 #'                   "tail_prot.fasta",
-#'                   package = "SecretSanta")
+#'                   package = "SecretSanta"
+#'                  )
 #'                   ))
 #' inp3 <- CBSResult(in_fasta = 
 #'                   readAAStringSet(
 #'                   system.file("extdata",
 #'                   "tail2_prot.fasta",
-#'                   package = "SecretSanta")
+#'                   package = "SecretSanta"
+#'                  )
 #'                   ))
 #' inp4 <- CBSResult(in_fasta =
 #'                  readAAStringSet(
 #'                  system.file("extdata",
 #'                  "sample_prot_100.fasta",
-#'                  package = "SecretSanta")
+#'                  package = "SecretSanta"
+#'                 )
 #'                  ))
 #'                   
 #' sp1 <- signalp(input_obj = inp2,
@@ -109,19 +114,22 @@ combine_SignalpResult <- function(arguments) {
 #'                   readAAStringSet(
 #'                   system.file("extdata",
 #'                   "tail_prot.fasta",
-#'                   package = "SecretSanta")
+#'                   package = "SecretSanta"
+#'                  )
 #'                   ))
 #' inp3 <- CBSResult(in_fasta =
 #'                   readAAStringSet(
 #'                   system.file("extdata",
 #'                   "tail2_prot.fasta",
-#'                   package = "SecretSanta")
+#'                   package = "SecretSanta"
+#'                  )
 #'                   ))
 #' inp4 <- CBSResult(in_fasta =
 #'                   readAAStringSet(
 #'                   system.file("extdata",
 #'                   "sample_prot_100.fasta",
-#'                   package = "SecretSanta")))
+#'                   package = "SecretSanta"
+#'                  )))
 #' combined_CBS <- combine_CBSResult(inp2, inp3, inp4)
 
 combine_CBSResult <- function(...) {
@@ -178,12 +186,14 @@ combine_CBSResult <- function(...) {
 #' # set paths for external dependencies with manage_paths()
 #' my_pa <- manage_paths(system.file("extdata",
 #'                                   "sample_paths",
-#'                                    package = "SecretSanta"))
+#'                                   package = "SecretSanta"
+#'                                   ))
 #' 
 #' # read fasta file in AAStringSet object
 #' aa <- readAAStringSet(system.file("extdata",
 #'                                   "sample_prot_100.fasta",
-#'                                    package = "SecretSanta"))
+#'                                   package = "SecretSanta"
+#'                                   ))
 #' 
 #' # assign this object to the input_fasta slot of empty CBSResult object
 #' inp <- CBSResult(in_fasta = aa[1:10])
@@ -219,7 +229,7 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
   # ------ Helper functions:
   
   # helper function: crop long names for AAStringSet object, return character vector
-  crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
+  crop_names <- function(x){unlist(str_split(x, " "))[1]}
   
   # helper function to truncate log sequences or throw them away
 
@@ -241,7 +251,7 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
                        '_truncated',
                        sep = '')
       names(seq_trunc) <- t_names #new names for sequences to be truncated
-      seq_trunc <- Biostrings::subseq(seq_trunc, 1, threshold - 1)
+      seq_trunc <- subseq(seq_trunc, 1, threshold - 1)
       seq_set <- sample(c(seq_keep, seq_trunc)) # shuffle AAStringset to avoid having all the heavy sequences in the last chunk
 
       if (all(width(seq_set) < threshold)) return(seq_set)
@@ -292,28 +302,28 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
     # ---- Run prediction
     # convert fasta to a temporary file:
     out_tmp <- tempfile() #create a temporary file for fasta
-    Biostrings::writeXStringSet(aaSet, out_tmp) #write tmp fasta file
+    writeXStringSet(aaSet, out_tmp) #write tmp fasta file
 
     # make a system call of signalp based on the tmp file
 
-    full_pa <- as.character(paths %>% dplyr::filter_(~tool == signalp_version) %>% dplyr::select_(~path))
+    full_pa <- as.character(paths %>% filter_(~tool == signalp_version) %>% select_(~path))
     message(paste('Submitted sequences...', length(aaSet)))
 
     # ----
     if (version >= 4) {
       # runing signalp versios 4 and 4.1, potentially should work for 5
-      sp <- tibble::as.tibble(read.table(text = (system(paste(full_pa, "-t", organism_type, out_tmp), intern = TRUE))))
+      sp <- as.tibble(read.table(text = (system(paste(full_pa, "-t", organism_type, out_tmp), intern = TRUE))))
       names(sp) <- c("gene_id", "Cmax", "Cpos",
                      "Ymax", "Ypos", "Smax",
                      "Spos", "Smean", "D",
                      "Prediction", "Dmaxcut", "Networks-used")
       # reorder columns to match sp2/3 output:
 
-      sp <- sp %>% dplyr::select("gene_id", "Cmax", "Cpos",
+      sp <- sp %>% select("gene_id", "Cmax", "Cpos",
                                  "Ymax", "Ypos", "Smax",
                                  "Spos", "Smean", "Prediction")
 
-      sp <- sp %>% dplyr::filter_(~Prediction == 'Y')
+      sp <- sp %>% filter_(~Prediction == 'Y')
       sp$Prediction <- ifelse(sp$Prediction == 'Y', 'Signal peptide')
 
 
@@ -333,12 +343,12 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
     # replace long names with cropped names
     names(aaSet) <- cropped_names
     # get ids of candidate secreted proteins
-    candidate_ids <- sp %>% dplyr::select_(~gene_id) %>% unlist(use.names = FALSE)
+    candidate_ids <- sp %>% select_(~gene_id) %>% unlist(use.names = FALSE)
     out_fasta_sp <- aaSet[candidate_ids]
 
     # generate mature sequences
 
-    sp_Cpos <- sp %>% dplyr::select_(~Cpos) %>% unlist(use.names = FALSE)
+    sp_Cpos <- sp %>% select_(~Cpos) %>% unlist(use.names = FALSE)
     cropped_fasta <- subseq(out_fasta_sp, start = sp_Cpos, end = -1)
 
     # construct output object
@@ -388,7 +398,7 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
     cl <- makeCluster(no_cores)
     # run parallel process
 
-    clusterEvalQ(cl, library("SecretSanta"))
+    clusterEvalQ(cl, envir = environment())
     clusterExport(cl=cl, varlist=c("paths"), envir = environment()) #
     result <- parLapply(cl, split_fasta, simple_signalp)
     stopCluster(cl)
