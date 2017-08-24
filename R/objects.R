@@ -90,6 +90,7 @@ CBSResult <- setClass("CBSResult",
 #' @export
 #' @docType methods
 #' @rdname CBS_methods
+#' @examples 
 
 setGeneric(name = "setInfasta",
            def = function(theObject, in_fasta)

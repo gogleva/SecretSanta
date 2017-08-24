@@ -148,7 +148,7 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
       con <- system(paste(full_pa, out_tmp, '--short'), intern = TRUE)
       con_tmp <- tempfile()
       write(con, con_tmp)
-      tm <- suppressMessages(readr::read_delim(con_tmp, '\t', col_names = F))
+      tm <- suppressMessages(readr::read_delim(con_tmp, '\t', col_names = FALSE))
       
       names(tm) <- c("gene_id", "length", "ExpAA",
                      "First60", "PredHel", "Topology")
@@ -198,7 +198,7 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
     
     split_out <- split_XStringSet(all_out_fasta, 1000)
     split_mature <- split_XStringSet(all_mat_fasta, 1000)
-    fasta_tuples <- mapply(list, split_out, split_mature, SIMPLIFY=F)
+    fasta_tuples <- mapply(list, split_out, split_mature, SIMPLIFY = FALSE)
     
     # do the parallel jobs
     

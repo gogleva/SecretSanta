@@ -223,12 +223,12 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
     
     if (drop_n == 0) return(seq_set) 
 
-    if (truncate == F) {
+    if (truncate == FALSE) {
       seq_set <- seq_set[width(seq_set) < threshold]
       warning(paste(drop_n, 'long sequenses have been thrown away'))
       return(seq_set)
 
-    } else if (truncate == T) {
+    } else if (truncate == TRUE) {
       message(paste(drop_n, 'sequences to be truncated'))
       seq_keep <- seq_set[width(seq_set) < threshold] # not so long sequences
       seq_trunc <- seq_set[width(seq_set) >= threshold] # sequences we need to truncate

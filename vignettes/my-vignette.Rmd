@@ -140,10 +140,10 @@ Please note that aliases will not work when tools are called from R and changing
 
 To check that all the required dependencies are installed correctly and can be executed in principle, run ```manage_paths``` function. Note, that ```manage_paths``` is case insensitive and will  convert all the tool names to the lower case. 
 
-```{r manage_paths, echo = TRUE, collapse = TRUE, cache = TRUE}
+```{r manage_paths, echo = TRUE, collapse = TRUE}
 santa_paths <- manage_paths(system.file("extdata",
                                         "sample_paths",
-                                        package = "SecretSanta"))
+                                         package = "SecretSanta"))
 ```
 
 ## Signalp
@@ -387,7 +387,6 @@ This is an experimental option. ``m_slicer`` function takes the input amino acid
 + ``slice`` - to simply slice input fasta regardless of it's origin;
 
 ```{r m_slicer slice, cache=FALSE}
-
 slice <- m_slicer(aa,  # a set of amino acid seqeunces
                   run_mode = 'slice',
                   length_threshold = 100 # minimal length of the outputed slices
@@ -413,7 +412,7 @@ sp_rescue <- signalp(r_inp,
                     organism_type = 'euk',
                     run_mode = 'starter',
                     paths = santa_paths,
-                    truncate = T)
+                    truncate = TRUE)
 ```
 The slicing procedure returned 15 additional potentially secreted candidates.
 

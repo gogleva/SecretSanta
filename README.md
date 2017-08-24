@@ -90,6 +90,7 @@ stand alone CBS tools are available only for Unix, se we should not care about W
 - R CMD check: fix errors
 - R CMD check: fix warnings    
 - R CMD build: no warnings or errors
+- R CMD check: fix notes
 
 TO DO (required minimum):
 
@@ -109,7 +110,6 @@ take too long to run for R CMD check:
     - short pipeline
     - long pipeline
 - Individual (and cool!) plotting functions for the outputs
-- R CMD check: fix notes
 
 
 essential expantion:
