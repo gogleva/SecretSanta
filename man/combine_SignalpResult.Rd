@@ -16,7 +16,7 @@ This function combines multiple instances of SignalpResult class, typically gene
 my_pa <- manage_paths(system.file(
                       "extdata",
                       "sample_paths",
-                      package = "SecretSanta"))
+                       package = "SecretSanta"))
                                                  
 inp2 <- CBSResult(in_fasta =
                   readAAStringSet(

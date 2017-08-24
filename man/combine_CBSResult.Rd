@@ -13,8 +13,22 @@ combine_CBSResult(...)
 Minimal function to combine objects of CBSResult class.
 }
 \examples{
-inp2 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "tail_prot.fasta", package = "SecretSanta")))
-inp3 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "tail2_prot.fasta", package = "SecretSanta")))
-inp4 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta")))
+inp2 <- CBSResult(in_fasta = 
+                  readAAStringSet(
+                  system.file("extdata",
+                  "tail_prot.fasta",
+                  package = "SecretSanta")
+                  ))
+inp3 <- CBSResult(in_fasta =
+                  readAAStringSet(
+                  system.file("extdata",
+                  "tail2_prot.fasta",
+                  package = "SecretSanta")
+                  ))
+inp4 <- CBSResult(in_fasta =
+                  readAAStringSet(
+                  system.file("extdata",
+                  "sample_prot_100.fasta",
+                  package = "SecretSanta")))
 combined_CBS <- combine_CBSResult(inp2, inp3, inp4)
 }

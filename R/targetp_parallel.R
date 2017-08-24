@@ -7,15 +7,18 @@
 #' my_pa <- my_pa <- manage_paths(system.file("extdata",
 #'                                            "sample_paths",
 #'                                             package = "SecretSanta")) 
-#' inp2 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata",
-#'                                                          "tail_prot.fasta",
-#'                                                           package = "SecretSanta")))
-#' inp3 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata",
-#'                                                          "tail2_prot.fasta",
-#'                                                           package = "SecretSanta")))
-#' inp4 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata",
-#'                                                          "sample_prot_100.fasta",
-#'                                                           package = "SecretSanta")))
+#' inp2 <- CBSResult(in_fasta = readAAStringSet(
+#'                              system.file("extdata",
+#'                              "tail_prot.fasta",
+#'                              package = "SecretSanta")))
+#' inp3 <- CBSResult(in_fasta = readAAStringSet(
+#'                              system.file("extdata",
+#'                              "tail2_prot.fasta",
+#'                              package = "SecretSanta")))
+#' inp4 <- CBSResult(in_fasta = readAAStringSet(
+#'                              system.file("extdata",
+#'                              "sample_prot_100.fasta",
+#'                              package = "SecretSanta")))
 #' 
 #' tp1 <- targetp(input_obj = inp2,
 #'                network_type = 'N',
@@ -68,14 +71,21 @@ combine_TargetpResult <- function(arguments) {
 #' @export
 #' @return an object of TargetpResult class
 #' @examples 
-#' my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+#' my_pa <- manage_paths(system.file("extdata",
+#'                                   "sample_paths",
+#'                                   package = "SecretSanta"))
 #' # read fasta file in AAStringSet object
-#' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+#' aa <- readAAStringSet(system.file("extdata",
+#'                       "sample_prot_100.fasta",
+#'                       package = "SecretSanta"))
 # 
 #' # assign this object to the input_fasta slot of SignalpResult object
-#' inp <- CBSResult(in_fasta = aa)
+#' inp <- CBSResult(in_fasta = aa[1:10])
 #' 
-#' tp_result <- targetp(input_object = inp, network_type = 'N', run_mode = 'starter', paths = my_pa)
+#' tp_result <- targetp(input_object = inp,
+#'                      network_type = 'N',
+#'                      run_mode = 'starter',
+#'                      paths = my_pa)
 
 
 targetp <- function(input_object, network_type, run_mode, paths) {
@@ -192,7 +202,6 @@ targetp <- function(input_object, network_type, run_mode, paths) {
      return(combined_TargetpResult)
      
    } 
-     
-}
+  }
 
 

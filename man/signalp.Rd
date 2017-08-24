@@ -44,20 +44,36 @@ This function calls local signalp to predict the presence and location of signal
 #Example pipe would loook like this:
 
 # set paths for external dependencies with manage_paths()
-my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+my_pa <- manage_paths(system.file("extdata",
+                                  "sample_paths",
+                                   package = "SecretSanta"))
 
 # read fasta file in AAStringSet object
-aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+aa <- readAAStringSet(system.file("extdata",
+                                  "sample_prot_100.fasta",
+                                   package = "SecretSanta"))
 
 # assign this object to the input_fasta slot of empty CBSResult object
 inp <- CBSResult(in_fasta = aa[1:10])
 
 # run signalp2 on the initial file:
-step1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
+step1_sp2 <- signalp(inp,
+                     version = 2,
+                     'euk', 
+                     run_mode = "starter",
+                     paths = my_pa)
 
 # run signalp3 on the result object, will automatically pass out_fasta slot to signalp3:
-step2_sp3 <- signalp(step1_sp2, version = 3, 'euk', run_mode = "piper", paths = my_pa)
+step2_sp3 <- signalp(step1_sp2,
+                     version = 3,
+                     'euk',
+                     run_mode = "piper",
+                     paths = my_pa)
 
 # run signalp4 on the result object, will automatically pass out_fasta slot to signalp4:
-step3_sp4 <- signalp(step2_sp3, version = 4, 'euk', run_mode = "piper", paths = my_pa)
+step3_sp4 <- signalp(step2_sp3,
+                     version = 4,
+                     'euk',
+                     run_mode = "piper",
+                     paths = my_pa)
 }

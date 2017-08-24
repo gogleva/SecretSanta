@@ -13,12 +13,30 @@ combine_TMhmmResult(arguments)
 This function combines multiple instances of TMhmmResult class, typically generated with parLapply
 }
 \examples{
-my_pa <- my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta")) 
-inp2 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "tail_prot.fasta", package = "SecretSanta")))
-inp4 <- CBSResult(in_fasta = readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta")))
-
-sp1 <- signalp(input_obj = inp2, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
-sp3 <- signalp(input_obj = inp4, version = 2, organism_type = 'euk', run_mode = 'starter', paths = my_pa)
+my_pa <- my_pa <- manage_paths(
+                              system.file("extdata",
+                              "sample_paths",
+                              package = "SecretSanta")) 
+inp2 <- CBSResult(in_fasta =
+                  readAAStringSet(
+                  system.file("extdata",
+                  "tail_prot.fasta",
+                  package = "SecretSanta")))
+inp4 <- CBSResult(in_fasta = 
+                  readAAStringSet(
+                  system.file("extdata",
+                  "sample_prot_100.fasta",
+                  package = "SecretSanta")))
+sp1 <- signalp(input_obj = inp2,
+               version = 2,
+               organism_type = 'euk',
+               run_mode = 'starter',
+               paths = my_pa)
+sp3 <- signalp(input_obj = inp4,
+               version = 2,
+               organism_type = 'euk',
+               run_mode = 'starter',
+               paths = my_pa)
 
 tm1 <- tmhmm(sp1, paths = my_pa, TM = 1)
 tm3 <- tmhmm(sp3, paths = my_pa, TM = 1)

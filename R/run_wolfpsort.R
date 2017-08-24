@@ -8,19 +8,27 @@
 #' @return object of WolfResult class  
 #' @export
 #' @examples
-#' my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+#' my_pa <- manage_paths(system.file("extdata",
+#'                                   "sample_paths",
+#'                                    package = "SecretSanta"))
 #' 
 #' # initialise SignalpResult object
 #' inp <- SignalpResult()
 #' 
 #' # read fasta file in AAStringSet object
-#' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+#' aa <- readAAStringSet(system.file("extdata",
+#'                                   "sample_prot_100.fasta",
+#'                                   package = "SecretSanta"))
 #' 
 #' # assign this object to the input_fasta slot of SignalpResult object
-#' inp <- setInfasta(inp, aa)
+#' inp <- setInfasta(inp, aa[1:10])
 #' 
 #' # run signalp2 on the initial file:
-#' step1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter", paths = my_pa)
+#' step1_sp2 <- signalp(inp,
+#'                      version = 2,
+#'                      'euk',
+#'                      run_mode = "starter",
+#'                      paths = my_pa)
 #' 
 #' # run wolfpsort on the signalp output:
 #' w <- wolfpsort(step1_sp2, 'fungi', my_pa)

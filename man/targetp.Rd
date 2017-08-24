@@ -30,11 +30,18 @@ This function calls local targetp to predict subcellular localisation of a prote
 Parallelised
 }
 \examples{
-my_pa <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+my_pa <- manage_paths(system.file("extdata",
+                                  "sample_paths",
+                                  package = "SecretSanta"))
 # read fasta file in AAStringSet object
-aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta", package = "SecretSanta"), use.names = TRUE)
+aa <- readAAStringSet(system.file("extdata",
+                      "sample_prot_100.fasta",
+                      package = "SecretSanta"))
 # assign this object to the input_fasta slot of SignalpResult object
-inp <- CBSResult(in_fasta = aa)
+inp <- CBSResult(in_fasta = aa[1:10])
 
-tp_result <- targetp(input_object = inp, network_type = 'N', run_mode = 'starter', paths = my_pa)
+tp_result <- targetp(input_object = inp,
+                     network_type = 'N',
+                     run_mode = 'starter',
+                     paths = my_pa)
 }
