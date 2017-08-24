@@ -1,10 +1,6 @@
 .Rproj.user
 .Rhistory
 .RData
-notes
-sandbox.R
-package_tools.R
-/inst/extdata
 TMHMM_*
 inst/doc
 R/archived_functions.R
