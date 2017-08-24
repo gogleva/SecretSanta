@@ -47,7 +47,7 @@ wolfpsort <- function(input_obj, organism, paths){
 
   out_tmp <- tempfile()
   Biostrings::writeXStringSet(fasta, out_tmp)
-  full_pa <- as.character(paths %>% filter(tool == 'wolfpsort') %>% select(path))
+  full_pa <- as.character(paths %>% filter_(~tool == 'wolfpsort') %>% select_(~path))
   wolf <- system(paste(full_pa,  organism, '<', out_tmp), intern = TRUE)
   
   #parse wolf output
@@ -57,7 +57,7 @@ wolfpsort <- function(input_obj, organism, paths){
   localization <- sapply(X = wolf, field = 2, clean_strings, USE.NAMES = FALSE)
   
   #assemble result tibble with gene id and most probable sibsellular localisation
-  wolf_tbl <- as_tibble(data.frame(gene_id, localization)) %>% filter(gene_id != '#') %>% filter(localization == 'extr')
+  wolf_tbl <- as_tibble(data.frame(gene_id, localization)) %>% filter_(~gene_id != '#') %>% filter_(~localization == 'extr')
   
   message(paste('Number of candidate sequences with extracellular localisation...', nrow(wolf_tbl)))
 

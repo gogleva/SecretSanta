@@ -52,7 +52,7 @@ tmhmm <- function(input_obj, paths, TM) {
   
   message(paste('Submitted sequences...', length(fasta)))
 
-  full_pa <- as.character(paths %>% dplyr::filter(tool == 'tmhmm') %>% dplyr::select(path))
+  full_pa <- as.character(paths %>% dplyr::filter_(~tool == 'tmhmm') %>% dplyr::select_(~path))
   con <- system(paste(full_pa, out_tmp, '--short'), intern = TRUE)
   con_tmp <- tempfile()
   write(con, con_tmp)
@@ -73,7 +73,7 @@ tmhmm <- function(input_obj, paths, TM) {
                       )
   
   # change this lines in accordance with TM_thershold
-  tm <- (tm %>% dplyr::filter(PredHel <= TM))
+  tm <- (tm %>% dplyr::filter_(~PredHel <= TM))
   
   message(paste('Candidate sequences with signal peptides and 0 TM domains in mature sequence...', nrow(tm)))
   
@@ -88,7 +88,7 @@ tmhmm <- function(input_obj, paths, TM) {
   names(full_fasta) <- cropped_names
   
   #get ids of candidate secreted proteins
-  candidate_ids <- tm %>% dplyr::select(gene_id) %>% unlist(use.names = FALSE)
+  candidate_ids <- tm %>% dplyr::select_(~gene_id) %>% unlist(use.names = FALSE)
   out_fasta_tm <- full_fasta[candidate_ids]
   
   out_obj <- TMhmmResult(in_fasta = getOutfasta(input_obj), # original in fasta, full length proteins
