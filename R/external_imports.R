@@ -5,6 +5,17 @@
 #' @importFrom Biostrings readAAStringSet
 #' @importFrom Biostrings subseq
 #' @importFrom Biostrings vcountPattern
+#' @importFrom Biostrings vmatchPattern
+#' @importFrom Biostrings startIndex
+#' @importFrom Biostrings width
 #' @importFrom Biostrings alphabetFrequency
+#' @importClassesFrom Biostrings AAString
+#' @importClassesFrom Biostrings AAStringSet
 #' @import dplyr
+#' @importFrom methods getSlots
+#' @importFrom methods is
+#' @importFrom methods new
+#' @importFrom methods validObject
+#' @importFrom utils read.table
+#' @importFrom utils tail
 NULL

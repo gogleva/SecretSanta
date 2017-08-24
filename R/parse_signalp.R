@@ -87,6 +87,6 @@ parse_signalp <- function(input, input_type) {
                         "Prediction")
   
   #filter entries predicted to contain signal peptide
-  return(res %>% filter(Prediction == 'Signal peptide'))
+  return(res %>% filter(res$Prediction == 'Signal peptide'))
 }
 

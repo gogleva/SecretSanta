@@ -39,7 +39,7 @@ manage_paths <- function(path_file) {
     message('All paths are valid')
     # convert all the tool names to lower case to avoid confusion
     pp <- dplyr::mutate(pp, tool = tolower(tool))
-    } else {s
+    } else {
     message('Supplied file path does not exist.')
     message(sapply(pp %>% dplyr::filter(status == FALSE) %>% dplyr::select(path), paste, '\n'))
     message('Please check that supplied paths are correct and try again')
