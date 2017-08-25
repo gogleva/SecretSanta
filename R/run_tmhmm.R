@@ -1,13 +1,16 @@
 #' tmhmm function
 #'
-#' This function calls local TMHMM, expects CBSresult class objects with populated mature_fasta slot.
+#' This function calls local TMHMM, expects CBSresult class objects with
+#' populated mature_fasta slot.
 #' To generate it run signalp first.
 #' @param input_obj input object, an instance of SignalpResult class, \cr
-#'                  input should contain mature_fasta; in the full-length proteins \cr
-#'                  N-terminal signal peptide could be erroneously \cr
-#'                  predicted as TM domain, avoid this
-#' @param paths tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function
-#' @param TM  allowed number of TM domains in mature peptides, recommended value <= 1; use 0 for strict filtering 
+#'                  input should contain mature_fasta;
+#'                  in the full-length proteins N-terminal signal peptide could
+#'                  be erroneously predicted as TM domain, avoid this
+#' @param paths tibble with paths to external dependencies, generated with
+#'  \code{\link{manage_paths}} function
+#' @param TM  allowed number of TM domains in mature peptides,
+#'  recommended value <= 1; use 0 for strict filtering 
 #' @export
 #' @return TMhmmResult object
 #' @examples 
@@ -29,9 +32,11 @@
 
 tmhmm <- function(input_obj, paths, TM) {
 
-  if (TM >= 2) {warning('Recommended TM threshold values for mature peprides is 1')}  
+  if (TM >= 2) {
+    warning('Recommended TM threshold values for mature peprides is 1')}  
   # check that input object belongs to a valid class
-  if (is(input_obj, "SignalpResult")) {} else {stop('input_object does not belong to SignalpResult class')}
+  if (is(input_obj, "SignalpResult")) {} else {
+    stop('input_object does not belong to SignalpResult class')}
   
   # check that input object contains non-empty mature fasta slot
   s <- getSlots(class(input_obj))
@@ -53,7 +58,9 @@ tmhmm <- function(input_obj, paths, TM) {
   
   message(paste('Submitted sequences...', length(fasta)))
 
-  full_pa <- as.character(paths %>% dplyr::filter_(~tool == 'tmhmm') %>% dplyr::select_(~path))
+  full_pa <- as.character(paths %>%
+                            dplyr::filter_(~tool == 'tmhmm') %>%
+                            dplyr::select_(~path))
   con <- system(paste(full_pa, out_tmp, '--short'), intern = TRUE)
   con_tmp <- tempfile()
   write(con, con_tmp)
@@ -66,19 +73,32 @@ tmhmm <- function(input_obj, paths, TM) {
   clean_outp <- function(x) {unlist(stringr::str_split(x, '='))[2]}
   
   tm <- dplyr::mutate(tm,
-                      length = sapply(tm$length, clean_outp, USE.NAMES = FALSE),
-                      ExpAA = sapply(tm$ExpAA, clean_outp, USE.NAMES = FALSE),
-                      First60 = sapply(tm$First60, clean_outp, USE.NAMES = FALSE),
-                      PredHel = sapply(tm$PredHel, clean_outp, USE.NAMES = FALSE),
-                      Topology = sapply(tm$Topology, clean_outp, USE.NAMES = FALSE)
+                      length = sapply(tm$length,
+                                      clean_outp,
+                                      USE.NAMES = FALSE),
+                      ExpAA = sapply(tm$ExpAA,
+                                     clean_outp,
+                                     USE.NAMES = FALSE),
+                      First60 = sapply(tm$First60,
+                                       clean_outp,
+                                       USE.NAMES = FALSE),
+                      PredHel = sapply(tm$PredHel,
+                                       clean_outp,
+                                       USE.NAMES = FALSE),
+                      Topology = sapply(tm$Topology,
+                                        clean_outp,
+                                        USE.NAMES = FALSE)
                       )
   
   # change this lines in accordance with TM_thershold
   tm <- (tm %>% dplyr::filter_(~PredHel <= TM))
   
-  message(paste('Candidate sequences with signal peptides and 0 TM domains in mature sequence...', nrow(tm)))
+  message(paste('Candidate sequences with signal
+                peptides and 0 TM domains in mature sequence...',
+                nrow(tm)))
   
-  # helper function: crop long names for AAStringSet object, return character vector
+  # helper function: crop long names for AAStringSet object, return
+  # character vector
   crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
   
   #generate cropped names for input fasta
@@ -89,11 +109,13 @@ tmhmm <- function(input_obj, paths, TM) {
   names(full_fasta) <- cropped_names
   
   #get ids of candidate secreted proteins
-  candidate_ids <- tm %>% dplyr::select_(~gene_id) %>% unlist(use.names = FALSE)
+  candidate_ids <- tm %>%
+                   dplyr::select_(~gene_id) %>%
+                   unlist(use.names = FALSE)
   out_fasta_tm <- full_fasta[candidate_ids]
   
-  out_obj <- TMhmmResult(in_fasta = getOutfasta(input_obj), # original in fasta, full length proteins
-                         out_fasta = out_fasta_tm, # out fasta, full length proteins
+  out_obj <- TMhmmResult(in_fasta = getOutfasta(input_obj), # original in fasta
+                         out_fasta = out_fasta_tm, # out fasta, full length 
                          in_mature_fasta = fasta,
                          out_mature_fasta = fasta[candidate_ids],
                          tm_tibble = tm)
@@ -105,4 +127,3 @@ tmhmm <- function(input_obj, paths, TM) {
   
   if (validObject(out_obj)) {return(out_obj)}
   }
-

@@ -2,7 +2,8 @@
 
 #' split_XStringSet function
 #'
-#' This function splits large XStringSet files into chunks of given size and returns a list of AAStringSets, those could be written to tmp files.
+#' This function splits large XStringSet files into chunks of given size and 
+#' returns a list of AAStringSets, those could be written to tmp files.
 #' @param string_set - input AAStringSet that requires spliting;
 #' @param chunk_size - number of sequenses in a single chunk;
 #' @return list of AAStringSet chunks
@@ -17,7 +18,8 @@
 split_XStringSet <- function(string_set, chunk_size){
                                 
                                 if (!(is(string_set, 'XStringSet'))) {
-                                  stop('Input string_set does not belong to XStringSet class')
+                                  stop('Input string_set does not
+                                       belong to XStringSet class')
                                   }
                                 
                                 lst <- length(string_set)
@@ -27,7 +29,8 @@ split_XStringSet <- function(string_set, chunk_size){
                                 }
                                 
                                 total_seq  <- c(1:lst)
-                                chunks <- split(total_seq, ceiling(seq_along(total_seq)/chunk_size))
+                                chunks <- split(total_seq, 
+                                                ceiling(seq_along(total_seq)/chunk_size))
                                 seq_chunker <- function(x) {chunk <- string_set[x]}
                                 lapply(chunks, seq_chunker) 
                                 
@@ -35,7 +38,8 @@ split_XStringSet <- function(string_set, chunk_size){
 
 #combine_SignalpResult function
 #'
-#' This function combines multiple instances of SignalpResult class, typically generated with parLapply
+#' This function combines multiple instances of SignalpResult class,
+#'  typically generated with parLapply
 #' @param arguments - a list of SignalpResult objects to be combined in one
 #' @export
 #' @return SignalpResult object
@@ -88,16 +92,29 @@ split_XStringSet <- function(string_set, chunk_size){
 
 
 combine_SignalpResult <- function(arguments) {
-                                    if (all(sapply(arguments, is, 'SignalpResult'))) {
+                                    if (all(sapply(arguments,
+                                                   is,
+                                                   'SignalpResult'))) {
                                     } else {                               
-                                      stop('Some objects from arguments list do not belong to SignalpResult class.')
+                                      stop('Some objects from arguments
+                                           list do not belong to SignalpResult
+                                           class.')
                                     }
                                     
-                                    c_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
-                                    c_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
-                                    c_mature_fasta <- do.call(c, (lapply(arguments, getMatfasta)))
-                                    c_sp_tibble <- do.call(rbind, (lapply(arguments, getSPtibble)))
-                                    c_sp_version <- unlist((lapply(arguments, getSPversion))[1])
+                                    c_in_fasta <- do.call(c,
+                                                          (lapply(arguments,
+                                                                  getInfasta)))
+                                    c_out_fasta <- do.call(c,
+                                                           (lapply(arguments,
+                                                                   getOutfasta)))
+                                    c_mature_fasta <- do.call(c,
+                                                              (lapply(arguments,
+                                                                    getMatfasta)))
+                                    c_sp_tibble <- do.call(rbind,
+                                                           (lapply(arguments,
+                                                                   getSPtibble)))
+                                    c_sp_version <- unlist((lapply(arguments,
+                                                                   getSPversion))[1])
 
                                     c_obj <- SignalpResult(in_fasta = c_in_fasta,
                                                        out_fasta = c_out_fasta,
@@ -140,15 +157,19 @@ combine_CBSResult <- function(...) {
                               
                               if (all(sapply(arguments, is, 'CBSResult'))) {
                               } else {                               
-                                stop('Some or all objects from the arguments list do not belong to CBSResult class.')
+                                stop('Some or all objects from the arguments 
+                                     list do not belong to CBSResult class.')
                               }
                               
                               if (any(sapply(arguments, is, 'SignalpResult'))) {
-                                warning('Only in_fasta and out_fasta slots will be combined')
+                                warning('Only in_fasta and out_fasta slots will
+                                        be combined')
                               }
                               
-                              comb_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
-                              comb_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
+                              comb_in_fasta <- do.call(c, (lapply(arguments,
+                                                                  getInfasta)))
+                              comb_out_fasta <- do.call(c, (lapply(arguments,
+                                                                   getOutfasta)))
                               c_obj <- CBSResult(in_fasta = comb_in_fasta,
                                                  out_fasta = comb_out_fasta)
 
@@ -158,8 +179,12 @@ combine_CBSResult <- function(...) {
 
 #' signalp function
 #'
-#' This function calls local signalp to predict the presence and location of signal peptide cleavage sites in amino acid sequences; automatically splits large input files (>500 sequnces) and runs signalp prediction as an embarassingly parallel process on all the CPUs available.
-#' @param input_obj   an instance of CBSResult class containing protein sequences as on of the attributes
+#' This function calls local signalp to predict the presence and location of
+#' signal peptide cleavage sites in amino acid sequences; automatically splits
+#' large input files (>500 sequnces) and runs signalp prediction as an
+#' embarassingly parallel process on all the CPUs available.
+#' @param input_obj   an instance of CBSResult class containing protein 
+#' sequences as on of the attributes
 #' @param version  signalp version to run, supported versions:
 #' \itemize{
 #' \item 2
@@ -178,8 +203,11 @@ combine_CBSResult <- function(...) {
 #' \item starter - if it is the first step in pipeline;
 #' \item piper - if you run this function on the output of other CBS tools;
 #' }
-#' @param paths   tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function
-#' @param truncate logical, if TRUE - sequences longer 2000 residues will be truncated to this length limit and renamed. If FALSE - long sequences will be excluded from the analysis. Default = TRUE.
+#' @param paths   tibble with paths to external dependencies, generated with
+#'  \code{\link{manage_paths}} function
+#' @param truncate logical, if TRUE - sequences longer 2000 residues will be 
+#' truncated to this length limit and renamed. If FALSE - long sequences will
+#' be excluded from the analysis. Default = TRUE.
 #' @return an object of SignalpResult class
 #' @export
 #' @examples
@@ -208,21 +236,27 @@ combine_CBSResult <- function(...) {
 #'                      run_mode = "starter",
 #'                      paths = my_pa)
 #' 
-#' # run signalp3 on the result object, will automatically pass out_fasta slot to signalp3:
+#' # run signalp3 on the result object, will automatically pass out_fasta slot
+#' # to signalp3:
 #' step2_sp3 <- signalp(step1_sp2,
 #'                      version = 3,
 #'                      'euk',
 #'                      run_mode = "piper",
 #'                      paths = my_pa)
 #' 
-#' # run signalp4 on the result object, will automatically pass out_fasta slot to signalp4:
+#' # run signalp4 on the result object, will automatically pass out_fasta slot
+#' # to signalp4:
 #' step3_sp4 <- signalp(step2_sp3,
 #'                      version = 4,
 #'                      'euk',
 #'                      run_mode = "piper",
 #'                      paths = my_pa)
 
-signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate = NULL) {
+signalp <- function(input_obj,
+                    version,
+                    organism_type,
+                    run_mode, paths,
+                    truncate = NULL) {
   
   # ----- Set default value for parameters if not provided:
   
@@ -231,7 +265,8 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
   
   # ------ Helper functions:
   
-  # helper function: crop long names for AAStringSet object, return character vector
+  # helper function: crop long names for AAStringSet object, 
+  # return character vector
   crop_names <- function(x){unlist(str_split(x, " "))[1]}
   
   # helper function to truncate log sequences or throw them away
@@ -249,13 +284,15 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
     } else if (truncate == TRUE) {
       message(paste(drop_n, 'sequences to be truncated'))
       seq_keep <- seq_set[width(seq_set) < threshold] # not so long sequences
-      seq_trunc <- seq_set[width(seq_set) >= threshold] # sequences we need to truncate
+      seq_trunc <- seq_set[width(seq_set) >= threshold] # sequences to truncate
       t_names <- paste(unname(sapply(names(seq_trunc), crop_names)),
                        '_truncated',
                        sep = '')
       names(seq_trunc) <- t_names #new names for sequences to be truncated
       seq_trunc <- subseq(seq_trunc, 1, threshold - 1)
-      seq_set <- sample(c(seq_keep, seq_trunc)) # shuffle AAStringset to avoid having all the heavy sequences in the last chunk
+      # shuffle AAStringset to avoid having all the heavy sequences
+      # in the last chunk
+      seq_set <- sample(c(seq_keep, seq_trunc)) 
 
       if (all(width(seq_set) < threshold)) return(seq_set)
     }
@@ -264,7 +301,8 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
   # ----- Check that inputs are valid
 
   # check that input object belong to CBSResult class
-  if (is(input_obj, "CBSResult")) {} else {stop('input_object does not belong to CBSResult superclass')}
+  if (is(input_obj, "CBSResult")) {} else {
+    stop('input_object does not belong to CBSResult superclass')}
 
   # check that supplied runnig mode is valid
 
@@ -309,13 +347,17 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
 
     # make a system call of signalp based on the tmp file
 
-    full_pa <- as.character(paths %>% filter_(~tool == signalp_version) %>% select_(~path))
+    full_pa <- as.character(paths %>%
+                              filter_(~tool == signalp_version) %>% 
+                              select_(~path))
     message(paste('Submitted sequences...', length(aaSet)))
 
     # ----
     if (version >= 4) {
       # runing signalp versios 4 and 4.1, potentially should work for 5
-      sp <- as.tibble(read.table(text = (system(paste(full_pa, "-t", organism_type, out_tmp), intern = TRUE))))
+      sp <- as.tibble(read.table(text = (system(paste(full_pa, "-t",
+                                                      organism_type, out_tmp),
+                                                intern = TRUE))))
       names(sp) <- c("gene_id", "Cmax", "Cpos",
                      "Ymax", "Ypos", "Smax",
                      "Spos", "Smean", "D",
@@ -339,7 +381,8 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
 
     message(paste('Candidate sequences with signal peptides...', nrow(sp)))
 
-    if (nrow(sp) == 0) {warning('Signal peptide prediction yeilded 0 candidates')}
+    if (nrow(sp) == 0) {warning(
+      'Signal peptide prediction yeilded 0 candidates')}
 
     # generate cropped names for input fasta
     cropped_names <- unname(sapply(names(aaSet), crop_names))
@@ -364,23 +407,25 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
     if (validObject(out_obj)) {return(out_obj)}
   }
 
-  # estimate how big is the file, if required - split it into smaller chunks and run
-  # signalp as an embarassingly parallel process
+  # estimate how big is the file, if required - split it into smaller 
+  # chunks and run signalp as an embarassingly parallel process
 
-  # Handle long sequences if any present in the input, id necessary - run signalp as 
-  # an embarassingly parallel process
+  # Handle long sequences if any present in the input, 
+  # id necessary - run signalp as a parallel process
   
   fasta <- truncate_seq(truncate = truncate, fasta, 2000)
 
   # to do: check total number of residues
   
-  # helper function to estimate approximate length threshold if chink size exceedes 200000
+  # helper function to estimate approximate length threshold if chink
+  # size exceedes 200000
   estimate_lim <- function(fasta_chunk){
     len_lim <- (200000/ length(fasta_chunk) + 50)
     if (sum(width(fasta_chunk)) >= 200000) {
-      message(paste('fasta size exceedes maximal total residue limit, sequences longer',
-                    round(len_lim),
-                    'will be truncated'))
+      message(
+        paste('fasta size exceedes maximal total residue limit, sequences longer',
+              round(len_lim),
+              'will be truncated'))
       fasta_trunc <- truncate_seq(truncate = truncate, fasta_chunk, len_lim)
       return(fasta_trunc)
     } else {
@@ -392,7 +437,9 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
     return(simple_signalp(estimate_lim(fasta)))
   } else {
     message('Input fasta contains >600 sequences, entering batch mode...')
-    split_fasta <- sapply(split_XStringSet(fasta, 500), estimate_lim) #split and check that chunks do not exceed 200K residue limit
+    
+    #split and check that chunks do not exceed 200K residue limit
+    split_fasta <- sapply(split_XStringSet(fasta, 500), estimate_lim)
 
     # Calculate the number of cores
     no_cores <- detectCores()
@@ -410,11 +457,12 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
     combined_SignalpResult <- combine_SignalpResult(unname(res_comb))
     
     sp_count <- nrow(getSPtibble(combined_SignalpResult))    
-    message(paste('Candidate sequences with signal peptides...', sp_count))
-    if (sp_count == 0) {warning('Signal peptide prediction yeilded 0 candidates')}
+    message(paste('Candidate sequences with signal peptides...',
+                  sp_count))
+    if (sp_count == 0) {
+      warning('Signal peptide prediction yeilded 0 candidates')}
     
     closeAllConnections()
     return(combined_SignalpResult)
   }
-   
 }

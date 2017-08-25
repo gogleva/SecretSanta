@@ -2,7 +2,8 @@
 % Please edit documentation in R/targetp_parallel.R
 \name{combine_TargetpResult}
 \alias{combine_TargetpResult}
-\title{This helper function combines multiple instances of TargetpResult class, typically generated with parLapply}
+\title{This helper function combines multiple instances of TargetpResult class,
+typically generated with parLapply}
 \usage{
 combine_TargetpResult(arguments)
 }
@@ -13,7 +14,8 @@ combine_TargetpResult(arguments)
 TargetpResult object
 }
 \description{
-This helper function combines multiple instances of TargetpResult class, typically generated with parLapply
+This helper function combines multiple instances of TargetpResult class,
+typically generated with parLapply
 }
 \examples{
 my_pa <- my_pa <- manage_paths(system.file("extdata",

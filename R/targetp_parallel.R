@@ -1,6 +1,7 @@
 #combine_TaretpResult function
 #'
-#' This helper function combines multiple instances of TargetpResult class, typically generated with parLapply
+#' This helper function combines multiple instances of TargetpResult class,
+#' typically generated with parLapply
 #' @param arguments - a list of TargetpResult objects to be combined in one
 #' @export
 #' @return TargetpResult object

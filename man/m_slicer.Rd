@@ -7,12 +7,16 @@
 m_slicer(input_object, length_threshold, run_mode)
 }
 \arguments{
-\item{input_object}{an instance of CBSResult class or AAStringSet class containing protein sequences as on of the     attributes}
+\item{input_object}{an instance of CBSResult class or AAStringSet
+class containing protein sequences as on of the attributes}
 
-\item{length_threshold}{sliced sequences below this threshold will be discarded}
+\item{length_threshold}{sliced sequences below this threshold will be
+discarded}
 
-\item{run_mode}{\strong{slice} - to just slice input fasta, regardless of it's origin;
-\strong{rescue} - to get proteins not predicted to be secreted on the initial run, generate slices;}
+\item{run_mode}{\strong{slice} - to just slice input fasta, regardless
+ of it's origin;
+\strong{rescue} - to get proteins not predicted to be secreted on the 
+ initial run, generate slices;}
 }
 \value{
 a set of sliced sequences, AAStringSet object
@@ -20,17 +24,20 @@ a set of sliced sequences, AAStringSet object
 \description{
 Experimental option.
 This function generates all possible subsequences starting with M.
-Assumption: translation start sites might be mis-predicted in the original set of proteins.
-Output of this step can be used as an input for secretome prediction pipeline to rescue secreted proteins
-with mis-predicted start sites.
+Assumption: translation start sites might be mis-predicted in the original
+set of proteins.
+Output of this step can be used as an input for secretome prediction
+pipeline to rescue secreted proteins with mis-predicted start sites.
 }
 \examples{
-# Example 1: generate proteins with alterative translation start site for AAStringSet object
+# Example 1: generate proteins with alterative translation start site for
+# AAStringSet object
 aa <- readAAStringSet(system.file("extdata",
                                   "small_prot.fasta",
                                    package = "SecretSanta"))
 m_slicer(aa, 100, run_mode = 'slice')
-# Example 2: generate proteins with alterative translation start site for CBSResult object
+# Example 2: generate proteins with alterative translation start site for
+# CBSResult object
 my_pa <- manage_paths(system.file("extdata",
                                   "sample_paths",
                                    package = "SecretSanta"))

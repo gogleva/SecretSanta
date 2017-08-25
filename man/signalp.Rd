@@ -7,7 +7,8 @@
 signalp(input_obj, version, organism_type, run_mode, paths, truncate = NULL)
 }
 \arguments{
-\item{input_obj}{an instance of CBSResult class containing protein sequences as on of the attributes}
+\item{input_obj}{an instance of CBSResult class containing protein 
+sequences as on of the attributes}
 
 \item{version}{signalp version to run, supported versions:
 \itemize{
@@ -29,15 +30,21 @@ signalp(input_obj, version, organism_type, run_mode, paths, truncate = NULL)
 \item piper - if you run this function on the output of other CBS tools;
 }}
 
-\item{paths}{tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function}
+\item{paths}{tibble with paths to external dependencies, generated with
+\code{\link{manage_paths}} function}
 
-\item{truncate}{logical, if TRUE - sequences longer 2000 residues will be truncated to this length limit and renamed. If FALSE - long sequences will be excluded from the analysis. Default = TRUE.}
+\item{truncate}{logical, if TRUE - sequences longer 2000 residues will be 
+truncated to this length limit and renamed. If FALSE - long sequences will
+be excluded from the analysis. Default = TRUE.}
 }
 \value{
 an object of SignalpResult class
 }
 \description{
-This function calls local signalp to predict the presence and location of signal peptide cleavage sites in amino acid sequences; automatically splits large input files (>500 sequnces) and runs signalp prediction as an embarassingly parallel process on all the CPUs available.
+This function calls local signalp to predict the presence and location of
+signal peptide cleavage sites in amino acid sequences; automatically splits
+large input files (>500 sequnces) and runs signalp prediction as an
+embarassingly parallel process on all the CPUs available.
 }
 \examples{
 
@@ -65,14 +72,16 @@ step1_sp2 <- signalp(inp,
                      run_mode = "starter",
                      paths = my_pa)
 
-# run signalp3 on the result object, will automatically pass out_fasta slot to signalp3:
+# run signalp3 on the result object, will automatically pass out_fasta slot
+# to signalp3:
 step2_sp3 <- signalp(step1_sp2,
                      version = 3,
                      'euk',
                      run_mode = "piper",
                      paths = my_pa)
 
-# run signalp4 on the result object, will automatically pass out_fasta slot to signalp4:
+# run signalp4 on the result object, will automatically pass out_fasta slot
+# to signalp4:
 step3_sp4 <- signalp(step2_sp3,
                      version = 4,
                      'euk',

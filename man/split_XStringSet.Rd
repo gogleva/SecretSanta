@@ -15,7 +15,8 @@ split_XStringSet(string_set, chunk_size)
 list of AAStringSet chunks
 }
 \description{
-This function splits large XStringSet files into chunks of given size and returns a list of AAStringSets, those could be written to tmp files.
+This function splits large XStringSet files into chunks of given size and 
+returns a list of AAStringSets, those could be written to tmp files.
 }
 \examples{
 aa <- readAAStringSet(system.file("extdata", 

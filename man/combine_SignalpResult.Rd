@@ -2,7 +2,8 @@
 % Please edit documentation in R/signalp_parallel.R
 \name{combine_SignalpResult}
 \alias{combine_SignalpResult}
-\title{This function combines multiple instances of SignalpResult class, typically generated with parLapply}
+\title{This function combines multiple instances of SignalpResult class,
+ typically generated with parLapply}
 \usage{
 combine_SignalpResult(arguments)
 }
@@ -13,7 +14,8 @@ combine_SignalpResult(arguments)
 SignalpResult object
 }
 \description{
-This function combines multiple instances of SignalpResult class, typically generated with parLapply
+This function combines multiple instances of SignalpResult class,
+ typically generated with parLapply
 }
 \examples{
 my_pa <- manage_paths(system.file(
