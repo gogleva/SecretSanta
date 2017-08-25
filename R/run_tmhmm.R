@@ -93,8 +93,7 @@ tmhmm <- function(input_obj, paths, TM) {
   # change this lines in accordance with TM_thershold
   tm <- (tm %>% dplyr::filter_(~PredHel <= TM))
   
-  message(paste('Candidate sequences with signal
-                peptides and 0 TM domains in mature sequence...',
+  message(paste('Candidate sequences with signal peptides and 0 TM domains in mature sequence...',
                 nrow(tm)))
   
   # helper function: crop long names for AAStringSet object, return

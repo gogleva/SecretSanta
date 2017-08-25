@@ -422,6 +422,52 @@ knitr::kable(st, align = c(rep('c', 2), 'l', rep('c',3)))
 
 ## Build pipelines, simple workflow
 
+Now, we want to build a pipeline using all our available functions. Say, we would like to have a relatively short one with the following steps: 
+
++ use **signalp4** to predict signal peptides and cleavage sites;
++ run **tmhmm** on the output, to ensure that predicted proteins with 
+signal peptides do not contain TM domains, i.e won't be stuck in the membrane;
++ run **targetp** on the output, to make sure that a set of selected proteins     is no targeted to plastids or mitochondria;
++ collect the targtep output and scan for ER-retention signals - to ensure
+that proteins are not stuck in ER.
+    
+Now we will run it using ``SecretSanta`` functions, starting with ``aa`` - an
+``AAStringSet`` object with 100 amino acid sequences in it, we will also reuse
+``santa_paths`` created earlier:
+
+#### Step 1: predict signal peptides
+
+```{r, collapse = TRUE}
+input <- CBSResult(in_fasta = aa)
+
+input
+step1_sp4 <- signalp(input,
+                     version = 4,
+                     organism_type = 'euk',
+                     run_mode = 'starter',
+                     paths = santa_paths,
+                     truncate = T
+                     )
+
+getSPtibble(step1_sp4)
+
+getOutfasta(step1_sp4)
+
+getMatfasta(step1_sp4)
+```
+
+**Result**: 5 candidate proteins with signal peptides.
+
+#### Step 2: check for presence of TM domains in mature peptides:
+
+```{r, collapse = TRUE}
+step2_tm <- tmhmm(step1_sp4,
+                  paths = santa_paths,
+                  TM = 0) # we allow 0 TM domains in mature peptides
+
+getTMtibble(step2_tm)
+```    
+    
 ## Build pipelines, stringent workflow
 
 ### References
