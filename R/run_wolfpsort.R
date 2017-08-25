@@ -1,10 +1,14 @@
 #' run_WolfPsort function
 #'
-#' This function runs WoLF PSORT to predict protein cellular sub-localisation, returns the most probbale one. Provides additional supportig evidence that a protein might be secreted and deposited outside the cell. Recommended to run on the late stages of secretome prediction pipeline.
+#' This function runs WoLF PSORT to predict protein cellular sub-localisation, 
+#' returns the most probbale one. Provides additional supportig evidence that a
+#' protein might be secreted and deposited outside the cell. Recommended to run
+#' on the late stages of secretome prediction pipeline.
 #' @param input_obj Object of CSBResult class
 #' @param organism  set relevant taxonomic group,
 #'                  Options include: plant, animal, fungi;
-#' @param paths   tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function
+#' @param paths   tibble with paths to external dependencies, generated with
+#'  \code{\link{manage_paths}} function
 #' @return object of WolfResult class  
 #' @export
 #' @examples
@@ -35,10 +39,13 @@
 
 wolfpsort <- function(input_obj, organism, paths){
   # check that inputs are valid
-  if (is(input_obj, "CBSResult")) {} else {stop('input_object does not belong to CBSResult superclass')}
-  if (length(getOutfasta(input_obj)) == 0) {stop('the input object contains empty out_fasta slot')}
+  if (is(input_obj, "CBSResult")) {} else {
+    stop('input_object does not belong to CBSResult superclass')}
+  if (length(getOutfasta(input_obj)) == 0) {
+    stop('the input object contains empty out_fasta slot')}
   allowed_organisms <- c('plant', 'animal', 'fungi')
-  if (!(organism %in% allowed_organisms)) {stop('input organism is not allowed or does not exist')}
+  if (!(organism %in% allowed_organisms)) {
+    stop('input organism is not allowed or does not exist')}
   
   message("running WoLF PSORT locally...")
   
@@ -47,16 +54,26 @@ wolfpsort <- function(input_obj, organism, paths){
 
   out_tmp <- tempfile()
   Biostrings::writeXStringSet(fasta, out_tmp)
-  full_pa <- as.character(paths %>% filter_(~tool == 'wolfpsort') %>% select_(~path))
+  full_pa <- as.character(paths %>%
+                          filter_(~tool == 'wolfpsort') %>%
+                          select_(~path))
   wolf <- system(paste(full_pa,  organism, '<', out_tmp), intern = TRUE)
   
   #parse wolf output
-  clean_strings <- function(x, field){unlist((stringr::str_split(x, " ")))[c(field)]}
+  clean_strings <- function(x, field){
+    unlist((stringr::str_split(x, " ")))[c(field)]}
   
-  gene_id <- sapply(X = wolf, field = 1, clean_strings, USE.NAMES = FALSE)
-  localization <- sapply(X = wolf, field = 2, clean_strings, USE.NAMES = FALSE)
+  gene_id <- sapply(X = wolf,
+                    field = 1,
+                    clean_strings,
+                    USE.NAMES = FALSE)
+  localization <- sapply(X = wolf,
+                         field = 2,
+                         clean_strings,
+                         USE.NAMES = FALSE)
   
-  #assemble result tibble with gene id and most probable sibsellular localisation
+#assemble result tibble with gene id and most probable
+#subsellular localisation
   wolf_tbl <- as_tibble(data.frame(gene_id, localization)) %>% filter_(~gene_id != '#') %>% filter_(~localization == 'extr')
   
   message(paste('Number of candidate sequences with extracellular localisation...', nrow(wolf_tbl)))

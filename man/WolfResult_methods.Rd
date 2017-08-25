@@ -40,3 +40,21 @@ Accessors for WolfResult objects
 }}
 }}
 
+\examples{
+my_pa <- manage_paths(system.file("extdata", 
+                                  "sample_paths",
+                                  package = "SecretSanta"))
+aa <- readAAStringSet(system.file("extdata", 
+                                  "small_prot.fasta",
+                                   package = "SecretSanta"))
+                                                          
+inp <- SignalpResult(in_fasta = aa)
+s1_sp2 <- signalp(inp,
+                 version = 2,
+                 'euk',
+                 run_mode = "starter",
+                 paths = my_pa)
+w <- wolfpsort(step1_sp2, 'fungi', my_pa)
+class(w)
+getWOLFtibble(w)
+}

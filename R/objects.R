@@ -413,8 +413,23 @@ setMethod(f = "getSPtibble",
 #' @export WolfResult
 #' @rdname  WolfResult_methods
 #' @return WolfResult object
-#' @example 
-#' ini <- WolfResult()
+#' @examples 
+#' my_pa <- manage_paths(system.file("extdata", 
+#'                                   "sample_paths",
+#'                                   package = "SecretSanta"))
+#' aa <- readAAStringSet(system.file("extdata", 
+#'                                   "small_prot.fasta",
+#'                                    package = "SecretSanta"))
+#'                                                           
+#' inp <- SignalpResult(in_fasta = aa)
+#' s1_sp2 <- signalp(inp,
+#'                  version = 2,
+#'                  'euk',
+#'                  run_mode = "starter",
+#'                  paths = my_pa)
+#' w <- wolfpsort(step1_sp2, 'fungi', my_pa)
+#' class(w)
+#' getWOLFtibble(w)
 
 WolfResult <- setClass("WolfResult",
                           contains = "CBSResult",
@@ -657,8 +672,21 @@ ErResult <- setClass("ErResult",
 #' }
 #' @export TargetpResult
 #' @rdname TargetpResult_methods
-#' @example 
-#' ini <- TargetpResult()
+#' @examples 
+#' my_pa <- manage_paths(system.file("extdata", 
+#'                                   "sample_paths",
+#'                                    package = "SecretSanta"))
+#' #read fasta file in AAStringSet object
+#' aa <- readAAStringSet(system.file("extdata",
+#'                                  "small_prot.fasta",
+#'                                  package = "SecretSanta"))
+#' #assign this object to the input_fasta slot of SignalpResult object
+#' inp <- CBSResult(in_fasta = aa)
+#' tp_result <- targetp(input_object = inp,
+#'                     network_type = 'N',
+#'                     run_mode = 'starter',
+#'                     paths = my_pa)
+#' class(tp_result)                     
 
 TargetpResult <- setClass("TargetpResult",
                         contains = "CBSResult",
