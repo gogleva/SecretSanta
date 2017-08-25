@@ -1,8 +1,10 @@
 Package: SecretSanta
 Title: predict, annotate, classify, visualise secretomes
 Version: 0.99.0
-Authors@R: person("Anna", "Gogleva", email = "anna.gogleva@slcu.cam.ac.uk", role = c("aut", "cre"))
-Description: Functions and integarted workflow for automated secretome prediction and annotation.
+Authors@R: person("Anna", "Gogleva", email = "anna.gogleva@slcu.cam.ac.uk",
+role = c("aut", "cre"))
+Description: Functions and integarted workflow for automated secretome 
+             prediction and annotation.
 Depends: R (>= 3.4.0),
          Biostrings,
          dplyr
@@ -27,5 +29,3 @@ biocViews: Software,
            Annotation,
            Classification,
            DataRepresentation
-           
-           

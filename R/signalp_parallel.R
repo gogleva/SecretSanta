@@ -96,9 +96,7 @@ combine_SignalpResult <- function(arguments) {
                                                    is,
                                                    'SignalpResult'))) {
                                     } else {                               
-                                      stop('Some objects from arguments
-                                           list do not belong to SignalpResult
-                                           class.')
+                                      stop('Some objects from arguments list do not belong to SignalpResult class.')
                                     }
                                     
                                     c_in_fasta <- do.call(c,
@@ -162,8 +160,7 @@ combine_CBSResult <- function(...) {
                               }
                               
                               if (any(sapply(arguments, is, 'SignalpResult'))) {
-                                warning('Only in_fasta and out_fasta slots will
-                                        be combined')
+                                warning('Only in_fasta and out_fasta slots will be combined')
                               }
                               
                               comb_in_fasta <- do.call(c, (lapply(arguments,

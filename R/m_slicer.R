@@ -56,14 +56,12 @@ m_slicer <- function(input_object, length_threshold, run_mode) {
                     
                     if (is(input_object, 'AAStringSet') && 
                           (run_mode != 'slice')) {
-                        stop("Please use run_mode 'slice' for an
-                             input object of AAStringSet class")
+                        stop("Please use run_mode 'slice' for an input object of AAStringSet class")
                     }
                     
                     if (is(input_object, 'CBSResult') && (run_mode != 'rescue'))
                       {
-                        stop("Please use run_mode 'rescue' for an
-                             input object of CBSResult class")
+                        stop("Please use run_mode 'rescue' for an input object of CBSResult class")
                     }
 
                     # hadle inputs
