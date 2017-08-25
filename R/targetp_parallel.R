@@ -180,7 +180,7 @@ targetp <- function(input_object, network_type, run_mode, paths) {
      # initiate cluster on all the cores available and supply required environment:
      no_cores <- detectCores()
      cl <- makeCluster(no_cores)
-     clusterEvalQ(cl,  envir = environment())
+     clusterEvalQ(cl)
      
      clusterExport(cl=cl, varlist=c("my_pa"), envir=environment()) #  works oly with my_pa, not paths!
      

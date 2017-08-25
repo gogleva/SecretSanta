@@ -110,6 +110,7 @@ take too long to run for R CMD check:
     - short pipeline
     - long pipeline
 - Individual (and cool!) plotting functions for the outputs
+- Biocheck
 
 
 essential expantion:

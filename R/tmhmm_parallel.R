@@ -211,7 +211,7 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
     cl <- makeCluster(no_cores)
     # run parallel process
     
-    clusterEvalQ(cl,  envir = environment())
+    clusterEvalQ(cl)
     clusterExport(cl=cl, varlist=c("my_pa")) # or path?
     
     result <- parLapply(cl, fasta_tuples, simple_tmhmm)

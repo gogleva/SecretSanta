@@ -401,7 +401,7 @@ signalp <- function(input_obj, version, organism_type, run_mode, paths, truncate
     cl <- makeCluster(no_cores)
     # run parallel process
 
-    clusterEvalQ(cl, envir = environment())
+    clusterEvalQ(cl)
     clusterExport(cl=cl, varlist=c("paths"), envir = environment()) #
     result <- parLapply(cl, split_fasta, simple_signalp)
     stopCluster(cl)
