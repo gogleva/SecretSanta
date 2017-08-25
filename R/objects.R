@@ -47,9 +47,11 @@ CBSResult <- setClass("CBSResult",
                   
                                 
                   if (nrow(al) == 1) {
-                       most_frequent <- names(rev(sort(al[, colSums(al != 0) > 0])))[1:4] 
+                       most_frequent <- names(
+                         rev(sort(al[, colSums(al != 0) > 0])))[1:4] 
                    } else {
-                       most_frequent <- names(rev(sort(colSums(al[, colSums(al != 0) > 0])))[1:4])
+                       most_frequent <- names(
+                         rev(sort(colSums(al[, colSums(al != 0) > 0])))[1:4])
                    }
                   # 
                   
@@ -173,7 +175,8 @@ setMethod(f = "getOutfasta",
           }
 )
 
-#' An S4 class to represent intermediate and final outputs of the signalp prediction step
+#' An S4 class to represent intermediate and final outputs of the signalp
+#' prediction step
 #' 
 #' @slot mature_fasta    fasta with mature sequences
 #' @slot sp_version      version of signalp used to generate this object
@@ -187,7 +190,8 @@ setMethod(f = "getOutfasta",
 #'   \item Ypos - amino acid position with max Y-score
 #'   \item Smax - max signal peptide score
 #'   \item Spos - amino acid position with max S-score 
-#'   \item Smean - the average S-score of the possible signal peptide (from position 1 to the position immediately before #              the maximal Y-score)
+#'   \item Smean - the average S-score of the possible signal peptide
+#'    (from position 1 to the position immediately before the maximal Y-score)
 #'   \item Prediction - final desision on whether the protein is secreted or not 
 #'   }
 #' @export SignalpResult
@@ -206,7 +210,8 @@ setMethod(f = "getOutfasta",
 #' # populate in_fasta attribute with aa
 #' sr <- setInfasta(sr, aa)
 #' 
-#' # run signalpeptide prediction and create fully populated instance of SignalpResult class
+#' # run signalpeptide prediction and create fully populated instance of
+#' # SignalpResult class
 #' my_pa <- manage_paths(system.file(
 #'                                   "extdata",
 #'                                   "sample_paths",
@@ -242,7 +247,8 @@ SignalpResult <- setClass(
                     validity = function(object)
                     {
                       # check that mature sequences are shorter than full-length sequences
-                      if (sum(width(object@out_fasta)) < sum(width(object@mature_fasta))) {
+                      if (sum(width(object@out_fasta)) <
+                          sum(width(object@mature_fasta))) {
                         return("Mature sequences can not be shorter that full length sequences")
                       }
                       
@@ -252,19 +258,22 @@ SignalpResult <- setClass(
                         return("Duplicated gene ids in sp_tibble! ")}
                       }
                       
-                      # check that all ids of mature_fasta are identical to ids in out_fasta
+                      # check that all ids of mature_fasta are identical to ids
+                      # in out_fasta
                       
-                      if (!(identical(names(object@mature_fasta), names(object@out_fasta)))) {
+                      if (!(identical(names(object@mature_fasta),
+                                      names(object@out_fasta)))) {
                          return("Out_fasta ids do not match mature_fasta ids")
                         }
                       
                       # check that ids of mature_fasta are present in in_fasta
-                      if (!(all(names(object@mature_fasta) %in% names(object@in_fasta)))) {
+                      if (!(all(names(object@mature_fasta) %in%
+                                names(object@in_fasta)))) {
                         return("Out_fasta ids do not match in_fasta ids")
                       }
                       
-                      # check that there are no zero length mature peptides - or make it a warning?
-                      
+                      # check that there are no zero length mature peptides
+     
                      if (any(width(object@mature_fasta) == 0)) {
                        return('mature fasta contains sequences of 0 length')
                      }
@@ -483,16 +492,20 @@ setMethod(f = "getWOLFtibble",
           }
 )
 
-#' An S4 class to represent intermediate and final outputs of the TMHMM prediction step
+#' An S4 class to represent intermediate and final outputs of the TMHMM
+#'  prediction step
 #' 
-#' @slot in_mature_fasta  input mature fasta, extracted from the input SignalpResult object
-#' @slot out_mature_fasta output mature, conatins mature sequences without TM domains
+#' @slot in_mature_fasta  input mature fasta, extracted from the input 
+#' SignalpResult object
+#' @slot out_mature_fasta output mature, conatins mature sequences without
+#'  TM domains
 #' @slot tm_tibble        tibble with outputs obtained from TMHMM
 #' \itemize{
 #'   \item gene_id - unique id of the sequence
 #'   \item length - length of the protein sequence
 #'   \item ExpAA - the expected number of amino acids intransmembrane helices
-#'   \item First60 - the expected number of amino acids in transmembrane helices in the first 60 amino acids of the protein
+#'   \item First60 - the expected number of amino acids in transmembrane 
+#'   helices in the first 60 amino acids of the protein
 #'   \item PredHel - the number of predicted transmembrane helices by N-best
 #'   \item Topology - the topology predicted by N-best' 
 #' }
@@ -525,7 +538,8 @@ TMhmmResult <- setClass("TMhmmResult",
                         
                            validity = function(object) {   
                           
-                           # check that there are o duplicated ids in the input and output fastas and tm_tibble
+                           # check that there are o duplicated ids in the input
+                           # and output fastas and tm_tibble
                              if (nrow(object@tm_tibble) > 0) {
                                 if (any(duplicated(object@tm_tibble$gene_id))) {
                                   return("Duplicated gene ids in sp_tibble! ")}
@@ -541,7 +555,8 @@ TMhmmResult <- setClass("TMhmmResult",
                              
                            # check that ids in out_mature_fasta match ids in out_fasta
                               
-                               if (!(identical(names(object@out_mature_fasta), names(object@out_fasta)))) {
+                               if (!(identical(names(object@out_mature_fasta),
+                                               names(object@out_fasta)))) {
                                  return("out_fasta ids do not match out_mature_fasta ids")
                                }
                             }  
@@ -626,7 +641,8 @@ setMethod(f = "getOutMatfasta",
           }
 )
 
-#' An S4 class to represent intermediate and final outputs of the TMHMM prediction step
+#' An S4 class to represent intermediate and final outputs of the TMHMM
+#' prediction step
 #'
 #' @slot retained - sequences with ER retention signals
 #' @export ErResult
@@ -644,7 +660,8 @@ ErResult <- setClass("ErResult",
                      )
 
 
-#' An S4 class to represent intermediate and final outputs of the targetP prediction step
+#' An S4 class to represent intermediate and final outputs of the targetP
+#' prediction step
 #' 
 #' @slot tp_tibble        tibble with outputs obtained from targetp
 #' \itemize{
@@ -657,12 +674,20 @@ ErResult <- setClass("ErResult",
 #'  the possible values are:
 #' } 
 #' \itemize{
-#' \item    C - Chloroplast, i.e. the sequence contains cTP, a chloroplast transit peptide;
-#' \item    M - Mitochondrion, i.e. the sequence contains mTP, a mitochondrial targeting peptide;
-#' \item    S - Secretory pathway, i.e. the sequence contains SP, a signal peptide;
+#' \item    C - Chloroplast, i.e. the sequence contains cTP, a chloroplast
+#'  transit peptide;
+#' \item    M - Mitochondrion, i.e. the sequence contains mTP, a mitochondrial
+#'  targeting peptide;
+#' \item    S - Secretory pathway, i.e. the sequence contains SP, a signal
+#'  peptide;
 #' \item    _ - Any other location;
-#' \item    "don't know" - indicates that cutoff restrictions were set (see instructions) and the winning network output score was below the requested cutoff for that category.
-#' \item    RC - Reliability class, from 1 to 5, where 1 indicates the strongest prediction. RC is a measure of the size of the difference ('diff') between the highest (winning) and the second highest output scores. There are 5 reliability classes, defined as follows:
+#' \item    "don't know" - indicates that cutoff restrictions were set
+#'  (see instructions) and the winning network output score was below the 
+#'  requested cutoff for that category.
+#' \item    RC - Reliability class, from 1 to 5, where 1 indicates the strongest
+#'  prediction. RC is a measure of the size of the difference ('diff') between
+#'  the highest (winning) and the second highest output scores. There are 5
+#'  reliability classes, defined as follows:
 #'   \itemize{ 
 #'     \item 1 - diff > 0.800;
 #'     \item 2 - 0.800 > diff > 0.600
@@ -695,7 +720,8 @@ TargetpResult <- setClass("TargetpResult",
                         
                         validity = function(object) {   
                           
-                          # check that there are o duplicated ids in the input and output fastas and tm_tibble
+                          # check that there are o duplicated ids in the input
+                          # and output fastas and tm_tibble
                           if (nrow(object@tp_tibble) > 0) {
                             if (any(duplicated(object@tp_tibble$gene_id))) {
                               return("Duplicated gene ids in sp_tibble! ")}

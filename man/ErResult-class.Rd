@@ -4,9 +4,11 @@
 \name{ErResult-class}
 \alias{ErResult-class}
 \alias{ErResult}
-\title{An S4 class to represent intermediate and final outputs of the TMHMM prediction step}
+\title{An S4 class to represent intermediate and final outputs of the TMHMM
+prediction step}
 \description{
-An S4 class to represent intermediate and final outputs of the TMHMM prediction step
+An S4 class to represent intermediate and final outputs of the TMHMM
+prediction step
 }
 \section{Slots}{
 

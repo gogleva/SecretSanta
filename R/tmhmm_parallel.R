@@ -2,7 +2,8 @@
 
 #combine_TMhmmResult function
 #'
-#' This function combines multiple instances of TMhmmResult class, typically generated with parLapply
+#' This function combines multiple instances of TMhmmResult class, typically 
+#' generated with parLapply
 #' @param arguments - a list of TMhmmResult objects to be combined in one
 #' @export
 #' @return TMhmmResult object
@@ -65,15 +66,19 @@ combine_TMhmmResult <- function(arguments) {
 
 #' tmhmm function
 #' 
-#' This function calls local TMHMM, expects CBSresult class objects with populated mature_fasta slot.
-#' To generate CBSResult objects with mature_fasta slots run preffered version of signalp first.
+#' This function calls local TMHMM, expects CBSresult class objects with 
+#' populated mature_fasta slot.
+#' To generate CBSResult objects with mature_fasta slots run preffered version 
+#' of signalp first.
 #' Parallel version
 #' @param input_obj input object, an instance of CBSResult class, \cr
-#'                  input should contain mature_fasta; in the full-length proteins \cr
-#'                  N-terminal signal peptide could be erroneously \cr
-#'                  predicted as TM domain, avoid this
-#' @param paths tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function
-#' @param TM  allowed number of TM domains in mature peptides, recommended value <= 1; use 0 for strict filtering 
+#'                  input should contain mature_fasta; 
+#'                  in the full-length proteins N-terminal signal peptide could
+#'                  be erroneously predicted as TM domain, avoid this
+#' @param paths tibble with paths to external dependencies, generated with 
+#' \code{\link{manage_paths}} function
+#' @param TM  allowed number of TM domains in mature peptides, 
+#' recommended value <= 1; use 0 for strict filtering 
 #' @return TMhmmResult object
 #' @export        
 #' @examples 
@@ -96,7 +101,8 @@ combine_TMhmmResult <- function(arguments) {
 
 tmhmm_parallel <- function(input_obj, paths, TM) {
   
-  # helper function: crop long names for AAStringSet object, return character vector
+  # helper function: crop long names for AAStringSet object,
+  # return character vector
   crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
   
   # helper function to clean output values remove '... =' value
@@ -104,9 +110,11 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
   
   # ----- Check that inputs are valid:
   
-  if (TM >= 2) {warning('Recommended TM threshold values for mature peprides is 1')}  
+  if (TM >= 2) {warning(
+    'Recommended TM threshold values for mature peprides is 1')}  
   # check that input object belongs to a valid class
-  if (is(input_obj, "CBSResult")) {} else {stop('input_object does not belong to CBSResult superclass')}
+  if (is(input_obj, "CBSResult")) {} else {
+    stop('input_object does not belong to CBSResult superclass')}
   
   # check that input object contains non-empty mature fasta slot
   s <- getSlots(class(input_obj))
@@ -129,7 +137,9 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
   names(full_fasta) <- cropped_names
   
   #full pathway to tmhmm:
-  full_pa <- as.character(paths %>% dplyr::filter_(~tool == 'tmhmm') %>% dplyr::select_(~path))
+  full_pa <- as.character(paths %>%
+                            dplyr::filter_(~tool == 'tmhmm') %>% 
+                            dplyr::select_(~path))
   
   simple_tmhmm <- function(fasta_tuple) {
   # fasta tuple - a lits of 2 elements: out_fasta, mature_fasta
@@ -146,21 +156,34 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
   
       message(paste('Number of submitted sequences...', length(matf)))
       
-      full_pa <- as.character(paths %>% dplyr::filter_(~tool == 'tmhmm') %>% dplyr::select_(~path))
+      full_pa <- as.character(paths %>%
+                                dplyr::filter_(~tool == 'tmhmm') %>%
+                                dplyr::select_(~path))
       con <- system(paste(full_pa, out_tmp, '--short'), intern = TRUE)
       con_tmp <- tempfile()
       write(con, con_tmp)
-      tm <- suppressMessages(readr::read_delim(con_tmp, '\t', col_names = FALSE))
+      tm <- suppressMessages(readr::read_delim(con_tmp, '\t',
+                                               col_names = FALSE))
       
       names(tm) <- c("gene_id", "length", "ExpAA",
                      "First60", "PredHel", "Topology")
   
       tm <- dplyr::mutate(tm,
-                          length = sapply(tm$length, clean_outp, USE.NAMES = FALSE),
-                          ExpAA = sapply(tm$ExpAA, clean_outp, USE.NAMES = FALSE),
-                          First60 = sapply(tm$First60, clean_outp, USE.NAMES = FALSE),
-                          PredHel = sapply(tm$PredHel, clean_outp, USE.NAMES = FALSE),
-                          Topology = sapply(tm$Topology, clean_outp, USE.NAMES = FALSE)
+                          length = sapply(tm$length,
+                                          clean_outp,
+                                          USE.NAMES = FALSE),
+                          ExpAA = sapply(tm$ExpAA,
+                                         clean_outp,
+                                         USE.NAMES = FALSE),
+                          First60 = sapply(tm$First60,
+                                           clean_outp,
+                                           USE.NAMES = FALSE),
+                          PredHel = sapply(tm$PredHel,
+                                           clean_outp,
+                                           USE.NAMES = FALSE),
+                          Topology = sapply(tm$Topology,
+                                            clean_outp,
+                                            USE.NAMES = FALSE)
       )
   
      # select entries matching TM threshold:
@@ -169,11 +192,13 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
      message(paste('Number of candidate sequences with signal peptides and 0 TM domains in mature sequence...', nrow(tm)))
   
      #get ids of candidate secreted proteins
-     candidate_ids <- tm %>% dplyr::select_(~gene_id) %>% unlist(use.names = FALSE)
+     candidate_ids <- tm %>%
+                      dplyr::select_(~gene_id) %>%
+                      unlist(use.names = FALSE)
      out_fasta_tm <- full_fasta[candidate_ids]
   
-     out_obj <- TMhmmResult(in_fasta = outf, # original in fasta, full length proteins
-                            out_fasta = out_fasta_tm, # out fasta, full length proteins
+     out_obj <- TMhmmResult(in_fasta = outf, # original in fasta, full length 
+                            out_fasta = out_fasta_tm, # out fasta, full length
                             in_mature_fasta = matf,
                             out_mature_fasta = matf[candidate_ids],
                             tm_tibble = tm)
@@ -200,7 +225,8 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
     
     split_out <- split_XStringSet(all_out_fasta, 1000)
     split_mature <- split_XStringSet(all_mat_fasta, 1000)
-    fasta_tuples <- mapply(list, split_out, split_mature, SIMPLIFY = FALSE)
+    fasta_tuples <- mapply(list, split_out, split_mature,
+                           SIMPLIFY = FALSE)
     
     # do the parallel jobs
     
@@ -221,8 +247,14 @@ tmhmm_parallel <- function(input_obj, paths, TM) {
     combined_TMhmmResult <- combine_TMhmmResult(unname(res_comb))
     
     tm_count <- nrow(getTMtibble(combined_TMhmmResult))    
-    message(paste('Number of candidate sequences with less than', TM, 'TM domains...', tm_count))
-    if (tm_count == 0) {warning(paste('TMHMM prediction yeilded 0 candidates with less than', TM, 'TM doamins'))}
+    message(paste('Number of candidate sequences with less than',
+                  TM,
+                  'TM domains...',
+                  tm_count))
+    if (tm_count == 0) {warning(
+      paste('TMHMM prediction yeilded 0 candidates with less than',
+            TM,
+            'TM doamins'))}
     
     closeAllConnections()
     

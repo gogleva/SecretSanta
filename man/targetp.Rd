@@ -7,7 +7,8 @@
 targetp(input_object, network_type, run_mode, paths)
 }
 \arguments{
-\item{input_object}{an instance of CBSResult class containing protein sequences as on of the attributes}
+\item{input_object}{an instance of CBSResult class containing protein 
+sequences as on of the attributes}
 
 \item{network_type}{possible values: 
 \itemize{
@@ -26,7 +27,8 @@ targetp(input_object, network_type, run_mode, paths)
 an object of TargetpResult class
 }
 \description{
-This function calls local targetp to predict subcellular localisation of a protein.
+This function calls local targetp to predict subcellular localisation of 
+a protein.
 Parallelised
 }
 \examples{

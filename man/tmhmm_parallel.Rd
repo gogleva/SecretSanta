@@ -8,20 +8,24 @@ tmhmm_parallel(input_obj, paths, TM)
 }
 \arguments{
 \item{input_obj}{input object, an instance of CBSResult class, \cr
-input should contain mature_fasta; in the full-length proteins \cr
-N-terminal signal peptide could be erroneously \cr
-predicted as TM domain, avoid this}
+input should contain mature_fasta; 
+in the full-length proteins N-terminal signal peptide could
+be erroneously predicted as TM domain, avoid this}
 
-\item{paths}{tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function}
+\item{paths}{tibble with paths to external dependencies, generated with 
+\code{\link{manage_paths}} function}
 
-\item{TM}{allowed number of TM domains in mature peptides, recommended value <= 1; use 0 for strict filtering}
+\item{TM}{allowed number of TM domains in mature peptides, 
+recommended value <= 1; use 0 for strict filtering}
 }
 \value{
 TMhmmResult object
 }
 \description{
-This function calls local TMHMM, expects CBSresult class objects with populated mature_fasta slot.
-To generate CBSResult objects with mature_fasta slots run preffered version of signalp first.
+This function calls local TMHMM, expects CBSresult class objects with 
+populated mature_fasta slot.
+To generate CBSResult objects with mature_fasta slots run preffered version 
+of signalp first.
 Parallel version
 }
 \examples{

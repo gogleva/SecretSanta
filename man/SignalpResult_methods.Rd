@@ -17,7 +17,8 @@
 \alias{setSPtibble}
 \alias{getSPtibble,SignalpResult-method}
 \alias{getSPtibble}
-\title{An S4 class to represent intermediate and final outputs of the signalp prediction step}
+\title{An S4 class to represent intermediate and final outputs of the signalp
+prediction step}
 \usage{
 setMatfasta(theObject, mature_fasta)
 
@@ -46,7 +47,8 @@ setMatfasta(theObject, mature_fasta)
 SignalpResult object
 }
 \description{
-An S4 class to represent intermediate and final outputs of the signalp prediction step
+An S4 class to represent intermediate and final outputs of the signalp
+prediction step
 
 Accessors for SignalpResult objects
 }
@@ -67,7 +69,8 @@ Accessors for SignalpResult objects
   \item Ypos - amino acid position with max Y-score
   \item Smax - max signal peptide score
   \item Spos - amino acid position with max S-score 
-  \item Smean - the average S-score of the possible signal peptide (from position 1 to the position immediately before #              the maximal Y-score)
+  \item Smean - the average S-score of the possible signal peptide
+   (from position 1 to the position immediately before the maximal Y-score)
   \item Prediction - final desision on whether the protein is secreted or not 
   }}
 }}
@@ -85,7 +88,8 @@ sr <- SignalpResult()
 # populate in_fasta attribute with aa
 sr <- setInfasta(sr, aa)
 
-# run signalpeptide prediction and create fully populated instance of SignalpResult class
+# run signalpeptide prediction and create fully populated instance of
+# SignalpResult class
 my_pa <- manage_paths(system.file(
                                   "extdata",
                                   "sample_paths",

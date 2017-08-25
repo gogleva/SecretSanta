@@ -9,7 +9,8 @@
 \alias{setTPtibble}
 \alias{getTPtibble,TargetpResult-method}
 \alias{getTPtibble}
-\title{An S4 class to represent intermediate and final outputs of the targetP prediction step}
+\title{An S4 class to represent intermediate and final outputs of the targetP
+prediction step}
 \usage{
 setTPtibble(theObject, tp_tibble)
 
@@ -26,7 +27,8 @@ setTPtibble(theObject, tp_tibble)
 TargetpResult object
 }
 \description{
-An S4 class to represent intermediate and final outputs of the targetP prediction step
+An S4 class to represent intermediate and final outputs of the targetP
+prediction step
 
 Accessors for TargetpResult objects
 }
@@ -44,12 +46,20 @@ Accessors for TargetpResult objects
  the possible values are:
 } 
 \itemize{
-\item    C - Chloroplast, i.e. the sequence contains cTP, a chloroplast transit peptide;
-\item    M - Mitochondrion, i.e. the sequence contains mTP, a mitochondrial targeting peptide;
-\item    S - Secretory pathway, i.e. the sequence contains SP, a signal peptide;
+\item    C - Chloroplast, i.e. the sequence contains cTP, a chloroplast
+ transit peptide;
+\item    M - Mitochondrion, i.e. the sequence contains mTP, a mitochondrial
+ targeting peptide;
+\item    S - Secretory pathway, i.e. the sequence contains SP, a signal
+ peptide;
 \item    _ - Any other location;
-\item    "don't know" - indicates that cutoff restrictions were set (see instructions) and the winning network output score was below the requested cutoff for that category.
-\item    RC - Reliability class, from 1 to 5, where 1 indicates the strongest prediction. RC is a measure of the size of the difference ('diff') between the highest (winning) and the second highest output scores. There are 5 reliability classes, defined as follows:
+\item    "don't know" - indicates that cutoff restrictions were set
+ (see instructions) and the winning network output score was below the 
+ requested cutoff for that category.
+\item    RC - Reliability class, from 1 to 5, where 1 indicates the strongest
+ prediction. RC is a measure of the size of the difference ('diff') between
+ the highest (winning) and the second highest output scores. There are 5
+ reliability classes, defined as follows:
   \itemize{ 
     \item 1 - diff > 0.800;
     \item 2 - 0.800 > diff > 0.600

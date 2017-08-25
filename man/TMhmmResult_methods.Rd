@@ -13,7 +13,8 @@
 \alias{getInMatfasta}
 \alias{getOutMatfasta,TMhmmResult-method}
 \alias{getOutMatfasta}
-\title{An S4 class to represent intermediate and final outputs of the TMHMM prediction step}
+\title{An S4 class to represent intermediate and final outputs of the TMHMM
+ prediction step}
 \usage{
 setTMtibble(theObject, tm_tibble)
 
@@ -34,23 +35,27 @@ setTMtibble(theObject, tm_tibble)
 TMhmmREsult object
 }
 \description{
-An S4 class to represent intermediate and final outputs of the TMHMM prediction step
+An S4 class to represent intermediate and final outputs of the TMHMM
+ prediction step
 
 Accessors for TMhmmResul objects
 }
 \section{Slots}{
 
 \describe{
-\item{\code{in_mature_fasta}}{input mature fasta, extracted from the input SignalpResult object}
+\item{\code{in_mature_fasta}}{input mature fasta, extracted from the input 
+SignalpResult object}
 
-\item{\code{out_mature_fasta}}{output mature, conatins mature sequences without TM domains}
+\item{\code{out_mature_fasta}}{output mature, conatins mature sequences without
+TM domains}
 
 \item{\code{tm_tibble}}{tibble with outputs obtained from TMHMM
 \itemize{
   \item gene_id - unique id of the sequence
   \item length - length of the protein sequence
   \item ExpAA - the expected number of amino acids intransmembrane helices
-  \item First60 - the expected number of amino acids in transmembrane helices in the first 60 amino acids of the protein
+  \item First60 - the expected number of amino acids in transmembrane 
+  helices in the first 60 amino acids of the protein
   \item PredHel - the number of predicted transmembrane helices by N-best
   \item Topology - the topology predicted by N-best' 
 }}

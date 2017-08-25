@@ -56,9 +56,11 @@ combine_TargetpResult <- function(arguments) {
 
 #' targetp function
 #'
-#' This function calls local targetp to predict subcellular localisation of a protein.
+#' This function calls local targetp to predict subcellular localisation of 
+#' a protein.
 #' Parallelised
-#' @param input_object    an instance of CBSResult class containing protein sequences as on of the attributes
+#' @param input_object    an instance of CBSResult class containing protein 
+#' sequences as on of the attributes
 #' @param network_type possible values: 
 #' \itemize{
 #' \item P - for plants;
@@ -97,10 +99,12 @@ targetp <- function(input_object, network_type, run_mode, paths) {
   
   # ----- Check that inputs are valid
   # check that input object belong to CBSResult class
-  if (is(input_object, "CBSResult")) {} else {stop('input_object does not belong to CBSResult superclass')}
+  if (is(input_object, "CBSResult")) {} else {
+    stop('input_object does not belong to CBSResult superclass')}
   
   # check that supplied runnig mode is valid
-  if (run_mode %in% c('piper', 'starter')) {} else {stop("Run mode is invalid. Please use 'starter' to initiate prediction pipelie or 'piper' to continue")}
+  if (run_mode %in% c('piper', 'starter')) {} else {
+    stop("Run mode is invalid. Please use 'starter' to initiate prediction pipelie or 'piper' to continue")}
   
   # check that input_object contains non-empty in/out_fasta for starter/piper
   if (run_mode == 'starter') {
@@ -133,7 +137,9 @@ targetp <- function(input_object, network_type, run_mode, paths) {
       Biostrings::writeXStringSet(aaSet, out_tmp) #write tmp fasta file
   
       # get path to targetp executable
-      full_pa <- as.character(paths %>% dplyr::filter_(~tool == 'targetp') %>% dplyr::select_(~path))
+      full_pa <- as.character(paths %>%
+                                dplyr::filter_(~tool == 'targetp') %>%
+                                dplyr::select_(~path))
   
       # prep fasta:
       # generate cropped names for input fasta
@@ -145,18 +151,24 @@ targetp <- function(input_object, network_type, run_mode, paths) {
       NN <- paste('-', network_type, sep = '')
   
       #run targetp:
-      tp <- tibble::as.tibble(read.table(text = (system(paste(full_pa, NN, out_tmp), intern = TRUE)[1: length(aaSet) + 8])))
+      tp <- tibble::as.tibble(read.table(
+        text = (system(paste(full_pa, NN, out_tmp),
+                       intern = TRUE)[1: length(aaSet) + 8])))
   
       if (network_type == 'N') {
-        names(tp) <- c('gene_id', 'length', 'mTP', 'sp', 'other', 'TP_localization', 'RC')}
+        names(tp) <- c('gene_id', 'length', 'mTP',
+                       'sp', 'other', 'TP_localization', 'RC')}
       else if (network_type == 'P') {
-        names(tp) <- c('gene_id', 'length', 'cTP', 'mTP', 'sp', 'other', 'TP_localization', 'RC')  
+        names(tp) <- c('gene_id', 'length', 'cTP',
+                       'mTP', 'sp', 'other', 'TP_localization', 'RC')  
       }
   
       tp <- tp %>% dplyr::filter_(~TP_localization == 'S')
       message(paste('Number of candidate secreted sequences', nrow(tp)))         
   
-      candidate_ids <- tp %>% dplyr::select_(~gene_id) %>% unlist(use.names = FALSE)
+      candidate_ids <- tp %>%
+                       dplyr::select_(~gene_id) %>% 
+                       unlist(use.names = FALSE)
       out_fasta_tp <- aaSet[candidate_ids]
   
       # generate output object:
@@ -168,7 +180,9 @@ targetp <- function(input_object, network_type, run_mode, paths) {
   }
   
 
-   # # Check input file size and decide how to run targetp: in parallel mode or not:
+   # Check input file size and decide how to run targetp:
+   # in parallel mode or not:
+  
    if (length(fasta) <= 1000) {
      message('Ok for single processing')
      return(simple_targetp(fasta))
@@ -178,14 +192,17 @@ targetp <- function(input_object, network_type, run_mode, paths) {
      # split fasta:
      split_fasta <- split_XStringSet(fasta, 1000)
      
-     # initiate cluster on all the cores available and supply required environment:
+     # initiate cluster on all the cores available and supply 
+     # required environment:
      no_cores <- detectCores()
      cl <- makeCluster(no_cores)
      clusterEvalQ(cl)
+  
+     #  works oly with my_pa, not paths!
+     clusterExport(cl=cl, varlist=c("my_pa"), envir=environment()) 
      
-     clusterExport(cl=cl, varlist=c("my_pa"), envir=environment()) #  works oly with my_pa, not paths!
-     
-     # produces error: Error in get(name, envir = envir) : object 'signalp4' not found
+     # produces error: Error in get(name, envir = envir) : object 'signalp4
+     # not found
      
      # run parallel targetp:
      result <- parLapply(cl, split_fasta, simple_targetp)
@@ -198,7 +215,8 @@ targetp <- function(input_object, network_type, run_mode, paths) {
      
      tp_count <- nrow(getTPtibble(combined_TargetpResult))    
      message(paste('Number of candidate secerted sequences...', tp_count))
-     if (tp_count == 0) {warning('Targetp prediction yeilded 0 extracellular candidates')}
+     if (tp_count == 0) {
+       warning('Targetp prediction yeilded 0 extracellular candidates')}
      
      closeAllConnections()
      return(combined_TargetpResult)

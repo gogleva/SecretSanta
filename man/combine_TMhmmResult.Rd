@@ -2,7 +2,8 @@
 % Please edit documentation in R/tmhmm_parallel.R
 \name{combine_TMhmmResult}
 \alias{combine_TMhmmResult}
-\title{This function combines multiple instances of TMhmmResult class, typically generated with parLapply}
+\title{This function combines multiple instances of TMhmmResult class, typically 
+generated with parLapply}
 \usage{
 combine_TMhmmResult(arguments)
 }
@@ -13,7 +14,8 @@ combine_TMhmmResult(arguments)
 TMhmmResult object
 }
 \description{
-This function combines multiple instances of TMhmmResult class, typically generated with parLapply
+This function combines multiple instances of TMhmmResult class, typically 
+generated with parLapply
 }
 \examples{
 my_pa <- my_pa <- manage_paths(

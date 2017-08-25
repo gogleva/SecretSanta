@@ -100,25 +100,31 @@ combine_SignalpResult <- function(arguments) {
                                     }
                                     
                                     c_in_fasta <- do.call(c,
-                                                          (lapply(arguments,
-                                                                  getInfasta)))
+                                                          (lapply(
+                                                            arguments,
+                                                            getInfasta)))
                                     c_out_fasta <- do.call(c,
-                                                           (lapply(arguments,
-                                                                   getOutfasta)))
+                                                           (lapply(
+                                                             arguments,
+                                                             getOutfasta)))
                                     c_mature_fasta <- do.call(c,
-                                                              (lapply(arguments,
-                                                                    getMatfasta)))
+                                                              (lapply(
+                                                              arguments,
+                                                              getMatfasta)))
                                     c_sp_tibble <- do.call(rbind,
-                                                           (lapply(arguments,
-                                                                   getSPtibble)))
-                                    c_sp_version <- unlist((lapply(arguments,
-                                                                   getSPversion))[1])
+                                                           (lapply(
+                                                             arguments,
+                                                             getSPtibble)))
+                                    c_sp_version <- unlist((lapply(
+                                                             arguments,
+                                                             getSPversion))[1])
 
-                                    c_obj <- SignalpResult(in_fasta = c_in_fasta,
-                                                       out_fasta = c_out_fasta,
-                                                       mature_fasta = c_mature_fasta,
-                                                       sp_tibble = c_sp_tibble,
-                                                       sp_version = c_sp_version)
+                                    c_obj <- SignalpResult(
+                                      in_fasta = c_in_fasta,
+                                      out_fasta = c_out_fasta,
+                                      mature_fasta = c_mature_fasta,
+                                      sp_tibble = c_sp_tibble,
+                                      sp_version = c_sp_version)
 }
 
 #' combine_CBSResult function

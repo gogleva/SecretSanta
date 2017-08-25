@@ -48,7 +48,7 @@ manage_paths <- function(path_file) {
     # convert all the tool names to lower case to avoid confusion
     pp$tool <- tolower(pp$tool)
     
-    } else {
+    } else {#  works oly with my_pa, not paths!
     message('Supplied file path does not exist.')
     message(sapply(pp %>%
                    dplyr::filter_(~status == FALSE) %>%
