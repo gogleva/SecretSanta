@@ -7,21 +7,24 @@
 manage_paths(path_file)
 }
 \arguments{
-\item{path_file}{file paths to 2-column space-separated text file with listed paths for external dependencies;
+\item{path_file}{file paths to 2-column space-separated text file with 
+listed paths for external dependencies;
 \itemize{
 \item first column should contain tool name;
 \item second column should contain full path to the tool's executable;
-\item for multiple versions of signalp use 'signalpV', where V is version number; 
+\item for multiple versions of signalp use 'signalpV', 
+where V is version number; 
 }}
 }
 \value{
 tibble with verified file paths
 }
 \description{
-This function reads and stores pathways for external tools used in secertome prediction pipeline and
-checks that all the external dependencies can be executed in principle, i.e produce correct help messages or
-process micro fasta file.
-Required tools are available for academic users and could be found here:
+This function reads and stores pathways for external tools used in secertome
+prediction pipeline and checks that all the external dependencies can be 
+executed in principle, i.e produce correct help messages or process micro
+fasta file. Required tools are available for academic users and could be
+found here:
 \itemize{
 \item WoLFPSORT - \url{https://github.com/fmaguire/WoLFPSort.git}
 \item signalp2  - \url{http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+2.0}
@@ -32,5 +35,7 @@ Required tools are available for academic users and could be found here:
 }
 }
 \examples{
-secret_paths <- manage_paths(system.file("extdata", "sample_paths", package="SecretSanta"))
+secret_paths <- manage_paths(system.file("extdata",
+                                         "sample_paths",
+                                         package="SecretSanta"))
 }

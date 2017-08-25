@@ -74,9 +74,12 @@ wolfpsort <- function(input_obj, organism, paths){
   
 #assemble result tibble with gene id and most probable
 #subsellular localisation
-  wolf_tbl <- as_tibble(data.frame(gene_id, localization)) %>% filter_(~gene_id != '#') %>% filter_(~localization == 'extr')
+  wolf_tbl <- as_tibble(data.frame(gene_id, localization)) %>% 
+                                  filter_(~gene_id != '#') %>%
+                                  filter_(~localization == 'extr')
   
-  message(paste('Number of candidate sequences with extracellular localisation...', nrow(wolf_tbl)))
+  message(paste('Candidate sequences with extracellular localisation...',
+                nrow(wolf_tbl)))
 
   #assemble wolf result object:
   out_obj <- WolfResult(in_fasta = fasta,
@@ -85,5 +88,3 @@ wolfpsort <- function(input_obj, organism, paths){
   
   if (validObject(out_obj)) {return(out_obj)}
 }
-
-

@@ -12,13 +12,17 @@ wolfpsort(input_obj, organism, paths)
 \item{organism}{set relevant taxonomic group,
 Options include: plant, animal, fungi;}
 
-\item{paths}{tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function}
+\item{paths}{tibble with paths to external dependencies, generated with
+\code{\link{manage_paths}} function}
 }
 \value{
 object of WolfResult class
 }
 \description{
-This function runs WoLF PSORT to predict protein cellular sub-localisation, returns the most probbale one. Provides additional supportig evidence that a protein might be secreted and deposited outside the cell. Recommended to run on the late stages of secretome prediction pipeline.
+This function runs WoLF PSORT to predict protein cellular sub-localisation, 
+returns the most probbale one. Provides additional supportig evidence that a
+protein might be secreted and deposited outside the cell. Recommended to run
+on the late stages of secretome prediction pipeline.
 }
 \examples{
 my_pa <- manage_paths(system.file("extdata",

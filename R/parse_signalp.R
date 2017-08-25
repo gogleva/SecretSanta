@@ -1,6 +1,8 @@
 #' parse_signalp function
 #' 
-#' This function parses signalp2 and signalp3 output. Is used internally in signalp function; can be called independently on outputs of signalp2/3 tools captured in a system call or stored in a file.
+#' This function parses signalp2 and signalp3 output, is used internally in
+#' signalp function; can be called independently on outputs of signalp2/3 tools
+#' captured in a system call or stored in a file.
 #' @param input full output of signalp2 or signalp3 call
 #' @param input_type  specify input type: 'path' or 'system_call'
 #' \itemize{
@@ -12,12 +14,18 @@
 #' @examples
 #' 
 #' # Parse signalp2 output, stored in a file:
-#' s_path <- system.file("extdata", "sample_prot_signalp2_out2", package = "SecretSanta") 
+#' s_path <- system.file("extdata",
+#'                       "sample_prot_signalp2_out2",
+#'                        package = "SecretSanta") 
 #' parse_sp_path <- parse_signalp(input = s_path, input_type = "path")
 #' 
 #' # Parse signalp2 output, obtained from a system call:
-#' s_fasta <- system.file("extdata", "small_prot.fasta", package = "SecretSanta") 
-#' secret_paths <- manage_paths(system.file("extdata", "sample_paths", package = "SecretSanta"))
+#' s_fasta <- system.file("extdata",
+#'                        "small_prot.fasta",
+#'                         package = "SecretSanta") 
+#' secret_paths <- manage_paths(system.file("extdata",
+#'                                          "sample_paths",
+#'                                           package = "SecretSanta"))
 #' sp2_path <- secret_paths %>% filter(tool == 'signalp2') %>% select(path)
 #' 
 #' # capture system call:
@@ -28,11 +36,15 @@
 
 parse_signalp <- function(input, input_type) {
   # helper function for gene ids
-  clean_geneids <- function(x) {gsub('>', '', unlist(stringr::str_split(x, " "))[1])}
-  # helper function for C-score, Y-score and S-score: split line with varibale number of spaces
-  clean_score <- function(x) {as.numeric(stringr::str_split(x, "\\s+")[[1]][c(4,5 )])}
+  clean_geneids <- function(x) {
+    gsub('>', '', unlist(stringr::str_split(x, " "))[1])}
+  # helper function for C-score, Y-score and S-score:
+  # split line with varibale number of spaces
+  clean_score <- function(x) {
+    as.numeric(stringr::str_split(x, "\\s+")[[1]][c(4,5 )])}
   # helper function to get signal peptide cleavage site
-  clean_cleavege <- function(x) {as.numeric(tail(unlist(stringr::str_split(x, "\\s+")), n = 1))}
+  clean_cleavege <- function(x) {
+    as.numeric(tail(unlist(stringr::str_split(x, "\\s+")), n = 1))}
   # helper function for S mean
   clean_mean <- function(x) {strsplit(x, "\\s+")[[1]][c(4,5)]}
   # helper function for prediction summary:
@@ -49,13 +61,17 @@ parse_signalp <- function(input, input_type) {
   gene_ids_fixed <- (sapply(gene_ids, clean_geneids, USE.NAMES = FALSE))
   
   # check that there are no duplicated gene ids:
-  if (any(duplicated(gene_ids)))  {stop('gene_ids vector contains duplicated elements')}
+  if (any(duplicated(gene_ids))) {
+    stop('gene_ids vector contains duplicated elements')}
   
   # extract max C score and position
-  max_C_fixed <- sapply(data[grep("max. C", data)], clean_score, USE.NAMES = FALSE)
+  max_C_fixed <- sapply(data[grep("max. C", data)],
+                        clean_score,
+                        USE.NAMES = FALSE)
   # extract max Y score and position
-  C_pos <- sapply(data[grep("Max cleavage site probability:", data)], clean_cleavege, USE.NAMES = FALSE)
-  
+  C_pos <- sapply(data[grep("Max cleavage site probability:", data)],
+                  clean_cleavege,
+                  USE.NAMES = FALSE)
   
   max_Y_fixed <- sapply(data[grep("max. Y", data)], clean_score, USE.NAMES = FALSE)
   # extract max S score and position
