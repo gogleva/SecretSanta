@@ -456,7 +456,8 @@ getOutfasta(step1_sp4)
 getMatfasta(step1_sp4)
 ```
 
-**Result**: 5 candidate proteins with signal peptides.
+***
+> **Result**: 5 candidate proteins with signal peptides.
 
 #### Step 2: check for presence of TM domains in mature peptides:
 
@@ -466,7 +467,50 @@ step2_tm <- tmhmm(step1_sp4,
                   TM = 0) # we allow 0 TM domains in mature peptides
 
 getTMtibble(step2_tm)
-```    
+
+getOutfasta(step2_tm)
+
+getOutMatfasta(step2_tm)
+
+```  
+
+***
+> **Result**: 5 candidate proteins with signal peptides; 0 TM domains in 
+mature sequences.
+
+#### Step 3: predict sub-cellular localisation
+Here we are using ``targetp``, could have also used ``wolfpsort``.
+
+```{r, collapse=TRUE}
+step3_tp <- targetp(step2_tm,
+                         network_type = 'N',
+                         paths = santa_paths,
+                         run_mode = 'piper')
+
+getTPtibble(step3_tp)
+
+getInfasta(step3_tp)
+
+getOutfasta(step3_tp)
+```
+
+This step allowed us to filter 1 sequence potentially targeted to mitochondria.
+
+> **Result**: 4 candidate proteins with signal peptides; 0 TM domains in 
+mature sequences; not targeted to plastids or mitochondria.
+
+#### Step 4: check for ER-retention signals
+
+```{r, collapse = TRUE}
+step4_er <- check_khdel(step3_tp,
+                        run_mode = 'piper')
+
+getOutfasta(step4_er)
+```
+
+***
+> **Final Result**: 4 candidate proteins with signal peptides; 0 TM domains in 
+mature sequences; not targeted to plastids or mitochondria; not retained in ER.
     
 ## Build pipelines, stringent workflow
 
