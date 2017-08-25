@@ -418,9 +418,18 @@ The slicing procedure returned 15 additional potentially secreted candidates.
 
 ## Pipers and/or starters
 
-Here is just a short summary indicating wich fucntions can work in piper and/or starter mode. 
-
+Here is just a short summary indicating which fucntions can work in piper and/or starter mode. 
 (add table here)
+
+```{r starters_pipers, echo = FALSE}
+st <- suppressMessages(readr::read_delim(system.file("extdata", 
+                                    "summary_tools.csv",
+                                    package = 'SecretSanta'),
+                        delim = ','))
+
+knitr::kable(st, align = c('l', rep('c', 5)))
+```
+
 
 ## Build pipelines, simple workflow
 

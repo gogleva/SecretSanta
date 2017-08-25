@@ -1,0 +1,9 @@
+tool, function,purpouse,starter,piper,parallelised
+Signalp-2.0,signalp,predict SP,Yes,Yes,Yes
+Signalp-3.0,signalp,predict SP,Yes,Yes,Yes
+Signalp-4.1,signalp,predict SP,Yes,Yes,Yes
+Targetp-1.1,targetp,predict localisation,Yes,Yes,Yes
+wolfpsort,wolfpsort,predict localisation,No,Yes,No
+Tmhmm-2.0,tmhmm,predict TM domains,No,Yes,Yes
+NA,check_khdel,scan for ER-retention motifs,Yes,Yes,No
+NA,m_slicer,generate sequences with alternative translation start sites,Yes,Yes,No
