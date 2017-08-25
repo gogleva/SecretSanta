@@ -511,7 +511,9 @@ getOutfasta(step4_er)
 ***
 > **Final Result**: 4 candidate proteins with signal peptides; 0 TM domains in 
 mature sequences; not targeted to plastids or mitochondria; not retained in ER.
-    
-## Build pipelines, stringent workflow
+
+This is an example of a fairly simple pipeline, but you can create more complicated ones. The stringent pipeline might look like this and involve stringent filatration on signal peptide prediction as well as additional predictions for 'rescued' proteins:
+
+![my awesome pipeline](pipes_small.png =250x).
 
 ### References
