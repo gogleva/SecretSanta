@@ -1,6 +1,7 @@
 #' check_khdel function
 #'
-#' This function checks presence of terminal KDEL/HDEL sequences in the candidate secreted proteins.
+#' This function checks presence of terminal KDEL/HDEL sequences in the
+#' candidate secreted proteins.
 #' @param input_obj input object of CBSResult class
 #' @param run_mode 
 #' \itemize{
@@ -10,7 +11,8 @@
 #' @return ErResult object
 #' @export
 #' @examples 
-#' # check ER retention signals in CBSResult object before running signalp or any other predictions
+#' # check ER retention signals in CBSResult object before running
+#' # signalp or any other predictions
 #' aa <- readAAStringSet(system.file("extdata",
 #'                                   "sample_prot_100.fasta",
 #'                                    package = "SecretSanta"),
@@ -27,7 +29,8 @@
 #'                      run_mode = 'starter',
 #'                      paths = my_pa)
 #' 
-#' # check ER retention signal in the signalp output, 'starter' mode (will process in_fasta field)
+#' # check ER retention signal in the signalp output, 'starter' mode 
+#' # (will process in_fasta field)
 #' et_sp <- check_khdel(step1_sp2, run_mode = 'starter')
 #' 
 #' # check ER retention signal in the signalp output, 'piper' mode
@@ -35,23 +38,31 @@
 
 check_khdel <- function(input_obj, run_mode) {
   # check the input
-  if (is(input_obj, "CBSResult")) {} else stop('input_object does not belong to CBSResult superclass')
-  
+  if (is(input_obj, "CBSResult")) {} else {stop(
+    'input_object does not belong to CBSResult superclass')
+  }
   # starting message:
   message("checking for terminal ER retention signals...")
   
   # determine which fasta to take
-  if (run_mode == 'piper') fasta <- getOutfasta(input_obj) else fasta <- getInfasta(input_obj)
+  if (run_mode == 'piper') {
+    fasta <- getOutfasta(input_obj)
+  } else {
+    fasta <- getInfasta(input_obj)
+    }
   
   message(paste('Submitted sequences...', length(fasta)))
   
-  if (length(fasta) == 0) {stop('query fasta is empty, please ensure you are using correct run_mode')}
+  if (length(fasta) == 0) {
+    stop('query fasta is empty, please ensure you are using correct run_mode')
+    }
   
   # find and remove termial ER retention motifs
   ER1 <- Biostrings::AAString('KDEL')
   ER2 <- Biostrings::AAString('HDEL')
   tails <- subseq(fasta, -4, -1) # last 4 aminno acids in each protein
-  un <- !(as.logical(vcountPattern(ER1, tails)) | as.logical(vcountPattern(ER2, tails)))
+  un <- !(as.logical(vcountPattern(ER1, tails)) |
+          as.logical(vcountPattern(ER2, tails)))
   
   # crop fasta names
   crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
@@ -69,11 +80,10 @@ check_khdel <- function(input_obj, run_mode) {
                       retained = fasta[!un])
   
   ret_count <- length(fasta[!un])
-  message(paste('Sequences with terminal ER retention signals detected...', ret_count))
-  message(paste('Candidate without terminal ER retention signals detected...', length(non_retained)))
+  message(paste('Sequences with terminal ER retention signals detected...',
+                ret_count))
+  message(paste('Candidate without terminal ER retention signals detected...',
+                length(non_retained)))
   
   if (validObject(out_obj)) {return(out_obj)}
 }
-
-
-

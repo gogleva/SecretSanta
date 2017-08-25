@@ -427,7 +427,7 @@ setMethod(f = "getSPtibble",
 #'                  'euk',
 #'                  run_mode = "starter",
 #'                  paths = my_pa)
-#' w <- wolfpsort(step1_sp2, 'fungi', my_pa)
+#' w <- wolfpsort(s1_sp2, 'fungi', my_pa)
 #' class(w)
 #' getWOLFtibble(w)
 

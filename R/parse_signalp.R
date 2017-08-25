@@ -73,12 +73,20 @@ parse_signalp <- function(input, input_type) {
                   clean_cleavege,
                   USE.NAMES = FALSE)
   
-  max_Y_fixed <- sapply(data[grep("max. Y", data)], clean_score, USE.NAMES = FALSE)
+  max_Y_fixed <- sapply(data[grep("max. Y", data)],
+                        clean_score,
+                        USE.NAMES = FALSE)
   # extract max S score and position
-  max_S_fixed <- sapply(data[grep("max. S", data)], clean_score, USE.NAMES = FALSE)
+  max_S_fixed <- sapply(data[grep("max. S", data)],
+                        clean_score,
+                        USE.NAMES = FALSE)
   # extract mean S score and position
-  mean_S_fixed <- sapply(data[grep("mean S", data)], clean_mean, USE.NAMES = FALSE)
-  Status_fixed <- sapply(data[grep("Prediction: ", data)], clean_status, USE.NAMES = FALSE)
+  mean_S_fixed <- sapply(data[grep("mean S", data)],
+                         clean_mean,
+                         USE.NAMES = FALSE)
+  Status_fixed <- sapply(data[grep("Prediction: ", data)],
+                         clean_status,
+                         USE.NAMES = FALSE)
   res <- tibble::as.tibble(data.frame(gene_ids_fixed,
                               t(max_C_fixed)[2],
                               C_pos,
@@ -105,4 +113,3 @@ parse_signalp <- function(input, input_type) {
   #filter entries predicted to contain signal peptide
   return(res %>% filter(res$Prediction == 'Signal peptide'))
 }
-
