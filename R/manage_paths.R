@@ -91,35 +91,40 @@ manage_paths <- function(check_installed, path_file = NULL) {
   get_paths <- function(tool_name) {pp %>% 
                                     filter_(~tool == tool_name) %>%
                                     select_(~path)}
+  
+  #helper function to produce signalp status messages:
+  check_signalp <- function(signalp_call){
+    if (signalp_call[2] == 'Usage: signalp -t euk|gram+|gram- [options] seqfile'){
+      message('signalp2 test run completed')
+    } else {
+      message('signalp2 test run failed; check if it is installed correctly')
+    }                
+  }
    
   # siganlp2:
    
-   if (check_installed == TRUE) {
+  if (check_installed == TRUE) {
      call <- suppressWarnings(system('signalp2 -h', intern = TRUE))
    } else if (check_installed == FALSE) {
      call <- suppressWarnings(system(paste(get_paths('signalp2'), '-h'),
                                           intern = TRUE))
    }
   
-   if (call[2] == 'Usage: signalp -t euk|gram+|gram- [options] seqfile'){
-     message('signalp2 test run completed')
-   } else {
-     message('signalp2 test run failed; check if it is installed correctly')
-   }                
-}     
+  check_signalp(call)
   
-   # if (suppressWarnings(system(paste(get_paths('signalp2'), '-h'),
-   #                             intern = TRUE)[2]) ==
-   #     'Usage: signalp -t euk|gram+|gram- [options] seqfile') 
-   #     { message('signalp2 test run completed')
-   # } else {
-   #       message('signalp2 test run failed; check if it is installed correctly')
-   # }
-   # 
-     
-  # 
+
+#end of the world
+  }     
+  
   # # signalp3:
+  # if (check_installed == TRUE) {
+  #   call <- suppressWarnings(system('signalp3 -h', intern = TRUE))
+  # } else if (check_installed == FALSE) {
+  #   call <- suppressWarnings(system(paste(get_paths('signalp3'), '-h'),
+  #                                 intern = TRUE))
+  # }
   # 
+# 
   # if (suppressWarnings(system(paste(get_paths('signalp3'), '-h'),
   #                             intern = TRUE)[2]) ==
   #     'Usage: signalp -t euk|gram+|gram- [options] seqfile') 
