@@ -46,36 +46,38 @@ manage_paths <- function(check_installed, path_file = NULL) {
   # alternatively, we will be dealing with paths supplied in a separate 
   # path_file, first check that all the supplied paths are valid
   if (check_installed == FALSE) {
-    
-  # read path file in a tibble
-  pp <- suppressMessages(readr::read_delim(path_file,
+    if (is.null(path_file)) {
+      stop('Please supply path_file')
+    } else {  
+    # read path file in a tibble
+    pp <- suppressMessages(readr::read_delim(path_file,
                                             delim = ' ',
                                             col_names = FALSE))
    
-     # check that there are only 2 columns, i.e no extra spaces in tool names
-     if (!(ncol(pp) == 2)) {
-       stop('Please ensure that there are no spaces in the tool names.')}
+    # check that there are only 2 columns, i.e no extra spaces in tool names
+    if (!(ncol(pp) == 2)) {
+    stop('Please ensure that there are no spaces in the tool names.')}
    
-     names(pp) <- c("tool", "path")
+    names(pp) <- c("tool", "path")
+    # check that all supplied paths exist
+    pp$status <- file.exists(pp$path)
    
-     # check that all supplied paths exist
-     pp$status <- file.exists(pp$path)
-   
-     if (all(pp$status)) { 
-     message('All paths are valid')
-     # convert all the tool names to lower case to avoid confusion
-     pp$tool <- tolower(pp$tool)
+    if (all(pp$status)) { 
+    message('All paths are valid')
+    # convert all the tool names to lower case to avoid confusion
+    pp$tool <- tolower(pp$tool)
      
-     } else {
-     message('Supplied file path does not exist.')
-     message(sapply(pp %>%
-                    dplyr::filter_(~status == FALSE) %>%
-                    dplyr::select_(~path), paste, '\n'))
-     message('Please check that supplied paths are correct and try again')
-     }
+    } else {
+    message('Supplied file path does not exist.')
+    message(sapply(pp %>%
+                  dplyr::filter_(~status == FALSE) %>%
+                  dplyr::select_(~path), paste, '\n'))
+    message('Please check that supplied paths are correct and try again')
+    }
    }
+  }
+}  
   
-}
   # # check that all the dependencies are executable in principle,
   # # i.e we are able to run -h or
   # # process a small sample fasta file

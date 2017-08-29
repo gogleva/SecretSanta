@@ -4,11 +4,16 @@
 \alias{manage_paths}
 \title{manage_paths function}
 \usage{
-manage_paths(path_file)
+manage_paths(check_installed, path_file = NULL)
 }
 \arguments{
+\item{check_installed}{if TRUE manage_paths will attempt to run external
+dependencies, assuming that respective paths are attached to the $PATH
+variable. Alteratively you can set check_installed to FALSE and supply 
+path_file.}
+
 \item{path_file}{file paths to 2-column space-separated text file with 
-listed paths for external dependencies;
+listed paths for external dependencies if not sotred in $PATH;
 \itemize{
 \item first column should contain tool name;
 \item second column should contain full path to the tool's executable;
@@ -24,7 +29,7 @@ This function reads and stores pathways for external tools used in secertome
 prediction pipeline and checks that all the external dependencies can be 
 executed in principle, i.e produce correct help messages or process micro
 fasta file. Required tools are available for academic users and could be
-found here:
+found here, for the instalation instructions see SecretSanta vignette.
 \itemize{
 \item WoLFPSORT - \url{https://github.com/fmaguire/WoLFPSort.git}
 \item signalp2  - \url{http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+2.0}
