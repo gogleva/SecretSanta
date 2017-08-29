@@ -25,7 +25,6 @@
 #' \item for multiple versions of signalp use 'signalpV', 
 #' where V is version number; 
 #' }
-
 #' @return tibble with verified file paths
 #' @export
 #' @examples
@@ -76,30 +75,48 @@ manage_paths <- function(check_installed, path_file = NULL) {
     }
    }
   }
-}  
+ 
   
-  # # check that all the dependencies are executable in principle,
-  # # i.e we are able to run -h or
-  # # process a small sample fasta file
-  # 
-  # my_tools <- c('signalp2',
-  #               'signalp3',
-  #               'signalp4',
-  #               'targetp',
-  #               'tmhmm', 'wolfpsort')
-  # get_paths <- function(tool_name) {pp %>% 
-  #                                   filter_(~tool == tool_name) %>%
-  #                                   select_(~path)}
-  # 
-  # # siganlp2:
-  # 
-  # if (suppressWarnings(system(paste(get_paths('signalp2'), '-h'),
-  #                             intern = TRUE)[2]) ==
-  #     'Usage: signalp -t euk|gram+|gram- [options] seqfile') 
-  #     { message('signalp2 test run completed')
-  # } else {
-  #       message('signalp2 test run failed; check if it is installed correctly')
-  # }
+  # check that all the dependencies are executable in principle,
+  # i.e we are able to run -h or
+  # process a small sample fasta file
+   
+  my_tools <- c('signalp2',
+               'signalp3',
+               'signalp4',
+               'targetp',
+               'tmhmm',
+               'wolfpsort')
+  # helper function to extract tool paths when provided in path_file
+  get_paths <- function(tool_name) {pp %>% 
+                                    filter_(~tool == tool_name) %>%
+                                    select_(~path)}
+   
+  # siganlp2:
+   
+   if (check_installed == TRUE) {
+     call <- suppressWarnings(system('signalp2 -h', intern = TRUE))
+   } else if (check_installed == FALSE) {
+     call <- suppressWarnings(system(paste(get_paths('signalp2'), '-h'),
+                                          intern = TRUE))
+   }
+  
+   if (call[2] == 'Usage: signalp -t euk|gram+|gram- [options] seqfile'){
+     message('signalp2 test run completed')
+   } else {
+     message('signalp2 test run failed; check if it is installed correctly')
+   }                
+}     
+  
+   # if (suppressWarnings(system(paste(get_paths('signalp2'), '-h'),
+   #                             intern = TRUE)[2]) ==
+   #     'Usage: signalp -t euk|gram+|gram- [options] seqfile') 
+   #     { message('signalp2 test run completed')
+   # } else {
+   #       message('signalp2 test run failed; check if it is installed correctly')
+   # }
+   # 
+     
   # 
   # # signalp3:
   # 
