@@ -97,41 +97,105 @@ manage_paths <- function(check_installed, path_file = NULL) {
                                     filter_(~tool == tool_name) %>%
                                     select_(~path)}
   
-  if  (check_installed == TRUE) {
-    tool <- 
-  
-  sp2_call <- system(paste('signalp2', '-t euk', test_fasta), intern = TRUE)
-  sp3_call <- system(paste('signalp3', '-t euk', test_fasta), intern = TRUE)
-  sp4_call <- system(paste('signalp4', '-t euk', test_fasta), intern = TRUE)
-  tp_call <- system(paste('targetp', '-P', test_fasta), intern = TRUE)
-  tm_call <- system(paste('tmhmm --short', test_fasta), intern = TRUE)
-  wolf_call <- system(paste('runWolfPsortSummary', 'fungi', '<', test_fasta), intern = TRUE)
-  
-  
-  
-  
-  # helper function to generate signalp calls:
-  
-  call_exteral <- function(check_tool){
+  make_call <- function(tool) {
     
-    if (grepl('signalp', check_tool)) {
-    
-      if (check_installed == TRUE) {
-        call <- suppressWarnings(system(paste(check_tool,'-h'),
-                                      intern = TRUE))[2]
-      } else if (check_installed == FALSE) {
-        call <- suppressWarnings(system(paste(get_paths(check_tool), '-h'),
-                                      intern = TRUE))[2]
-    }
+    if (check_installed == TRUE) {
+      tool <- tool
+    } else if (check_installed == FALSE) {
+      tool <- get_paths(tool)
     }
   }
+
+  # now we will start making calls and evaluating their outputs:
+  
+  # signalp2:
+  sp2_call <- system(paste(make_call('signalp2'), '-t euk', test_fasta),
+                     intern = TRUE)
+  if (grepl('SignalP predictions', sp2_call[1])) {
+    message('siganlp2 run completed')
+  } else {
+    message('signalp2 test run failed; check if it is installed correctly')
+  }
+  
+  #signalp3:
+  
+  sp3_call <- system(paste(make_call('signalp3'), '-t euk', test_fasta),
+                     intern = TRUE)
+  if (grepl('SignalP 3.0 predictions', sp3_call[1])) {
+    message('siganlp3 run completed')
+  } else {
+    message('signalp3 test run failed; check if it is installed correctly')
+  }
+  
+  #signalp4:
+ 
+  sp4_call <- system(paste(make_call('signalp4'), '-t euk', test_fasta),
+                     intern = TRUE)
+  if (grepl('SignalP-4', sp4_call[1])) {
+    message('siganlp4 run completed')
+  } else {
+    message('signalp4 test run failed; check if it is installed correctly')
+  }
+  
+  #targetp:
+  
+  tp_call <- system(paste(make_call('targetp'), '-P', test_fasta),
+                     intern = TRUE)
+  if (grepl('targetp v1.1 prediction results', tp_call[2])) {
+    message('targetp run completed')
+  } else {
+    message('targetp test run failed; check if it is installed correctly')
+  }
+  
+  # tmhmm:
+ 
+  tm_call <- system(paste(make_call('tmhmm'), '--short', test_fasta),
+                    intern = TRUE)
+  if (grepl('ALI_PLTG_1\tlen=94\tExpAA=22.44', tm_call[1])) {
+    message('tmhmm run completed')
+  } else {
+    message('tmmhmm test run failed; check if it is installed correctly')
+  }
+  
+  # wolfpsort:
+  
+  wolf_call <- system(paste(make_call('runWolfPsortSummary'), 'fungi', '>',
+                            test_fasta),
+                    intern = TRUE)
+  
+  # wolf_call <- system(paste('runWolfPsortSummary', 'fungi', '<', test_fasta),
+  #                     intern = TRUE)
+  if (grepl('ALI_PLTG_1\tlen=94\tExpAA=22.44', tm_call[1])) {
+    message('tmhmm run completed')
+  } else {
+    message('tmmhmm test run failed; check if it is installed correctly')
+  }
+  
+}    
+
+  # sp2_call <- system(paste('signalp2', '-t euk', test_fasta), intern = TRUE)
+  # sp3_call <- system(paste('signalp3', '-t euk', test_fasta), intern = TRUE)
+  # sp4_call <- system(paste('signalp4', '-t euk', test_fasta), intern = TRUE)
+  # tp_call <- system(paste('targetp', '-P', test_fasta), intern = TRUE)
+  # tm_call <- system(paste('tmhmm', '--short', test_fasta), intern = TRUE)
+  # wolf_call <- system(paste('runWolfPsortSummary', 'fungi', '<', test_fasta),
+  #                     intern = TRUE)
+  # 
+  # } else if (check_installed == FALSE) {
+  # sp2_call <- system(paste(get_paths('signalp2'), '-t euk', test_fasta),
+  #                    intern = TRUE)
+  # sp3_call <- system(paste('signalp3', '-t euk', test_fasta), intern = TRUE)
+  # sp4_call <- system(paste('signalp4', '-t euk', test_fasta), intern = TRUE)
+  # tp_call <- system(paste('targetp', '-P', test_fasta), intern = TRUE)
+  # tm_call <- system(paste('tmhmm', '--short', test_fasta), intern = TRUE)
+  # wolf_call <- system(paste('runWolfPsortSummary', 'fungi', '<', test_fasta),
+  #                       intern = TRUE)  
+  # }
+  
+  
   
 
-  
-
-
-
-  #helper function to produce signalp2/3 status messages:
+  #helper function to produce status messages:
   check_signalp <- function(signalp_call, check_tool){
     if (check_tool == 'signalp2' || check_tool == 'signalp3') {
      if (signalp_call == 
