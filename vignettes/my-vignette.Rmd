@@ -147,6 +147,12 @@ Currently ```signalp``` function from SecretSanta provides an interface for the 
 - **signalp-3.0** [@Bendtsen2004] 
 - **signalp-4.0** [@Petersen2011]
 
+``signalp`` requires specifying ``organism_type`` parameter; possible values include:
+
+- 'euk' - for eukaryotes;
+- 'gram+' - for gram-positive bacteria;
+- 'gram-' - for gram-negative bacteria.
+
 To run signalp prediction, first read fasta file with amino acid sequences and store it's contents in a separate variable:
 ```{r read aa fasta, }
 aa <- readAAStringSet(system.file("extdata",
@@ -285,6 +291,11 @@ getOutMatfasta(tm)
 **Targetp** predicts subsellular localisation of secreted eukaryotic proteins based on the presence of
 signal peptide (SP), chloroplast transit peptide (cTP) or mitochondrial targeting peptide (mTP) in the N-terminus [@Emanuelsson2008]. Including **targetp** in the pipeline can provide additional evidence that a protein with a predicted signal peptide is no targeted to plastids or mitochondria and is indeed extracellular. ``targetp`` function accepts input objects belonging to the ``CBSResult`` class. 
 
+``targetp`` requires specifying ``network_type`` to run correctly. Possible values include:
+
+- 'P' - for plants;
+- 'N' - for non_plants.
+
 It is possible to run ``targetp`` in both *piper* and *starter* modes.
 Imagine, we want to start our pipeline by running ``targetp`` using already created ``inp`` object as an input:
 
@@ -325,6 +336,12 @@ getTPtibble(tp)
 
 ## WoLFPSORT
 **WoLFPSORT** - predicts protein subcellular localisation based on PSORT principle. It converts amino acid sequences into numerical localisation features based on sorting signals, amino acid composition and functional motifs. The converted data is then classified based on k-nearest neighbor algorithm [@Horton2006].
+
+``wolfpsort`` requires ``organism`` parameter, it's possible values include:
+
+- 'plant';
+- 'animal';
+- 'fungi'.
 
 ``wolfpsort`` function accepts objects of ``CBSResult`` class with non-empty ``out_fasta`` slot, so it is recommeded to run this prediction on later stages of the pipeline.
 
@@ -517,6 +534,5 @@ This is an example of a fairly simple pipeline, but you can create more complica
 ```{r, out.width = "300px", fig.align="center", echo = FALSE}
 knitr::include_graphics("pipes_small.png")
 ```
-
 
 ### References

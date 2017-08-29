@@ -244,6 +244,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><strong>signalp-3.0</strong> <span class="citation">(Dyrl�v Bendtsen and Brunak 2004)</span></li>
 <li><strong>signalp-4.0</strong> <span class="citation">(Thomas Nordahl Petersen and Nielsen. 2011)</span></li>
 </ul>
+<p><code>signalp</code> requires specifying <code>organism_type</code> parameter; possible values include:</p>
+<ul>
+<li>‘euk’ - for eukaryotes;</li>
+<li>‘gram+’ - for gram-positive bacteria;</li>
+<li>‘gram-’ - for gram-negative bacteria.</li>
+</ul>
 <p>To run signalp prediction, first read fasta file with amino acid sequences and store it’s contents in a separate variable:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">aa &lt;-<span class="st"> </span><span class="kw">readAAStringSet</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>,
                                   <span class="st">&quot;sample_prot_100.fasta&quot;</span>,
@@ -283,52 +289,52 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getInfasta</span>(step1_sp2)</code></pre></div>
 <pre><code>##   A AAStringSet instance of length 100
 ##       width seq                                        names               
-##   [1]   236 MSTKRSRSAPILRVKKLTPE...DDDNSAKVLEWINAFIESN ALI_PLTG_97
-##   [2]   456 MLASKIVPLRRAASTVGARN...ALGSDAKYAGEHFRNPSKM ALI_PLTG_88
-##   [3]  1006 MGNCCSTEASAVVSRRSGDK...EDMNIGSVYTGDADWLAGF ALI_PLTG_41
-##   [4]   495 MVVRVLLVVLALLAVGVQSK...AIVTIGASDGRVRYMNPPS ALI_PLTG_38
-##   [5]   107 MGEEIPVDDCVACPDGGYQE...QECIVCFGDMEITDLEFPI ALI_PLTG_40
+##   [1]   168 MRLPEAHHWDAAARSESKSL...IWYLPLFAFLKTMKFCKLI ALI_PLTG_61
+##   [2]   318 MKGLRQQSKPNAQDERGGYG...KGSDEAVLQFVARYRANHL ALI_PLTG_24
+##   [3]   174 MDALRESEDLRIHSPTESSS...LRTRIEMSFGLLANNGRFI ALI_PLTG_30
+##   [4]   962 MADLQESLLAKVDAEKAVDT...TAQKMESVDECIELLELGP ALI_PLTG_94
+##   [5]  1999 MAVRAWSWTRIDGRNVLAVP...SDVINETPNESVESEGNDS ALI_PLTG_42_trunc...
 ##   ...   ... ...
-##  [96]   182 MELSQTLKTLLNEHRKLVKL...NSLRGEAETDKAEKERISK ALI_PLTG_75
-##  [97]   260 MQHDEVIWSVISKQFCSFKS...YVEIEYEQEQETATGELNW ALI_PLTG_10
-##  [98]   136 MLAVNLDGLHHLLVADKRKV...CNMTGIYISRMLSLPSIQQ ALI_PLTG_65
-##  [99]  1818 MMAEDGASLASPDSGGFPLR...QTAEETIRSLKESESQTAX ALI_PLTG_36
-## [100]   210 MKLSSVCTIIFGLVFIDFNN...DGSVTTAAQKAAALVKANA ALI_PLTG_5</code></pre>
+##  [96]   260 MQHDEVIWSVISKQFCSFKS...YVEIEYEQEQETATGELNW ALI_PLTG_10
+##  [97]   284 MKERVCSVCDCFHRIDRMKF...KNLPQITPIEQFLACKMLK ALI_PLTG_34
+##  [98]   182 MTWDPGGRLFKMTKDNTEVI...IVDGSDDTALVKEVLTDKG ALI_PLTG_79
+##  [99]   456 MLASKIVPLRRAASTVGARN...ALGSDAKYAGEHFRNPSKM ALI_PLTG_88
+## [100]   145 MHSVALRAPRSALEQISGDM...GQSQPQQRGLHNRHPHEYH ALI_PLTG_53</code></pre>
 <p>Please note, that by default <code>signlap</code> truncates all the input sequnces longer than 2000 a.a, in this case ’_truncated’ is added to the original sequence ids to keep track of the changes. Alternative option - is discard long sequences completely before the analysis, to do so set <code>truncate = FALSE</code> when running <code>signalp</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getSPtibble</span>(step1_sp2)</code></pre></div>
 <pre><code>## # A tibble: 8 x 9
 ##       gene_id  Cmax  Cpos  Ymax  Ypos  Smax  Spos  Smean     Prediction
 ##        &lt;fctr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fctr&gt;         &lt;fctr&gt;
-## 1 ALI_PLTG_38   180    20 0.696    20 0.994     9  0.954 Signal peptide
-## 2 ALI_PLTG_59   180    17 0.288    19 0.948     1  0.666 Signal peptide
-## 3 ALI_PLTG_81   180    33 0.388    33 0.826    25  0.471 Signal peptide
-## 4 ALI_PLTG_73   180    22 0.316    22 0.927     3  0.721 Signal peptide
-## 5 ALI_PLTG_83   180    34 0.506    20 0.956    13  0.846 Signal peptide
-## 6 ALI_PLTG_72   180    22 0.804    22 0.986     8  0.805 Signal peptide
-## 7 ALI_PLTG_23   180    22 0.683    22 0.969     8  0.803 Signal peptide
-## 8  ALI_PLTG_5   180    25 0.687    25 0.906     3  0.637 Signal peptide</code></pre>
+## 1 ALI_PLTG_81   272    33 0.388    33 0.826    25  0.471 Signal peptide
+## 2 ALI_PLTG_83   272    34 0.506    20 0.956    13  0.846 Signal peptide
+## 3 ALI_PLTG_38   272    20 0.696    20 0.994     9  0.954 Signal peptide
+## 4  ALI_PLTG_5   272    25 0.687    25 0.906     3  0.637 Signal peptide
+## 5 ALI_PLTG_73   272    22 0.316    22 0.927     3  0.721 Signal peptide
+## 6 ALI_PLTG_23   272    22 0.683    22 0.969     8  0.803 Signal peptide
+## 7 ALI_PLTG_59   272    17 0.288    19 0.948     1  0.666 Signal peptide
+## 8 ALI_PLTG_72   272    22 0.804    22 0.986     8  0.805 Signal peptide</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getOutfasta</span>(step1_sp2)</code></pre></div>
 <pre><code>##   A AAStringSet instance of length 8
 ##     width seq                                          names               
-## [1]   495 MVVRVLLVVLALLAVGVQSKA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
-## [2]   125 MLMSTPAALMLRLAQSSLKPT...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
-## [3]   133 MNFLKSKKTSTQATLLVSPLI...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
-## [4]   154 MYLKFAFMATVATAVVNIAIG...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
-## [5]   164 MVSTSRVFALLLLPSPSARIF...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
-## [6]   118 MRLKFSILIFGAVLLATTTNA...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
-## [7]   653 MKIVALVTFCIATLDSSIVFA...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [8]   210 MKLSSVCTIIFGLVFIDFNNV...SDGSVTTAAQKAAALVKANA ALI_PLTG_5</code></pre>
+## [1]   133 MNFLKSKKTSTQATLLVSPLI...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [2]   164 MVSTSRVFALLLLPSPSARIF...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
+## [3]   495 MVVRVLLVVLALLAVGVQSKA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
+## [4]   210 MKLSSVCTIIFGLVFIDFNNV...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [5]   154 MYLKFAFMATVATAVVNIAIG...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
+## [6]   653 MKIVALVTFCIATLDSSIVFA...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
+## [7]   125 MLMSTPAALMLRLAQSSLKPT...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
+## [8]   118 MRLKFSILIFGAVLLATTTNA...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getMatfasta</span>(step1_sp2)</code></pre></div>
 <pre><code>##   A AAStringSet instance of length 8
 ##     width seq                                          names               
-## [1]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
-## [2]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
-## [3]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
-## [4]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
-## [5]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
-## [6]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
-## [7]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [8]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5</code></pre>
+## [1]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [2]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
+## [3]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
+## [4]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [5]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
+## [6]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
+## [7]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
+## [8]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getSPversion</span>(step1_sp2)</code></pre></div>
 <pre><code>## [1] 2</code></pre>
 <p>Next, imaging we would like to run all the <strong>signalp</strong> version on the same input for comparison. To do so, simply change <code>version</code> parameter:</p>
@@ -413,40 +419,45 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
 <pre><code>## # A tibble: 8 x 6
 ##       gene_id length ExpAA First60 PredHel Topology
 ##         &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;
-## 1 ALI_PLTG_38    476  0.13    0.09       0        o
-## 2 ALI_PLTG_59    109  0.00    0.00       0        o
-## 3 ALI_PLTG_81    101  0.00    0.00       0        o
-## 4 ALI_PLTG_73    133  0.00    0.00       0        o
-## 5 ALI_PLTG_83    131  1.44    0.02       0        o
-## 6 ALI_PLTG_72     97  0.00    0.00       0        i
-## 7 ALI_PLTG_23    632  0.00    0.00       0        o
-## 8  ALI_PLTG_5    186  1.29    1.16       0        o</code></pre>
+## 1 ALI_PLTG_81    101  0.00    0.00       0        o
+## 2 ALI_PLTG_83    131  1.44    0.02       0        o
+## 3 ALI_PLTG_38    476  0.13    0.09       0        o
+## 4  ALI_PLTG_5    186  1.29    1.16       0        o
+## 5 ALI_PLTG_73    133  0.00    0.00       0        o
+## 6 ALI_PLTG_23    632  0.00    0.00       0        o
+## 7 ALI_PLTG_59    109  0.00    0.00       0        o
+## 8 ALI_PLTG_72     97  0.00    0.00       0        i</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getInMatfasta</span>(tm)</code></pre></div>
 <pre><code>##   A AAStringSet instance of length 8
 ##     width seq                                          names               
-## [1]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
-## [2]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
-## [3]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
-## [4]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
-## [5]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
-## [6]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
-## [7]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [8]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5</code></pre>
+## [1]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [2]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
+## [3]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
+## [4]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [5]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
+## [6]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
+## [7]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
+## [8]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getOutMatfasta</span>(tm)</code></pre></div>
 <pre><code>##   A AAStringSet instance of length 8
 ##     width seq                                          names               
-## [1]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
-## [2]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
-## [3]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
-## [4]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
-## [5]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
-## [6]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
-## [7]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [8]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5</code></pre>
+## [1]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [2]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
+## [3]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
+## [4]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [5]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
+## [6]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
+## [7]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
+## [8]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72</code></pre>
 </div>
 <div id="targetp" class="section level2">
 <h2>Targetp</h2>
 <p><strong>Targetp</strong> predicts subsellular localisation of secreted eukaryotic proteins based on the presence of signal peptide (SP), chloroplast transit peptide (cTP) or mitochondrial targeting peptide (mTP) in the N-terminus <span class="citation">(Olof Emanuelsson and Heijne 2008)</span>. Including <strong>targetp</strong> in the pipeline can provide additional evidence that a protein with a predicted signal peptide is no targeted to plastids or mitochondria and is indeed extracellular. <code>targetp</code> function accepts input objects belonging to the <code>CBSResult</code> class.</p>
+<p><code>targetp</code> requires specifying <code>network_type</code> to run correctly. Possible values include:</p>
+<ul>
+<li>‘P’ - for plants;</li>
+<li>‘N’ - for non_plants.</li>
+</ul>
 <p>It is possible to run <code>targetp</code> in both <em>piper</em> and <em>starter</em> modes. Imagine, we want to start our pipeline by running <code>targetp</code> using already created <code>inp</code> object as an input:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tp &lt;-<span class="st"> </span><span class="kw">targetp</span>(inp, 
         <span class="dt">network_type =</span> <span class="st">'N'</span>,  <span class="co"># for non-plant networks</span>
@@ -498,6 +509,12 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
 <div id="wolfpsort" class="section level2">
 <h2>WoLFPSORT</h2>
 <p><strong>WoLFPSORT</strong> - predicts protein subcellular localisation based on PSORT principle. It converts amino acid sequences into numerical localisation features based on sorting signals, amino acid composition and functional motifs. The converted data is then classified based on k-nearest neighbor algorithm <span class="citation">(Paul Horton and Nakai 2006)</span>.</p>
+<p><code>wolfpsort</code> requires <code>organism</code> parameter, it’s possible values include:</p>
+<ul>
+<li>‘plant’;</li>
+<li>‘animal’;</li>
+<li>‘fungi’.</li>
+</ul>
 <p><code>wolfpsort</code> function accepts objects of <code>CBSResult</code> class with non-empty <code>out_fasta</code> slot, so it is recommeded to run this prediction on later stages of the pipeline.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wlf &lt;-<span class="st"> </span><span class="kw">wolfpsort</span>(step1_sp2,
                  <span class="dt">organism =</span> <span class="st">'fungi'</span>,
@@ -521,11 +538,11 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
 <pre><code>## # A tibble: 5 x 2
 ##       gene_id localization
 ##        &lt;fctr&gt;       &lt;fctr&gt;
-## 1 ALI_PLTG_38         extr
-## 2 ALI_PLTG_81         extr
-## 3 ALI_PLTG_73         extr
-## 4 ALI_PLTG_23         extr
-## 5  ALI_PLTG_5         extr</code></pre>
+## 1 ALI_PLTG_81         extr
+## 2 ALI_PLTG_38         extr
+## 3  ALI_PLTG_5         extr
+## 4 ALI_PLTG_73         extr
+## 5 ALI_PLTG_23         extr</code></pre>
 <p>Since <code>wolfpsort</code> has the same purpouse as <code>targetp</code> it might be useful to run these functions side by side and compare the obtained results (see <a href="#Targetp">targetp results</a>).</p>
 </div>
 <div id="check-for-terminal-er-retention-motifs" class="section level2">
@@ -715,29 +732,29 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(input,
 ## # A tibble: 5 x 9
 ##       gene_id  Cmax  Cpos  Ymax  Ypos  Smax  Spos Smean     Prediction
 ##        &lt;fctr&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;          &lt;chr&gt;
-## 1 ALI_PLTG_23 0.362    22 0.533    22 0.910    12 0.783 Signal peptide
-## 2 ALI_PLTG_38 0.603    22 0.746    20 0.982    10 0.933 Signal peptide
-## 3 ALI_PLTG_72 0.739    22 0.794    22 0.948     3 0.851 Signal peptide
-## 4  ALI_PLTG_5 0.712    25 0.678    25 0.846    10 0.652 Signal peptide
-## 5 ALI_PLTG_83 0.179    21 0.338    21 0.843    17 0.640 Signal peptide
+## 1  ALI_PLTG_5 0.712    25 0.678    25 0.846    10 0.652 Signal peptide
+## 2 ALI_PLTG_72 0.739    22 0.794    22 0.948     3 0.851 Signal peptide
+## 3 ALI_PLTG_23 0.362    22 0.533    22 0.910    12 0.783 Signal peptide
+## 4 ALI_PLTG_83 0.179    21 0.338    21 0.843    17 0.640 Signal peptide
+## 5 ALI_PLTG_38 0.603    22 0.746    20 0.982    10 0.933 Signal peptide
 
 <span class="kw">getOutfasta</span>(step1_sp4)
 ##   A AAStringSet instance of length 5
 ##     width seq                                          names               
-## [1]   653 MKIVALVTFCIATLDSSIVFA...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [2]   495 MVVRVLLVVLALLAVGVQSKA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
-## [3]   118 MRLKFSILIFGAVLLATTTNA...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
-## [4]   210 MKLSSVCTIIFGLVFIDFNNV...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
-## [5]   164 MVSTSRVFALLLLPSPSARIF...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
+## [1]   210 MKLSSVCTIIFGLVFIDFNNV...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [2]   118 MRLKFSILIFGAVLLATTTNA...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
+## [3]   653 MKIVALVTFCIATLDSSIVFA...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
+## [4]   164 MVSTSRVFALLLLPSPSARIF...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
+## [5]   495 MVVRVLLVVLALLAVGVQSKA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
 
 <span class="kw">getMatfasta</span>(step1_sp4)
 ##   A AAStringSet instance of length 5
 ##     width seq                                          names               
-## [1]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [2]   474 TRVRKSWTAYTSDEKEIYLSA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
-## [3]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
-## [4]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
-## [5]   144 FQQVTMSATTATAITTKLKQF...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83</code></pre></div>
+## [1]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [2]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
+## [3]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
+## [4]   144 FQQVTMSATTATAITTKLKQF...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
+## [5]   474 TRVRKSWTAYTSDEKEIYLSA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38</code></pre></div>
 <hr />
 <blockquote>
 <p><strong>Result</strong>: 5 candidate proteins with signal peptides.</p>
@@ -756,29 +773,29 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(input,
 ## # A tibble: 5 x 6
 ##       gene_id length ExpAA First60 PredHel Topology
 ##         &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;
-## 1 ALI_PLTG_23    632  0.00    0.00       0        o
-## 2 ALI_PLTG_38    474  0.09    0.06       0        o
-## 3 ALI_PLTG_72     97  0.00    0.00       0        i
-## 4  ALI_PLTG_5    186  1.29    1.16       0        o
-## 5 ALI_PLTG_83    144  1.47    0.00       0        o
+## 1  ALI_PLTG_5    186  1.29    1.16       0        o
+## 2 ALI_PLTG_72     97  0.00    0.00       0        i
+## 3 ALI_PLTG_23    632  0.00    0.00       0        o
+## 4 ALI_PLTG_83    144  1.47    0.00       0        o
+## 5 ALI_PLTG_38    474  0.09    0.06       0        o
 
 <span class="kw">getOutfasta</span>(step2_tm)
 ##   A AAStringSet instance of length 5
 ##     width seq                                          names               
-## [1]   653 MKIVALVTFCIATLDSSIVFA...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [2]   495 MVVRVLLVVLALLAVGVQSKA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
-## [3]   118 MRLKFSILIFGAVLLATTTNA...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
-## [4]   210 MKLSSVCTIIFGLVFIDFNNV...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
-## [5]   164 MVSTSRVFALLLLPSPSARIF...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
+## [1]   210 MKLSSVCTIIFGLVFIDFNNV...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [2]   118 MRLKFSILIFGAVLLATTTNA...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
+## [3]   653 MKIVALVTFCIATLDSSIVFA...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
+## [4]   164 MVSTSRVFALLLLPSPSARIF...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
+## [5]   495 MVVRVLLVVLALLAVGVQSKA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
 
 <span class="kw">getOutMatfasta</span>(step2_tm)
 ##   A AAStringSet instance of length 5
 ##     width seq                                          names               
-## [1]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [2]   474 TRVRKSWTAYTSDEKEIYLSA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
-## [3]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
-## [4]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
-## [5]   144 FQQVTMSATTATAITTKLKQF...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83</code></pre></div>
+## [1]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [2]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
+## [3]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
+## [4]   144 FQQVTMSATTATAITTKLKQF...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
+## [5]   474 TRVRKSWTAYTSDEKEIYLSA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38</code></pre></div>
 <hr />
 <blockquote>
 <p><strong>Result</strong>: 5 candidate proteins with signal peptides; 0 TM domains in mature sequences.</p>
@@ -800,27 +817,27 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(input,
 ## # A tibble: 4 x 7
 ##       gene_id length   mTP    sp other TP_localization    RC
 ##        &lt;fctr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;          &lt;fctr&gt; &lt;int&gt;
-## 1 ALI_PLTG_23    653 0.025 0.953 0.072               S     1
-## 2 ALI_PLTG_38    495 0.123 0.951 0.012               S     1
-## 3 ALI_PLTG_72    118 0.086 0.877 0.054               S     2
-## 4  ALI_PLTG_5    210 0.027 0.944 0.096               S     1
+## 1  ALI_PLTG_5    210 0.027 0.944 0.096               S     1
+## 2 ALI_PLTG_72    118 0.086 0.877 0.054               S     2
+## 3 ALI_PLTG_23    653 0.025 0.953 0.072               S     1
+## 4 ALI_PLTG_38    495 0.123 0.951 0.012               S     1
 
 <span class="kw">getInfasta</span>(step3_tp)
 ##   A AAStringSet instance of length 5
 ##     width seq                                          names               
-## [1]   653 MKIVALVTFCIATLDSSIVFA...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [2]   495 MVVRVLLVVLALLAVGVQSKA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
-## [3]   118 MRLKFSILIFGAVLLATTTNA...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
-## [4]   210 MKLSSVCTIIFGLVFIDFNNV...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
-## [5]   164 MVSTSRVFALLLLPSPSARIF...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
+## [1]   210 MKLSSVCTIIFGLVFIDFNNV...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [2]   118 MRLKFSILIFGAVLLATTTNA...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
+## [3]   653 MKIVALVTFCIATLDSSIVFA...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
+## [4]   164 MVSTSRVFALLLLPSPSARIF...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
+## [5]   495 MVVRVLLVVLALLAVGVQSKA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
 
 <span class="kw">getOutfasta</span>(step3_tp)
 ##   A AAStringSet instance of length 4
 ##     width seq                                          names               
-## [1]   653 MKIVALVTFCIATLDSSIVFA...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [2]   495 MVVRVLLVVLALLAVGVQSKA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
-## [3]   118 MRLKFSILIFGAVLLATTTNA...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
-## [4]   210 MKLSSVCTIIFGLVFIDFNNV...SDGSVTTAAQKAAALVKANA ALI_PLTG_5</code></pre></div>
+## [1]   210 MKLSSVCTIIFGLVFIDFNNV...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [2]   118 MRLKFSILIFGAVLLATTTNA...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
+## [3]   653 MKIVALVTFCIATLDSSIVFA...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
+## [4]   495 MVVRVLLVVLALLAVGVQSKA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38</code></pre></div>
 <p>This step allowed us to filter 1 sequence potentially targeted to mitochondria.</p>
 <blockquote>
 <p><strong>Result</strong>: 4 candidate proteins with signal peptides; 0 TM domains in mature sequences; not targeted to plastids or mitochondria.</p>
@@ -838,10 +855,10 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(input,
 <span class="kw">getOutfasta</span>(step4_er)
 ##   A AAStringSet instance of length 4
 ##     width seq                                          names               
-## [1]   653 MKIVALVTFCIATLDSSIVFA...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [2]   495 MVVRVLLVVLALLAVGVQSKA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
-## [3]   118 MRLKFSILIFGAVLLATTTNA...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
-## [4]   210 MKLSSVCTIIFGLVFIDFNNV...SDGSVTTAAQKAAALVKANA ALI_PLTG_5</code></pre></div>
+## [1]   210 MKLSSVCTIIFGLVFIDFNNV...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [2]   118 MRLKFSILIFGAVLLATTTNA...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
+## [3]   653 MKIVALVTFCIATLDSSIVFA...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
+## [4]   495 MVVRVLLVVLALLAVGVQSKA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38</code></pre></div>
 <hr />
 <blockquote>
 <p><strong>Final Result</strong>: 4 candidate proteins with signal peptides; 0 TM domains in mature sequences; not targeted to plastids or mitochondria; not retained in ER.</p>
