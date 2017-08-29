@@ -88,23 +88,49 @@ manage_paths <- function(check_installed, path_file = NULL) {
                'tmhmm',
                'wolfpsort')
   
+  # micro fasta file to test with all tools:
+  test_fasta <- system.file("extdata", "small_prot.fasta",
+                            package = "SecretSanta")
+  
   # helper function to extract tool paths when provided in path_file
   get_paths <- function(tool_name) {pp %>% 
                                     filter_(~tool == tool_name) %>%
                                     select_(~path)}
   
+  if  (check_installed == TRUE) {
+    tool <- 
+  
+  sp2_call <- system(paste('signalp2', '-t euk', test_fasta), intern = TRUE)
+  sp3_call <- system(paste('signalp3', '-t euk', test_fasta), intern = TRUE)
+  sp4_call <- system(paste('signalp4', '-t euk', test_fasta), intern = TRUE)
+  tp_call <- system(paste('targetp', '-P', test_fasta), intern = TRUE)
+  tm_call <- system(paste('tmhmm --short', test_fasta), intern = TRUE)
+  wolf_call <- system(paste('runWolfPsortSummary', 'fungi', '<', test_fasta), intern = TRUE)
+  
+  
+  
+  
   # helper function to generate signalp calls:
   
-  call_signalp <- function(check_tool){
-    if (check_installed == TRUE) {
-      call <- suppressWarnings(system(paste(check_tool,'-h'),
+  call_exteral <- function(check_tool){
+    
+    if (grepl('signalp', check_tool)) {
+    
+      if (check_installed == TRUE) {
+        call <- suppressWarnings(system(paste(check_tool,'-h'),
                                       intern = TRUE))[2]
-    } else if (check_installed == FALSE) {
-      call <- suppressWarnings(system(paste(get_paths(check_tool), '-h'),
+      } else if (check_installed == FALSE) {
+        call <- suppressWarnings(system(paste(get_paths(check_tool), '-h'),
                                       intern = TRUE))[2]
+    }
     }
   }
   
+
+  
+
+
+
   #helper function to produce signalp2/3 status messages:
   check_signalp <- function(signalp_call, check_tool){
     if (check_tool == 'signalp2' || check_tool == 'signalp3') {
