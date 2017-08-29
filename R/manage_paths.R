@@ -105,55 +105,34 @@ manage_paths <- function(check_installed, path_file = NULL) {
     }
   }
   
-  
-  message(call_signalp('signalp2'))
-  message(call_signalp('signalp3'))
-  message(call_signalp('signalp4'))
-  
+  #helper function to produce signalp2/3 status messages:
+  check_signalp <- function(signalp_call, check_tool){
+    if (check_tool == 'signalp2' || check_tool == 'signalp3') {
+     if (signalp_call == 
+         'Usage: signalp -t euk|gram+|gram- [options] seqfile'){
+       message(paste(check_tool,
+                     'test run completed'))
+     } else {
+       message(paste(check_tool,
+                     'test run failed; check if it is installed correctly'))
+     }
+    } else if (check_tool == 'signalp4') {
+      if (signalp_call == 
+          '  Description: Predict signal peptide and cleavage site.'){
+        message(paste(check_tool,
+                      'test run completed'))
+      } else {
+        message(paste(check_tool,
+                      'test run failed; check if it is installed correctly'))
+      }
+    }
+   }
+   
+  check_signalp(call_signalp('signalp2'), 'signalp2')
+  check_signalp(call_signalp('signalp3'), 'signalp3')
+  check_signalp(call_signalp('signalp4'), 'signalp4')
 }
 
-  # #helper function to produce signalp2/3 status messages:
-  # check_signalp <- function(signalp_call, check_tool){
-  #   if (signalp_call[2] == 
-  #       'Usage: signalp -t euk|gram+|gram- [options] seqfile'){
-  #     message(paste(check_tool,
-  #                   'test run completed'))
-  #   } else {
-  #     message(paste(check_tool,
-  #                   'test run failed; check if it is installed correctly'))
-  #   }                
-  # }
-   
-  # # siganlp2:
-  #  
-  # if (check_installed == TRUE) {
-  #    call2 <- suppressWarnings(system('signalp2 -h', intern = TRUE))
-  #    call3 <- suppressWarnings(system('signalp3 -h', intern = TRUE))
-  #  } else if (check_installed == FALSE) {
-  #    call2 <- suppressWarnings(system(paste(get_paths('signalp2'), '-h'),
-  #                                         intern = TRUE))
-  #    call3 <- suppressWarnings(system(paste(get_paths('signalp3'), '-h'),
-  #                                     intern = TRUE))
-  #  }
-  
-  # actual checks:
-#  check_signalp(call_signalp(check_installed, 'signalp2'), 'signalp2')
- # check_signalp(call_signalp(check_installed, 'signalp3'), 'signalp3')
-  
-  
-
-#end of the world
-  }     
-  
-  # # signalp4
-  # 
-  # if (suppressWarnings(system(paste(get_paths('signalp4'), '-h'), 
-  #                             intern = TRUE)[2]) ==
-  #     '  Description: Predict signal peptide and cleavage site.') 
-  #    { message('signalp4 test run completed')
-  # } else {
-  #      message('signalp4 test run failed; check if it is installed correctly')
-  # }
   # 
   # # targetp 
   # 
