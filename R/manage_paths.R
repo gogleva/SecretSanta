@@ -4,7 +4,7 @@
 #' prediction pipeline and checks that all the external dependencies can be 
 #' executed in principle, i.e produce correct help messages or process micro
 #' fasta file. Required tools are available for academic users and could be
-#' found here:
+#' found here, for the instalation instructions see SecretSanta vignette.
 #' \itemize{
 #' \item WoLFPSORT - \url{https://github.com/fmaguire/WoLFPSort.git}
 #' \item signalp2  - \url{http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+2.0}
@@ -13,14 +13,19 @@
 #' \item TMHMM     - \url{http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?tmhmm}
 #' \item targetP   - \url{http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?targetp}
 #' }
+#' @param check_installed if TRUE manage_paths will attempt to run external
+#' dependencies, assuming that respective paths are attached to the $PATH
+#' variable. Alteratively you can set check_installed to FALSE and supply 
+#' path_file.
 #' @param path_file  file paths to 2-column space-separated text file with 
-#' listed paths for external dependencies;
+#' listed paths for external dependencies if not sotred in $PATH;
 #' \itemize{
 #' \item first column should contain tool name;
 #' \item second column should contain full path to the tool's executable;
 #' \item for multiple versions of signalp use 'signalpV', 
 #' where V is version number; 
 #' }
+
 #' @return tibble with verified file paths
 #' @export
 #' @examples
@@ -28,27 +33,31 @@
 #'                                          "sample_paths",
 #'                                          package="SecretSanta"))
 
-manage_paths <- function(path_file) {
-  # read path file in a tibble
-  pp <- suppressMessages(readr::read_delim(path_file,
+manage_paths <- function(check_installed, path_file) {
+  
+  if (check_installed == FALSE) {'check here that evrything works'
+    } else {
+  
+    # read path file in a tibble
+    pp <- suppressMessages(readr::read_delim(path_file,
                                            delim = ' ',
                                            col_names = FALSE))
   
-  # check that there are only 2 columns, i.e no extra spaces in tool names
-  if (!(ncol(pp) == 2)) {
-    stop('Please ensure that there are no spaces in the tool names.')}
+    # check that there are only 2 columns, i.e no extra spaces in tool names
+    if (!(ncol(pp) == 2)) {
+      stop('Please ensure that there are no spaces in the tool names.')}
   
-  names(pp) <- c("tool", "path")
+    names(pp) <- c("tool", "path")
   
-  # check that all supplied paths exist
-  pp$status <- file.exists(pp$path)
+    # check that all supplied paths exist
+    pp$status <- file.exists(pp$path)
   
-  if (all(pp$status)) { 
+    if (all(pp$status)) { 
     message('All paths are valid')
     # convert all the tool names to lower case to avoid confusion
     pp$tool <- tolower(pp$tool)
     
-    } else {#  works oly with my_pa, not paths!
+    } else {
     message('Supplied file path does not exist.')
     message(sapply(pp %>%
                    dplyr::filter_(~status == FALSE) %>%
