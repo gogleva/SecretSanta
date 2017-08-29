@@ -159,17 +159,17 @@ manage_paths <- function(check_installed, path_file = NULL) {
   
   # wolfpsort:
   
-  wolf_call <- system(paste(make_call('runWolfPsortSummary'), 'fungi', '>',
+  wolf_call <- system(paste(make_call('wolfpsort'), 'fungi', '>',
                             test_fasta),
-                    intern = TRUE)
-  
-  # wolf_call <- system(paste('runWolfPsortSummary', 'fungi', '<', test_fasta),
-  #                     intern = TRUE)
-  if (grepl('ALI_PLTG_1\tlen=94\tExpAA=22.44', tm_call[1])) {
-    message('tmhmm run completed')
-  } else {
-    message('tmmhmm test run failed; check if it is installed correctly')
-  }
+                      intern = TRUE)
+  # 
+  # system(paste('wolfpsort', 'fungi', '<', test_fasta), intern = TRUE)
+  # 
+  # if (grepl('ALI_PLTG_1\tlen=94\tExpAA=22.44', tm_call[1])) {
+  #   message('tmhmm run completed')
+  # } else {
+  #   message('tmmhmm test run failed; check if it is installed correctly')
+  # }
   
 }    
 
@@ -193,35 +193,35 @@ manage_paths <- function(check_installed, path_file = NULL) {
   # }
   
   
-  
-
-  #helper function to produce status messages:
-  check_signalp <- function(signalp_call, check_tool){
-    if (check_tool == 'signalp2' || check_tool == 'signalp3') {
-     if (signalp_call == 
-         'Usage: signalp -t euk|gram+|gram- [options] seqfile'){
-       message(paste(check_tool,
-                     'test run completed'))
-     } else {
-       message(paste(check_tool,
-                     'test run failed; check if it is installed correctly'))
-     }
-    } else if (check_tool == 'signalp4') {
-      if (signalp_call == 
-          '  Description: Predict signal peptide and cleavage site.'){
-        message(paste(check_tool,
-                      'test run completed'))
-      } else {
-        message(paste(check_tool,
-                      'test run failed; check if it is installed correctly'))
-      }
-    }
-   }
-   
-  check_signalp(call_signalp('signalp2'), 'signalp2')
-  check_signalp(call_signalp('signalp3'), 'signalp3')
-  check_signalp(call_signalp('signalp4'), 'signalp4')
-}
+#   
+# 
+#   #helper function to produce status messages:
+#   check_signalp <- function(signalp_call, check_tool){
+#     if (check_tool == 'signalp2' || check_tool == 'signalp3') {
+#      if (signalp_call == 
+#          'Usage: signalp -t euk|gram+|gram- [options] seqfile'){
+#        message(paste(check_tool,
+#                      'test run completed'))
+#      } else {
+#        message(paste(check_tool,
+#                      'test run failed; check if it is installed correctly'))
+#      }
+#     } else if (check_tool == 'signalp4') {
+#       if (signalp_call == 
+#           '  Description: Predict signal peptide and cleavage site.'){
+#         message(paste(check_tool,
+#                       'test run completed'))
+#       } else {
+#         message(paste(check_tool,
+#                       'test run failed; check if it is installed correctly'))
+#       }
+#     }
+#    }
+#    
+#   check_signalp(call_signalp('signalp2'), 'signalp2')
+#   check_signalp(call_signalp('signalp3'), 'signalp3')
+#   check_signalp(call_signalp('signalp4'), 'signalp4')
+# }
 
   # 
   # # targetp 
