@@ -87,39 +87,58 @@ manage_paths <- function(check_installed, path_file = NULL) {
                'targetp',
                'tmhmm',
                'wolfpsort')
+  
   # helper function to extract tool paths when provided in path_file
   get_paths <- function(tool_name) {pp %>% 
                                     filter_(~tool == tool_name) %>%
                                     select_(~path)}
   
-  #helper function to produce signalp status messages:
+  # helper function to generate signalp calls:
   
-  check_signalp <- function(signalp_call, check_tool){
-    if (signalp_call[2] == 
-        'Usage: signalp -t euk|gram+|gram- [options] seqfile'){
-      message(paste(check_tool,
-                    'test run completed'))
-    } else {
-      message(paste(check_tool,
-                    'test run failed; check if it is installed correctly'))
-    }                
+  call_signalp <- function(check_tool){
+    if (check_installed == TRUE) {
+      call <- suppressWarnings(system(paste(check_tool,'-h'),
+                                      intern = TRUE))[2]
+    } else if (check_installed == FALSE) {
+      call <- suppressWarnings(system(paste(get_paths(check_tool), '-h'),
+                                      intern = TRUE))[2]
+    }
   }
+  
+  
+  message(call_signalp('signalp2'))
+  message(call_signalp('signalp3'))
+  message(call_signalp('signalp4'))
+  
+}
+
+  # #helper function to produce signalp2/3 status messages:
+  # check_signalp <- function(signalp_call, check_tool){
+  #   if (signalp_call[2] == 
+  #       'Usage: signalp -t euk|gram+|gram- [options] seqfile'){
+  #     message(paste(check_tool,
+  #                   'test run completed'))
+  #   } else {
+  #     message(paste(check_tool,
+  #                   'test run failed; check if it is installed correctly'))
+  #   }                
+  # }
    
-  # siganlp2:
-   
-  if (check_installed == TRUE) {
-     call2 <- suppressWarnings(system('signalp2 -h', intern = TRUE))
-     call3 <- suppressWarnings(system('signalp3 -h', intern = TRUE))
-   } else if (check_installed == FALSE) {
-     call2 <- suppressWarnings(system(paste(get_paths('signalp2'), '-h'),
-                                          intern = TRUE))
-     call3 <- suppressWarnings(system(paste(get_paths('signalp3'), '-h'),
-                                      intern = TRUE))
-   }
+  # # siganlp2:
+  #  
+  # if (check_installed == TRUE) {
+  #    call2 <- suppressWarnings(system('signalp2 -h', intern = TRUE))
+  #    call3 <- suppressWarnings(system('signalp3 -h', intern = TRUE))
+  #  } else if (check_installed == FALSE) {
+  #    call2 <- suppressWarnings(system(paste(get_paths('signalp2'), '-h'),
+  #                                         intern = TRUE))
+  #    call3 <- suppressWarnings(system(paste(get_paths('signalp3'), '-h'),
+  #                                     intern = TRUE))
+  #  }
   
   # actual checks:
-  check_signalp(call2, 'signalp2')
-  check_signalp(call3, 'signalp3')
+#  check_signalp(call_signalp(check_installed, 'signalp2'), 'signalp2')
+ # check_signalp(call_signalp(check_installed, 'signalp3'), 'signalp3')
   
   
 
