@@ -514,6 +514,11 @@ mature sequences; not targeted to plastids or mitochondria; not retained in ER.
 
 This is an example of a fairly simple pipeline, but you can create more complicated ones. The stringent pipeline might look like this and involve stringent filatration on signal peptide prediction as well as additional predictions for 'rescued' proteins:
 
-![my awesome pipeline](pipes_small.png).
+[my awesome pipeline](pipes_small.png).
+
+```{r, out.width = "200px"}
+knitr::include_graphics("pipes_small.png")
+```
+
 
 ### References

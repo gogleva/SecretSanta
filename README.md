@@ -93,6 +93,9 @@ stand alone CBS tools are available only for Unix, se we should not care about W
 - R CMD check: fix notes
 - Bio check: fix errors
 - Bio check: fix warnings
+- Vignettes: pipelines:
+    - summary on starters and pipers;
+    - short pipeline
 
 TO DO (required minimum):
 
@@ -104,17 +107,20 @@ take too long to run for R CMD check:
     - 2K,
     - long sequences
 - why parallel version of TMHMM is so much slower ---> do more profiling
-- export cluster environment: try to get rid of my_pa
+- export cluster environment: try to get rid of my_pa (done for signalp, requires testing)
 - code profiling to speed-up wrappers
 - fix some ugly bits in the code ---> profiling again. Aim: not to be much slower that the wrapped tool
-- Vignettes: pipelines:
-    - summary on starters and pipers;
-    - short pipeline
-    - long pipeline
+
 - Individual (and cool!) plotting functions for the outputs
 - Biocheck: fix notes
 - Do something about external dependencies
-
+- Clean function imports (::) when they are necessary, when are not?
+- signalp: separate check for invalid organism
+- signalp: separate check for invalid verison
+- signalp: weird Cmax scores -  check
+- vignette: add types of organisms in the tool intros
+- do not need TMHMM_parallel if it is so slow?
+- external dependencies:is there a better way than manage_paths?
 
 essential expantion:
 - plotting functions for individual peptides (will require full output) signalp
