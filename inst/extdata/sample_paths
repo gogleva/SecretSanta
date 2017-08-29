@@ -1,6 +1,6 @@
 SignalP4 "/home/anna/anna/Labjournal/SecretSanta_external/signalp-4.1/signalp"
-SignalP3 "/home/anna/anna/Labjournal/SecretSanta_external/signalp-3.0/signalp"
-signalp2 "/home/anna/anna/Labjournal/SecretSanta_external/signalp-2.0/signalp"
+SignalP3 "/home/anna/anna/Labjournal/SecretSanta_external/signalp-3.0/signalp3"
+signalp2 "/home/anna/anna/Labjournal/SecretSanta_external/signalp-2.0/signalp2"
 targetp "/home/anna/anna/soft/targetp-1.1/targetp"
 TMHMM "/home/anna/anna/Labjournal/SecretSanta_external/tmhmm-2.0c/bin/tmhmm"
 WoLFPSORT "/home/anna/anna/Labjournal/SecretSanta_external/WoLFPSort-master/bin/runWolfPsortSummary"
