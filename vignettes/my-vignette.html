@@ -193,36 +193,94 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p></p>
 </div>
 </div>
-<div id="modify-path" class="section level3">
-<h3>1.2 Modify <code>$PATH</code></h3>
-<p>Ideally, all the external dependencies should be accessible</p>
-<!-- ```{sh}     -->
-<!-- #edit -->
-<!-- gedit ~/.profile -->
-<!-- #reload -->
-<!-- . ~/.profile -->
-<!-- ``` -->
-<!-- ## Check that all the external dependencies are present and executable in principle: -->
-<!-- ```{r load SecretSanta, message=FALSE} -->
-<!-- library(SecretSanta) -->
-<!-- ``` -->
-<!-- To do this create a 2-column space-separated text file with listed paths for all the external dependencies. Sample input file listing paths to external dependencies: -->
-<!-- ```{r paths example, echo = FALSE} -->
-<!-- pp <-  suppressMessages(readr::read_delim(system.file("extdata", "santa_paths", -->
-<!--                                                       package="SecretSanta"), -->
-<!--                                           delim = ' ', -->
-<!--                                           col_names = FALSE)) -->
-<!-- names(pp) <- c('tool', 'path') -->
-<!-- knitr::kable(pp) -->
-<!-- ``` -->
-<!-- For CBS tool names please use simple character strings without version numbers. The only exception here are different versions of **signalp**, which require version number in one-digit format in the first column to be distinguishable. -->
-<!-- Please note that aliases will not work when tools are called from R and changing ```$PATH``` variable is not necessary. -->
-<!-- To check that all the required dependencies are installed correctly and can be executed in principle, run ```manage_paths``` function. Note, that ```manage_paths``` is case insensitive and will  convert all the tool names to the lower case. -->
-<!-- ```{r manage_paths, echo = TRUE, collapse = TRUE} -->
-<!-- santa_paths <- manage_paths(system.file("extdata", -->
-<!--                                         "sample_paths", -->
-<!--                                          package = "SecretSanta")) -->
-<!-- ``` -->
+<div id="oragnise-acess-to-the-external-dependecies" class="section level3">
+<h3>1.3 Oragnise acess to the external dependecies</h3>
+<p>Two options are possible:</p>
+<div id="option-a-all-the-external-dependecies-are-accessible-from-any-location." class="section level4">
+<h4>Option A: all the external dependecies are accessible from any location.</h4>
+<p>This requires modification of $PATH environment variable. To make the change permanent, edit <code>.profile</code>:</p>
+<ol style="list-style-type: decimal">
+<li>Open ./profile:</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash"><span class="kw">gedit</span> ~/.profile</code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Add a line with all the path exports. In this example all the dependecies are installed in the <code>my_tool</code> directory:</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash"><span class="kw">export</span> <span class="ot">PATH=</span><span class="st">&quot;/home/my_tools/signalp-4.1:/home/my_tools/signalp-2.0:/home/my_tools/signalp-3.0:/home/my_tools/targetp-1.1:/home/tmhmm-2.0c/bin:/home/my_tools/WoLFPSort/bin:</span><span class="ot">$PATH</span><span class="st">&quot;</span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>Reload <code>/.profile</code>:</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode sh"><code class="sourceCode bash"><span class="kw">.</span> <span class="kw">~/.profile</span></code></pre></div>
+<ol start="4" style="list-style-type: decimal">
+<li>Reboot To make changes visible to R, alternatively - restart the R session.</li>
+</ol>
+</div>
+<div id="option-b-paths-to-external-dependencies-are-supplied-in-a-separate-file" class="section level4">
+<h4>Option B: paths to external dependencies are supplied in a separate file:</h4>
+<p>This option should be used when $PATH variable can not be modified. Create a 2-column space-separated text file with listed paths for all the external dependencies. Sample input file listing paths to external dependencies:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">tool</th>
+<th align="left">path</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">signalp4</td>
+<td align="left">/home/tools/signalp-4.1/signalp</td>
+</tr>
+<tr class="even">
+<td align="left">signalp3</td>
+<td align="left">/home/tools/signalp-3.0/signalp</td>
+</tr>
+<tr class="odd">
+<td align="left">signalp2</td>
+<td align="left">/home/tools/signalp-2.0/signalp</td>
+</tr>
+<tr class="even">
+<td align="left">targetp</td>
+<td align="left">/home/tools/targetp-1.1/targetp</td>
+</tr>
+<tr class="odd">
+<td align="left">TMHMM</td>
+<td align="left">/home/tools/tmhmm-2.0c/bin/tmhmm</td>
+</tr>
+<tr class="even">
+<td align="left">WoLFPSORT</td>
+<td align="left">/home/tools/WoLFPSort-master/bin/runWolfPsortSummary</td>
+</tr>
+</tbody>
+</table>
+<p>For CBS tool names please use simple character strings without version numbers. The only exception here are different versions of <strong>signalp</strong>, which require version number in one-digit format in the first column to be distinguishable.</p>
+</div>
+</div>
+<div id="check-that-all-the-required-dependencies-are-installed-correctly" class="section level3">
+<h3>1.4 Check that all the required dependencies are installed correctly</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(SecretSanta)</code></pre></div>
+<p><code>manage_paths</code> function will run small test jobs and check that all the external dependencies are functional.</p>
+<p>In case all the dependencies are available globally:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">check1 &lt;-<span class="st"> </span><span class="kw">manage_paths</span>(<span class="dt">in_path =</span> <span class="ot">TRUE</span>)
+## checking dependencies acessible via $PATH
+## signalp2 run completed
+## signalp3 run completed
+## signalp4 run completed
+## targetp run completed
+## tmhmm run completed
+## wolfpsort run completed</code></pre></div>
+<p>In case we have paths organised in a separate file:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">check2 &lt;-<span class="st"> </span><span class="kw">manage_paths</span>(<span class="dt">in_path =</span> <span class="ot">FALSE</span>, 
+             <span class="dt">path_file =</span> <span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>,
+                                     <span class="st">&quot;sample_paths&quot;</span>,
+                                     <span class="dt">package =</span> <span class="st">&quot;SecretSanta&quot;</span>))
+## All paths are valid
+## signalp2 run completed
+## signalp3 run completed
+## signalp4 run completed
+## targetp run completed
+## tmhmm run completed
+## wolfpsort run completed</code></pre></div>
+<p>Note, that <code>manage_paths</code> is case insensitive and will convert all the tool names to the lower case.</p>
 <!-- ## Signalp -->
 <!-- **signalp** is a softaware tool to predict classical signal peptides and cleavage sites [@Nielsen1997] in eukaryotes and bacteria. The method combines prediction of signal peptides and cleavage cites based on a combination of artificial neural networks as well as hidden Markov models. The latter allows to distinguish between signal peptides and non-cleaved signal anchors. -->
 <!-- Currently ```signalp``` function from SecretSanta provides an interface for the three recent versions of  **signalp**. The reason behind this is that **signalp-4** and **signalp-4.1** are not sensitive enough to predict certain classes of secreted oomycete and fungal effectors [@Sperschneider2015]. Thus, providing acces to the older versions provide greater flexibility for building versatile prediction pipelines for a wider taxonomic range of species. -->
