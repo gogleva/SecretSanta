@@ -4,37 +4,46 @@
 \alias{manage_paths}
 \title{manage_paths function}
 \usage{
-manage_paths(check_installed, path_file = NULL)
+manage_paths(in_path, path_file = NULL)
 }
 \arguments{
-\item{check_installed}{if TRUE manage_paths will attempt to run external
-dependencies, assuming that respective paths are attached to the $PATH
-variable. Alteratively ifyou can set check_installed to FALSE and supply 
-path_file.}
+\item{in_path}{if \strong{TRUE} manage_paths will attempt to run
+external dependencies, assuming that respective paths are attached to the
+$PATH variable;\cr
+\cr
+if \strong{FALSE} you should supply path_file.}
 
-\item{path_file}{file paths to external dependencies in a 2-column space-separated text file;
-\itemize{
-\item first column should contain tool name;
-\item second column should contain full path to the tool's executable;
-\item for multiple versions of signalp use 'signalpV', 
-where V is version number; 
-}}
+\item{path_file}{full paths to external dependencies in a 2-column
+space-separated text file;\cr
+for multiple versions of signalp please use 'signalpV'notation, where V is a
+version number;\cr
+\cr
+\strong{first column} should contain tool name; \cr
+\strong{second column} should contain full path to the tool's executable.}
 }
 \value{
 a list of length 3 with the following elements:
 \itemize{ 
-\item \strong{tests}    TRUE if all exteranl dependencies are working;
-\item \strong{in_path}  TRUE if dependecies acessible via $PATH, FALSE - if paths are provided with the path_file;
-\item \strong{path_tibble} a tibble with checked tool names and their paths, NA if 
-in_path == FALSE;
+\item \strong{tests}    TRUE if all the exteranl dependencies are working;
+\item \strong{in_path}  TRUE if the dependecies are acessible via $PATH; 
+FALSE - if paths are provided with the path_file argument;
+\item \strong{path_tibble} a tibble with verified names and paths for
+external dependencies; NA if in_path == FALSE;
 }
 }
 \description{
-This function reads and stores pathways for external tools used in secertome
-prediction pipeline and checks that all the external dependencies can be 
-executed in principle, i.e produce correct help messages or process micro
-fasta file. Required tools are available for academic users and could be
-found here, for the instalation instructions see SecretSanta vignette.
+This function checks that all the external dependencies required for
+secertome prediction pipelines are available and can sucessfully pass test
+runs.
+\cr
+\cr
+All the external dependencies can be made accessible via $PATH environment
+variable; alternatively a text file the with full paths to all the external
+dependencies should be provided. 
+\cr
+\cr
+Required external dependencies are available for academic users and could be
+downloaded from the locations listed below:
 \itemize{
 \item WoLFPSORT - \url{https://github.com/fmaguire/WoLFPSort.git}
 \item signalp2  - \url{http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+2.0}
@@ -43,19 +52,28 @@ found here, for the instalation instructions see SecretSanta vignette.
 \item TMHMM     - \url{http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?tmhmm}
 \item targetP   - \url{http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?targetp}
 }
+For the instalation instructions please see SecretSanta vignette.
 }
 \examples{
-# Example1: here we assume that paths to all the external dependencies are
-attached to the $PATH variable:
-manage_paths(check_installed = TRUE)
+# Example1: 
+# here we assume that paths to all the
+# external dependencies are attached to
+# the $PATH variable:
 
-# Example2: alternatively, we are in a situation when changing $PATH is not
-possible, so we supply a file with listed paths to external dependencies instead,
-to check that everything is alright.
+manage_paths(in_path = TRUE)
 
-manage_paths(check_installed = FALSE,
-             path_file = system.file("extdata",
-                                     "sample_paths",
-                                      package="SecretSanta"))
+# Example2:
+# alternatively, we are in a situation
+# when changing $PATH is not possible, 
+# so we supply a file with listed full
+# paths to the external dependencies:
+
+manage_paths(in_path = FALSE,
+             path_file = system.file(
+                         "extdata",
+                         "sample_paths",
+                          package =
+                          "SecretSanta")
+                          )
                                          
 }
