@@ -97,10 +97,10 @@ stand alone CBS tools are available only for Unix, se we should not care about W
     - summary on starters and pipers;
     - short pipeline
 - vignette: add types of organisms in the tool intros    
+- external dependencies:is there a better way than manage_paths?
 
 TO DO (required minimum):
 
-- external dependencies:is there a better way than manage_paths?
 - set default options for C/Y/D/S scores in signalp => more flexible filtering?
 - fix signalp4 vs signalp 4.1 conflicts
 - add unit tests for large inputs in signalp - store them in a separate repo,
