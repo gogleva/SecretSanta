@@ -130,6 +130,8 @@ manage_paths <- function(in_path, path_file = NULL) {
   failure_message <- function(tool_name) {message(
     paste(tool_name,
           'test run failed'))}
+  
+  # helper function to make a tool call, wrap in get_paths if necessary
   make_call <- function(tool) {
     if (in_path == TRUE) {
       tool <- tool
@@ -138,7 +140,7 @@ manage_paths <- function(in_path, path_file = NULL) {
     }
   }
   
-  # now we will start making calls and evaluating their outputs:
+  # now we will make calls and evaluate their outputs:
   
   # signalp2:
   sp2_call <- system(paste(make_call('signalp2'), '-t euk', test_fasta),

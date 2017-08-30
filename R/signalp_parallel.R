@@ -36,7 +36,7 @@ split_XStringSet <- function(string_set, chunk_size){
                                 
 }
 
-#combine_SignalpResult function
+#combine_SpResult function
 #'
 #' This function combines multiple instances of SignalpResult class,
 #'  typically generated with parLapply
@@ -74,29 +74,30 @@ split_XStringSet <- function(string_set, chunk_size){
 #'                   
 #' sp1 <- signalp(input_obj = inp2,
 #'                version = 2,
-#'                organism_type = 'euk',
+#'                organism = 'euk',
 #'                run_mode = 'starter',
 #'                paths = my_pa)
 #' sp2 <- signalp(input_obj = inp3,
 #'                version = 2,
-#'                organism_type = 'euk',
+#'                organism = 'euk',
 #'                run_mode = 'starter',
 #'                paths = my_pa)
 #' sp3 <- signalp(input_obj = inp4,
 #'                version = 2,
-#'                organism_type = 'euk',
+#'                organism = 'euk',
 #'                run_mode = 'starter', 
 #'                paths = my_pa)
 #' obj <- list(sp1, sp2, sp3)
-#' combined_sp <- combine_SignalpResult(obj)
+#' combined_sp <- combine_SpResult(obj)
 
 
-combine_SignalpResult <- function(arguments) {
+combine_SpResult <- function(arguments) {
                                     if (all(sapply(arguments,
                                                    is,
                                                    'SignalpResult'))) {
                                     } else {                               
-                                      stop('Some objects from arguments list do not belong to SignalpResult class.')
+                                      stop(
+                                        'Some objects from arguments list do not belong to SignalpResult class.')
                                     }
                                     
                                     c_in_fasta <- do.call(c,
@@ -178,29 +179,26 @@ combine_CBSResult <- function(...) {
 
 }
 
-# parallel version of signalp:
+
+# PARALLEL SIGNALP ITSELF:
 
 #' signalp function
 #'
 #' This function calls local signalp to predict the presence and location of
-#' signal peptide cleavage sites in amino acid sequences; automatically splits
-#' large input files (>500 sequnces) and runs signalp prediction as an
-#' embarassingly parallel process on all the CPUs available.
+#' signal peptide cleavage sites in amino acid sequences.
+#' \cr
+#' \cr
+#' Large input files (>500 sequnces) are automatically split into smaller chunks
+#' so that signalp prediction could be run as an embarassingly parallel process
+#' on all the CPUs available.
 #' @param input_obj   an instance of CBSResult class containing protein 
-#' sequences as on of the attributes
-#' @param version  signalp version to run, supported versions:
-#' \itemize{
-#' \item 2
-#' \item 3
-#' \item 4
-#' \item 4.1
-#' } 
-#' @param organism_type possible values: 
-#' \itemize{
-#' \item euk - for eukaryotes;
-#' \item gram+ - for gram-positive bacteria;
-#' \item gram- - for gram-negative bacteria;
-#' }
+#' sequences as one of the attributes
+#' @param version  signalp version to run, supported versions include: \cr
+#'  2, 3, 4, 4,1.
+#' @param organism 
+#' \strong{euk} - for eukaryotes;\cr
+#' \strong{gram+} - for gram-positive bacteria;\cr
+#' \strong{gram-} - for gram-negative bacteria;\cr
 #' @param run_mode
 #' \itemize{
 #' \item starter - if it is the first step in pipeline;
@@ -257,7 +255,7 @@ combine_CBSResult <- function(...) {
 
 signalp <- function(input_obj,
                     version,
-                    organism_type,
+                    organism,
                     run_mode, paths,
                     truncate = NULL) {
   
@@ -327,13 +325,13 @@ signalp <- function(input_obj,
   # check signalp versions and organism type
   allowed_versions = c(2,3,4,4.1)
   allowed_organisms = c('euk', 'gram+', 'gram-')
-  organism_type <- tolower(organism_type)
+  organism <- tolower(organism)
   
   # 
   signalp_version <- paste("signalp", version, sep = '')
   message(paste('Version used...', signalp_version))
 
-  if ((version %in% allowed_versions) & (organism_type %in% allowed_organisms)) {
+  if ((version %in% allowed_versions) & (organism %in% allowed_organisms)) {
     message("running signalp locally...")
   } else {
     stop('Input signalp version or specified organism type are invalid.')
@@ -359,7 +357,7 @@ signalp <- function(input_obj,
     if (version >= 4) {
       # runing signalp versios 4 and 4.1, potentially should work for 5
       sp <- as.tibble(read.table(text = (system(paste(full_pa, "-t",
-                                                      organism_type, out_tmp),
+                                                      organism, out_tmp),
                                                 intern = TRUE))))
       names(sp) <- c("gene_id", "Cmax", "Cpos",
                      "Ymax", "Ypos", "Smax",
@@ -378,7 +376,7 @@ signalp <- function(input_obj,
     } else if (version < 4) {
       # running signalp versions 2 and 3, call parse_signalp for the output
       message('signalp < 4, calling parser for the output...')
-      con <- system(paste(full_pa, "-t", organism_type, out_tmp), intern = TRUE)
+      con <- system(paste(full_pa, "-t", organism, out_tmp), intern = TRUE)
       sp <- parse_signalp(input = con, input_type = "system_call")
     }
 
@@ -457,7 +455,7 @@ signalp <- function(input_obj,
     stopCluster(cl)
 
     res_comb <- do.call(c,result)
-    combined_SignalpResult <- combine_SignalpResult(unname(res_comb))
+    combined_SignalpResult <- combine_SpResult(unname(res_comb))
     
     sp_count <- nrow(getSPtibble(combined_SignalpResult))    
     message(paste('Candidate sequences with signal peptides...',

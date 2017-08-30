@@ -4,26 +4,18 @@
 \alias{signalp}
 \title{signalp function}
 \usage{
-signalp(input_obj, version, organism_type, run_mode, paths, truncate = NULL)
+signalp(input_obj, version, organism, run_mode, paths, truncate = NULL)
 }
 \arguments{
 \item{input_obj}{an instance of CBSResult class containing protein 
-sequences as on of the attributes}
+sequences as one of the attributes}
 
-\item{version}{signalp version to run, supported versions:
-\itemize{
-\item 2
-\item 3
-\item 4
-\item 4.1
-}}
+\item{version}{signalp version to run, supported versions include: \cr
+2, 3, 4, 4,1.}
 
-\item{organism_type}{possible values: 
-\itemize{
-\item euk - for eukaryotes;
-\item gram+ - for gram-positive bacteria;
-\item gram- - for gram-negative bacteria;
-}}
+\item{organism}{\strong{euk} - for eukaryotes;\cr
+\strong{gram+} - for gram-positive bacteria;\cr
+\strong{gram-} - for gram-negative bacteria;\cr}
 
 \item{run_mode}{\itemize{
 \item starter - if it is the first step in pipeline;
@@ -42,9 +34,12 @@ an object of SignalpResult class
 }
 \description{
 This function calls local signalp to predict the presence and location of
-signal peptide cleavage sites in amino acid sequences; automatically splits
-large input files (>500 sequnces) and runs signalp prediction as an
-embarassingly parallel process on all the CPUs available.
+signal peptide cleavage sites in amino acid sequences.
+\cr
+\cr
+Large input files (>500 sequnces) are automatically split into smaller chunks
+so that signalp prediction could be run as an embarassingly parallel process
+on all the CPUs available.
 }
 \examples{
 
