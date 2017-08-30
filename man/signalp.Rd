@@ -17,17 +17,16 @@ sequences as one of the attributes}
 \strong{gram+} - for gram-positive bacteria;\cr
 \strong{gram-} - for gram-negative bacteria;\cr}
 
-\item{run_mode}{\itemize{
-\item starter - if it is the first step in pipeline;
-\item piper - if you run this function on the output of other CBS tools;
-}}
+\item{run_mode}{\strong{starter} - if it is the first step in pipeline;\cr
+\strong{piper} - if you run this function on the output of other CBS tools;}
 
 \item{paths}{tibble with paths to external dependencies, generated with
 \code{\link{manage_paths}} function}
 
-\item{truncate}{logical, if TRUE - sequences longer 2000 residues will be 
-truncated to this length limit and renamed. If FALSE - long sequences will
-be excluded from the analysis. Default = TRUE.}
+\item{truncate}{if \strong{TRUE} - sequences longer 2000 residues will be 
+truncated to this length limit and renamed;\cr
+if \strong{FALSE} - long sequences will be excluded from the analysis;\cr
+Default = TRUE.}
 }
 \value{
 an object of SignalpResult class

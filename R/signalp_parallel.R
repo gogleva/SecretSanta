@@ -2,17 +2,25 @@
 
 #' split_XStringSet function
 #'
-#' This function splits large XStringSet files into chunks of given size and 
-#' returns a list of AAStringSets, those could be written to tmp files.
-#' @param string_set - input AAStringSet that requires spliting;
-#' @param chunk_size - number of sequenses in a single chunk;
-#' @return list of AAStringSet chunks
+#' This function splits large XStringSet objects into chunks of given size and 
+#' returns a list of AAStringSets.
+#' @param string_set input large AAStringSet;
+#' @param chunk_size the number of sequenses in a single chunk;
+#' @return list of AAStringSet chunks.
 #' @export
 #' @examples 
-#' aa <- readAAStringSet(system.file("extdata", 
-#'                                    "sample_prot_100.fasta",
-#'                                    package = "SecretSanta"
-#'                                   ))
+#' # Read fasta file:
+#' 
+#' aa <- readAAStringSet(
+#'  system.file(
+#'    "extdata", 
+#'    "sample_prot_100.fasta",
+#'     package = "SecretSanta"
+#'  ))
+#'  
+#' # Split it into chunks
+#' # with 10 sequences each: 
+#'                                    
 #' split_XStringSet(aa,10)                                   
 
 split_XStringSet <- function(string_set, chunk_size){
@@ -200,15 +208,14 @@ combine_CBSResult <- function(...) {
 #' \strong{gram+} - for gram-positive bacteria;\cr
 #' \strong{gram-} - for gram-negative bacteria;\cr
 #' @param run_mode
-#' \itemize{
-#' \item starter - if it is the first step in pipeline;
-#' \item piper - if you run this function on the output of other CBS tools;
-#' }
+#' \strong{starter} - if it is the first step in pipeline;\cr
+#' \strong{piper} - if you run this function on the output of other CBS tools;
 #' @param paths   tibble with paths to external dependencies, generated with
 #'  \code{\link{manage_paths}} function
-#' @param truncate logical, if TRUE - sequences longer 2000 residues will be 
-#' truncated to this length limit and renamed. If FALSE - long sequences will
-#' be excluded from the analysis. Default = TRUE.
+#' @param truncate if \strong{TRUE} - sequences longer 2000 residues will be 
+#' truncated to this length limit and renamed;\cr
+#' if \strong{FALSE} - long sequences will be excluded from the analysis;\cr
+#' Default = TRUE.
 #' @return an object of SignalpResult class
 #' @export
 #' @examples
@@ -256,7 +263,8 @@ combine_CBSResult <- function(...) {
 signalp <- function(input_obj,
                     version,
                     organism,
-                    run_mode, paths,
+                    run_mode,
+                    paths,
                     truncate = NULL) {
   
   # ----- Set default value for parameters if not provided:

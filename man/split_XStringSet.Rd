@@ -7,21 +7,29 @@
 split_XStringSet(string_set, chunk_size)
 }
 \arguments{
-\item{string_set}{- input AAStringSet that requires spliting;}
+\item{string_set}{input large AAStringSet;}
 
-\item{chunk_size}{- number of sequenses in a single chunk;}
+\item{chunk_size}{the number of sequenses in a single chunk;}
 }
 \value{
-list of AAStringSet chunks
+list of AAStringSet chunks.
 }
 \description{
-This function splits large XStringSet files into chunks of given size and 
-returns a list of AAStringSets, those could be written to tmp files.
+This function splits large XStringSet objects into chunks of given size and 
+returns a list of AAStringSets.
 }
 \examples{
-aa <- readAAStringSet(system.file("extdata", 
-                                   "sample_prot_100.fasta",
-                                   package = "SecretSanta"
-                                  ))
+# Read fasta file:
+
+aa <- readAAStringSet(
+ system.file(
+   "extdata", 
+   "sample_prot_100.fasta",
+    package = "SecretSanta"
+ ))
+ 
+# Split it into chunks
+# with 10 sequences each: 
+                                   
 split_XStringSet(aa,10)                                   
 }
