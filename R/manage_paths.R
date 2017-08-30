@@ -80,15 +80,8 @@ manage_paths <- function(check_installed, path_file = NULL) {
   # check that all the dependencies are executable in principle,
   # i.e we are able to run -h or
   # process a small sample fasta file
-   
-  my_tools <- c('signalp2',
-               'signalp3',
-               'signalp4',
-               'targetp',
-               'tmhmm',
-               'wolfpsort')
-  
-  # micro fasta file to test with all tools:
+
+    # micro fasta file to test with all tools:
   test_fasta <- system.file("extdata", "small_prot.fasta",
                             package = "SecretSanta")
   
@@ -159,112 +152,14 @@ manage_paths <- function(check_installed, path_file = NULL) {
   
   # wolfpsort:
   
-  wolf_call <- system(paste(make_call('wolfpsort'), 'fungi', '>',
+  wolf_call <- system(paste(make_call('wolfpsort'), 'fungi', '<',
                             test_fasta),
                       intern = TRUE)
-  # 
-  # system(paste('wolfpsort', 'fungi', '<', test_fasta), intern = TRUE)
-  # 
-  # if (grepl('ALI_PLTG_1\tlen=94\tExpAA=22.44', tm_call[1])) {
-  #   message('tmhmm run completed')
-  # } else {
-  #   message('tmmhmm test run failed; check if it is installed correctly')
-  # }
   
-}    
+  if (grepl('# k used for kNN is: 27', wolf_call[1])) {
+    message('wolfpsort run completed')
+  } else {
+    message('wolfpsort test run failed; check if it is installed correctly')
+  }
 
-  # sp2_call <- system(paste('signalp2', '-t euk', test_fasta), intern = TRUE)
-  # sp3_call <- system(paste('signalp3', '-t euk', test_fasta), intern = TRUE)
-  # sp4_call <- system(paste('signalp4', '-t euk', test_fasta), intern = TRUE)
-  # tp_call <- system(paste('targetp', '-P', test_fasta), intern = TRUE)
-  # tm_call <- system(paste('tmhmm', '--short', test_fasta), intern = TRUE)
-  # wolf_call <- system(paste('runWolfPsortSummary', 'fungi', '<', test_fasta),
-  #                     intern = TRUE)
-  # 
-  # } else if (check_installed == FALSE) {
-  # sp2_call <- system(paste(get_paths('signalp2'), '-t euk', test_fasta),
-  #                    intern = TRUE)
-  # sp3_call <- system(paste('signalp3', '-t euk', test_fasta), intern = TRUE)
-  # sp4_call <- system(paste('signalp4', '-t euk', test_fasta), intern = TRUE)
-  # tp_call <- system(paste('targetp', '-P', test_fasta), intern = TRUE)
-  # tm_call <- system(paste('tmhmm', '--short', test_fasta), intern = TRUE)
-  # wolf_call <- system(paste('runWolfPsortSummary', 'fungi', '<', test_fasta),
-  #                       intern = TRUE)  
-  # }
-  
-  
-#   
-# 
-#   #helper function to produce status messages:
-#   check_signalp <- function(signalp_call, check_tool){
-#     if (check_tool == 'signalp2' || check_tool == 'signalp3') {
-#      if (signalp_call == 
-#          'Usage: signalp -t euk|gram+|gram- [options] seqfile'){
-#        message(paste(check_tool,
-#                      'test run completed'))
-#      } else {
-#        message(paste(check_tool,
-#                      'test run failed; check if it is installed correctly'))
-#      }
-#     } else if (check_tool == 'signalp4') {
-#       if (signalp_call == 
-#           '  Description: Predict signal peptide and cleavage site.'){
-#         message(paste(check_tool,
-#                       'test run completed'))
-#       } else {
-#         message(paste(check_tool,
-#                       'test run failed; check if it is installed correctly'))
-#       }
-#     }
-#    }
-#    
-#   check_signalp(call_signalp('signalp2'), 'signalp2')
-#   check_signalp(call_signalp('signalp3'), 'signalp3')
-#   check_signalp(call_signalp('signalp4'), 'signalp4')
-# }
-
-  # 
-  # # targetp 
-  # 
-  # if (suppressWarnings(system(paste(get_paths('targetp'), '-P',
-  #                                   system.file("extdata",
-  #                                               "small_prot.fasta",
-  #                                               package = "SecretSanta")),
-  #                             intern = TRUE)[9]) ==
-  #     'ALI_PLTG_1             94   0.294  0.175  0.018  0.738   _    3') {
-  #  message('targetp test run completed')
-  # } else  {
-  #   message('targetp test run failed; check if targetp is installed correctly')
-  # }
-  # 
-  # # tmhmm
-  # tm_call <- system(paste(get_paths('tmhmm'),
-  #              system.file("extdata",
-  #                          "small_prot.fasta", package="SecretSanta"),
-  #              '--short'),
-  #               intern = TRUE)
-  # 
-  # if (all(grepl('PredHel', tm_call))) {
-  #  message('tmhmm test run completed')
-  # } else {
-  #   message('tmhmm test run failed; check if it is installed correctly')
-  # }
-  # 
-  # # wolfpsort
-  # 
-  # wolf_call <- system(paste(get_paths('wolfpsort'),
-  #                           'fungi', 
-  #                           '<',
-  #                           system.file("extdata",
-  #                                       "small_prot.fasta",
-  #                                       package="SecretSanta")),
-  #                           intern = TRUE)
-  # 
-  # if (grepl('# k used for kNN is: 27', wolf_call[1])) {
-  #   message('wolfpsort test run completed')
-  # } else {
-  #   message('wolfpsort test run failed; check if it is installed correctly')
-  # }
-  # 
-  # return(pp)
-#}
+}  

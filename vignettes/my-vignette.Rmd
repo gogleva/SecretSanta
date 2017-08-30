@@ -90,6 +90,14 @@ For prediction of secreted proteins SecretSanta relies on a set of existing [CBS
     ```
     + Copy the binaries from the appropriate platform specific binary directory       ```./bin/binByPlatform/binary-?``` to ```./bin/```
     + For more details please check the ```INSTALL``` file.
+ 
+```{sh}    
+#edit
+gedit ~/.profile
+#reload
+. ~/.profile
+```
+    
     
 \newline
 
