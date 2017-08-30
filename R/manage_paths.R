@@ -71,7 +71,7 @@ manage_paths <- function(check_installed, path_file = NULL) {
     message(sapply(pp %>%
                   dplyr::filter_(~status == FALSE) %>%
                   dplyr::select_(~path), paste, '\n'))
-    message('Please check that supplied paths are correct and try again')
+    stop('Please check that supplied paths are correct and try again')
     }
    }
   }
@@ -81,7 +81,7 @@ manage_paths <- function(check_installed, path_file = NULL) {
   # i.e we are able to run -h or
   # process a small sample fasta file
 
-    # micro fasta file to test with all tools:
+  # micro fasta file to test with all tools:
   test_fasta <- system.file("extdata", "small_prot.fasta",
                             package = "SecretSanta")
   
@@ -90,6 +90,15 @@ manage_paths <- function(check_installed, path_file = NULL) {
                                     filter_(~tool == tool_name) %>%
                                     select_(~path)}
   
+  # helper function to generate success message
+  
+  ok_message <- function(tool_name) {message(paste(tool_name,
+                                                'run completed'))}
+  # helper function to generate failure message
+  
+  failure_message <- function(tool_name) {message(
+                                          paste(tool_name,
+                                                'test run failed'))}
   make_call <- function(tool) {
     
     if (check_installed == TRUE) {
@@ -100,66 +109,66 @@ manage_paths <- function(check_installed, path_file = NULL) {
   }
 
   # now we will start making calls and evaluating their outputs:
-  
+
   # signalp2:
   sp2_call <- system(paste(make_call('signalp2'), '-t euk', test_fasta),
                      intern = TRUE)
   if (grepl('SignalP predictions', sp2_call[1])) {
-    message('siganlp2 run completed')
+    ok_message('signalp2')
   } else {
-    message('signalp2 test run failed; check if it is installed correctly')
+    failure_message('signalp2')
   }
-  
+
   #signalp3:
-  
+
   sp3_call <- system(paste(make_call('signalp3'), '-t euk', test_fasta),
                      intern = TRUE)
   if (grepl('SignalP 3.0 predictions', sp3_call[1])) {
-    message('siganlp3 run completed')
+    ok_message('signalp3')
   } else {
-    message('signalp3 test run failed; check if it is installed correctly')
+    failure_message('signalp3')
   }
-  
+
   #signalp4:
- 
+
   sp4_call <- system(paste(make_call('signalp4'), '-t euk', test_fasta),
                      intern = TRUE)
   if (grepl('SignalP-4', sp4_call[1])) {
-    message('siganlp4 run completed')
+    ok_message('signalp4')
   } else {
-    message('signalp4 test run failed; check if it is installed correctly')
+    failure_message('signalp4')
   }
-  
+
   #targetp:
-  
+
   tp_call <- system(paste(make_call('targetp'), '-P', test_fasta),
                      intern = TRUE)
   if (grepl('targetp v1.1 prediction results', tp_call[2])) {
-    message('targetp run completed')
+    ok_message('targetp')
   } else {
-    message('targetp test run failed; check if it is installed correctly')
+    failure_message('targetp')
   }
-  
+
   # tmhmm:
- 
+
   tm_call <- system(paste(make_call('tmhmm'), '--short', test_fasta),
                     intern = TRUE)
   if (grepl('ALI_PLTG_1\tlen=94\tExpAA=22.44', tm_call[1])) {
-    message('tmhmm run completed')
+    ok_message('tmhmm')
   } else {
-    message('tmmhmm test run failed; check if it is installed correctly')
+    failure_message('tmhmm')
   }
-  
+
   # wolfpsort:
-  
+
   wolf_call <- system(paste(make_call('wolfpsort'), 'fungi', '<',
                             test_fasta),
                       intern = TRUE)
-  
+
   if (grepl('# k used for kNN is: 27', wolf_call[1])) {
-    message('wolfpsort run completed')
+    ok_message('wolfpsort')
   } else {
-    message('wolfpsort test run failed; check if it is installed correctly')
+    failure_message('wolfpsort')
   }
 
-}  
+}
