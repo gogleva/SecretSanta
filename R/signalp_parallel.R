@@ -41,6 +41,7 @@ split_XStringSet <- function(string_set, chunk_size) {
   seq_chunker <- function(x) {
     chunk <- string_set[x]
   }
+  
   lapply(chunks, seq_chunker)
 }
 
@@ -100,40 +101,23 @@ split_XStringSet <- function(string_set, chunk_size) {
 
 
 combine_SpResult <- function(arguments) {
-                                    if (all(sapply(arguments,
-                                                   is,
-                                                   'SignalpResult'))) {
-                                    } else {                               
-                                      stop(
-                                        'Some objects from arguments list do not belong to SignalpResult class.')
-                                    }
-                                    
-                                    c_in_fasta <- do.call(c,
-                                                          (lapply(
-                                                            arguments,
-                                                            getInfasta)))
-                                    c_out_fasta <- do.call(c,
-                                                           (lapply(
-                                                             arguments,
-                                                             getOutfasta)))
-                                    c_mature_fasta <- do.call(c,
-                                                              (lapply(
-                                                              arguments,
-                                                              getMatfasta)))
-                                    c_sp_tibble <- do.call(rbind,
-                                                           (lapply(
-                                                             arguments,
-                                                             getSPtibble)))
-                                    c_sp_version <- unlist((lapply(
-                                                             arguments,
-                                                             getSPversion))[1])
-
-                                    c_obj <- SignalpResult(
-                                      in_fasta = c_in_fasta,
-                                      out_fasta = c_out_fasta,
-                                      mature_fasta = c_mature_fasta,
-                                      sp_tibble = c_sp_tibble,
-                                      sp_version = c_sp_version)
+  if ((all(sapply(arguments, is, 'SignalpResult'))) == FALSE) {
+    stop('Some objects from arguments list do not belong to SignalpResult class.')
+  }
+  
+  c_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
+  c_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
+  c_mature_fasta <- do.call(c, (lapply(arguments, getMatfasta)))
+  c_sp_tibble <- do.call(rbind, (lapply(arguments, getSPtibble)))
+  c_sp_version <- unlist((lapply(arguments, getSPversion))[1])
+  
+  c_obj <- SignalpResult(
+    in_fasta = c_in_fasta,
+    out_fasta = c_out_fasta,
+    mature_fasta = c_mature_fasta,
+    sp_tibble = c_sp_tibble,
+    sp_version = c_sp_version
+  )
 }
 
 #' combine_CBSResult function
