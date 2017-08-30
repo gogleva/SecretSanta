@@ -136,30 +136,37 @@ For prediction of secreted proteins SecretSanta relies on a set of existing [CBS
 
 Two options are possible:
 
-#### Option A: all the external dependecies are accessible from any location.
+####Option A: all the external dependecies are accessible from any location.
 
 This requires modification of $PATH environment variable. To make the change permanent, edit ``.profile``:
 
-1. Open ./profile:
+Open ./profile:
 ```{sh edit $PATH, eval = FALSE}
 gedit ~/.profile
 ```
 
-2. Add a line with all the path exports.
+Add a line with all the path exports.
 In this example all the dependecies are installed in the `my_tool` directory:
 ```{sh, eval = FALSE}
-export PATH="/home/my_tools/signalp-4.1:/home/my_tools/signalp-2.0:/home/my_tools/signalp-3.0:/home/my_tools/targetp-1.1:/home/tmhmm-2.0c/bin:/home/my_tools/WoLFPSort/bin:$PATH"
+export PATH=
+"/home/my_tools/signalp-4.1:\
+/home/my_tools/signalp-2.0:\
+/home/my_tools/signalp-3.0:\
+/home/my_tools/targetp-1.1:\
+/home/tmhmm-2.0c/bin:\
+/home/my_tools/WoLFPSort/bin:\
+$PATH"
 ```
 
-3. Reload ``/.profile``:
+Reload ``/.profile``:
 ```{sh, eval = FALSE}
 . ~/.profile
 ```
 
-4. Reboot
+Reboot
 To make changes visible to R, alternatively - restart the R session.
 
-#### Option B: paths to external dependencies are supplied in a separate file:
+####Option B: paths to external dependencies are supplied in a separate file:
 This option should be used when $PATH variable can not be modified. Create a 2-column space-separated text file with listed paths for all the external dependencies. Sample input file listing paths to external dependencies: 
 
 ```{r load SecretSanta, message=FALSE, echo = FALSE}
@@ -167,13 +174,16 @@ library(SecretSanta)
 ```
 
 ```{r paths example, echo = FALSE}
-pp <-  suppressMessages(readr::read_delim(system.file("extdata", "santa_paths",
-                                                      package="SecretSanta"),
-                                          delim = ' ',
-                                          col_names = FALSE))
-names(pp) <- c('tool', 'path')
-
-knitr::kable(pp)
+pp <-
+  suppressMessages(readr::read_delim(
+  system.file("extdata", "santa_paths",
+  package = "SecretSanta"),
+  delim = ' ',
+  col_names = FALSE
+  ))
+  names(pp) <- c('tool', 'path')
+  
+  knitr::kable(pp)
 ```
 
 For CBS tool names please use simple character strings without version numbers. The only exception here are different versions of **signalp**, which require version number in one-digit format in the first column to be distinguishable.
@@ -193,10 +203,12 @@ check1 <- manage_paths(in_path = TRUE)
 In case we have paths organised in a separate file:
 
 ```{r check_path_in_file, echo = TRUE, collapse = TRUE}
-check2 <- manage_paths(in_path = FALSE, 
-             path_file = system.file("extdata",
-                                     "sample_paths",
-                                     package = "SecretSanta"))
+check2 <- manage_paths(
+  in_path = FALSE,
+  path_file = system.file("extdata",
+  "sample_paths",
+  package = "SecretSanta")
+  )
 ```
 
 Note, that ```manage_paths``` is case insensitive and will convert all the tool names to the lower case. 

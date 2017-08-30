@@ -132,15 +132,13 @@ combine_SpResult <- function(arguments) {
 #'                   system.file("extdata",
 #'                   "tail_prot.fasta",
 #'                   package = "SecretSanta"
-#'                  )
-#'                   ))
+#'                  )))
 #' inp3 <- CBSResult(in_fasta =
 #'                   readAAStringSet(
 #'                   system.file("extdata",
 #'                   "tail2_prot.fasta",
 #'                   package = "SecretSanta"
-#'                  )
-#'                   ))
+#'                  )))
 #' inp4 <- CBSResult(in_fasta =
 #'                   readAAStringSet(
 #'                   system.file("extdata",
@@ -150,26 +148,23 @@ combine_SpResult <- function(arguments) {
 #' combined_CBS <- combine_CBSResult(inp2, inp3, inp4)
 
 combine_CBSResult <- function(...) {
-                              arguments <- list(...)
-                              
-                              if (all(sapply(arguments, is, 'CBSResult'))) {
-                              } else {                               
-                                stop('Some or all objects from the arguments 
-                                     list do not belong to CBSResult class.')
-                              }
-                              
-                              if (any(sapply(arguments, is, 'SignalpResult'))) {
-                                warning('Only in_fasta and out_fasta slots will be combined')
-                              }
-                              
-                              comb_in_fasta <- do.call(c, (lapply(arguments,
-                                                                  getInfasta)))
-                              comb_out_fasta <- do.call(c, (lapply(arguments,
-                                                                   getOutfasta)))
-                              c_obj <- CBSResult(in_fasta = comb_in_fasta,
-                                                 out_fasta = comb_out_fasta)
-
+  arguments <- list(...)
+  
+  if ((all(sapply(arguments, is, 'CBSResult'))) == FALSE) {
+    stop('Some objects from the argument list do not belong to CBSResult class')
+  }
+  
+  if (any(sapply(arguments, is, 'SignalpResult'))) {
+    warning('Only in_fasta and out_fasta slots will be combined')
+  }
+  
+  comb_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
+  comb_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
+  
+  c_obj <- CBSResult(in_fasta = comb_in_fasta, out_fasta = comb_out_fasta)
+  
 }
+
 
 
 # PARALLEL SIGNALP ITSELF:
