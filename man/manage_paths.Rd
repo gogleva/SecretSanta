@@ -9,11 +9,10 @@ manage_paths(check_installed, path_file = NULL)
 \arguments{
 \item{check_installed}{if TRUE manage_paths will attempt to run external
 dependencies, assuming that respective paths are attached to the $PATH
-variable. Alteratively you can set check_installed to FALSE and supply 
+variable. Alteratively ifyou can set check_installed to FALSE and supply 
 path_file.}
 
-\item{path_file}{file paths to 2-column space-separated text file with 
-listed paths for external dependencies if not sotred in $PATH;
+\item{path_file}{file paths to external dependencies in a 2-column space-separated text file;
 \itemize{
 \item first column should contain tool name;
 \item second column should contain full path to the tool's executable;
@@ -22,7 +21,7 @@ where V is version number;
 }}
 }
 \value{
-tibble with verified file paths
+tibble with verified file paths if check_installed = FALSE;
 }
 \description{
 This function reads and stores pathways for external tools used in secertome
@@ -40,7 +39,17 @@ found here, for the instalation instructions see SecretSanta vignette.
 }
 }
 \examples{
-secret_paths <- manage_paths(system.file("extdata",
-                                         "sample_paths",
-                                         package="SecretSanta"))
+# here we assume that paths to all the external dependencies are attached 
+# to the $PATH variable:
+manage_paths(check_installed = TRUE)
+
+# Alternatively, we are in a situation when changing $PATH is not possible,
+# so we supply a file with listed paths to external dependencies instead,
+# to check that everything is alright.
+
+manage_paths(check_installed = FALSE,
+             path_file = system.file("extdata",
+                                     "sample_paths",
+                                      package="SecretSanta"))
+                                         
 }

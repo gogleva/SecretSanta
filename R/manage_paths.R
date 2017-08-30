@@ -24,12 +24,21 @@
 #' \item for multiple versions of signalp use 'signalpV', 
 #' where V is version number; 
 #' }
-#' @return tibble with verified file paths
+#' @return tibble with verified file paths if check_installed = FALSE; 
 #' @export
 #' @examples
-#' secret_paths <- manage_paths(system.file("extdata",
-#'                                          "sample_paths",
-#'                                          package="SecretSanta"))
+#' # here we assume that paths to all the external dependencies are attached 
+#' # to the $PATH variable:
+#' manage_paths(check_installed = TRUE)
+#' 
+#' # Alternatively, we are in a situation when changing $PATH is not possible,
+#' # so we supply a file with listed paths to external dependencies instead,
+#' # to check that everything is alright.
+#' 
+#' manage_paths(check_installed = FALSE,
+#'              path_file = system.file("extdata",
+#'                                      "sample_paths",
+#'                                       package="SecretSanta"))
 #'                                          
 
 manage_paths <- function(check_installed, path_file = NULL) {
