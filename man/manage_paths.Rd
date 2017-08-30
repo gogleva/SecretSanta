@@ -21,7 +21,13 @@ where V is version number;
 }}
 }
 \value{
-tibble with verified file paths if check_installed = FALSE;
+a list of length 3 with the following elements:
+\itemize{ 
+\item \strong{tests}    TRUE if all exteranl dependencies are working;
+\item \strong{in_path}  TRUE if dependecies acessible via $PATH, FALSE - if paths are provided with the path_file;
+\item \strong{path_tibble} a tibble with checked tool names and their paths, NA if 
+in_path == FALSE;
+}
 }
 \description{
 This function reads and stores pathways for external tools used in secertome
@@ -39,13 +45,13 @@ found here, for the instalation instructions see SecretSanta vignette.
 }
 }
 \examples{
-# here we assume that paths to all the external dependencies are attached 
-# to the $PATH variable:
+# Example1: here we assume that paths to all the external dependencies are
+attached to the $PATH variable:
 manage_paths(check_installed = TRUE)
 
-# Alternatively, we are in a situation when changing $PATH is not possible,
-# so we supply a file with listed paths to external dependencies instead,
-# to check that everything is alright.
+# Example2: alternatively, we are in a situation when changing $PATH is not
+possible, so we supply a file with listed paths to external dependencies instead,
+to check that everything is alright.
 
 manage_paths(check_installed = FALSE,
              path_file = system.file("extdata",
