@@ -104,6 +104,7 @@ stand alone CBS tools are available only for Unix, se we should not care about W
 
 TO DO (required minimum):
 
+- parallel runners: Biocheck might complain about library exports
 - add unit tests for large inputs in signalp - store them in a separate repo,
 take too long to run for R CMD check:
     - 1K,
