@@ -98,6 +98,7 @@ stand alone CBS tools are available only for Unix, se we should not care about W
     - short pipeline
 - vignette: add types of organisms in the tool intros    
 - external dependencies:is there a better way than manage_paths?
+- signalp: weird Cmax scores -  check
 
 TO DO (required minimum):
 
@@ -117,7 +118,6 @@ take too long to run for R CMD check:
 - Clean function imports (::) when they are necessary, when are not?
 - signalp: separate check for invalid organism
 - signalp: separate check for invalid verison
-- signalp: weird Cmax scores -  check
 - do not need TMHMM_parallel if it is so slow?
 - prediction graphs (?) when each candidate was rejected -->?
 

@@ -23,21 +23,24 @@ Alternatively, parse_signalp can be called independently on outputs of signalp2 
 signalp3 captured in a system call or stored in a file.
 }
 \examples{
-# Parse signalp2 output, stored in a file:
+# Example 1: parse signalp2 output, stored in a file:
 s_path <- system.file("extdata",
                       "sample_prot_signalp2_out2",
                        package = "SecretSanta") 
-parse_sp_path <- parse_signalp(input = s_path,
-                               input_type = "path")
+parse_signalp(input = s_path,
+              input_type = "path")
 
-# Parse signalp2 output, obtained from a system call, here we assume that
+# Example2: parse signalp2 output
+# captured in a system call. Note, here we assume that
 # signalp2 is accessible via $PATH.
 s_fasta <- system.file("extdata",
                        "small_prot.fasta",
                         package = "SecretSanta") 
 # capture system call:
-con <- system(paste('siganlp2 -t euk', s_fasta), intern = TRUE)
+con <- system(paste('signalp2 -t euk', s_fasta),
+              intern = TRUE)
 
 # parse captured system call:
-parse_signalp(input = con, input_type = "system_call")
+parse_signalp(input = con,
+              input_type = "system_call")
 }
