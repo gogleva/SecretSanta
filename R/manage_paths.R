@@ -234,32 +234,40 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
     }
   }
   
+  # now we will run required tests according to the actual value of the
+  # mode argument
   
-  # now we will run required tests according to the actual value of mode argument
+  if (test_mode == 'all') {
+    all_tests <- all(test_signalp2(),
+                    test_signalp3(),
+                    test_signalp4(),
+                    test_tmhmm(),
+                    test_targetp(),
+                    test_wolfpsort())
+  } else if (test_mode == 'signalp2') {
+    all_tests <- test_signalp2()
+  } else if (test_mode == 'signalp3') {
+    all_tests <- test_signalp3()
+  } else if (test_mode == 'signalp4') {
+    all_tests <- test_signalp4()
+  } else if (test_mode == 'tmhmm') {
+    all_tests <- test_tmhmm()
+  } else if (test_mode == 'targetp') {
+    all_tests <- test_targetp()
+  } else if (test_mode == 'wolfpsort') {
+    all_tests <- test_wolfpsort()
+  }
   
+  # construct the final output
   
+  # output paths only for the tools tested
+  if (in_path == FALSE & (test_mode != 'all')) {
+    pp <- pp %>% filter_(~tool == test_mode)
+  }
   
-  
-  # #aggregate all test outputs and ceck that all the tests were passed:
-  # all_tests <- all(c(sp2_test, sp3_test, sp4_test,
-  #                    tp_test, tm_test, wolf_test))
-  # 
-  # # construct the final output
-  # result <- list(tests = all_tests, #TRUE if all tests are succesfull
-  #                in_path = in_path, #TRUE if dependencies in $PATH
-  #                path_tibble = pp) #tible with paths if in_path == FALSE
-  # 
-  # return(result)
-  
-}
+  result <- list(tests = all_tests, #TRUE if all tests are succesfull
+                  in_path = in_path, #TRUE if dependencies in $PATH
+                  path_tibble = pp) #tibble with paths if in_path == FALSE
 
-foo <- function(x, members = c('all','signalp2', 'signalp3',
-                               'signalp4','targetp', 'tmhmm',
-                               'wolfpsort')) {
-  ## evaluate choices
-  members <- match.arg(members)
-  ## do something
-  print(members)
+  return(result)
 }
-
-foo(members = 'all')
