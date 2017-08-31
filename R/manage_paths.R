@@ -41,7 +41,9 @@
 #' \item \strong{in_path}  TRUE if the dependecies are acessible via $PATH; 
 #' FALSE - if paths are provided with the path_file argument;
 #' \item \strong{path_tibble} a tibble with verified names and paths for
-#' external dependencies; NA if in_path == FALSE;
+#' external dependencies; \cr 
+#' NA if in_path is TRUE;\cr
+#' if a specific tool is tested, a singualr path will be returned. 
 #' }
 #' @export
 #' @examples
@@ -50,7 +52,12 @@
 #' # external dependencies are attached to
 #' # the $PATH variable:
 #' 
-#' manage_paths(in_path = TRUE)
+#' manage_paths(in_path = TRUE,
+#'              test_mode = 'all')
+#'              
+#' # to test just a single tool:
+#' manage_paths(in_paths = TRUE,
+#'              test_mode = 'signalp2')     
 #' 
 #' # Example2:
 #' # alternatively, we are in a situation
@@ -59,6 +66,7 @@
 #' # paths to the external dependencies:
 #' 
 #' manage_paths(in_path = FALSE,
+#'              test_mode = 'all',
 #'              path_file = system.file(
 #'                          "extdata",
 #'                          "sample_paths",
