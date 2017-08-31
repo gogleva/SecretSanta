@@ -19,4 +19,5 @@
 #' @importFrom methods validObject
 #' @importFrom utils read.table
 #' @importFrom utils tail
+#' @importFrom stringr str_split
 NULL

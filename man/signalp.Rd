@@ -5,7 +5,7 @@
 \title{signalp function}
 \usage{
 signalp(input_obj, version, organism = c("euk", "gram+", "gram-"),
-  run_mode = c("starter", "piper"), sp_paths, truncate = NULL,
+  run_mode = c("starter", "piper"), paths = NULL, truncate = NULL,
   cores = NULL)
 }
 \arguments{
@@ -22,9 +22,9 @@ sequences as one of the attributes}
 \item{run_mode}{\strong{starter} - if it is the first step in pipeline;\cr
 \strong{piper} - if you run this function on the output of other CBS tools;}
 
-\item{sp_paths}{if required version of signalp is not acessible globally,
-full path to it's exectutble should be provided.
- \code{\link{manage_paths}} function}
+\item{paths}{if required version of signalp is not acessible globally, a file
+conatining a full path to it's executable should be provided; for details
+please check SecretSanta vignette.}
 
 \item{truncate}{if \strong{TRUE} - sequences longer 2000 residues will be 
 truncated to this length limit and renamed;\cr
