@@ -4,7 +4,7 @@
 \alias{manage_paths}
 \title{manage_paths function}
 \usage{
-manage_paths(in_path = c(TRUE, FALSE), mode = c("all", "signalp2",
+manage_paths(in_path = c(TRUE, FALSE), test_mode = c("all", "signalp2",
   "signalp3", "signalp4", "targetp", "tmhmm", "wolfpsort"), path_file = NULL)
 }
 \arguments{
@@ -14,8 +14,8 @@ $PATH variable;\cr
 \cr
 if \strong{FALSE} you should supply path_file.}
 
-\item{mode}{if \strong{all} - all the external dependencies will be checked;\cr
-alternatively specify a tool name or combination of tool names to check.}
+\item{test_mode}{if \strong{all} - all the external dependencies will be checked;\cr
+alternatively specify a tool name to be checked.}
 
 \item{path_file}{full paths to external dependencies in a 2-column
 space-separated text file;\cr

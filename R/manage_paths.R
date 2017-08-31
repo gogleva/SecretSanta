@@ -26,8 +26,8 @@
 #' $PATH variable;\cr
 #' \cr
 #' if \strong{FALSE} you should supply path_file.
-#' @param mode if \strong{all} - all the external dependencies will be checked;\cr
-#' alternatively specify a tool name or combination of tool names to check.
+#' @param test_mode if \strong{all} - all the external dependencies will be checked;\cr
+#' alternatively specify a tool name to be checked.
 #' @param path_file  full paths to external dependencies in a 2-column
 #' space-separated text file;\cr
 #' for multiple versions of signalp please use 'signalpV'notation, where V is a
@@ -68,10 +68,12 @@
 #'                                          
 
 manage_paths <- function(in_path = c(TRUE, FALSE),
-                         mode = c('all','signalp2', 'signalp3',
+                         test_mode = c('all','signalp2', 'signalp3',
                                   'signalp4','targetp', 'tmhmm',
                                   'wolfpsort'),
                          path_file = NULL) {
+  
+  test_mode <- match.arg(test_mode) #will complain if supplied test_modes are invalid
   
   # here we assume that all the tools are acessible via $PATH:
   if (in_path == TRUE) {
@@ -132,6 +134,7 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
   # helper function to generate success message
   ok_message <- function(tool_name) {message(paste(tool_name,
                                                    'run completed'))}
+  
   # helper function to generate failure message
   failure_message <- function(tool_name) {message(
     paste(tool_name,
@@ -232,21 +235,31 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
   }
   
   
+  # now we will run required tests according to the actual value of mode argument
   
   
-  #aggregate all test outputs and ceck that all the tests were passed:
-  all_tests <- all(c(sp2_test, sp3_test, sp4_test,
-                     tp_test, tm_test, wolf_test))
-
-  # construct the final output
-  result <- list(tests = all_tests, #TRUE if all tests are succesfull
-                 in_path = in_path, #TRUE if dependencies in $PATH
-                 path_tibble = pp) #tible with paths if in_path == FALSE
- 
-  return(result)
+  
+  
+  # #aggregate all test outputs and ceck that all the tests were passed:
+  # all_tests <- all(c(sp2_test, sp3_test, sp4_test,
+  #                    tp_test, tm_test, wolf_test))
+  # 
+  # # construct the final output
+  # result <- list(tests = all_tests, #TRUE if all tests are succesfull
+  #                in_path = in_path, #TRUE if dependencies in $PATH
+  #                path_tibble = pp) #tible with paths if in_path == FALSE
+  # 
+  # return(result)
   
 }
 
+foo <- function(x, members = c('all','signalp2', 'signalp3',
+                               'signalp4','targetp', 'tmhmm',
+                               'wolfpsort')) {
+  ## evaluate choices
+  members <- match.arg(members)
+  ## do something
+  print(members)
+}
 
-
-
+foo(members = 'all')
