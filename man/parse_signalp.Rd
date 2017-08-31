@@ -7,29 +7,28 @@
 parse_signalp(input, input_type)
 }
 \arguments{
-\item{input}{full output of signalp2 or signalp3 call}
+\item{input}{output of signalp2 or signalp3}
 
-\item{input_type}{specify input type: 'path' or 'system_call'
-\itemize{
-\item 'path' - path to a file with text output from signalp2 or signalp3;
-\item 'system_call' - direct output from signalp2/3 system call;
-}}
+\item{input_type}{\strong{path}  path to a file with text output from signalp2 or signalp3;\cr
+\strong{system_call} output from signalp2/3 system call;}
 }
 \value{
 parsed signalp2/3 output, organised in a tibble object.
 }
 \description{
-This function parses signalp2 and signalp3 output, is used internally in
-signalp function; can be called independently on outputs of signalp2/3 tools
-captured in a system call or stored in a file.
+This function parses signalp2 and signalp3 output and is called internally in
+signalp function to standardize outputs.\cr
+\cr
+Alternatively, parse_signalp can be called independently on outputs of signalp2 and 
+signalp3 captured in a system call or stored in a file.
 }
 \examples{
-
 # Parse signalp2 output, stored in a file:
 s_path <- system.file("extdata",
                       "sample_prot_signalp2_out2",
                        package = "SecretSanta") 
-parse_sp_path <- parse_signalp(input = s_path, input_type = "path")
+parse_sp_path <- parse_signalp(input = s_path,
+                               input_type = "path")
 
 # Parse signalp2 output, obtained from a system call:
 s_fasta <- system.file("extdata",

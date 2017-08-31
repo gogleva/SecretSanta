@@ -21,15 +21,13 @@ inp2 <- CBSResult(in_fasta =
                   system.file("extdata",
                   "tail_prot.fasta",
                   package = "SecretSanta"
-                 )
-                  ))
+                 )))
 inp3 <- CBSResult(in_fasta =
                   readAAStringSet(
                   system.file("extdata",
                   "tail2_prot.fasta",
                   package = "SecretSanta"
-                 )
-                  ))
+                 )))
 inp4 <- CBSResult(in_fasta =
                   readAAStringSet(
                   system.file("extdata",

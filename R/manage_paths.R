@@ -26,6 +26,8 @@
 #' $PATH variable;\cr
 #' \cr
 #' if \strong{FALSE} you should supply path_file.
+#' @param mode if \strong{all} - all the external dependencies will be checked;\cr
+#' alternatively specify a tool name or combination of tool names to check.
 #' @param path_file  full paths to external dependencies in a 2-column
 #' space-separated text file;\cr
 #' for multiple versions of signalp please use 'signalpV'notation, where V is a
@@ -65,7 +67,11 @@
 #'                           )
 #'                                          
 
-manage_paths <- function(in_path, path_file = NULL) {
+manage_paths <- function(in_path = c(TRUE, FALSE),
+                         mode = c('all','signalp2', 'signalp3',
+                                  'signalp4','targetp', 'tmhmm',
+                                  'wolfpsort'),
+                         path_file = NULL) {
   
   # here we assume that all the tools are acessible via $PATH:
   if (in_path == TRUE) {
