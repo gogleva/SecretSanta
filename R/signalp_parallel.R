@@ -200,13 +200,13 @@ signalp <- function(input_obj,
                     version,
                     organism = c('euk', 'gram+', 'gram-'),
                     run_mode = c('starter', 'piper'),
-                    sp_paths,
+                    paths = NULL,
                     truncate = NULL,
                     cores = NULL) {
   
   # ----- Check that inputs are valid
   
-  # arguments with obscure options
+  # arguments are present and have valid values:
   if (missing(organism)) {stop('missing argument: organism')}
   if (missing(run_mode)) {stop('missing argument: run_mode')}
   organism <- match.arg(organism)
@@ -297,16 +297,17 @@ signalp <- function(input_obj,
     
     # make a system call of signalp based on the tmp file
     
-    if (is.null(sp_path)) {
+    if (is.null(paths)) {
       full_pa <- signalp_version
     } else {
-      mp <- manage_paths(in_path = FALSE,
-                         test_mode = signalp_version,
-                         path_file = paths)
+      mp <- suppressMessages(manage_paths(in_path = FALSE,
+                             test_mode = signalp_version,
+                             path_file = paths))
       full_pa <- mp$path_tibble$path
     } 
       return(full_pa)
   }
+   simple_signalp(fasta)
 }
     # # ----
     # if (version == 4) {
