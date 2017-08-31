@@ -287,7 +287,7 @@ signalp <- function(input_obj,
     if (version == 4) {
       # runing signalp versios 4 and 4.1, potentially should work for 5
       
-      sp <- as.tibble(read.table(text = (system(paste(full_pa, "-t",
+      sp <- tibble::as.tibble(read.table(text = (system(paste(full_pa, "-t",
                                                       organism, out_tmp),
                                                       intern = TRUE))))
       names(sp) <- c("gene_id", "Cmax", "Cpos",
@@ -344,7 +344,7 @@ signalp <- function(input_obj,
   } #close simple_fasta
   
   # Handle long sequences if any present in the input,
-  # id necessary - run signalp as a parallel process
+  # if necessary - run signalp as a parallel process
 
   # estimate how big is the file, if required - split it into smaller
   # chunks and run signalp as an embarassingly parallel process
