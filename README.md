@@ -99,11 +99,11 @@ stand alone CBS tools are available only for Unix, se we should not care about W
 - vignette: add types of organisms in the tool intros    
 - external dependencies:is there a better way than manage_paths?
 - signalp: weird Cmax scores -  check
+- signalp: separate check for invalid organism
+- signalp: separate check for invalid verison
 
 TO DO (required minimum):
 
-- set default options for C/Y/D/S scores in signalp => more flexible filtering?
-- fix signalp4 vs signalp 4.1 conflicts
 - add unit tests for large inputs in signalp - store them in a separate repo,
 take too long to run for R CMD check:
     - 1K,
@@ -116,8 +116,6 @@ take too long to run for R CMD check:
 - Individual (and cool!) plotting functions for the outputs
 - Biocheck: fix notes (not absolutely required)
 - Clean function imports (::) when they are necessary, when are not?
-- signalp: separate check for invalid organism
-- signalp: separate check for invalid verison
 - do not need TMHMM_parallel if it is so slow?
 - prediction graphs (?) when each candidate was rejected -->?
 
