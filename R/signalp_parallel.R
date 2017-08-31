@@ -143,8 +143,9 @@ combine_SpResult <- function(arguments) {
 #' @param run_mode
 #' \strong{starter} - if it is the first step in pipeline;\cr
 #' \strong{piper} - if you run this function on the output of other CBS tools;
-#' @param paths   tibble with paths to external dependencies, generated with
-#'  \code{\link{manage_paths}} function
+#' @param paths if required version of signalp is not acessible globally, a file
+#' conatining a full path to it's executable should be provided; for details
+#' please check SecretSanta vignette.
 #' @param truncate if \strong{TRUE} - sequences longer 2000 residues will be 
 #' truncated to this length limit and renamed;\cr
 #' if \strong{FALSE} - long sequences will be excluded from the analysis;\cr
@@ -199,13 +200,15 @@ signalp <- function(input_obj,
                     version,
                     organism = c('euk', 'gram+', 'gram-'),
                     run_mode = c('starter', 'piper'),
-                    paths,
+                    sp_paths,
                     truncate = NULL,
                     cores = NULL) {
   
   # ----- Check that inputs are valid
   
   # arguments with obscure options
+  if (missing(organism)) {stop('missing argument: organism')}
+  if (missing(run_mode)) {stop('missing argument: run_mode')}
   organism <- match.arg(organism)
   run_mode <- match.arg(run_mode)
   
@@ -226,6 +229,10 @@ signalp <- function(input_obj,
     } else {
       stop('out_fasta attribute is empty')}
     }
+  
+  # check that version number is valid:
+  if (version %in% c(2,3,4)) {} else {
+    stop('version is invalid, allowed versions: c(2,3,4)')}
   
   # ----- Set default value for parameters if not provided:
   
@@ -286,104 +293,95 @@ signalp <- function(input_obj,
     # convert fasta to a temporary file:
     out_tmp <- tempfile() #create a temporary file for fasta
     writeXStringSet(aaSet, out_tmp) #write tmp fasta file to use later
+    message(paste('Submitted sequences...', length(aaSet)))
     
     # make a system call of signalp based on the tmp file
     
-    full_pa <- as.character(paths %>%
-                              filter_( ~ tool == signalp_version) %>%
-                              select_( ~ path))
-    message(paste('Submitted sequences...', length(aaSet)))
-    
-    # ----
-    if (version >= 4) {
-      # runing signalp versios 4 and 4.1, potentially should work for 5
-      sp <- as.tibble(read.table(text = (system(
-        paste(full_pa, "-t",
-              organism, out_tmp),
-        intern = TRUE
-      ))))
-      names(sp) <- c(
-        "gene_id",
-        "Cmax",
-        "Cpos",
-        "Ymax",
-        "Ypos",
-        "Smax",
-        "Spos",
-        "Smean",
-        "D",
-        "Prediction",
-        "Dmaxcut",
-        "Networks-used"
-      )
-      # reorder columns to match sp2/3 output:
-      
-      sp <- sp %>% select("gene_id",
-                          "Cmax",
-                          "Cpos",
-                          "Ymax",
-                          "Ypos",
-                          "Smax",
-                          "Spos",
-                          "Smean",
-                          "Prediction")
-      
-      sp <- sp %>% filter_( ~ Prediction == 'Y')
-      sp$Prediction <-
-        ifelse(sp$Prediction == 'Y', 'Signal peptide')
-      
-      
-    } else if (version < 4) {
-      # running signalp versions 2 and 3, call parse_signalp for the output
-      message('signalp < 4, calling parser for the output...')
-      con <-
-        system(paste(full_pa, "-t", organism, out_tmp), intern = TRUE)
-      sp <- parse_signalp(input = con, input_type = "system_call")
-    }
-    
-    message(paste('Candidate sequences with signal peptides...', nrow(sp)))
-    
-    if (nrow(sp) == 0) {
-      warning('Signal peptide prediction yeilded 0 candidates')
-    }
-    
-    # generate cropped names for input fasta
-    cropped_names <- unname(sapply(names(aaSet), crop_names))
-    # replace long names with cropped names
-    names(aaSet) <- cropped_names
-    # get ids of candidate secreted proteins
-    candidate_ids <-
-      sp %>% select_( ~ gene_id) %>% unlist(use.names = FALSE)
-    out_fasta_sp <- aaSet[candidate_ids]
-    
-    # generate mature sequences
-    
-    sp_Cpos <- sp %>% select_( ~ Cpos) %>% unlist(use.names = FALSE)
-    cropped_fasta <- subseq(out_fasta_sp, start = sp_Cpos, end = -1)
-    
-    # construct output object
-    
-    out_obj <- SignalpResult(
-      in_fasta = aaSet,
-      out_fasta = out_fasta_sp,
-      mature_fasta = cropped_fasta,
-      sp_version = version,
-      sp_tibble = sp
-    )
-    if (validObject(out_obj)) {
-      return(out_obj)
-    }
+    if (is.null(sp_path)) {
+      full_pa <- signalp_version
+    } else {
+      mp <- manage_paths(in_path = FALSE,
+                         test_mode = signalp_version,
+                         path_file = paths)
+      full_pa <- mp$path_tibble$path
+    } 
+      return(full_pa)
   }
+}
+    # # ----
+    # if (version == 4) {
+    #   # runing signalp versios 4 and 4.1, potentially should work for 5
+    #   sp <- as.tibble(read.table(text = (system(paste(full_pa, "-t",
+    #                                                   organism, out_tmp),
+    #                                                   intern = TRUE))))
+    #   names(sp) <- c("gene_id", "Cmax", "Cpos",
+    #                  "Ymax", "Ypos", "Smax",
+    #                  "Spos", "Smean", "D",
+    #                  "Prediction", "Dmaxcut",
+    #                  "Networks-used")
+    #   
+    #   # reorder columns to match sp2/3 output:
+    #   sp <- sp %>% select("gene_id",
+    #                       "Cmax",
+    #                       "Cpos",
+    #                       "Ymax",
+    #                       "Ypos",
+    #                       "Smax",
+    #                       "Spos",
+    #                       "Smean",
+    #                       "Prediction")
+    #   
+    #   sp <- sp %>% filter_( ~ Prediction == 'Y')
+    #   sp$Prediction <-
+    #     ifelse(sp$Prediction == 'Y', 'Signal peptide')
+    #   
+    # } else if (version < 4) {
+    #   # running signalp versions 2 and 3, call parse_signalp for the output
+    #   message('signalp < 4, calling parser for the output...')
+    #   con <- system(paste(full_pa, "-t", organism, out_tmp), intern = TRUE)
+    #   sp <- parse_signalp(input = con, input_type = "system_call")
+    # }
+    # 
+    # message(paste('Candidate sequences with signal peptides...', nrow(sp)))
+    # 
+    # if (nrow(sp) == 0) {
+    #   warning('Signal peptide prediction yeilded 0 candidates')
+    # }
+    # 
+    # # generate cropped names for input fasta
+    # cropped_names <- unname(sapply(names(aaSet), crop_names))
+    # # replace long names with cropped names
+    # names(aaSet) <- cropped_names
+    # # get ids of candidate secreted proteins
+    # candidate_ids <-
+    #   sp %>% select_( ~ gene_id) %>% unlist(use.names = FALSE)
+    # out_fasta_sp <- aaSet[candidate_ids]
+    # 
+    # # generate mature sequences
+    # 
+    # sp_Cpos <- sp %>% select_( ~ Cpos) %>% unlist(use.names = FALSE)
+    # cropped_fasta <- subseq(out_fasta_sp, start = sp_Cpos, end = -1)
+    # 
+    # # construct output object
+    # 
+    # out_obj <- SignalpResult(
+    #   in_fasta = aaSet,
+    #   out_fasta = out_fasta_sp,
+    #   mature_fasta = cropped_fasta,
+    #   sp_version = version,
+    #   sp_tibble = sp
+    # )
+    # if (validObject(out_obj)) {
+    #   return(out_obj)
+    # }
+
+  # Handle long sequences if any present in the input,
+  # id necessary - run signalp as a parallel process
   
   # estimate how big is the file, if required - split it into smaller
   # chunks and run signalp as an embarassingly parallel process
   
-  # Handle long sequences if any present in the input,
-  # id necessary - run signalp as a parallel process
-  
   fasta <- truncate_seq(truncate = truncate, fasta, 2000)
-  
-  # to do: check total number of residues
   
   # helper function to estimate approximate length threshold if chink
   # size exceedes 200000

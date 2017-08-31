@@ -4,9 +4,9 @@
 \alias{signalp}
 \title{signalp function}
 \usage{
-signalp(input_obj, version = c(2, 3, 4), organism = c("euk", "gram+",
-  "gram-"), run_mode = c("starter", "piper"), paths, truncate = NULL,
-  cores = 1)
+signalp(input_obj, version, organism = c("euk", "gram+", "gram-"),
+  run_mode = c("starter", "piper"), sp_paths, truncate = NULL,
+  cores = NULL)
 }
 \arguments{
 \item{input_obj}{an instance of CBSResult class containing protein 
@@ -22,15 +22,17 @@ sequences as one of the attributes}
 \item{run_mode}{\strong{starter} - if it is the first step in pipeline;\cr
 \strong{piper} - if you run this function on the output of other CBS tools;}
 
-\item{paths}{tibble with paths to external dependencies, generated with
-\code{\link{manage_paths}} function}
+\item{sp_paths}{if required version of signalp is not acessible globally,
+full path to it's exectutble should be provided.
+ \code{\link{manage_paths}} function}
 
 \item{truncate}{if \strong{TRUE} - sequences longer 2000 residues will be 
 truncated to this length limit and renamed;\cr
 if \strong{FALSE} - long sequences will be excluded from the analysis;\cr
 Default = TRUE.}
 
-\item{cores}{number of cores to run the parallel process on}
+\item{cores}{optional argument, number of cores to run the parallel process
+on. If not set default will be 1.}
 }
 \value{
 an object of SignalpResult class
