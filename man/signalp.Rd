@@ -4,14 +4,16 @@
 \alias{signalp}
 \title{signalp function}
 \usage{
-signalp(input_obj, version, organism, run_mode, paths, truncate = NULL)
+signalp(input_obj, version = c(2, 3, 4), organism = c("euk", "gram+",
+  "gram-"), run_mode = c("starter", "piper"), paths, truncate = NULL,
+  cores = 1)
 }
 \arguments{
 \item{input_obj}{an instance of CBSResult class containing protein 
 sequences as one of the attributes}
 
 \item{version}{signalp version to run, supported versions include: \cr
-2, 3, 4, 4,1.}
+2, 3, 4.}
 
 \item{organism}{\strong{euk} - for eukaryotes;\cr
 \strong{gram+} - for gram-positive bacteria;\cr
@@ -27,6 +29,8 @@ sequences as one of the attributes}
 truncated to this length limit and renamed;\cr
 if \strong{FALSE} - long sequences will be excluded from the analysis;\cr
 Default = TRUE.}
+
+\item{cores}{number of cores to run the parallel process on}
 }
 \value{
 an object of SignalpResult class

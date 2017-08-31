@@ -2,20 +2,20 @@
 % Please edit documentation in R/signalp_parallel.R
 \name{combine_SpResult}
 \alias{combine_SpResult}
-\title{This function combines multiple instances of SignalpResult class,
- typically generated with parLapply}
+\title{combine_SpResult function}
 \usage{
 combine_SpResult(arguments)
 }
 \arguments{
-\item{arguments}{- a list of SignalpResult objects to be combined in one}
+\item{arguments}{a list of SignalpResult objects to be combined}
 }
 \value{
 SignalpResult object
 }
 \description{
 This function combines multiple instances of SignalpResult class,
- typically generated with parLapply
+typically generated with parLapply while running signalp predictions in 
+parallel mode.
 }
 \examples{
 my_pa <- manage_paths(system.file(

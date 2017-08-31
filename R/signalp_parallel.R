@@ -45,11 +45,12 @@ split_XStringSet <- function(string_set, chunk_size) {
   lapply(chunks, seq_chunker)
 }
 
-#combine_SpResult function
+#' combine_SpResult function
 #'
 #' This function combines multiple instances of SignalpResult class,
-#'  typically generated with parLapply
-#' @param arguments - a list of SignalpResult objects to be combined in one
+#' typically generated with parLapply while running signalp predictions in 
+#' parallel mode.
+#' @param arguments a list of SignalpResult objects to be combined
 #' @export
 #' @return SignalpResult object
 #' @examples 
@@ -134,7 +135,7 @@ combine_SpResult <- function(arguments) {
 #' @param input_obj   an instance of CBSResult class containing protein 
 #' sequences as one of the attributes
 #' @param version  signalp version to run, supported versions include: \cr
-#'  2, 3, 4, 4,1.
+#'  2, 3, 4.
 #' @param organism 
 #' \strong{euk} - for eukaryotes;\cr
 #' \strong{gram+} - for gram-positive bacteria;\cr
@@ -148,6 +149,7 @@ combine_SpResult <- function(arguments) {
 #' truncated to this length limit and renamed;\cr
 #' if \strong{FALSE} - long sequences will be excluded from the analysis;\cr
 #' Default = TRUE.
+#' @param cores number of cores to run the parallel process on
 #' @return an object of SignalpResult class
 #' @export
 #' @examples
@@ -194,28 +196,35 @@ combine_SpResult <- function(arguments) {
 
 signalp <- function(input_obj,
                     version,
-                    organism,
-                    run_mode,
+                    organism = c('euk', 'gram+', 'gram-'),
+                    run_mode = c('starter', 'piper'),
                     paths,
-                    truncate = NULL) {
+                    truncate = NULL,
+                    cores = 1) {
+  
+  
+  # check the actual argument values, complain if invalid
+    
+  oragnism <- match.arg(organism)
+  run_mode <- match.arg(run_mode)
   
   # ----- Set default value for parameters if not provided:
-  
+
   if (is.null(truncate)) truncate = TRUE else truncate
-  if (is.logical(truncate)) {} else {stop('truncate parameter must be logical')}
-  
+  #if (is.logical(truncate)) {} else {stop('truncate parameter must be logical')}
+
   # ------ Helper functions:
-  
-  # helper function: crop long names for AAStringSet object, 
+
+  # helper function: crop long names for AAStringSet object,
   # return character vector
   crop_names <- function(x){unlist(str_split(x, " "))[1]}
-  
+
   # helper function to truncate log sequences or throw them away
 
   truncate_seq <- function(truncate, seq_set, threshold) {
     drop_n <- length(seq_set[width(seq_set) >= threshold])
-    
-    if (drop_n == 0) return(seq_set) 
+
+    if (drop_n == 0) return(seq_set)
 
     if (truncate == FALSE) {
       seq_set <- seq_set[width(seq_set) < threshold]
@@ -233,12 +242,12 @@ signalp <- function(input_obj,
       seq_trunc <- subseq(seq_trunc, 1, threshold - 1)
       # shuffle AAStringset to avoid having all the heavy sequences
       # in the last chunk
-      seq_set <- sample(c(seq_keep, seq_trunc)) 
+      seq_set <- sample(c(seq_keep, seq_trunc))
 
       if (all(width(seq_set) < threshold)) return(seq_set)
     }
   }
-  
+
   # ----- Check that inputs are valid
 
   # check that input object belong to CBSResult class
@@ -266,8 +275,8 @@ signalp <- function(input_obj,
   allowed_versions = c(2,3,4,4.1)
   allowed_organisms = c('euk', 'gram+', 'gram-')
   organism <- tolower(organism)
-  
-  # 
+
+  #
   signalp_version <- paste("signalp", version, sep = '')
   message(paste('Version used...', signalp_version))
 
@@ -289,7 +298,7 @@ signalp <- function(input_obj,
     # make a system call of signalp based on the tmp file
 
     full_pa <- as.character(paths %>%
-                              filter_(~tool == signalp_version) %>% 
+                              filter_(~tool == signalp_version) %>%
                               select_(~path))
     message(paste('Submitted sequences...', length(aaSet)))
 
@@ -348,16 +357,16 @@ signalp <- function(input_obj,
     if (validObject(out_obj)) {return(out_obj)}
   }
 
-  # estimate how big is the file, if required - split it into smaller 
+  # estimate how big is the file, if required - split it into smaller
   # chunks and run signalp as an embarassingly parallel process
 
-  # Handle long sequences if any present in the input, 
+  # Handle long sequences if any present in the input,
   # id necessary - run signalp as a parallel process
-  
+
   fasta <- truncate_seq(truncate = truncate, fasta, 2000)
 
   # to do: check total number of residues
-  
+
   # helper function to estimate approximate length threshold if chink
   # size exceedes 200000
   estimate_lim <- function(fasta_chunk){
@@ -373,12 +382,12 @@ signalp <- function(input_obj,
       return(fasta_chunk)
     }
   }
-  
+
   if (length(fasta) <= 600) {message('Ok for single processing')
     return(simple_signalp(estimate_lim(fasta)))
   } else {
     message('Input fasta contains >600 sequences, entering batch mode...')
-    
+
     #split and check that chunks do not exceed 200K residue limit
     split_fasta <- sapply(split_XStringSet(fasta, 500), estimate_lim)
 
@@ -396,13 +405,13 @@ signalp <- function(input_obj,
 
     res_comb <- do.call(c,result)
     combined_SignalpResult <- combine_SpResult(unname(res_comb))
-    
-    sp_count <- nrow(getSPtibble(combined_SignalpResult))    
+
+    sp_count <- nrow(getSPtibble(combined_SignalpResult))
     message(paste('Candidate sequences with signal peptides...',
                   sp_count))
     if (sp_count == 0) {
       warning('Signal peptide prediction yeilded 0 candidates')}
-    
+
     closeAllConnections()
     return(combined_SignalpResult)
   }
