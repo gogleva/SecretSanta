@@ -202,12 +202,12 @@ signalp <- function(input_obj,
                     paths,
                     truncate = NULL,
                     cores = NULL) {
-  # check the actual argument values, complain if invalid
-  
-  oragnism <- match.arg(organism)
-  run_mode <- match.arg(run_mode)
   
   # ----- Check that inputs are valid
+  
+  # arguments with obscure options
+  organism <- match.arg(organism)
+  run_mode <- match.arg(run_mode)
   
   # check that input object belong to CBSResult class
   if (is(input_obj, "CBSResult")) {} else {
