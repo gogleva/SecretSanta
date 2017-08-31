@@ -4,17 +4,17 @@
 \alias{m_slicer}
 \title{m_slicer function}
 \usage{
-m_slicer(input_object, length_threshold, run_mode)
+m_slicer(input_obj, min_len, run_mode = c("slice", "rescue"))
 }
 \arguments{
-\item{input_object}{an instance of CBSResult class or AAStringSet
+\item{input_obj}{an instance of CBSResult class or AAStringSet
 class containing protein sequences as on of the attributes}
 
-\item{length_threshold}{sliced sequences below this threshold will be
+\item{min_len}{sliced sequences below this threshold will be
 discarded}
 
 \item{run_mode}{\strong{slice} - to just slice input fasta, regardless
- of it's origin;
+ of it's origin; \cr
 \strong{rescue} - to get proteins not predicted to be secreted on the 
  initial run, generate slices;}
 }
@@ -26,7 +26,7 @@ NB: this is an \strong{experimental option}.\cr
 \cr
 This function generates all possible subsequences starting with methionines
 (M). This might be usefull when translation start sites assumed to be
-mis-predicted fro some of the provided proteins. For example, in cases when
+mis-predicted for some of the provided proteins. For example, in cases when
 the set is obtained after de novo genome or transcriptome assembly.
 \cr
 \cr
