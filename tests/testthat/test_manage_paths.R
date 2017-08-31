@@ -9,11 +9,11 @@ test_that("manage_paths returns correct object and messages",
           # accessible via $PATH variable)
 
           # this test is not crucial, can be suspended
-          expect_message(manage_paths(in_path = TRUE,
+          expect_message(manage_paths(in_path = TRUE, test_mode = 'all',
                                       'checking dependencies acessible via $PATH'))
           
           # this test is crucial
-          r1 <- manage_paths(in_path = TRUE)
+          r1 <- manage_paths(in_path = TRUE, test_mode = 'all')
           expect_is(r1, 'list')
           expect_true(r1["tests"] == TRUE)
           expect_true(r1["in_path"] == TRUE)
@@ -21,14 +21,15 @@ test_that("manage_paths returns correct object and messages",
           
           # check with in_path = FALSE and provide in_path file
           
-          
           # this test is not crucial, can be suspended
           expect_message(manage_paths(in_path = FALSE,
+                                      test_mode = 'all',
                                      path_file = s_file),
                                     'All paths are valid')
           
           # this test is crucial:
           r2 <- manage_paths(in_path = FALSE,
+                             test_mode = 'all',
                              path_file = s_file)
           
           expect_is(r2, 'list')

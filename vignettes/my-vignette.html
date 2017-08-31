@@ -12,7 +12,7 @@
 
 <meta name="author" content="Anna Gogleva" />
 
-<meta name="date" content="2017-08-30" />
+<meta name="date" content="2017-08-31" />
 
 <title>SecretSanta: flexible pipelines for automated prediction of secreted proteins.</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">SecretSanta: flexible pipelines for automated prediction of secreted proteins.</h1>
 <h4 class="author"><em>Anna Gogleva</em></h4>
-<h4 class="date"><em>2017-08-30</em></h4>
+<h4 class="date"><em>2017-08-31</em></h4>
 
 
 
@@ -264,9 +264,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## signalp2 run completed
 ## signalp3 run completed
 ## signalp4 run completed
-## targetp run completed
 ## tmhmm run completed
+## targetp run completed
 ## wolfpsort run completed</code></pre></div>
+<p>It is also possible to run just a single test for a specific dependency in question:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">check1 &lt;-<span class="st"> </span><span class="kw">manage_paths</span>(<span class="dt">in_path =</span> <span class="ot">TRUE</span>,
+                       <span class="dt">test_mode =</span> <span class="st">'signalp2'</span>)
+## checking dependencies acessible via $PATH
+## signalp2 run completed</code></pre></div>
 <p>In case we have paths organised in a separate file:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">check2 &lt;-<span class="st"> </span><span class="kw">manage_paths</span>(
   <span class="dt">in_path =</span> <span class="ot">FALSE</span>,
@@ -278,8 +283,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## signalp2 run completed
 ## signalp3 run completed
 ## signalp4 run completed
-## targetp run completed
 ## tmhmm run completed
+## targetp run completed
 ## wolfpsort run completed</code></pre></div>
 <p>Note, that <code>manage_paths</code> is case insensitive and will convert all the tool names to the lower case.</p>
 <!-- ## Signalp -->

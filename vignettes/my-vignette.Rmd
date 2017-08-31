@@ -200,6 +200,13 @@ In case all the dependencies are available globally:
 ```{r check_paths_in_path, echo = TRUE, collapse = TRUE}
 check1 <- manage_paths(in_path = TRUE)
 ```
+It is also possible to run just a single test for a specific dependency in question:
+
+```{r check_paths_in_path_single, echo = TRUE, collapse = TRUE}
+check1 <- manage_paths(in_path = TRUE,
+                       test_mode = 'signalp2')
+```
+
 In case we have paths organised in a separate file:
 
 ```{r check_path_in_file, echo = TRUE, collapse = TRUE}

@@ -19,22 +19,21 @@
 #' parse_sp_path <- parse_signalp(input = s_path,
 #'                                input_type = "path")
 #' 
-#' # Parse signalp2 output, obtained from a system call:
+#' # Parse signalp2 output, obtained from a system call, here we assume that
+#' # signalp2 is accessible via $PATH.
 #' s_fasta <- system.file("extdata",
 #'                        "small_prot.fasta",
 #'                         package = "SecretSanta") 
-#' secret_paths <- manage_paths(system.file("extdata",
-#'                                          "sample_paths",
-#'                                           package = "SecretSanta"))
-#' sp2_path <- secret_paths %>% filter(tool == 'signalp2') %>% select(path)
-#' 
 #' # capture system call:
-#' con <- system(paste(sp2_path, '-t euk', s_fasta), intern = TRUE)
+#' con <- system(paste('siganlp2 -t euk', s_fasta), intern = TRUE)
 #' 
 #' # parse captured system call:
 #' parse_signalp(input = con, input_type = "system_call")
 
-parse_signalp <- function(input, input_type) {
+parse_signalp <- function(input, input_type = c('path','system_call')) {
+  
+  input_type <- match.arg(input_type)
+  
   # helper function for gene ids
   clean_geneids <- function(x) {
     gsub('>', '', unlist(stringr::str_split(x, " "))[1])

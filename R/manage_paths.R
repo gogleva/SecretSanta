@@ -2,8 +2,7 @@
 #'
 #' This function checks that all the external dependencies required for
 #' secertome prediction pipelines are available and can sucessfully pass test
-#' runs.
-#' \cr
+#' runs. \cr
 #' \cr
 #' All the external dependencies can be made accessible via $PATH environment
 #' variable; alternatively a text file the with full paths to all the external
