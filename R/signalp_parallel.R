@@ -149,7 +149,7 @@ combine_SpResult <- function(arguments) {
 #' truncated to this length limit and renamed;\cr
 #' if \strong{FALSE} - long sequences will be excluded from the analysis;\cr
 #' Default = TRUE.
-#' @param cores number of cores to run the parallel process on
+#' @param cores number of cores to run the parallel process on, default = 1.
 #' @return an object of SignalpResult class
 #' @export
 #' @examples
@@ -200,7 +200,7 @@ signalp <- function(input_obj,
                     run_mode = c('starter', 'piper'),
                     paths,
                     truncate = NULL,
-                    cores = 1) {
+                    cores = NULL) {
   
   
   # check the actual argument values, complain if invalid
@@ -211,15 +211,19 @@ signalp <- function(input_obj,
   # ----- Set default value for parameters if not provided:
 
   if (is.null(truncate)) truncate = TRUE else truncate
-  #if (is.logical(truncate)) {} else {stop('truncate parameter must be logical')}
-
+  if (is.logical(truncate)) {} else {stop('truncate argument must be logical')}
+  
+  if (is.null(cores) cores = 1 else cores)
+  if (is.numeric(cores)) {} else {stop('cores argument must be numeric')}
+  
   # ------ Helper functions:
 
   # helper function: crop long names for AAStringSet object,
   # return character vector
   crop_names <- function(x){unlist(str_split(x, " "))[1]}
 
-  # helper function to truncate log sequences or throw them away
+  # helper function to truncate long sequences or throw them away, otherwise
+  # signalp will break (at least signalp2 and signalp3 will)
 
   truncate_seq <- function(truncate, seq_set, threshold) {
     drop_n <- length(seq_set[width(seq_set) >= threshold])
@@ -254,11 +258,6 @@ signalp <- function(input_obj,
   if (is(input_obj, "CBSResult")) {} else {
     stop('input_object does not belong to CBSResult superclass')}
 
-  # check that supplied runnig mode is valid
-
-  if (run_mode %in% c('piper', 'starter')) {} else {
-    stop("Run mode is invalid. Please use 'starter' to initiate prediction pipelie or 'piper' to continue")}
-
   # check that input_object contains non-empty in/out_fasta for starter/piper
 
   if (run_mode == 'starter') {
@@ -271,20 +270,10 @@ signalp <- function(input_obj,
     } else {stop('out_fasta attribute is empty')}
   }
 
-  # check signalp versions and organism type
-  allowed_versions = c(2,3,4,4.1)
-  allowed_organisms = c('euk', 'gram+', 'gram-')
-  organism <- tolower(organism)
-
-  #
+  # create actual tool name with version number provided
   signalp_version <- paste("signalp", version, sep = '')
   message(paste('Version used...', signalp_version))
-
-  if ((version %in% allowed_versions) & (organism %in% allowed_organisms)) {
-    message("running signalp locally...")
-  } else {
-    stop('Input signalp version or specified organism type are invalid.')
-  }
+  message("running signalp locally...") 
 
   # simple signalp, takes single AAStringSet as an input and runs signalp on it - function body from run_signalp
 
