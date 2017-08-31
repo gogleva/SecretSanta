@@ -7,7 +7,7 @@
 split_XStringSet(string_set, chunk_size)
 }
 \arguments{
-\item{string_set}{input large AAStringSet;}
+\item{string_set}{input AAStringSet object;}
 
 \item{chunk_size}{the number of sequenses in a single chunk;}
 }
@@ -16,7 +16,7 @@ list of AAStringSet chunks.
 }
 \description{
 This function splits large XStringSet objects into chunks of given size and 
-returns a list of AAStringSets.
+returns a list of AAStringSet objects.
 }
 \examples{
 # Read fasta file:

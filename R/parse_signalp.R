@@ -1,7 +1,7 @@
 #' parse_signalp function
 #' 
 #' This function parses signalp2 and signalp3 output and is called internally in
-#' signalp function to standardize outputs.\cr
+#' the \code{\link{signalp}} function to standardize outputs.\cr
 #' \cr
 #' Alternatively, parse_signalp can be called independently on outputs of signalp2 and 
 #' signalp3 captured in a system call or stored in a file.
@@ -12,23 +12,29 @@
 #' @return parsed signalp2/3 output, organised in a tibble object.
 #' @export
 #' @examples
-#' # Parse signalp2 output, stored in a file:
+#' # Example 1: parse signalp2 output, stored in a file:
 #' s_path <- system.file("extdata",
 #'                       "sample_prot_signalp2_out2",
 #'                        package = "SecretSanta") 
 #' parse_sp_path <- parse_signalp(input = s_path,
 #'                                input_type = "path")
 #' 
-#' # Parse signalp2 output, obtained from a system call, here we assume that
+#' # Example2: parse signalp2 output
+#' # captured in a system call. Note, here we assume that
 #' # signalp2 is accessible via $PATH.
 #' s_fasta <- system.file("extdata",
 #'                        "small_prot.fasta",
 #'                         package = "SecretSanta") 
 #' # capture system call:
-#' con <- system(paste('siganlp2 -t euk', s_fasta), intern = TRUE)
+#' con <- system(paste('signalp2 -t euk', s_fasta), intern = TRUE)
 #' 
 #' # parse captured system call:
 #' parse_signalp(input = con, input_type = "system_call")
+
+test_1k <- ("SecretSanta_external/test_fastas/medium_1K.fasta")
+con <- system(paste('signalp2 -t euk',
+                    "SecretSanta_external/test_fastas/medium_50.fasta"), intern = TRUE)
+parse_signalp(input = con, input_type = "system_call")
 
 parse_signalp <- function(input, input_type = c('path','system_call')) {
   
@@ -108,7 +114,7 @@ parse_signalp <- function(input, input_type = c('path','system_call')) {
   # assemble result object
   res <- tibble::as.tibble(data.frame(
     gene_ids_fixed,
-    t(max_C_fixed)[2],
+    t(max_C_fixed)[,2],
     C_pos,
     t(max_Y_fixed),
     t(max_S_fixed),

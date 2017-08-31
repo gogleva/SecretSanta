@@ -3,8 +3,8 @@
 #' split_XStringSet function
 #'
 #' This function splits large XStringSet objects into chunks of given size and 
-#' returns a list of AAStringSets.
-#' @param string_set input large AAStringSet;
+#' returns a list of AAStringSet objects.
+#' @param string_set input AAStringSet object;
 #' @param chunk_size the number of sequenses in a single chunk;
 #' @return list of AAStringSet chunks.
 #' @export
@@ -164,7 +164,6 @@ combine_CBSResult <- function(...) {
   c_obj <- CBSResult(in_fasta = comb_in_fasta, out_fasta = comb_out_fasta)
   
 }
-
 
 
 # PARALLEL SIGNALP ITSELF:

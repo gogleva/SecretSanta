@@ -4,7 +4,7 @@
 \alias{parse_signalp}
 \title{parse_signalp function}
 \usage{
-parse_signalp(input, input_type)
+parse_signalp(input, input_type = c("path", "system_call"))
 }
 \arguments{
 \item{input}{output of signalp2 or signalp3}
@@ -17,7 +17,7 @@ parsed signalp2/3 output, organised in a tibble object.
 }
 \description{
 This function parses signalp2 and signalp3 output and is called internally in
-signalp function to standardize outputs.\cr
+the \code{\link{signalp}} function to standardize outputs.\cr
 \cr
 Alternatively, parse_signalp can be called independently on outputs of signalp2 and 
 signalp3 captured in a system call or stored in a file.
