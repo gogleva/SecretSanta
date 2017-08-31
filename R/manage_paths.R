@@ -146,75 +146,93 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
     }
   }
   
-  # now we will make calls and evaluate their outputs:
+  # now we will wrap calls and evaluation of the outputs in small functions:
   
-  # signalp2:
-  sp2_call <- system(paste(make_call('signalp2'), '-t euk', test_fasta),
-                     intern = TRUE)
-  if (grepl('SignalP predictions', sp2_call[1])) {
-    ok_message('signalp2')
-    sp2_test <- TRUE
-  } else {
-    failure_message('signalp2')
-    sp2_test <- FALSE
+  #signalp2:
+  test_signalp2 <- function() {
+    sp2_call <-
+      system(paste(make_call('signalp2'), '-t euk', test_fasta),
+             intern = TRUE)
+    if (grepl('SignalP predictions', sp2_call[1])) {
+      ok_message('signalp2')
+      sp2_test <- TRUE
+    } else {
+      failure_message('signalp2')
+      sp2_test <- FALSE
+    }
   }
   
   #signalp3:
-  sp3_call <- system(paste(make_call('signalp3'), '-t euk', test_fasta),
-                     intern = TRUE)
-  if (grepl('SignalP 3.0 predictions', sp3_call[1])) {
-    ok_message('signalp3')
-    sp3_test <- TRUE
-  } else {
-    failure_message('signalp3')
-    sp3_test <- FALSE
+  test_signalp3 <- function() {
+    sp3_call <-
+      system(paste(make_call('signalp3'), '-t euk', test_fasta),
+             intern = TRUE)
+    if (grepl('SignalP 3.0 predictions', sp3_call[1])) {
+      ok_message('signalp3')
+      sp3_test <- TRUE
+    } else {
+      failure_message('signalp3')
+      sp3_test <- FALSE
+    }
   }
   
   #signalp4:
-  sp4_call <- system(paste(make_call('signalp4'), '-t euk', test_fasta),
-                     intern = TRUE)
-  if (grepl('SignalP-4', sp4_call[1])) {
-    ok_message('signalp4')
-    sp4_test <- TRUE
-  } else {
-    failure_message('signalp4')
-    sp4_test <- FALSE
+  test_signalp4 <- function() {
+    sp4_call <-
+      system(paste(make_call('signalp4'), '-t euk', test_fasta),
+             intern = TRUE)
+    if (grepl('SignalP-4', sp4_call[1])) {
+      ok_message('signalp4')
+      sp4_test <- TRUE
+    } else {
+      failure_message('signalp4')
+      sp4_test <- FALSE
+    }
   }
   
   #targetp:
-  tp_call <- system(paste(make_call('targetp'), '-P', test_fasta),
-                    intern = TRUE)
-  if (grepl('targetp v1.1 prediction results', tp_call[2])) {
-    ok_message('targetp')
-    tp_test <- TRUE
-  } else {
-    failure_message('targetp')
-    tp_test <- FALSE
+  test_targetp <- function() {
+    tp_call <- system(paste(make_call('targetp'), '-P', test_fasta),
+                      intern = TRUE)
+    if (grepl('targetp v1.1 prediction results', tp_call[2])) {
+      ok_message('targetp')
+      tp_test <- TRUE
+    } else {
+      failure_message('targetp')
+      tp_test <- FALSE
+    }
   }
   
   # tmhmm:
-  tm_call <- system(paste(make_call('tmhmm'), '--short', test_fasta),
-                    intern = TRUE)
-  if (grepl('ALI_PLTG_1\tlen=94\tExpAA=22.44', tm_call[1])) {
-    ok_message('tmhmm')
-    tm_test <- TRUE
-  } else {
-    failure_message('tmhmm')
-    tm_test <- FALSE
+  test_tmhmm <- function() {
+    tm_call <- system(paste(make_call('tmhmm'), '--short', test_fasta),
+                      intern = TRUE)
+    if (grepl('ALI_PLTG_1\tlen=94\tExpAA=22.44', tm_call[1])) {
+      ok_message('tmhmm')
+      tm_test <- TRUE
+    } else {
+      failure_message('tmhmm')
+      tm_test <- FALSE
+    }
   }
   
   # wolfpsort:
-  wolf_call <- system(paste(make_call('wolfpsort'), 'fungi', '<',
-                            test_fasta),
-                      intern = TRUE)
-  
-  if (grepl('# k used for kNN is: 27', wolf_call[1])) {
-    ok_message('wolfpsort')
-    wolf_test <- TRUE
-  } else {
-    failure_message('wolfpsort')
-    wolf_test <- FALSE
+  test_wolfpsort <- function() {
+    wolf_call <- system(paste(make_call('wolfpsort'), 'fungi', '<',
+                              test_fasta),
+                        intern = TRUE)
+    
+    if (grepl('# k used for kNN is: 27', wolf_call[1])) {
+      ok_message('wolfpsort')
+      wolf_test <- TRUE
+    } else {
+      failure_message('wolfpsort')
+      wolf_test <- FALSE
+    }
   }
+  
+  
+  
   
   #aggregate all test outputs and ceck that all the tests were passed:
   all_tests <- all(c(sp2_test, sp3_test, sp4_test,
