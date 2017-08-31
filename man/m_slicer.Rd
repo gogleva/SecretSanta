@@ -22,12 +22,17 @@ discarded}
 a set of sliced sequences, AAStringSet object
 }
 \description{
-Experimental option.
-This function generates all possible subsequences starting with M.
-Assumption: translation start sites might be mis-predicted in the original
-set of proteins.
+NB: this is an \strong{experimental option}.\cr
+\cr
+This function generates all possible subsequences starting with methionines
+(M). This might be usefull when translation start sites assumed to be
+mis-predicted fro some of the provided proteins. For example, in cases when
+the set is obtained after de novo genome or transcriptome assembly.
+\cr
+\cr
 Output of this step can be used as an input for secretome prediction
-pipeline to rescue secreted proteins with mis-predicted start sites.
+pipeline to rescue secreted proteins with potentially mis-predicted start
+sites. Please proceed with caution.
 }
 \examples{
 # Example 1: generate proteins with alterative translation start site for
