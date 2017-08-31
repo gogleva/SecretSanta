@@ -220,21 +220,21 @@ check2 <- manage_paths(
 
 Note, that ```manage_paths``` is case insensitive and will convert all the tool names to the lower case. 
 
-<!-- ## Signalp -->
+## Signalp
 
-<!-- **signalp** is a softaware tool to predict classical signal peptides and cleavage sites [@Nielsen1997] in eukaryotes and bacteria. The method combines prediction of signal peptides and cleavage cites based on a combination of artificial neural networks as well as hidden Markov models. The latter allows to distinguish between signal peptides and non-cleaved signal anchors. -->
+**signalp** is a softaware tool to predict classical signal peptides and cleavage sites [@Nielsen1997] in eukaryotes and bacteria. The method combines prediction of signal peptides and cleavage cites based on a combination of artificial neural networks as well as hidden Markov models. The latter allows to distinguish between signal peptides and non-cleaved signal anchors.
 
-<!-- Currently ```signalp``` function from SecretSanta provides an interface for the three recent versions of  **signalp**. The reason behind this is that **signalp-4** and **signalp-4.1** are not sensitive enough to predict certain classes of secreted oomycete and fungal effectors [@Sperschneider2015]. Thus, providing acces to the older versions provide greater flexibility for building versatile prediction pipelines for a wider taxonomic range of species. -->
+Currently ```signalp``` function from SecretSanta provides an interface for the three recent versions of  **signalp**. The reason behind this is that **signalp-4** and **signalp-4.1** are not sensitive enough to predict certain classes of secreted oomycete and fungal effectors [@Sperschneider2015]. Thus, providing acces to the older versions provide greater flexibility for building versatile prediction pipelines for a wider taxonomic range of species.
 
-<!-- - **signalp-2.0** [@Nielsen1998] -->
-<!-- - **signalp-3.0** [@Bendtsen2004] -->
-<!-- - **signalp-4.0** [@Petersen2011] -->
+- **signalp-2.0** [@Nielsen1998]
+- **signalp-3.0** [@Bendtsen2004]
+- **signalp-4.0** [@Petersen2011]
 
-<!-- ``signalp`` requires specifying ``organism_type`` parameter; possible values include: -->
+``signalp`` requires specifying ``organism_type`` parameter; possible values include:
 
-<!-- - 'euk' - for eukaryotes; -->
-<!-- - 'gram+' - for gram-positive bacteria; -->
-<!-- - 'gram-' - for gram-negative bacteria. -->
+- 'euk' - for eukaryotes;
+- 'gram+' - for gram-positive bacteria;
+- 'gram-' - for gram-negative bacteria.
 
 <!-- To run signalp prediction, first read fasta file with amino acid sequences and store it's contents in a separate variable: -->
 <!-- ```{r read aa fasta, } -->

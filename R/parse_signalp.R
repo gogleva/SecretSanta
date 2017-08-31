@@ -31,10 +31,10 @@
 #' # parse captured system call:
 #' parse_signalp(input = con, input_type = "system_call")
 
-test_1k <- ("SecretSanta_external/test_fastas/medium_1K.fasta")
-con <- system(paste('signalp2 -t euk',
-                    "SecretSanta_external/test_fastas/medium_50.fasta"), intern = TRUE)
-parse_signalp(input = con, input_type = "system_call")
+# test_1k <- ("SecretSanta_external/test_fastas/medium_1K.fasta")
+# con <- system(paste('signalp2 -t euk',
+#                     "SecretSanta_external/test_fastas/medium_50.fasta"), intern = TRUE)
+# parse_signalp(input = con, input_type = "system_call")
 
 parse_signalp <- function(input, input_type = c('path','system_call')) {
   
