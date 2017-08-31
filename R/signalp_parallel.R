@@ -241,7 +241,8 @@ signalp <- function(input_obj,
   
   if (is.null(cores)) cores = 1 else cores
   if (is.numeric(cores)) {} else {stop('cores argument must be numeric')}
-  
+  if (cores > detectCores()) {stop('cores value > available core number')}
+
   # ------ Helper functions:
   
   # helper function: crop long names for AAStringSet object,
@@ -365,72 +366,62 @@ signalp <- function(input_obj,
     # check that intended output is valid
     if (validObject(out_obj)) {return(out_obj)}
   } #close simple_fasta
-  simple_signalp(fasta) #test run
-} #close all
+  
+  # Handle long sequences if any present in the input,
+  # id necessary - run signalp as a parallel process
 
-#   # Handle long sequences if any present in the input,
-#   # id necessary - run signalp as a parallel process
-#   
-#   # estimate how big is the file, if required - split it into smaller
-#   # chunks and run signalp as an embarassingly parallel process
-#   
-#   fasta <- truncate_seq(truncate = truncate, fasta, 2000)
-#   
-#   # helper function to estimate approximate length threshold if chink
-#   # size exceedes 200000
-#   estimate_lim <- function(fasta_chunk) {
-#     len_lim <- (200000 / length(fasta_chunk) + 50)
-#     if (sum(width(fasta_chunk)) >= 200000) {
-#       message(
-#         paste(
-#           'fasta size exceedes maximal total residue limit, sequences longer',
-#           round(len_lim),
-#           'will be truncated'
-#         )
-#       )
-#       fasta_trunc <-
-#         truncate_seq(truncate = truncate, fasta_chunk, len_lim)
-#       return(fasta_trunc)
-#     } else {
-#       return(fasta_chunk)
-#     }
-#   }
-#   
-#   if (length(fasta) <= 600) {
-#     message('Ok for single processing')
-#     return(simple_signalp(estimate_lim(fasta)))
-#   } else {
-#     message('Input fasta contains >600 sequences, entering batch mode...')
-#     
-#     #split and check that chunks do not exceed 200K residue limit
-#     split_fasta <-
-#       sapply(split_XStringSet(fasta, 500), estimate_lim)
-#     
-#     # Calculate the number of cores
-#     no_cores <- detectCores()
-#     
-#     # Initiate cluster
-#     cl <- makeCluster(no_cores)
-#     # run parallel process
-#     
-#     clusterEvalQ(cl)
-#     clusterExport(cl = cl,
-#                   varlist = c("paths"),
-#                   envir = environment()) #
-#     result <- parLapply(cl, split_fasta, simple_signalp)
-#     stopCluster(cl)
-#     
-#     res_comb <- do.call(c, result)
-#     combined_SignalpResult <- combine_SpResult(unname(res_comb))
-#     
-#     sp_count <- nrow(getSPtibble(combined_SignalpResult))
-#     message(paste('Candidate sequences with signal peptides...',
-#                   sp_count))
-#     if (sp_count == 0) {
-#       warning('Signal peptide prediction yeilded 0 candidates')
-#     }
-#     
-#     closeAllConnections()
-#     return(combined_SignalpResult)
-#   }
-# }
+  # estimate how big is the file, if required - split it into smaller
+  # chunks and run signalp as an embarassingly parallel process
+
+  fasta <- truncate_seq(truncate = truncate, fasta, 2000)
+
+  # helper function to estimate approximate length threshold if chunk
+  # size exceedes 200000
+  estimate_lim <- function(fasta_chunk) {
+    len_lim <- (200000 / length(fasta_chunk) + 50)
+    if (sum(width(fasta_chunk)) >= 200000) {
+      message(paste(
+          'fasta size exceedes maximal total residue limit, sequences longer',
+          round(len_lim),
+          'will be truncated'))
+      
+      fasta_trunc <- truncate_seq(truncate = truncate, fasta_chunk, len_lim)
+      return(fasta_trunc)
+    } else {
+      return(fasta_chunk)
+    }
+  }
+
+  if (length(fasta) <= 600) {
+    message('Ok for single processing')
+    return(simple_signalp(estimate_lim(fasta)))
+  } else {
+    message('Input fasta contains >600 sequences, entering batch mode...')
+
+    #split and check that chunks do not exceed 200K residue limit
+    split_fasta <- sapply(split_XStringSet(fasta, 500), estimate_lim)
+
+    # Initiate cluster
+    cl <- makeCluster(cores)
+    # run parallel process
+    clusterEvalQ(cl, library(SecretSanta))
+    clusterExport(cl = cl,
+                  varlist = c("paths"),
+                  envir = environment())
+    result <- parLapply(cl, split_fasta, simple_signalp)
+    stopCluster(cl)
+
+    res_comb <- do.call(c, result)
+    combined_SignalpResult <- combine_SpResult(unname(res_comb))
+
+    sp_count <- nrow(getSPtibble(combined_SignalpResult))
+    message(paste('Candidate sequences with signal peptides...',
+                  sp_count))
+    if (sp_count == 0) {
+      warning('Signal peptide prediction yeilded 0 candidates')
+    }
+
+    closeAllConnections()
+    return(combined_SignalpResult)
+  }
+}
