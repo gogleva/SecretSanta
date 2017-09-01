@@ -4,7 +4,7 @@
 \alias{wolfpsort}
 \title{run_WolfPsort function}
 \usage{
-wolfpsort(input_obj, organism = c(), paths)
+wolfpsort(input_obj, organism = c("plant", "animal", "fungi"), paths = NULL)
 }
 \arguments{
 \item{input_obj}{Object of CSBResult class}
@@ -13,8 +13,9 @@ wolfpsort(input_obj, organism = c(), paths)
 options include: \strong{plant},
 \strong{animal}, \strong{fungi};}
 
-\item{paths}{tibble with paths to external dependencies, generated with
-\code{\link{manage_paths}} function}
+\item{paths}{if wolfpsort is not acessible globally, a file
+conatining a full path to it's executable should be provided; for details
+please check SecretSanta vignette.}
 }
 \value{
 object of WolfResult class

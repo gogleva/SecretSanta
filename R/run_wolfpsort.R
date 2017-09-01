@@ -32,21 +32,19 @@
 #'                                   package = "SecretSanta"))
 #' 
 #' # assign this object to the input_fasta slot of SignalpResult object
-#' inp <- setInfasta(inp, aa[1:10])
+#' inp <- CBSResult(in_fasta = aa[1:10])
 #' 
 #' # run signalp2 on the initial file:
 #' step1_sp2 <- signalp(inp,
 #'                      version = 2,
-#'                      'euk',
-#'                      run_mode = "starter",
-#'                      paths = my_pa)
-#' 
+#'                      organism ='euk',
+#'                      run_mode = "starter")
 #' # run wolfpsort on the signalp output:
-#' w <- wolfpsort(step1_sp2, 'fungi', my_pa)
+#' w <- wolfpsort(step1_sp2, 'fungi')
 
 wolfpsort <- function(input_obj,
                       organism = c('plant', 'animal', 'fungi'),
-                      paths = NULL){
+                      paths = NULL) {
   
   # check that inputs are valid
   
@@ -67,9 +65,17 @@ wolfpsort <- function(input_obj,
 
   out_tmp <- tempfile()
   Biostrings::writeXStringSet(fasta, out_tmp)
-  full_pa <- as.character(paths %>%
-                          filter_(~tool == 'wolfpsort') %>%
-                          select_(~path))
+  
+  # get and check paths to wolfpsort
+  if (is.null(paths)) {
+    full_pa <- 'wolfpsort'
+  } else {
+    mp <- suppressMessages(manage_paths(in_path = FALSE,
+                                        test_mode = 'wolfpsort',
+                                        path_file = paths))
+    full_pa <- mp$path_tibble$path
+  } 
+  
   wolf <- system(paste(full_pa,  organism, '<', out_tmp), intern = TRUE)
   
   #parse wolf output
@@ -85,9 +91,9 @@ wolfpsort <- function(input_obj,
                          clean_strings,
                          USE.NAMES = FALSE)
   
-#assemble result tibble with gene id and most probable
-#subsellular localisation
-  wolf_tbl <- as_tibble(data.frame(gene_id, localization)) %>% 
+  #assemble result tibble with gene id and most probable
+  #subsellular localisation
+  wolf_tbl <- tibble::as_tibble(data.frame(gene_id, localization)) %>% 
                                   filter_(~gene_id != '#') %>%
                                   filter_(~localization == 'extr')
   
@@ -96,7 +102,7 @@ wolfpsort <- function(input_obj,
 
   #assemble wolf result object:
   out_obj <- WolfResult(in_fasta = fasta,
-                        out_fasta = fasta[wolf_tbl$gene_id], #place holder
+                        out_fasta = fasta[wolf_tbl$gene_id], 
                         wolf_tibble = wolf_tbl)
   
   if (validObject(out_obj)) {return(out_obj)}
