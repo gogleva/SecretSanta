@@ -144,7 +144,7 @@ combine_SpResult <- function(arguments) {
 #' # run signalp2 on the initial file:
 #' r1 <- signalp(inp,
 #'               version = 2,
-#'               organism = 'euk'
+#'               organism = 'euk',
 #'               run_mode = "starter")
 
 signalp <- function(input_obj,

@@ -69,7 +69,7 @@ manage_paths(in_path = TRUE,
              test_mode = 'all')
              
 # to test just a single tool:
-manage_paths(in_paths = TRUE,
+manage_paths(in_path = TRUE,
              test_mode = 'signalp2')     
 
 # Example2:

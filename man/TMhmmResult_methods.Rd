@@ -62,21 +62,16 @@ TM domains}
 }}
 
 \examples{
-my_pa <- manage_paths(system.file("extdata", 
-                                  "sample_paths",
-                                  package = "SecretSanta"))
-inp <- SignalpResult()
 aa <- readAAStringSet(system.file("extdata", 
-                                  "small_prot.fasta",
+                                  "sample_prot_100.fasta",
                                    package = "SecretSanta"))
                                                           
-inp <- setInfasta(inp, aa)
+inp <- CBSResult(in_fasta = aa[1:10])
 s1_sp2 <- signalp(inp,
                  version = 2,
-                 'euk',
-                 run_mode = "starter",
-                 paths = my_pa)
-tm <- tmhmm(s1_sp2, paths = my_pa, TM = 1)
+                 organism = 'euk',
+                 run_mode = "starter")                  
+tm <- tmhmm(s1_sp2, TM = 1)
 class(tm)
 getTMtibble(tm)
 }

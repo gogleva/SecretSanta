@@ -26,7 +26,7 @@
 #' # Example 1: generate proteins with alterative translation start site for
 #' # AAStringSet object
 #' aa <- readAAStringSet(system.file("extdata",
-#'                                  "small_prot.fasta",
+#'                                  "sample_prot_100.fasta",
 #'                                  package = "SecretSanta"))
 #' m_slicer(aa, 100, run_mode = 'slice')
 #' 

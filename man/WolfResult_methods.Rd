@@ -41,20 +41,19 @@ Accessors for WolfResult objects
 }}
 
 \examples{
-my_pa <- manage_paths(system.file("extdata", 
-                                  "sample_paths",
-                                  package = "SecretSanta"))
 aa <- readAAStringSet(system.file("extdata", 
-                                  "small_prot.fasta",
+                                  "sample_prot_100.fasta",
                                    package = "SecretSanta"))
-                                                          
-inp <- SignalpResult(in_fasta = aa)
+inp <- CBSResult(in_fasta = aa[1:10])
 s1_sp2 <- signalp(inp,
                  version = 2,
-                 'euk',
-                 run_mode = "starter",
-                 paths = my_pa)
-w <- wolfpsort(s1_sp2, 'fungi', my_pa)
+                 organism = 'euk',
+                 run_mode = "starter")
+w <- wolfpsort(s1_sp2, 'fungi')
 class(w)
+#access result tibble:
 getWOLFtibble(w)
+#acess in_fasta and out_fasta slots:
+getInfasta(w)
+getOutfasta(w)
 }

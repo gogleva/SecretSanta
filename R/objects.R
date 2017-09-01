@@ -497,7 +497,7 @@ setMethod(f = "getWOLFtibble",
 #' @rdname TMhmmResult_methods
 #' @examples 
 #' aa <- readAAStringSet(system.file("extdata", 
-#'                                   "small_prot.fasta",
+#'                                   "sample_prot_100.fasta",
 #'                                    package = "SecretSanta"))
 #'                                                           
 #' inp <- CBSResult(in_fasta = aa[1:10])
@@ -683,7 +683,7 @@ ErResult <- setClass("ErResult",
 #' @examples 
 #' #read fasta file in AAStringSet object
 #' aa <- readAAStringSet(system.file("extdata",
-#'                                  "small_prot.fasta",
+#'                                  "sample_prot_100.fasta",
 #'                                  package = "SecretSanta"))
 #' #assign this object to the input_fasta slot of SignalpResult object
 #' inp <- CBSResult(in_fasta = aa[1:10])

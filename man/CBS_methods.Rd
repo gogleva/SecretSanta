@@ -53,18 +53,9 @@ i.e those that passed tool filters}
 # read fasta file in AAStringSet object
 aa <- readAAStringSet(system.file("extdata", 
                                   "sample_prot_100.fasta",
-                                   package = "SecretSanta"),
-                      use.names = TRUE)
-
-# create an emty instance of CBSResult class
-cbs <- CBSResult()
-
-# populate in_fasta and out_fasta slots with aa
-cbs <- CBSResult(in_fasta = aa, out_fasta = aa)
-
-# populate out_fasta attribute with aa
-cbs <- setOutfasta(cbs, aa)
-
+                                   package = "SecretSanta"))
+# create an instance of CBSResult class:
+cbs <- CBSResult( in_fasta = aa, out_fasta = aa)
 # check that CBSResult instance is valid
 validObject(cbs)
 

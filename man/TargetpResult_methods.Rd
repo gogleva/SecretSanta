@@ -71,18 +71,17 @@ Accessors for TargetpResult objects
 }}
 
 \examples{
-my_pa <- manage_paths(system.file("extdata", 
-                                  "sample_paths",
-                                   package = "SecretSanta"))
 #read fasta file in AAStringSet object
 aa <- readAAStringSet(system.file("extdata",
-                                 "small_prot.fasta",
+                                 "sample_prot_100.fasta",
                                  package = "SecretSanta"))
 #assign this object to the input_fasta slot of SignalpResult object
-inp <- CBSResult(in_fasta = aa)
-tp_result <- targetp(input_object = inp,
-                    network_type = 'N',
-                    run_mode = 'starter',
-                    paths = my_pa)
-class(tp_result)                     
+inp <- CBSResult(in_fasta = aa[1:10])
+tp_result <- targetp(input_obj = inp,
+                    network = 'N',
+                    run_mode = 'starter')      
+class(tp_result)
+getTPtibble(tp_result)                     
+getInfasta(tp_result)
+getOutfasta(tp_result)
 }

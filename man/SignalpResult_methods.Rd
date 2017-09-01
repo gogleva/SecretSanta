@@ -17,8 +17,8 @@
 \alias{setSPtibble}
 \alias{getSPtibble,SignalpResult-method}
 \alias{getSPtibble}
-\title{An S4 class to represent intermediate and final outputs of the signalp
-prediction step}
+\title{An S4 class to represent intermediate and final
+outputs of the signalp prediction step}
 \usage{
 setMatfasta(theObject, mature_fasta)
 
@@ -37,7 +37,7 @@ setMatfasta(theObject, mature_fasta)
 \arguments{
 \item{theObject}{SignalpResult object}
 
-\item{mature_fasta}{seqeunces with clipped signal peptides, AAStringSet object}
+\item{mature_fasta}{sequences with clipped signal peptides, AAStringSet object}
 
 \item{sp_version}{version of signalp used to generate SignalpResult object}
 
@@ -47,8 +47,8 @@ setMatfasta(theObject, mature_fasta)
 SignalpResult object
 }
 \description{
-An S4 class to represent intermediate and final outputs of the signalp
-prediction step
+An S4 class to represent intermediate and final
+outputs of the signalp prediction step
 
 Accessors for SignalpResult objects
 }
@@ -59,7 +59,7 @@ Accessors for SignalpResult objects
 
 \item{\code{sp_version}}{version of signalp used to generate this object}
 
-\item{\code{sp_tibble}}{Object of class tibble, contains ... columns:
+\item{\code{sp_tibble}}{Object of class tibble, columns:
 \itemize{
   \item gene_id - unique id of the sequence
   \item Cmax - max raw cleavage site score (C-score)
@@ -79,28 +79,16 @@ Accessors for SignalpResult objects
 # read fasta file in AAStringSet object
 aa <- readAAStringSet(system.file("extdata",
                                   "sample_prot_100.fasta",
-                                  package = "SecretSanta"),
-                      use.names = TRUE)
-
-# create an emty instance of CBSResult class
-sr <- SignalpResult()
-
-# populate in_fasta attribute with aa
-sr <- setInfasta(sr, aa)
+                                  package = "SecretSanta"))#' 
+# create an instance of CBSResult class
+sr <- CBSResult(in_fasta = aa[1:20])
 
 # run signalpeptide prediction and create fully populated instance of
 # SignalpResult class
-my_pa <- manage_paths(system.file(
-                                  "extdata",
-                                  "sample_paths",
-                                   package = "SecretSanta")
-                                   )
 step1_sp2 <- signalp(sr,
                      version = 2,
-                     'euk',
-                     run_mode = "starter",
-                     paths = my_pa)
-
+                     organism = 'euk',
+                     run_mode = "starter")
 # access specific slots:
 getOutfasta(step1_sp2)
 getInfasta(step1_sp2)

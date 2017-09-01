@@ -61,6 +61,6 @@ inp <- CBSResult(in_fasta = aa[1:10])
 # run signalp2 on the initial file:
 r1 <- signalp(inp,
               version = 2,
-              organism = 'euk'
+              organism = 'euk',
               run_mode = "starter")
 }

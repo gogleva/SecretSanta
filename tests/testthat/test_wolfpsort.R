@@ -15,24 +15,23 @@ test_that("wolfpsort outputs correct objects and handles invalid inputs correctl
                                organism = 'euk',
                                run_mode = 'piper')
           #frozen tests
-          #tm <- tmhmm(step1_sp2, paths = my_pa, TM = 1)
-          #er <- check_khdel(tm, run_mode = 'piper')
+          tm <- tmhmm(step1_sp2, TM = 1)
+          er <- check_khdel(tm, run_mode = 'piper')
           er_native <- check_khdel(inp, run_mode = 'starter')
           
           # run tests
           expect_is(wolfpsort(step1_sp2, 'fungi'), 'WolfResult')
-      #    expect_is(wolfpsort(tm, 'fungi', my_pa), 'WolfResult')
+          expect_is(wolfpsort(tm, 'fungi'), 'WolfResult')
           expect_is(wolfpsort(step2_sp3, 'fungi'), 'WolfResult')
           expect_is(wolfpsort(step1_sp2, 'plant'), 'WolfResult')
           expect_is(wolfpsort(step1_sp2, 'animal'), 'WolfResult')
-      #    expect_is(wolfpsort(er, 'animal', my_pa), 'WolfResult')
+          expect_is(wolfpsort(er, 'animal'), 'WolfResult')
           expect_is(wolfpsort(er_native, 'animal'), 'WolfResult')
           
           expect_error(wolfpsort(aa[1:10], 'fungi'),
                        'input_object does not belong to CBSResult superclass')
           expect_error(wolfpsort(inp, 'fungi'),
                        'the input object contains empty out_fasta slot')
-          expect_error(wolfpsort(step1_sp2, 'plants'),
-                       "'arg' should be one of “plant”, “animal”, “fungi”")
+          expect_error(wolfpsort(step1_sp2, 'plants'))
           
           })
