@@ -4,7 +4,8 @@
 \alias{targetp}
 \title{targetp function}
 \usage{
-targetp(input_obj, network, run_mode, paths)
+targetp(input_obj, network = c("P", "N"), run_mode = c("starter", "piper"),
+  paths = NULL, cores = NULL)
 }
 \arguments{
 \item{input_obj}{an instance of CBSResult class containing protein 
@@ -30,22 +31,19 @@ an object of TargetpResult class
 This function calls local targetp to predict subcellular localisation of 
 a protein.\cr
 \cr
-For large inputs (\strong{>1000} sequences) will automatically run in
+For large inputs (\strong{>1000} sequences) will automatically run
 as a massive paralle job.
 }
 \examples{
-my_pa <- manage_paths(system.file("extdata",
-                                  "sample_paths",
-                                  package = "SecretSanta"))
 # read fasta file in AAStringSet object
 aa <- readAAStringSet(system.file("extdata",
                       "sample_prot_100.fasta",
                       package = "SecretSanta"))
-# assign this object to the input_fasta slot of SignalpResult object
+# assign this object to the input_fasta 
+# slot of CBSResult object
 inp <- CBSResult(in_fasta = aa[1:10])
-
+# run target prediction
 tp_result <- targetp(input_obj = inp,
-                     network = 'N',
-                     run_mode = 'starter',
-                     paths = my_pa)
+                    network = 'N',
+                    run_mode = 'starter')
 }

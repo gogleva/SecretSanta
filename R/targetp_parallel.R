@@ -74,22 +74,17 @@ combine_TpResult <- function(arguments) {
 #' @export
 #' @return an object of TargetpResult class
 #' @examples 
-#' my_pa <- manage_paths(system.file("extdata",
-#'                                   "sample_paths",
-#'                                   package = "SecretSanta"))
 #' # read fasta file in AAStringSet object
 #' aa <- readAAStringSet(system.file("extdata",
 #'                       "sample_prot_100.fasta",
 #'                       package = "SecretSanta"))
-# 
-#' # assign this object to the input_fasta slot of SignalpResult object
+#' # assign this object to the input_fasta 
+#' # slot of CBSResult object
 #' inp <- CBSResult(in_fasta = aa[1:10])
-#' 
+#' # run target prediction
 #' tp_result <- targetp(input_obj = inp,
-#'                      network = 'N',
-#'                      run_mode = 'starter',
-#'                      paths = my_pa)
-
+#'                     network = 'N',
+#'                     run_mode = 'starter')
 
 targetp <- function(input_obj,
                     network = c('P', 'N'),
@@ -129,10 +124,8 @@ targetp <- function(input_obj,
     } else {stop('out_fasta attribute is empty')}
   }
 
-  # All checked, produce encouragig message  
+  # All checked, produce an encouragig message  
     message("running targetp locally...")
-}
-
 
 # simple function to run targetp on relatively small input files ~1K proteins
   
@@ -144,10 +137,15 @@ targetp <- function(input_obj,
       out_tmp <- tempfile() #create a temporary file for fasta
       Biostrings::writeXStringSet(aaSet, out_tmp) #write tmp fasta file
   
-      # get path to targetp executable
-      full_pa <- as.character(paths %>%
-                                dplyr::filter_(~tool == 'targetp') %>%
-                                dplyr::select_(~path))
+      # get and check paths to signalp
+      if (is.null(paths)) {
+        full_pa <- 'targetp'
+      } else {
+        mp <- suppressMessages(manage_paths(in_path = FALSE,
+                                            test_mode = 'targetp',
+                                            path_file = paths))
+        full_pa <- mp$path_tibble$path
+      } 
   
       # prep fasta:
       # generate cropped names for input fasta
@@ -186,7 +184,6 @@ targetp <- function(input_obj,
   
       if (validObject(out_obj)) {return(out_obj)}
   }
-  
 
    # Check input file size and decide how to run targetp:
    # in parallel mode or not:
@@ -200,26 +197,20 @@ targetp <- function(input_obj,
      # split fasta:
      split_fasta <- split_XStringSet(fasta, 1000)
      
-     # initiate cluster on all the cores available and supply 
-     # required environment:
-     no_cores <- detectCores()
-     cl <- makeCluster(no_cores)
-     clusterEvalQ(cl)
+     # initiate cluster 
+     cl <- makeCluster(cores)
+     clusterEvalQ(cl, library(SecretSanta))
   
      #  works oly with my_pa, not paths!
-     clusterExport(cl=cl, varlist=c("my_pa"), envir=environment()) 
-     
-     # produces error: Error in get(name, envir = envir) : object 'signalp4
-     # not found
-     
+     clusterExport(cl=cl, varlist=c("paths"), envir=environment()) 
+
      # run parallel targetp:
      result <- parLapply(cl, split_fasta, simple_targetp)
      stopCluster(cl)
      
+     # combine outputs from multiple workers
      res_comb <- do.call(c,result)
      combined_TargetpResult <- combine_TpResult(unname(res_comb))
-     
-     # may be add some wraings/messages here:
      
      tp_count <- nrow(getTPtibble(combined_TargetpResult))    
      message(paste('Number of candidate secerted sequences...', tp_count))
