@@ -369,23 +369,23 @@ class(tm)
 slotNames(tm)
 ```
 
-<!-- ``TMhmmResult`` object contains 5 slots: -->
+``TMhmmResult`` object contains 5 slots:
 
-<!-- + ``in_fasta`` and ``out_fasta`` are common attriburtes of all classes inheriting from CBSResult class; -->
++ ``in_fasta`` and ``out_fasta`` are common attriburtes of all classes inheriting from CBSResult class;
 
-<!-- + ``tm_tibble`` - parsed **tmhmm** tabular output for candidates not having more transmembrane domains than specified by ``TM`` threshold; -->
++ ``tm_tibble`` - parsed **tmhmm** tabular output for candidates not having more transmembrane domains than specified by ``TM`` threshold;
 
-<!-- + ``in_mature_fasta`` - mature sequences used as an input for ```tmhmm``` -->
++ ``in_mature_fasta`` - mature sequences used as an input for ```tmhmm```
 
-<!-- + ``out_mature_fasta`` - outputed mature sequences not having more transmembrane domains than specified by ``TM`` threshold. -->
++ ``out_mature_fasta`` - outputed mature sequences not having more transmembrane domains than specified by ``TM`` threshold.
 
-<!-- To access individual slots you could use accessor functions: -->
+To access individual slots you could use accessor functions:
 
-<!-- ```{r accessors for TMhmmResult class} -->
-<!-- getTMtibble(tm) -->
-<!-- getInMatfasta(tm) -->
-<!-- getOutMatfasta(tm) -->
-<!-- ``` -->
+```{r accessors for TMhmmResult class}
+getTMtibble(tm)
+getInMatfasta(tm)
+getOutMatfasta(tm)
+```
 
 
 <!-- ## Targetp -->
