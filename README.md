@@ -106,10 +106,12 @@ stand alone CBS tools are available only for Unix, se we should not care about W
 - do not need TMHMM_parallel if it is so slow?
 - fix some ugly bits in the code ---> profiling again. Aim: not to be much slower that the wrapped tool
 - code profiling to speed-up wrappers
+- parallel runners: Biocheck might complain about library exports (looks like I
+  don't need to do clusterEvalQ at all, bingo)
 
 TO DO (required minimum):
 
-- parallel runners: Biocheck might complain about library exports
+
 - add unit tests for large inputs in signalp - store them in a separate repo,
 take too long to run for R CMD check:
     - 1K,

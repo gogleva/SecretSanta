@@ -186,7 +186,7 @@ setMethod(f = "getOutfasta",
 #'   \item Spos - amino acid position with max S-score 
 #'   \item Smean - the average S-score of the possible signal peptide
 #'    (from position 1 to the position immediately before the maximal Y-score)
-#'   \item Prediction - final desision on whether the protein is secreted or not 
+#'   \item Prediction - final desision on whether the protein is secreted
 #'   }
 #' @export SignalpResult
 #' @rdname SignalpResult_methods 
@@ -270,7 +270,8 @@ SignalpResult <- setClass(
 
 #' Accessors for SignalpResult objects
 #' @param theObject SignalpResult object
-#' @param mature_fasta sequences with clipped signal peptides, AAStringSet object
+#' @param mature_fasta sequences with clipped signal peptides, AAStringSet
+#' object
 #' @param sp_version version of signalp used to generate SignalpResult object
 #' @param sp_tibble parsed signalp output in tabular format
 #' @export
@@ -666,10 +667,10 @@ ErResult <- setClass("ErResult",
 #' \item    "don't know" - indicates that cutoff restrictions were set
 #'  (see instructions) and the winning network output score was below the 
 #'  requested cutoff for that category.
-#' \item    RC - Reliability class, from 1 to 5, where 1 indicates the strongest
-#'  prediction. RC is a measure of the size of the difference ('diff') between
-#'  the highest (winning) and the second highest output scores. There are 5
-#'  reliability classes, defined as follows:
+#' \item    RC - Reliability class, from 1 to 5, where 1 indicates the 
+#'  strongest prediction. RC is a measure of the size of the difference 
+#'  ('diff') between #'  the highest (winning) and the second highest output
+#'  scores. There are 5 reliability classes, defined as follows:
 #'   \itemize{ 
 #'     \item 1 - diff > 0.800;
 #'     \item 2 - 0.800 > diff > 0.600

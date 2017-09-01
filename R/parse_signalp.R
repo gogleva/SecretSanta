@@ -1,10 +1,10 @@
 #' parse_signalp function
 #' 
-#' This function parses signalp2 and signalp3 output and is called internally in
-#' the \code{\link{signalp}} function to standardize outputs.\cr
+#' This function parses signalp2 and signalp3 output and is called internally
+#' in the \code{\link{signalp}} function to standardize outputs.\cr
 #' \cr
-#' Alternatively, parse_signalp can be called independently on outputs of signalp2 and 
-#' signalp3 captured in a system call or stored in a file.
+#' Alternatively, parse_signalp can be called independently on outputs of 
+#' signalp2 and signalp3 captured in a system call or stored in a file.
 #' @param input output of signalp2 or signalp3
 #' @param input_type
 #' \strong{path}  path to a file with text output from signalp2 or signalp3;\cr

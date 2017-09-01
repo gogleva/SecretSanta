@@ -172,7 +172,8 @@ signalp <- function(input_obj,
   if (run_mode == 'starter') {
     if (length(getInfasta(input_obj)) != 0) {
       fasta <- getInfasta(input_obj)
-    } else {stop('in_fasta attribute is empty')}
+    } else {
+      stop('in_fasta attribute is empty')}
     
   } else if (run_mode == 'piper') {
     if (length(getOutfasta(input_obj)) != 0) {
@@ -355,7 +356,7 @@ signalp <- function(input_obj,
     # Initiate cluster
     cl <- makeCluster(cores)
     # run parallel process
-    clusterEvalQ(cl, library(SecretSanta))
+
     clusterExport(cl = cl,
                   varlist = c("paths"),
                   envir = environment())

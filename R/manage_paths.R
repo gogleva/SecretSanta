@@ -25,7 +25,8 @@
 #' $PATH variable;\cr
 #' \cr
 #' if \strong{FALSE} you should supply path_file.
-#' @param test_mode if \strong{all} - all the external dependencies will be checked;\cr
+#' @param test_mode if \strong{all} - all the external dependencies will be
+#'  checked;\cr
 #' alternatively specify a tool name to be checked.
 #' @param path_file  full paths to external dependencies in a 2-column
 #' space-separated text file;\cr
@@ -80,7 +81,7 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
                                   'wolfpsort'),
                          path_file = NULL) {
   
-  test_mode <- match.arg(test_mode) #will complain if supplied test_modes are invalid
+  test_mode <- match.arg(test_mode) 
   
   # here we assume that all the tools are acessible via $PATH:
   if (in_path == TRUE) {

@@ -188,7 +188,7 @@ targetp <- function(input_obj,
      
      # initiate cluster 
      cl <- makeCluster(cores)
-     clusterEvalQ(cl, library(SecretSanta))
+    # clusterEvalQ(cl, library(SecretSanta))
   
      #  works oly with my_pa, not paths!
      clusterExport(cl=cl, varlist=c("paths"), envir=environment()) 
