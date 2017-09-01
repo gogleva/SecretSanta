@@ -101,6 +101,11 @@ stand alone CBS tools are available only for Unix, se we should not care about W
 - signalp: weird Cmax scores -  check
 - signalp: separate check for invalid organism
 - signalp: separate check for invalid verison
+- export cluster environment: try to get rid of my_pa (done for signalp, requires testing)
+- Clean function imports (::) when they are necessary, when are not?
+- do not need TMHMM_parallel if it is so slow?
+- fix some ugly bits in the code ---> profiling again. Aim: not to be much slower that the wrapped tool
+- code profiling to speed-up wrappers
 
 TO DO (required minimum):
 
@@ -110,14 +115,8 @@ take too long to run for R CMD check:
     - 1K,
     - 2K,
     - long sequences
-- why parallel version of TMHMM is so much slower ---> do more profiling
-- export cluster environment: try to get rid of my_pa (done for signalp, requires testing)
-- code profiling to speed-up wrappers
-- fix some ugly bits in the code ---> profiling again. Aim: not to be much slower that the wrapped tool
 - Individual (and cool!) plotting functions for the outputs
 - Biocheck: fix notes (not absolutely required)
-- Clean function imports (::) when they are necessary, when are not?
-- do not need TMHMM_parallel if it is so slow?
 - prediction graphs (?) when each candidate was rejected -->?
 
 ### Installation:

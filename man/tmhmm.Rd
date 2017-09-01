@@ -4,18 +4,18 @@
 \alias{tmhmm}
 \title{tmhmm function}
 \usage{
-tmhmm(input_obj, paths, TM)
+tmhmm(input_obj, TM, paths = NULL)
 }
 \arguments{
 \item{input_obj}{an instance of SignalpResult class, \cr
 input should contain mature_fasta slot;}
 
+\item{TM}{allowed number of TM domains in mature peptides,
+recommended value <= 1; use TM = 0 for strict filtering}
+
 \item{paths}{if tmhmm is not acessible globally, a file
 conatining a full path to it's executable should be provided; for details
 please check SecretSanta vignette.}
-
-\item{TM}{allowed number of TM domains in mature peptides,
-recommended value <= 1; use TM = 0 for strict filtering}
 }
 \value{
 TMhmmResult object
@@ -34,18 +34,13 @@ predictions first.
 }
 \examples{
           
-my_pa <- manage_paths(system.file("extdata", 
-                      "sample_paths",
-                      package = "SecretSanta"))
-inp <- SignalpResult()
 aa <- readAAStringSet(system.file("extdata",
                                   "sample_prot_100.fasta",
                                    package = "SecretSanta"))
-inp <- setInfasta(inp, aa[1:10])
+inp <- CBSResult(in_fasta = aa[1:10])
 s1_sp2 <- signalp(inp,
                   version = 2,
-                  'euk',
-                  run_mode = "starter",
-                  paths = my_pa)
-tm <- tmhmm(s1_sp2, paths = my_pa, TM = 1)
+                  organism = 'euk',
+                  run_mode = "starter")
+tm <- tmhmm(s1_sp2, TM = 1)
 }
