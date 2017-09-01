@@ -1,40 +1,29 @@
 #' combine_TpResult function
 #'
 #' This function combines multiple instances of TargetpResult class,
-#' typically generated with parLapply when running targetp in a paralle mode.
-#' @param arguments - a list of TargetpResult objects to be combined.
+#' typically generated with parLapply when running targetp in parallel mode.
+#' @param arguments  a list of TargetpResult objects to be combined.
 #' @export
 #' @return TargetpResult object
 #' @examples 
-#' 
-#' inp2 <- CBSResult(in_fasta = readAAStringSet(
-#'                              system.file("extdata",
-#'                              "tail_prot.fasta",
-#'                              package = "SecretSanta")))
-#' inp3 <- CBSResult(in_fasta = readAAStringSet(
-#'                              system.file("extdata",
-#'                              "tail2_prot.fasta",
-#'                              package = "SecretSanta")))
-#' inp4 <- CBSResult(in_fasta = readAAStringSet(
-#'                              system.file("extdata",
-#'                              "sample_prot_100.fasta",
-#'                              package = "SecretSanta")))
-#' 
+#' aa <- readAAStringSet(system.file("extdata",
+#'                  "sample_prot_100.fasta",
+#'                   package = "SecretSanta"))
+#' inp2 <- CBSResult(in_fasta = aa[1:10])
+#' inp3 <- CBSResult(in_fasta = aa[20:30])
+#' inp4 <- CBSResult(in_fasta = aa[40:50])     
+#'  
 #' tp1 <- targetp(input_obj = inp2,
 #'                network = 'N',
-#'                run_mode = 'starter',
-#'                paths = my_pa)
+#'                run_mode = 'starter')
 #' tp2 <- targetp(input_obj = inp3,
 #'                network = 'N',
-#'                run_mode = 'starter',
-#'                paths = my_pa)
+#'                run_mode = 'starter')
 #' tp3 <- targetp(input_obj = inp4,
 #'                network = 'N',
-#'                run_mode = 'starter',
-#'                paths = my_pa)
-#' 
+#'                run_mode = 'starter')
 #' obj <- list(tp1, tp2, tp3)
-#'  combined_tp <- combine_TpResult(obj)
+#' combined_tp <- combine_TpResult(obj)
 
 combine_TpResult <- function(arguments) {
   if (all(sapply(arguments, is, 'TargetpResult'))) {
@@ -49,7 +38,7 @@ combine_TpResult <- function(arguments) {
   c_obj <- TargetpResult(in_fasta = c_in_fasta,
                          out_fasta = c_out_fasta,
                          tp_tibble = c_tp_tibble)
-                         }
+  }
 
 #' targetp function
 #'

@@ -7,43 +7,32 @@
 combine_TpResult(arguments)
 }
 \arguments{
-\item{arguments}{- a list of TargetpResult objects to be combined.}
+\item{arguments}{a list of TargetpResult objects to be combined.}
 }
 \value{
 TargetpResult object
 }
 \description{
 This function combines multiple instances of TargetpResult class,
-typically generated with parLapply when running targetp in a paralle mode.
+typically generated with parLapply when running targetp in parallel mode.
 }
 \examples{
-
-inp2 <- CBSResult(in_fasta = readAAStringSet(
-                             system.file("extdata",
-                             "tail_prot.fasta",
-                             package = "SecretSanta")))
-inp3 <- CBSResult(in_fasta = readAAStringSet(
-                             system.file("extdata",
-                             "tail2_prot.fasta",
-                             package = "SecretSanta")))
-inp4 <- CBSResult(in_fasta = readAAStringSet(
-                             system.file("extdata",
-                             "sample_prot_100.fasta",
-                             package = "SecretSanta")))
-
+aa <- readAAStringSet(system.file("extdata",
+                 "sample_prot_100.fasta",
+                  package = "SecretSanta"))
+inp2 <- CBSResult(in_fasta = aa[1:10])
+inp3 <- CBSResult(in_fasta = aa[20:30])
+inp4 <- CBSResult(in_fasta = aa[40:50])     
+ 
 tp1 <- targetp(input_obj = inp2,
                network = 'N',
-               run_mode = 'starter',
-               paths = my_pa)
+               run_mode = 'starter')
 tp2 <- targetp(input_obj = inp3,
                network = 'N',
-               run_mode = 'starter',
-               paths = my_pa)
+               run_mode = 'starter')
 tp3 <- targetp(input_obj = inp4,
                network = 'N',
-               run_mode = 'starter',
-               paths = my_pa)
-
+               run_mode = 'starter')
 obj <- list(tp1, tp2, tp3)
- combined_tp <- combine_TpResult(obj)
+combined_tp <- combine_TpResult(obj)
 }
