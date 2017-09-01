@@ -37,7 +37,8 @@ setMatfasta(theObject, mature_fasta)
 \arguments{
 \item{theObject}{SignalpResult object}
 
-\item{mature_fasta}{sequences with clipped signal peptides, AAStringSet object}
+\item{mature_fasta}{sequences with clipped signal peptides, AAStringSet
+object}
 
 \item{sp_version}{version of signalp used to generate SignalpResult object}
 
@@ -71,7 +72,7 @@ Accessors for SignalpResult objects
   \item Spos - amino acid position with max S-score 
   \item Smean - the average S-score of the possible signal peptide
    (from position 1 to the position immediately before the maximal Y-score)
-  \item Prediction - final desision on whether the protein is secreted or not 
+  \item Prediction - final desision on whether the protein is secreted
   }}
 }}
 

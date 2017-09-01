@@ -16,11 +16,11 @@ parse_signalp(input, input_type = c("path", "system_call"))
 parsed signalp2/3 output, organised in a tibble object.
 }
 \description{
-This function parses signalp2 and signalp3 output and is called internally in
-the \code{\link{signalp}} function to standardize outputs.\cr
+This function parses signalp2 and signalp3 output and is called internally
+in the \code{\link{signalp}} function to standardize outputs.\cr
 \cr
-Alternatively, parse_signalp can be called independently on outputs of signalp2 and 
-signalp3 captured in a system call or stored in a file.
+Alternatively, parse_signalp can be called independently on outputs of 
+signalp2 and signalp3 captured in a system call or stored in a file.
 }
 \examples{
 # Example 1: parse signalp2 output, stored in a file:

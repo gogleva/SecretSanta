@@ -14,7 +14,8 @@ $PATH variable;\cr
 \cr
 if \strong{FALSE} you should supply path_file.}
 
-\item{test_mode}{if \strong{all} - all the external dependencies will be checked;\cr
+\item{test_mode}{if \strong{all} - all the external dependencies will be
+ checked;\cr
 alternatively specify a tool name to be checked.}
 
 \item{path_file}{full paths to external dependencies in a 2-column

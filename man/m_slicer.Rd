@@ -27,7 +27,8 @@ NB: this is an \strong{experimental option}.\cr
 This function generates all possible subsequences (slices) starting with 
 methionines (M). This might be usefull when translation start sites assumed
 to be mis-predicted for some of the provided proteins. For example, in cases
-when the set is obtained after \emph{de novo} genome or transcriptome assembly.
+when the set is obtained after \emph{de novo} genome or transcriptome
+assembly.
 \cr
 \cr
 Output of this step can be used as an input for secretome prediction
