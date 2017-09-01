@@ -1,39 +1,45 @@
 #' tmhmm function
 #'
-#' This function calls local TMHMM, expects CBSresult class objects with
-#' populated mature_fasta slot.
-#' To generate it run signalp first.
-#' @param input_obj input object, an instance of SignalpResult class, \cr
-#'                  input should contain mature_fasta;
-#'                  in the full-length proteins N-terminal signal peptide could
-#'                  be erroneously predicted as TM domain, avoid this
-#' @param paths tibble with paths to external dependencies, generated with
-#'  \code{\link{manage_paths}} function
+#' This function calls local TMHMM to predict transmembarne domains in protein
+#' sequence. \cr
+#' \cr
+#' In the full-length proteins N-terminal signal peptide could be
+#' erroneously predicted as a TM domain. Therefore it is recommended to run
+#' TMHMM on mature pepetide sequences (with clipped signal peptides) to avoid 
+#' false positive predictions. \cr
+#' \cr
+#' To generate an CBSResult object with mature sequences please run signalp
+#' predictions first.
+#' @param input_obj an instance of SignalpResult class, \cr
+#'                  input should contain mature_fasta slot;
 #' @param TM  allowed number of TM domains in mature peptides,
-#'  recommended value <= 1; use 0 for strict filtering 
+#' recommended value <= 1; use TM = 0 for strict filtering                   
+#' @param paths if tmhmm is not acessible globally, a file
+#' conatining a full path to it's executable should be provided; for details
+#' please check SecretSanta vignette.
 #' @export
 #' @return TMhmmResult object
 #' @examples 
 #'           
-#' my_pa <- manage_paths(system.file("extdata", 
-#'                       "sample_paths",
-#'                       package = "SecretSanta"))
-#' inp <- SignalpResult()
 #' aa <- readAAStringSet(system.file("extdata",
 #'                                   "sample_prot_100.fasta",
 #'                                    package = "SecretSanta"))
-#' inp <- setInfasta(inp, aa[1:10])
+#' inp <- CBSResult(in_fasta = aa[1:10])
 #' s1_sp2 <- signalp(inp,
 #'                   version = 2,
-#'                   'euk',
-#'                   run_mode = "starter",
-#'                   paths = my_pa)
-#' tm <- tmhmm(s1_sp2, paths = my_pa, TM = 1)
+#'                   organism = 'euk',
+#'                   run_mode = "starter")
+#' tm <- tmhmm(s1_sp2, TM = 1)
 
-tmhmm <- function(input_obj, paths, TM) {
+tmhmm <- function(input_obj, TM, paths = NULL) {
+  
+  # ----- Check the inputs
+  
+  if (is.numeric(TM)) {} else {stop('TM argument should be numeric')}
 
   if (TM >= 2) {
     warning('Recommended TM threshold values for mature peprides is 1')}  
+  
   # check that input object belongs to a valid class
   if (is(input_obj, "SignalpResult")) {} else {
     stop('input_object does not belong to SignalpResult class')}
@@ -48,7 +54,6 @@ tmhmm <- function(input_obj, paths, TM) {
   } else {
       stop('the input object does not contain mature_fasta slot')}
   
-  
   #----- Run tmhmm
   message("running TMHMM locally...")
   
@@ -58,16 +63,24 @@ tmhmm <- function(input_obj, paths, TM) {
   
   message(paste('Submitted sequences...', length(fasta)))
 
-  full_pa <- as.character(paths %>%
-                            dplyr::filter_(~tool == 'tmhmm') %>%
-                            dplyr::select_(~path))
+  # get and check paths to tmhmm
+  if (is.null(paths)) {
+    full_pa <- 'tmhmm'
+  } else {
+    mp <- suppressMessages(manage_paths(in_path = FALSE,
+                                        test_mode = 'tmhmm',
+                                        path_file = paths))
+    full_pa <- mp$path_tibble$path
+  } 
+  
   con <- system(paste(full_pa, out_tmp, '--short'), intern = TRUE)
   con_tmp <- tempfile()
   write(con, con_tmp)
-  tm <- suppressMessages(readr::read_delim(con_tmp, '\t', col_names = FALSE))
+  tm <- suppressMessages(readr::read_delim(con_tmp, '\t',
+                                           col_names = FALSE))
   
   names(tm) <- c("gene_id", "length", "ExpAA",
-                     "First60", "PredHel", "Topology")
+                 "First60", "PredHel", "Topology")
   
   # clean output values remove '... =' value
   clean_outp <- function(x) {unlist(stringr::str_split(x, '='))[2]}
@@ -93,8 +106,9 @@ tmhmm <- function(input_obj, paths, TM) {
   # change this lines in accordance with TM_thershold
   tm <- (tm %>% dplyr::filter_(~PredHel <= TM))
   
-  message(paste('Candidate sequences with signal peptides and 0 TM domains in mature sequence...',
-                nrow(tm)))
+  message(paste(
+    'Candidates with signal peptides and 0 TM domains in mature seq',
+    nrow(tm)))
   
   # helper function: crop long names for AAStringSet object, return
   # character vector
@@ -125,4 +139,4 @@ tmhmm <- function(input_obj, paths, TM) {
   file.remove(junk) 
   
   if (validObject(out_obj)) {return(out_obj)}
-  }
+}
