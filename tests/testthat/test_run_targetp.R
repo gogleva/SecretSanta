@@ -57,15 +57,12 @@ test_that("targetp correctly responds to invalid inputs",
             # # test invalid network type
             expect_error(suppressMessages(targetp(inp,
                                                   network = 'Plant',
-                                                  run_mode = "starter")), 
-                         "'arg' should be one of “P”, “N”")
+                                                  run_mode = "starter")))
             expect_error(suppressMessages(targetp(inp,
                                                   network = 'n',
-                                                  run_mode = "starter")), 
-                         "'arg' should be one of “P”, “N”")
+                                                  run_mode = "starter")))
             expect_error(suppressMessages(targetp(inp,
                                                   network = 'p',
-                                                  run_mode = "starter")), 
-                         "'arg' should be one of “P”, “N”")
+                                                  run_mode = "starter")))
 
         })
