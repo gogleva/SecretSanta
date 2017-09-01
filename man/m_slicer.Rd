@@ -24,10 +24,10 @@ a set of sliced sequences, AAStringSet object
 \description{
 NB: this is an \strong{experimental option}.\cr
 \cr
-This function generates all possible subsequences starting with methionines
-(M). This might be usefull when translation start sites assumed to be
-mis-predicted for some of the provided proteins. For example, in cases when
-the set is obtained after de novo genome or transcriptome assembly.
+This function generates all possible subsequences (slices) starting with 
+methionines (M). This might be usefull when translation start sites assumed
+to be mis-predicted for some of the provided proteins. For example, in cases
+when the set is obtained after \emph{de novo} genome or transcriptome assembly.
 \cr
 \cr
 Output of this step can be used as an input for secretome prediction
@@ -38,28 +38,23 @@ sites. Please proceed with caution.
 # Example 1: generate proteins with alterative translation start site for
 # AAStringSet object
 aa <- readAAStringSet(system.file("extdata",
-                                  "small_prot.fasta",
-                                   package = "SecretSanta"))
+                                 "small_prot.fasta",
+                                 package = "SecretSanta"))
 m_slicer(aa, 100, run_mode = 'slice')
+
 # Example 2: generate proteins with alterative translation start site for
 # CBSResult object
-my_pa <- manage_paths(system.file("extdata",
-                                  "sample_paths",
-                                   package = "SecretSanta"))
-inp <- SignalpResult()
-inp <- setInfasta(inp, aa)
+inp <- CBSResult(in_fasta = aa[1:10])
 s1_sp2 <- signalp(inp,
                   version = 2,
-                  'euk',
-                  run_mode = "starter",
-                  paths = my_pa)
+                  organism = 'euk',
+                  run_mode = "starter")                   
 slices <- m_slicer(s1_sp2,
-                   length_threshold = 100,
+                   min_len = 100,
                    run_mode = 'rescue')
 inp_slices <- CBSResult(in_fasta = slices)
 s2_sp2_rescue <- signalp(inp_slices,
                          version = 2,
-                         'euk',
-                         run_mode = 'starter',
-                         paths = my_pa)
+                         organism = 'euk',
+                         run_mode = 'starter')
 }

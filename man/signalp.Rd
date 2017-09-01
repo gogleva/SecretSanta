@@ -31,7 +31,7 @@ truncated to this length limit and renamed;\cr
 if \strong{FALSE} - long sequences will be excluded from the analysis;\cr
 Default = TRUE.}
 
-\item{cores}{optional argument, number of cores to run the parallel process
+\item{cores}{optional arguments, number of cores to run the parallel process
 on. If not set default will be 1.}
 }
 \value{

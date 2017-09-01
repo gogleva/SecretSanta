@@ -150,7 +150,7 @@ combine_SpResult <- function(arguments) {
 #' truncated to this length limit and renamed;\cr
 #' if \strong{FALSE} - long sequences will be excluded from the analysis;\cr
 #' Default = TRUE.
-#' @param cores optional argument, number of cores to run the parallel process
+#' @param cores optional arguments, number of cores to run the parallel process
 #' on. If not set default will be 1.
 #' @return an object of SignalpResult class
 #' @export
