@@ -17,13 +17,16 @@ test_that("targetp correctly responds to invalid inputs",
             
             # test starters with valid input options:
             
-            expect_is(suppressMessages(targetp(inp,'N',run_mode = "starter")),
+            expect_is(suppressMessages(targetp(inp,'N',
+                                               run_mode = "starter")),
                       "TargetpResult")
-            expect_is(suppressMessages(targetp(inp, 'P', run_mode = "starter")),
+            expect_is(suppressMessages(targetp(inp, 'P', 
+                                               run_mode = "starter")),
                       "TargetpResult")
             
             # piper:
-            expect_error(suppressMessages(targetp(inp, 'P', run_mode = "piper")),
+            expect_error(suppressMessages(targetp(inp, 'P',
+                                                  run_mode = "piper")),
                       "out_fasta attribute is empty")
             
           

@@ -11,7 +11,8 @@ bibliography: Santa.bib
 ---  
 Put somewhere: here we cover classical secretion mostly
 
-**SecretSanta** is based on a family of wraper functions around [CBS tools](http://www.cbs.dtu.dk/services/). The wrappers are designed to work together. They produce output in a format recognosible by all of them. This alows to pipe results between individual predictors easily, as well as create flexible custom pipelines and compare outputs between several tools. 
+**SecretSanta** is based on a family of wraper functions around [CBS tools](http://www.cbs.dtu.dk/services/). The wrappers are designed to work together. They produce output in a format recognosible by all of them. This 
+alows to pipe results between individual predictors easily, as well as create flexible custom pipelines and compare outputs between several tools. 
 
 To speed-up processing of large input fasta files (with several thousands of sequences) reccommended initial steps of the pipeline are automatically run as embarassingly parallel processes when the number of input sequences exceedes a certain limit.
 
@@ -24,7 +25,9 @@ Majority of the functions could be run in 2 modes: *starter* - in the case you i
 
 ## 1. Installation of external dependencies
 
-For prediction of secreted proteins SecretSanta relies on a set of existing [CBS tools](http://www.cbs.dtu.dk/services/). Please install them and configure according to the listed requirements. ``SecretSanta`` provides R intreface for the following tools:
+For prediction of secreted proteins SecretSanta relies on a set of existing
+[CBS tools](http://www.cbs.dtu.dk/services/). Please install them and configure according to the listed requirements. ``SecretSanta`` provides R intreface for
+the following tools:
 
 \newline
 
@@ -39,11 +42,11 @@ For prediction of secreted proteins SecretSanta relies on a set of existing [CBS
     tar -zxvf signalp-2.0.Linux.tar.Z
     cd signalp-2.0
     ```
-    + Edit "General settings" at the top of the **signalp** file. Set value of 'SIGNALP' variable to be path to your **signalp-2.0** directory. Other variables usually do not require changes. We will not use plotting functions from signalp, so gnuplot, ppmtogif and ghostview are not requred. For more details please check ```signalp-2.0.readme```.
+    + Edit "General settings" at the top of the **signalp** file. Set value of 'SIGNALP' variable to be path to your **signalp-2.0** directory. Other variables usually do not require changes. We will not use plotting functions from signalp,
+    so gnuplot, ppmtogif and ghostview are not requred. For more details please check ```signalp-2.0.readme```.
     + Since, we want to be able to run different versions of **signalp**,
-    including the legacy ones, it is important to be able to duscriminate between
-    them. R is oblivious to shell aliaces, so we will simply rename the **siganlp**
-    script:
+    including the legacy ones, it is important to be able to duscriminate
+    between them. R is oblivious to shell aliaces, so we will simply rename the    **siganlp** script:
     
     ```{sh rename signalp2, eval = FALSE}
     mv signalp siganlp2
@@ -59,7 +62,10 @@ For prediction of secreted proteins SecretSanta relies on a set of existing [CBS
     tar -zxvf signalp-3.0.Linux.tar.Z
     cd signalp-3.0
     ```
-    + Similar to **signalp-2.0**, edit "General settings" at the top of the signalp file. Set value of 'SIGNALP' variable to be path to your **signalp-3.0** directory. Other variables usually do not require changes. We will not use plotting functions from **signalp**, so gnuplot, ppmtogif and ghostview are not requred. For more details please check ```signalp-3.0.readme```.
+    + Similar to **signalp-2.0**, edit "General settings" at the top of the 
+    signalp file. Set value of 'SIGNALP' variable to be path to your **signalp-3.0** directory. Other variables usually do not require changes. 
+    We will not use plotting functions from **signalp**, so gnuplot, ppmtogif 
+    and ghostview are not requred. For more details please check ```signalp-3.0.readme```.
     + Rename **signalp** script to avoid further confusion between the versions:
     ```{sh rename signalp3, eval = FALSE}
     mv signalp signalp3
@@ -94,9 +100,10 @@ For prediction of secreted proteins SecretSanta relies on a set of existing [CBS
     tar -zxvf targetp-1.1b.Linux.tar.Z 
     cd targetp-1.1
     ```
-    + Edit the paragraph labeled "GENERAL SETTINGS, customise" at the top of the **targetp** file.
-    Set values for 'TARGETP' and 'TMP' variables. Ensure, that the path to targetp does not exceed 60 characters,
-    otherwise **targetp-1.1** might fail.
+    + Edit the paragraph labeled "GENERAL SETTINGS, customise" at the top of 
+    the **targetp** file.
+    Set values for 'TARGETP' and 'TMP' variables. Ensure, that the path to
+    targetp does not exceed 60 characters, otherwise **targetp-1.1** might fail.
 
 \newline
 
@@ -108,8 +115,8 @@ For prediction of secreted proteins SecretSanta relies on a set of existing [CBS
     ```
     + Copy the binaries from the appropriate platform specific binary directory         ```./bin/binByPlatform/binary-?``` to ```./bin/```
     + For more details please check the ```INSTALL``` file.
-    + The most important script we need **runWolfPsortSummary** has a bulky name,
-    we will rename it to simply **wolfpsort** for the future convinience:
+    + The most important script we need **runWolfPsortSummary** has a bulky 
+    name, we will rename it to simply **wolfpsort** for the future convinience:
     ```{sh rename wolf, eval = FALSE}
     mv runWolfPsortSummary wolfpsort
     ```
@@ -186,7 +193,8 @@ pp <-
   knitr::kable(pp)
 ```
 
-For CBS tool names please use simple character strings without version numbers. The only exception here are different versions of **signalp**, which require version number in one-digit format in the first column to be distinguishable.
+For CBS tool names please use simple character strings without version numbers. 
+The only exception here are different versions of **signalp**, which require version number in one-digit format in the first column to be distinguishable.
 
 
 ### 1.4 Check that all the required dependencies are installed correctly
@@ -222,9 +230,12 @@ Note, that ```manage_paths``` is case insensitive and will convert all the tool 
 
 ## Signalp
 
-**signalp** is a softaware tool to predict classical signal peptides and cleavage sites [@Nielsen1997] in eukaryotes and bacteria. The method combines prediction of signal peptides and cleavage cites based on a combination of artificial neural networks as well as hidden Markov models. The latter allows to distinguish between signal peptides and non-cleaved signal anchors.
+**signalp** is a softaware tool to predict classical signal peptides and 
+cleavage sites [@Nielsen1997] in eukaryotes and bacteria. The method combines prediction of signal peptides and cleavage cites based on a combination of artificial neural networks as well as hidden Markov models. The latter allows
+to distinguish between signal peptides and non-cleaved signal anchors.
 
-Currently ```signalp``` function from SecretSanta provides an interface for the three recent versions of  **signalp**. The reason behind this is that **signalp-4** and **signalp-4.1** are not sensitive enough to predict certain classes of secreted oomycete and fungal effectors [@Sperschneider2015]. Thus, providing acces to the older versions provide greater flexibility for building versatile prediction pipelines for a wider taxonomic range of species.
+Currently ```signalp``` function from SecretSanta provides an interface for the three recent versions of  **signalp**. The reason behind this is that
+**signalp-4** and **signalp-4.1** are not sensitive enough to predict certain classes of secreted oomycete and fungal effectors [@Sperschneider2015]. Thus, providing acces to the older versions provide greater flexibility for building versatile prediction pipelines for a wider taxonomic range of species.
 
 - **signalp-2.0** [@Nielsen1998]
 - **signalp-3.0** [@Bendtsen2004]
@@ -312,9 +323,9 @@ In this case ``signalp-4.1`` version resulted in fewer number of candidates.
 Please note, taht despite differences in the output format generated by multiple 
 versions of **signalp**, ``signalp`` returns ``sp_tibble`` in a standard format.
 
-In order to pipe result from differenr versions of **signalp** just switch to the ``run_mode = 'piper'`` for the second and other downstream steps. In this case
-``signalp`` will run the anlysis using contents of ``out_fasta`` slot as an input.
-Say, we want to do the following piping: **signalp2** -> **signalp3** -> **signalp4**.
+In order to pipe result from differenr versions of **signalp** just switch to
+the ``run_mode = 'piper'`` for the second and other downstream steps. In this
+case ``signalp`` will run the anlysis using contents of ``out_fasta`` slot as an input. Say, we want to do the following piping: **signalp2** -> **signalp3** -> **signalp4**.
 We will re-use ``step1_sp2`` object generated earlier in the ``starter`` mode
 and use it as an input for the next step:
 
@@ -347,7 +358,8 @@ exclude proteins with trans membrane domains locates after signal peptide, as
 they will be retained in the membrane. Quite often **TMHMM** is not able to
 distinguish between N-terminal signal peptides and transmembrane domain. So, it
 is better to run it on the mature sequences with signal peptides removed.
-``tmhmm`` function can handle input objects of SignalpResult class with non-empty ```mature_fasta``` slot (see starters and pipers table for allowed inputs).
+``tmhmm`` function can handle input objects of SignalpResult class with 
+non-empty ```mature_fasta``` slot (see starters and pipers table for allowed inputs).
 
 Here we will use output of the ``signalp`` function as an iput:
 
@@ -371,7 +383,8 @@ slotNames(tm)
 
 ``TMhmmResult`` object contains 5 slots:
 
-+ ``in_fasta`` and ``out_fasta`` are common attriburtes of all classes inheriting from CBSResult class;
++ ``in_fasta`` and ``out_fasta`` are common attriburtes of all classes 
+inheriting from CBSResult class;
 
 + ``tm_tibble`` - parsed **tmhmm** tabular output for candidates not having more transmembrane domains than specified by ``TM`` threshold;
 
@@ -397,13 +410,15 @@ protein with a predicted signal peptide is no targeted to plastids or
 mitochondria and is indeed extracellular. ``targetp`` function accepts input
 objects belonging to the ``CBSResult`` class.
 
-``targetp`` requires specifying ``network_type`` to run correctly. Possible values include:
+``targetp`` requires specifying ``network_type`` to run correctly. Possible 
+values include:
 
 - 'P' - for plants;
 - 'N' - for non_plants.
 
 It is possible to run ``targetp`` in both *piper* and *starter* modes.
-Imagine, we want to start our pipeline by running ``targetp`` using already created ``inp`` object as an input:
+Imagine, we want to start our pipeline by running ``targetp`` using already
+created ``inp`` object as an input:
 
 ```{r tatgetp starter, collapse = TRUE, cache=FALSE}
 tp <- targetp(inp,
@@ -420,15 +435,18 @@ tp_pipe <- targetp(step1_sp2,
         )
 ```
 
-In both cases ``targetp`` will output an object of ``TargetpResult`` class with the following slots:
+In both cases ``targetp`` will output an object of ``TargetpResult`` class with 
+the following slots:
 
 ```{r explain TargetpResult class}
 class(tp)
 slotNames(tp)
 ```
 
-+ ``in_fasta`` and ``out_fasta`` are common attriburtes of all classes inheriting from ``CBSResult`` class;
-+ ``tp_tibble`` - parsed tragetp tabular output for candidates not ttargeted to mitochondria or plastids, i.e most likely to be secreted.
++ ``in_fasta`` and ``out_fasta`` are common attriburtes of all classes 
+inheriting from ``CBSResult`` class;
++ ``tp_tibble`` - parsed tragetp tabular output for candidates not ttargeted
+to mitochondria or plastids, i.e most likely to be secreted.
 
 To access ``tp_tibble`` slot use ``getTPtibble`` method:
 ```{r access tp_tibble}
@@ -438,7 +456,8 @@ getTPtibble(tp)
 ``targetp`` will automaticly switch to a parrallel mode if number of input sequences is garted than 1000.
 
 ## WoLFPSORT
-**WoLFPSORT** - predicts protein subcellular localisation based on PSORT principle. It converts amino acid sequences into numerical localisation features based on sorting signals, amino acid composition and functional motifs. The converted data is then classified based on k-nearest neighbor algorithm [@Horton2006].
+**WoLFPSORT** - predicts protein subcellular localisation based on PSORT
+principle. It converts amino acid sequences into numerical localisation features based on sorting signals, amino acid composition and functional motifs. The converted data is then classified based on k-nearest neighbor algorithm [@Horton2006].
 
 ``wolfpsort`` requires ``organism`` parameter, it's possible values include:
 
@@ -482,10 +501,9 @@ the cell. There are at least 2 known ER-retention motifs ('KDEL' and 'HDEL')
 [@Munro1987].
 
 The ``check_khdel`` function uses simple pattern matching to scan amino acid
-sequences and remove those with ER retention signal in the C-terminus. To run it,
-simply pass a ``CBSResult`` object as an input.  You can run it in either *piper*
-or *starter* mode. The function does not rely on external dependencies, so
-providing path container is not required.
+sequences and remove those with ER retention signal in the C-terminus. To run
+it, simply pass a ``CBSResult`` object as an input.  You can run it in either *piper* or *starter* mode. The function does not rely on external dependencies,
+so providing path container is not required.
 
 ```{r check ER retention, collapse = TRUE, cache=FALSE}
 er_result <- check_khdel(step1_sp2,
@@ -497,8 +515,8 @@ This will return and object with 3 slots:
 ```{r explain ErResult class}
 slotNames(er_result)
 ```
-+ ``in_fasta`` and ``out_fasta`` are common attriburtes of all classes inheriting
-from ``CBSResult`` class;
++ ``in_fasta`` and ``out_fasta`` are common attriburtes of all classes 
+inheriting from ``CBSResult`` class;
 + ``retained`` - all the sequnces with C-terminal '(K/H)DEL' motifs, in case you
 would like to have a look at them.
 
@@ -510,8 +528,8 @@ on the assumption that translation start sites might be mis-predicted in the
 original set of proteins -> signal peptides might be also mis-predicted. Output 
 of this step can be used as an input for secretome prediction pipeline to rescue
 secreted proteins with mis-predicted start sites. Sequence ids for the newly 
-generated slices are  build by concatenating original sequence id, 'slice' string
-and position of the Methionine sliced from. For example: ``ALI_PLTG_3_slice_M86`` 
+generated slices are  build by concatenating original sequence id, 'slice' 
+string and position of the Methionine sliced from. For example: ``ALI_PLTG_3_slice_M86`` 
 means that ``ALI_PLTG_3`` seqeunce was sliced starting from methionine in the 
 position 86.
 
@@ -526,7 +544,8 @@ slice <- m_slicer(aa,  # a set of amino acid seqeunces
 )
 ```
 
-+ ``rescue`` - having output from any other up-stream function it extracts proteins not predicted to be secreted on the initial run and generate slices for them.
++ ``rescue`` - having output from any other up-stream function it extracts 
+proteins not predicted to be secreted on the initial run and generate slices for them.
 
 ```{r m_slicer rescue, cache=FALSE}
 rescued <- m_slicer(step1_sp2,  # signalp2 output
@@ -565,7 +584,8 @@ knitr::kable(st, align = c(rep('c', 2), 'l', rep('c',3)))
 
 ## Build pipelines, simple workflow
 
-Now, we want to build a pipeline using all our available functions. Say, we would like to have a relatively short one with the following steps:
+Now, we want to build a pipeline using all our available functions. Say, we 
+would like to have a relatively short one with the following steps:
 
 + use **signalp4** to predict signal peptides and cleavage sites;
 + run **tmhmm** on the output, to ensure that predicted proteins with
@@ -652,7 +672,8 @@ getOutfasta(step4_er)
 > **Final Result**: 4 candidate proteins with signal peptides; 0 TM domains in
 mature sequences; not targeted to plastids or mitochondria; not retained in ER.
 
-This is an example of a fairly simple pipeline, but you can create more complex ones. The stringent pipeline might look like this and involve stringent filatration on signal peptide prediction as well as additional predictions for 'rescued' proteins:
+This is an example of a fairly simple pipeline, but you can create more complex ones. The stringent pipeline might look like this and involve stringent 
+filatration on signal peptide prediction as well as additional predictions for 'rescued' proteins:
 
 ```{r, out.width = "300px", fig.align="center", echo = FALSE}
 knitr::include_graphics("pipes_small.png")
