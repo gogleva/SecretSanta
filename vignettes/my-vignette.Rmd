@@ -475,61 +475,80 @@ getWOLFtibble(wlf)
 Since ``wolfpsort`` has the same purpouse as ``targetp`` it might be useful to
 run these functions side by side and compare the obtained results (see [targetp results](#Targetp)).
 
-<!-- ## Check for terminal ER-retention motifs -->
-<!-- In addition to having signal peptides some proteins might have ER-retention signal in the C-terminal domain, preventing protein from being secreted ouside the cell. There are at least 2 known ER-retention motifs ('KDEL' and 'HDEL') [@Munro1987]. -->
+## Check for terminal ER-retention motifs
+In addition to having signal peptides some proteins might have ER-retention 
+signal in the C-terminal domain, preventing protein from being secreted ouside 
+the cell. There are at least 2 known ER-retention motifs ('KDEL' and 'HDEL') 
+[@Munro1987].
 
-<!-- The ``check_khdel`` function uses simple pattern matching to scan amino acid sequences and remove those with ER retention signal in the C-terminus. To run it, simply pass a ``CBSResult`` object as an input.  You can run it in either *piper* or *starter* mode. The function does not rely on external dependencies, so providing path container is not required. -->
+The ``check_khdel`` function uses simple pattern matching to scan amino acid
+sequences and remove those with ER retention signal in the C-terminus. To run it,
+simply pass a ``CBSResult`` object as an input.  You can run it in either *piper*
+or *starter* mode. The function does not rely on external dependencies, so
+providing path container is not required.
 
-<!-- ```{r check ER retention, collapse = TRUE, cache=FALSE} -->
-<!-- er_result <- check_khdel(step1_sp2, -->
-<!--                          run_mode = 'piper') -->
+```{r check ER retention, collapse = TRUE, cache=FALSE}
+er_result <- check_khdel(step1_sp2,
+                         run_mode = 'piper')
 
-<!-- ``` -->
-<!-- This will return and object with 3 slots: -->
+```
+This will return and object with 3 slots:
 
-<!-- ```{r explain ErResult class} -->
-<!-- slotNames(er_result) -->
-<!-- ``` -->
-<!-- + ``in_fasta`` and ``out_fasta`` are common attriburtes of all classes inheriting from ``CBSResult`` class; -->
-<!-- + ``retained`` - all the sequnces with C-terminal '(K/H)DEL' motifs, in case you would like to have a look at them. -->
+```{r explain ErResult class}
+slotNames(er_result)
+```
++ ``in_fasta`` and ``out_fasta`` are common attriburtes of all classes inheriting
+from ``CBSResult`` class;
++ ``retained`` - all the sequnces with C-terminal '(K/H)DEL' motifs, in case you
+would like to have a look at them.
 
-<!-- ## M-slicer -->
+## M-slicer
 
-<!-- This is an experimental option. ``m_slicer`` function takes the input amino acid sequences and generates all posible subsequences startig with methionine based on the assumption that translation start sites might be mis-predicted in the original set of proteins -> signal peptides might be also mis-predicted. Output of this step can be used as an input for secretome prediction pipeline to rescue secreted proteins with mis-predicted start sites. Sequence ids for the newly generated slices are  build by concatenating original sequence id, 'slice' string and position of the Methionine sliced from. For example: ``ALI_PLTG_3_slice_M86`` means that ``ALI_PLTG_3`` seqeunce was sliced starting from methionine in the position 86. -->
+This is an experimental option. ``m_slicer`` function takes the input amino acid
+sequences and generates all posible subsequences startig with methionine based
+on the assumption that translation start sites might be mis-predicted in the 
+original set of proteins -> signal peptides might be also mis-predicted. Output 
+of this step can be used as an input for secretome prediction pipeline to rescue
+secreted proteins with mis-predicted start sites. Sequence ids for the newly 
+generated slices are  build by concatenating original sequence id, 'slice' string
+and position of the Methionine sliced from. For example: ``ALI_PLTG_3_slice_M86`` 
+means that ``ALI_PLTG_3`` seqeunce was sliced starting from methionine in the 
+position 86.
 
-<!-- ``m_slicer`` has 2 running modes: -->
+``m_slicer`` has 2 running modes:
 
-<!-- + ``slice`` - to simply slice input fasta regardless of it's origin; -->
++ ``slice`` - to simply slice input fasta regardless of it's origin;
 
-<!-- ```{r m_slicer slice, cache=FALSE} -->
-<!-- slice <- m_slicer(aa,  # a set of amino acid seqeunces -->
-<!--                   run_mode = 'slice', -->
-<!--                   length_threshold = 100 # minimal length of the outputed slices -->
-<!-- ) -->
-<!-- ``` -->
+```{r m_slicer slice, cache=FALSE}
+slice <- m_slicer(aa,  # a set of amino acid seqeunces
+                  run_mode = 'slice',
+                  min_len = 100 # minimal length of the outputed slices
+)
+```
 
-<!-- + ``rescue`` - having output from any other up-stream function it extracts proteins not predicted to be secreted on the initial run and generate slices for them. -->
++ ``rescue`` - having output from any other up-stream function it extracts proteins not predicted to be secreted on the initial run and generate slices for them.
 
-<!-- ```{r m_slicer rescue, cache=FALSE} -->
-<!-- rescued <- m_slicer(step1_sp2,  # signalp2 output -->
-<!--                   run_mode = 'rescue', -->
-<!--                   length_threshold = 100 -->
-<!-- ) -->
+```{r m_slicer rescue, cache=FALSE}
+rescued <- m_slicer(step1_sp2,  # signalp2 output
+                  run_mode = 'rescue',
+                  min_len = 100
+)
 
-<!-- ``` -->
+```
 
-<!-- Results of both run modes could be used as an input for other ``SecretSanta`` predictors. Say, we want to run ``signalp`` on the rescued proteins. Note, that ``m_slicer`` outputs ``AAStringSet`` objects, so in order to pass it to ``signalp`` we first need to create ``CBSResult`` object with ``in_fasta = rescued``. -->
+Results of both run modes could be used as an input for other ``SecretSanta`` 
+predictors. Say, we want to run ``signalp`` on the rescued proteins. Note, that ``m_slicer`` outputs ``AAStringSet`` objects, so in order to pass it to
+``signalp`` we first need to create ``CBSResult`` object with ``in_fasta = rescued``.
 
-<!-- ```{r signalp for rescued proteins, collapse = TRUE, cache=FALSE} -->
-<!-- r_inp <- SignalpResult(in_fasta = rescued) -->
-<!-- sp_rescue <- signalp(r_inp, -->
-<!--                     version = 2, -->
-<!--                     organism_type = 'euk', -->
-<!--                     run_mode = 'starter', -->
-<!--                     paths = santa_paths, -->
-<!--                     truncate = TRUE) -->
-<!-- ``` -->
-<!-- The slicing procedure returned 15 additional potentially secreted candidates. -->
+```{r signalp for rescued proteins, collapse = TRUE, cache=FALSE}
+r_inp <- SignalpResult(in_fasta = rescued)
+sp_rescue <- signalp(r_inp,
+                    version = 2,
+                    organism = 'euk',
+                    run_mode = 'starter',
+                    truncate = TRUE)
+```
+The slicing procedure returned 15 additional potentially secreted candidates.
 
 <!-- ## Pipers and/or starters -->
 
