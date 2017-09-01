@@ -38,6 +38,9 @@
 
 check_khdel <- function(input_obj, run_mode = c('starter', 'piper')) {
   
+  if (missing(run_mode)) {stop('missing argument: run_mode')}
+  run_mode = match.arg(run_mode)
+  
   # check the input
   if (is(input_obj, "CBSResult")) {} else {stop(
     'input_object does not belong to CBSResult superclass')
@@ -48,7 +51,7 @@ check_khdel <- function(input_obj, run_mode = c('starter', 'piper')) {
   # determine which fasta to take
   if (run_mode == 'piper') {
     fasta <- getOutfasta(input_obj)
-  } else {
+  } else if (run_mode == 'starter'){
     fasta <- getInfasta(input_obj)
     }
   
