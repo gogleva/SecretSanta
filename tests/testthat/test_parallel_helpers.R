@@ -2,34 +2,27 @@ context("test helper functions for parallel sinalp")
 
 test_that("combine_SignalpResult works as intended",
           {
-            inp2 <- CBSResult(
-              in_fasta = readAAStringSet(system.file("extdata",
-                                                     "tail_prot.fasta",
-                                                     package = "SecretSanta")))
-            inp3 <- CBSResult(
-              in_fasta = readAAStringSet(system.file("extdata",
-                                                     "tail2_prot.fasta",
-                                                     package = "SecretSanta")))
-            inp4 <- CBSResult(
-              in_fasta = readAAStringSet(system.file("extdata",
-                                                     "sample_prot_100.fasta",
-                                                     package = "SecretSanta")))
+            aa <- readAAStringSet(system.file("extdata",
+                                              "sample_prot_100.fasta",
+                                              package = "SecretSanta"))
+            inp2 <- CBSResult(in_fasta = aa[1:10])
+            inp3 <- CBSResult(in_fasta = aa[20:30])
+            inp4 <- CBSResult(in_fasta = aa[40:50])   
             
             sp1 <- signalp(input_obj = inp2, 
                            version = 2,
                            organism = 'euk',
                            run_mode = 'starter')
             
-            sp2 <- suppressWarnings(
-                   signalp(input_obj = inp3,
+            sp2 <- signalp(input_obj = inp3,
                            version = 2,
                            organism = 'euk',
                            run_mode = 'starter'
-                           ))
-            sp3 <- signalp(input_obj = inp4,
+                           )
+            sp3 <- suppressWarnings(signalp(input_obj = inp4,
                            version = 2,
                            organism = 'euk',
-                           run_mode = 'starter')
+                           run_mode = 'starter'))
                            
             obj <- list(sp1, sp2, sp3)
             combined_sp <- combine_SpResult(obj)
@@ -46,7 +39,8 @@ test_that("combine_SignalpResult works as intended",
             
             expect_identical(sum(
               unlist(lapply(lapply(c(sp1, sp2, sp3), getSPtibble), nrow))), 
-                             length(getSPtibble(combined_sp)))
+                            nrow(getSPtibble(combined_sp)))
+            
             expect_identical(sum(
               unlist(lapply(lapply(c(sp1, sp2, sp3), getMatfasta), length))), 
                              length(getMatfasta(combined_sp)))

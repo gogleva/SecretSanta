@@ -57,9 +57,9 @@ split_XStringSet <- function(string_set, chunk_size) {
 #' aa <- readAAStringSet(system.file("extdata",
 #'                  "sample_prot_100.fasta",
 #'                   package = "SecretSanta"))
-#' inp2 <- SignalpResult(in_fasta = aa[1:10])
-#' inp3 <- SignalpResult(in_fasta = aa[20:30])
-#' inp4 <- SignalpResult(in_fasta = aa[40:50])                   
+#' inp2 <- CBSResult(in_fasta = aa[1:10])
+#' inp3 <- CBSResult(in_fasta = aa[20:30])
+#' inp4 <- CBSResult(in_fasta = aa[40:50])                   
 #' r1 <- signalp(input_obj = inp2,
 #'                version = 4,
 #'                organism = 'euk',
