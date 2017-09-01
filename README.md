@@ -115,8 +115,8 @@ take too long to run for R CMD check:
     - 1K,
     - 2K,
     - long sequences
-- Individual (and cool!) plotting functions for the outputs
 - Biocheck: fix notes (not absolutely required)
+- Individual (and cool!) plotting functions for the outputs
 - prediction graphs (?) when each candidate was rejected -->?
 
 ### Installation:
@@ -148,4 +148,19 @@ R/run_signalp.R: 98.39%
 R/m-slicer.R: 100.00%
 R/run_targetp.R: 100.00%
 R/run_wolfpsort.R: 100.00%
+```
+
+Results, 01.09.2017:
+
+```
+SecretSanta Coverage: 76.13%
+R/objects.R: 26.92%
+R/targetp_parallel.R: 67.33%
+R/signalp_parallel.R: 73.96%
+R/manage_paths.R: 74.64%
+R/wolfpsort.R: 86.49%
+R/tmhmm.R: 87.88%
+R/check_khdel.R: 90.00%
+R/m_slicer.R: 95.24%
+R/parse_signalp.R: 98.67%
 ```

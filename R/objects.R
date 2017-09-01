@@ -10,18 +10,9 @@
 #' # read fasta file in AAStringSet object
 #' aa <- readAAStringSet(system.file("extdata", 
 #'                                   "sample_prot_100.fasta",
-#'                                    package = "SecretSanta"),
-#'                       use.names = TRUE)
-#' 
-#' # create an emty instance of CBSResult class
-#' cbs <- CBSResult()
-#' 
-#' # populate in_fasta and out_fasta slots with aa
-#' cbs <- CBSResult(in_fasta = aa, out_fasta = aa)
-#' 
-#' # populate out_fasta attribute with aa
-#' cbs <- setOutfasta(cbs, aa)
-#' 
+#'                                    package = "SecretSanta"))
+#' # create an instance of CBSResult class:
+#' cbs <- CBSResult( in_fasta = aa, out_fasta = aa)
 #' # check that CBSResult instance is valid
 #' validObject(cbs)
 #' 
@@ -31,57 +22,60 @@
 #' # extract out_fasta attribute
 #' getOutfasta(cbs)
 
-CBSResult <- setClass("CBSResult",
-                      
-                slots = list(in_fasta = "AAStringSet",
-                             out_fasta = "AAStringSet"),
-
-                prototype = list(in_fasta = Biostrings::AAStringSet(),
-                                 out_fasta = Biostrings::AAStringSet()),
-                
-                validity = function(object)
-                {
-                  #check that input is not dna or rna
-                  
-                  al <- Biostrings::alphabetFrequency(object@in_fasta)
-                  
-                                
-                  if (nrow(al) == 1) {
-                       most_frequent <- names(
-                         rev(sort(al[, colSums(al != 0) > 0])))[1:4] 
-                   } else {
-                       most_frequent <- names(
-                         rev(sort(colSums(al[, colSums(al != 0) > 0])))[1:4])
-                   }
-                  # 
-                  
-                  if (all(c("A", "C", "G", "T") %in% most_frequent)) {
-                    return("Input sequence is DNA, please provide amino acid sequence.")
-                  }
-                  
-                  if (all(c("A", "C", "G", "U") %in% most_frequent)) {
-                    return("Input sequence is RNA, please provide amino acid sequence.")
-                  }
-                  
-                  
-                  if (length(object@in_fasta) < length(object@out_fasta)) {
-                    return("Number of output sequences is grater than the number of input sequences.")
-                  }
-                  
-                  if (any(grepl('[*$]', object@in_fasta))) {
-                    return("Input fasta contains stop cteodon symbols '*', please remove them.") 
-                  }
-                  
-                  if (any(duplicated(names(object@in_fasta)))) {
-                    return("Duplicated gene ids in in_fasta")
-                  }
-                  
-                  if (any(duplicated(names(object@out_fasta)))) {
-                    return("Duplicated gene ids in out_fasta")
-                  }
-                  
-                  return(TRUE)
-                }  
+CBSResult <- setClass(
+  "CBSResult",
+  
+  slots = list(in_fasta = "AAStringSet",
+               out_fasta = "AAStringSet"),
+  
+  prototype = list(
+    in_fasta = Biostrings::AAStringSet(),
+    out_fasta = Biostrings::AAStringSet()
+  ),
+  
+  validity = function(object)
+  {
+    #check that input is not dna or rna
+    
+    al <-
+      Biostrings::alphabetFrequency(object@in_fasta)
+    
+    
+    if (nrow(al) == 1) {
+      most_frequent <- 
+        names(rev(sort(al[, colSums(al != 0) > 0])))[1:4]
+    } else {
+      most_frequent <- 
+        names(rev(sort(colSums(al[, colSums(al != 0) > 0])))[1:4])
+    }
+   
+    if (all(c("A", "C", "G", "T") %in% most_frequent)) {
+      return("Input sequence is DNA, please provide amino acid sequence.")
+    }
+    
+    if (all(c("A", "C", "G", "U") %in% most_frequent)) {
+      return("Input sequence is RNA, amino acid sequence required.")
+    }
+    
+    
+    if (length(object@in_fasta) < length(object@out_fasta)) {
+      return("Number of output sequences > the number of input sequences.")
+    }
+    
+    if (any(grepl('[*$]', object@in_fasta))) {
+      return("Input fasta contains stop ctop codon symbols '*'")
+    }
+    
+    if (any(duplicated(names(object@in_fasta)))) {
+      return("Duplicated gene ids in in_fasta")
+    }
+    
+    if (any(duplicated(names(object@out_fasta)))) {
+      return("Duplicated gene ids in out_fasta")
+    }
+    
+    return(TRUE)
+  }
 )
                                  
 
@@ -175,12 +169,12 @@ setMethod(f = "getOutfasta",
           }
 )
 
-#' An S4 class to represent intermediate and final outputs of the signalp
-#' prediction step
+#' An S4 class to represent intermediate and final
+#' outputs of the signalp prediction step
 #' 
 #' @slot mature_fasta    fasta with mature sequences
 #' @slot sp_version      version of signalp used to generate this object
-#' @slot sp_tibble       Object of class tibble, contains ... columns:
+#' @slot sp_tibble       Object of class tibble, columns:
 #' \itemize{
 #'   \item gene_id - unique id of the sequence
 #'   \item Cmax - max raw cleavage site score (C-score)
@@ -201,28 +195,16 @@ setMethod(f = "getOutfasta",
 #' # read fasta file in AAStringSet object
 #' aa <- readAAStringSet(system.file("extdata",
 #'                                   "sample_prot_100.fasta",
-#'                                   package = "SecretSanta"),
-#'                       use.names = TRUE)
-#' 
-#' # create an emty instance of CBSResult class
-#' sr <- SignalpResult()
-#' 
-#' # populate in_fasta attribute with aa
-#' sr <- setInfasta(sr, aa)
+#'                                   package = "SecretSanta"))#' 
+#' # create an instance of CBSResult class
+#' sr <- CBSResult(in_fasta = aa[1:20])
 #' 
 #' # run signalpeptide prediction and create fully populated instance of
 #' # SignalpResult class
-#' my_pa <- manage_paths(system.file(
-#'                                   "extdata",
-#'                                   "sample_paths",
-#'                                    package = "SecretSanta")
-#'                                    )
 #' step1_sp2 <- signalp(sr,
 #'                      version = 2,
-#'                      'euk',
-#'                      run_mode = "starter",
-#'                      paths = my_pa)
-#' 
+#'                      organism = 'euk',
+#'                      run_mode = "starter")
 #' # access specific slots:
 #' getOutfasta(step1_sp2)
 #' getInfasta(step1_sp2)
@@ -232,60 +214,63 @@ setMethod(f = "getOutfasta",
 
 
 SignalpResult <- setClass(
-                    "SignalpResult",
-                    contains= "CBSResult",
-                    slots = list(mature_fasta = "AAStringSet", 
-                                 sp_version = "numeric",
-                                 sp_tibble = "tbl_df"
-                                 ),
-                 
-                    prototype = list(mature_fasta = Biostrings::AAStringSet(),
-                                sp_version = numeric(0),
-                                sp_tibble = tibble::tibble()
-                                ),
-                    
-                    validity = function(object)
-                    {
-                      # check that mature sequences are shorter than full-length sequences
-                      if (sum(width(object@out_fasta)) <
-                          sum(width(object@mature_fasta))) {
-                        return("Mature sequences can not be shorter that full length sequences")
-                      }
-                      
-                      # check that there are no duplicated gene ids in sp_tibble
-                      if (nrow(object@sp_tibble) > 0) {
-                        if (any(duplicated(object@sp_tibble$gene_id))) {
-                        return("Duplicated gene ids in sp_tibble! ")}
-                      }
-                      
-                      # check that all ids of mature_fasta are identical to ids
-                      # in out_fasta
-                      
-                      if (!(identical(names(object@mature_fasta),
-                                      names(object@out_fasta)))) {
-                         return("Out_fasta ids do not match mature_fasta ids")
-                        }
-                      
-                      # check that ids of mature_fasta are present in in_fasta
-                      if (!(all(names(object@mature_fasta) %in%
-                                names(object@in_fasta)))) {
-                        return("Out_fasta ids do not match in_fasta ids")
-                      }
-                      
-                      # check that there are no zero length mature peptides
-     
-                     if (any(width(object@mature_fasta) == 0)) {
-                       return('mature fasta contains sequences of 0 length')
-                     }
-                    } 
-                    )
+  "SignalpResult",
+  contains = "CBSResult",
+  slots = list(
+    mature_fasta = "AAStringSet",
+    sp_version = "numeric",
+    sp_tibble = "tbl_df"
+  ),
+  
+  prototype = list(
+    mature_fasta = Biostrings::AAStringSet(),
+    sp_version = numeric(0),
+    sp_tibble = tibble::tibble()
+  ),
+  
+  validity = function(object)
+  {
+    # check that mature sequences are shorter than full-length sequences
+    if (sum(width(object@out_fasta)) <
+        sum(width(object@mature_fasta))) {
+      return("Mature sequences can not be shorter that full length sequences")
+    }
+    
+    # check that there are no duplicated gene ids in sp_tibble
+    if (nrow(object@sp_tibble) > 0) {
+      if (any(duplicated(object@sp_tibble$gene_id))) {
+        return("Duplicated gene ids in sp_tibble! ")
+      }
+    }
+    
+    # check that all ids of mature_fasta are identical to ids
+    # in out_fasta
+    
+    if (!(identical(names(object@mature_fasta),
+                    names(object@out_fasta)))) {
+      return("Out_fasta ids do not match mature_fasta ids")
+    }
+    
+    # check that ids of mature_fasta are present in in_fasta
+    if (!(all(names(object@mature_fasta) %in%
+              names(object@in_fasta)))) {
+      return("Out_fasta ids do not match in_fasta ids")
+    }
+    
+    # check that there are no zero length mature peptides
+    
+    if (any(width(object@mature_fasta) == 0)) {
+      return('mature fasta contains sequences of 0 length')
+    }
+  }
+)
 
 # define accessor functions for SignalpResult object
 # setter for mature_fasta
 
 #' Accessors for SignalpResult objects
 #' @param theObject SignalpResult object
-#' @param mature_fasta seqeunces with clipped signal peptides, AAStringSet object
+#' @param mature_fasta sequences with clipped signal peptides, AAStringSet object
 #' @param sp_version version of signalp used to generate SignalpResult object
 #' @param sp_tibble parsed signalp output in tabular format
 #' @export
@@ -423,22 +408,21 @@ setMethod(f = "getSPtibble",
 #' @rdname  WolfResult_methods
 #' @return WolfResult object
 #' @examples 
-#' my_pa <- manage_paths(system.file("extdata", 
-#'                                   "sample_paths",
-#'                                   package = "SecretSanta"))
 #' aa <- readAAStringSet(system.file("extdata", 
-#'                                   "small_prot.fasta",
+#'                                   "sample_prot_100.fasta",
 #'                                    package = "SecretSanta"))
-#'                                                           
-#' inp <- SignalpResult(in_fasta = aa)
+#' inp <- CBSResult(in_fasta = aa[1:10])
 #' s1_sp2 <- signalp(inp,
 #'                  version = 2,
-#'                  'euk',
-#'                  run_mode = "starter",
-#'                  paths = my_pa)
-#' w <- wolfpsort(s1_sp2, 'fungi', my_pa)
+#'                  organism = 'euk',
+#'                  run_mode = "starter")
+#' w <- wolfpsort(s1_sp2, 'fungi')
 #' class(w)
+#' #access result tibble:
 #' getWOLFtibble(w)
+#' #acess in_fasta and out_fasta slots:
+#' getInfasta(w)
+#' getOutfasta(w)
 
 WolfResult <- setClass("WolfResult",
                           contains = "CBSResult",
@@ -512,54 +496,52 @@ setMethod(f = "getWOLFtibble",
 #' @export TMhmmResult
 #' @rdname TMhmmResult_methods
 #' @examples 
-#' my_pa <- manage_paths(system.file("extdata", 
-#'                                   "sample_paths",
-#'                                   package = "SecretSanta"))
-#' inp <- SignalpResult()
 #' aa <- readAAStringSet(system.file("extdata", 
 #'                                   "small_prot.fasta",
 #'                                    package = "SecretSanta"))
 #'                                                           
-#' inp <- setInfasta(inp, aa)
+#' inp <- CBSResult(in_fasta = aa[1:10])
 #' s1_sp2 <- signalp(inp,
 #'                  version = 2,
-#'                  'euk',
-#'                  run_mode = "starter",
-#'                  paths = my_pa)
-#' tm <- tmhmm(s1_sp2, paths = my_pa, TM = 1)
+#'                  organism = 'euk',
+#'                  run_mode = "starter")                  
+#' tm <- tmhmm(s1_sp2, TM = 1)
 #' class(tm)
 #' getTMtibble(tm)
 
-TMhmmResult <- setClass("TMhmmResult",
-                           contains = "CBSResult",
-                           slots = list(in_mature_fasta = "AAStringSet",
-                                        out_mature_fasta = "AAStringSet",
-                                        tm_tibble = "tbl_df"),
-                        
-                           validity = function(object) {   
-                          
-                           # check that there are o duplicated ids in the input
-                           # and output fastas and tm_tibble
-                             if (nrow(object@tm_tibble) > 0) {
-                                if (any(duplicated(object@tm_tibble$gene_id))) {
-                                  return("Duplicated gene ids in sp_tibble! ")}
-                             } 
-                             
-                             if (any(duplicated(names(object@in_mature_fasta)))) {
-                                  return("Duplicated gene ids in in_mature_fasta")
-                             }
-                             
-                             if (any(duplicated(names(object@out_mature_fasta)))) {
-                               return("Duplicated gene ids in out_mature_fasta")
-                             }
-                             
-                           # check that ids in out_mature_fasta match ids in out_fasta
-                              
-                               if (!(identical(names(object@out_mature_fasta),
-                                               names(object@out_fasta)))) {
-                                 return("out_fasta ids do not match out_mature_fasta ids")
-                               }
-                            }  
+TMhmmResult <- setClass(
+  "TMhmmResult",
+  contains = "CBSResult",
+  slots = list(
+    in_mature_fasta = "AAStringSet",
+    out_mature_fasta = "AAStringSet",
+    tm_tibble = "tbl_df"
+  ),
+  
+  validity = function(object) {
+    # check that there are o duplicated ids in the input
+    # and output fastas and tm_tibble
+    if (nrow(object@tm_tibble) > 0) {
+      if (any(duplicated(object@tm_tibble$gene_id))) {
+        return("Duplicated gene ids in sp_tibble! ")
+      }
+    }
+    
+    if (any(duplicated(names(object@in_mature_fasta)))) {
+      return("Duplicated gene ids in in_mature_fasta")
+    }
+    
+    if (any(duplicated(names(object@out_mature_fasta)))) {
+      return("Duplicated gene ids in out_mature_fasta")
+    }
+    
+    # check that ids in out_mature_fasta match ids in out_fasta
+    
+    if (!(identical(names(object@out_mature_fasta),
+                    names(object@out_fasta)))) {
+      return("out_fasta ids do not match out_mature_fasta ids")
+    }
+  }
 )
 
 
@@ -699,34 +681,34 @@ ErResult <- setClass("ErResult",
 #' @export TargetpResult
 #' @rdname TargetpResult_methods
 #' @examples 
-#' my_pa <- manage_paths(system.file("extdata", 
-#'                                   "sample_paths",
-#'                                    package = "SecretSanta"))
 #' #read fasta file in AAStringSet object
 #' aa <- readAAStringSet(system.file("extdata",
 #'                                  "small_prot.fasta",
 #'                                  package = "SecretSanta"))
 #' #assign this object to the input_fasta slot of SignalpResult object
-#' inp <- CBSResult(in_fasta = aa)
-#' tp_result <- targetp(input_object = inp,
-#'                     network_type = 'N',
-#'                     run_mode = 'starter',
-#'                     paths = my_pa)
-#' class(tp_result)                     
+#' inp <- CBSResult(in_fasta = aa[1:10])
+#' tp_result <- targetp(input_obj = inp,
+#'                     network = 'N',
+#'                     run_mode = 'starter')      
+#' class(tp_result)
+#' getTPtibble(tp_result)                     
+#' getInfasta(tp_result)
+#' getOutfasta(tp_result)
 
-TargetpResult <- setClass("TargetpResult",
-                        contains = "CBSResult",
-                        slots = list(tp_tibble = "tbl_df"),
-                        
-                        validity = function(object) {   
-                          
-                          # check that there are o duplicated ids in the input
-                          # and output fastas and tm_tibble
-                          if (nrow(object@tp_tibble) > 0) {
-                            if (any(duplicated(object@tp_tibble$gene_id))) {
-                              return("Duplicated gene ids in sp_tibble! ")}
-                          } 
-                        }  
+TargetpResult <- setClass(
+  "TargetpResult",
+  contains = "CBSResult",
+  slots = list(tp_tibble = "tbl_df"),
+  
+  validity = function(object) {
+    # check that there are o duplicated ids in the input
+    # and output fastas and tm_tibble
+    if (nrow(object@tp_tibble) > 0) {
+      if (any(duplicated(object@tp_tibble$gene_id))) {
+        return("Duplicated gene ids in sp_tibble! ")
+      }
+    }
+  }
 )
 
 #' Accessors for TargetpResult objects
