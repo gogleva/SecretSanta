@@ -15,11 +15,11 @@ $PATH variable;\cr
 if \strong{FALSE} you should supply path_file.}
 
 \item{test_mode}{if \strong{all} - all the external dependencies will be
- checked;\cr
+               checked;\cr
 alternatively specify a tool name to be checked.}
 
-\item{path_file}{full paths to external dependencies in a 2-column
-space-separated text file;\cr
+\item{path_file}{full paths to external dependencies in a
+2-column space-separated text file;\cr
 for multiple versions of signalp please use 'signalpV'notation, where V is a
 version number;\cr
 \cr
@@ -28,14 +28,14 @@ version number;\cr
 }
 \value{
 a list of length 3 with the following elements:
-\itemize{ 
+\itemize{
 \item \strong{tests}    TRUE if all the exteranl dependencies are working;
-\item \strong{in_path}  TRUE if the dependecies are acessible via $PATH; 
+\item \strong{in_path}    TRUE if the dependecies are acessible via $PATH;
 FALSE - if paths are provided with the path_file argument;
 \item \strong{path_tibble} a tibble with verified names and paths for
-external dependencies; \cr 
+external dependencies; \cr
 NA if in_path is TRUE;\cr
-if a specific tool is tested, a singualr path will be returned. 
+if a specific tool is tested, a singualr path will be returned.
 }
 }
 \description{
@@ -45,47 +45,31 @@ runs. \cr
 \cr
 All the external dependencies can be made accessible via $PATH environment
 variable; alternatively a text file the with full paths to all the external
-dependencies should be provided. 
+dependencies should be provided.
 \cr
 \cr
-Required external dependencies are available for academic users and could be
-downloaded from the locations listed below:
-\itemize{
-\item WoLFPSORT - \url{https://github.com/fmaguire/WoLFPSort.git}
-\item signalp2  - \url{http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+2.0}
-\item signalp3  - \url{http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+3.0}
-\item signalp4  - \url{http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?signalp}
-\item TMHMM     - \url{http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?tmhmm}
-\item targetP   - \url{http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?targetp}
-}
 For the instalation instructions please see SecretSanta vignette.
 }
 \examples{
-# Example1: 
+# Example1:
 # here we assume that paths to all the
 # external dependencies are attached to
 # the $PATH variable:
 
-manage_paths(in_path = TRUE,
-             test_mode = 'all')
-             
+manage_paths(in_path = TRUE, test_mode = 'all')
+
 # to test just a single tool:
-manage_paths(in_path = TRUE,
-             test_mode = 'signalp2')     
+manage_paths(in_path = TRUE, test_mode = 'signalp2')
 
 # Example2:
 # alternatively, we are in a situation
-# when changing $PATH is not possible, 
+# when changing $PATH is not possible,
 # so we supply a file with listed full
 # paths to the external dependencies:
 
 manage_paths(in_path = FALSE,
-             test_mode = 'all',
-             path_file = system.file(
-                         "extdata",
-                         "sample_paths",
-                          package =
-                          "SecretSanta")
-                          )
-                                         
+test_mode = 'all',
+path_file = system.file("extdata",
+             "sample_paths",
+             package = "SecretSanta"))
 }

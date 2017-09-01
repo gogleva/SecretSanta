@@ -24,26 +24,22 @@ the provided amino acid equences.
 # before running signalp or any other
 # predictions:
 aa <- readAAStringSet(system.file("extdata",
-                                  "sample_prot_100.fasta",
-                                   package = "SecretSanta"))
+    "sample_prot_100.fasta",                                                                   
+     package = "SecretSanta"))
 inp <- SignalpResult(in_fasta = aa[1:10])
 et_s <- check_khdel(inp,
-                    run_mode = 'starter')
+    run_mode = 'starter')
 
 # generate signalp predictions:
-step1_sp2 <- signalp(et_s,
-                     version = 4,
-                     organism = 'euk',
-                     run_mode = 'starter')
+step1_sp2 <- signalp(et_s, version = 4, organism = 'euk', 
+    run_mode = 'starter')
 # check ER retention signal in the signalp output, 
 # 'starter' mode 
 # (will process the in_fasta slot)
-et_sp <- check_khdel(step1_sp2,
-                     run_mode = 'starter')
+et_sp <- check_khdel(step1_sp2, run_mode = 'starter')
 
 # check ER retention signal in the signalp output,
 # 'piper' mode:
 # (will process the out_fasta slot)
-et_piper <- check_khdel(step1_sp2,
-                        run_mode = 'piper')
+et_piper <- check_khdel(step1_sp2, run_mode = 'piper')
 }
