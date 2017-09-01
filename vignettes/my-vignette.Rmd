@@ -230,126 +230,144 @@ Currently ```signalp``` function from SecretSanta provides an interface for the 
 - **signalp-3.0** [@Bendtsen2004]
 - **signalp-4.0** [@Petersen2011]
 
-``signalp`` requires specifying ``organism_type`` parameter; possible values include:
-
+``signalp`` requires specifying ``organism`` parameter; possible values include:
 - 'euk' - for eukaryotes;
 - 'gram+' - for gram-positive bacteria;
 - 'gram-' - for gram-negative bacteria.
 
-<!-- To run signalp prediction, first read fasta file with amino acid sequences and store it's contents in a separate variable: -->
-<!-- ```{r read aa fasta, } -->
-<!-- aa <- readAAStringSet(system.file("extdata", -->
-<!--                                   "sample_prot_100.fasta", -->
-<!--                                   package = "SecretSanta")) -->
-<!-- ``` -->
-<!-- Initialise object of CBSResult class with ```aa``` as ```in_fasta``` attribute. -->
-<!-- ```{r initialise CBSResult, cache=FALSE} -->
-<!-- inp <- CBSResult(in_fasta = aa) -->
-<!-- ``` -->
-<!-- Since this is the first step in our secretome prediction pipeline, we will run ```signalp``` in a *starter* mode. Here we select version number 2 (**signalp-2.0**) and specify ```santa_path``` object generated earlier as a path container for external dependencies: -->
+To run signalp prediction, first read fasta file with amino acid sequences and store it's contents in a separate variable:
+```{r read aa fasta, }
+aa <- readAAStringSet(system.file("extdata",
+                                  "sample_prot_100.fasta",
+                                  package = "SecretSanta"))
+```
+Initialise object of CBSResult class with ```aa``` as ```in_fasta``` attribute.
+```{r initialise CBSResult, cache=FALSE}
+inp <- CBSResult(in_fasta = aa)
+```
+Since this is the first step in our secretome prediction pipeline, we will run ```signalp``` in a *starter* mode. Here we select version number 2
+(**signalp-2.0**) and assume that signalp is accessible globally, so no path 
+files should be specified.
 
-<!-- ```{r run signalp2,  collapse = TRUE, } -->
-<!-- step1_sp2 <- signalp(inp, -->
-<!--                      version = 2, -->
-<!--                      organism_type = 'euk', -->
-<!--                      run_mode = "starter", -->
-<!--                      paths = santa_paths) -->
+```{r run signalp2,  collapse = TRUE, }
+step1_sp2 <- signalp(inp,
+                     version = 2,
+                     organism = 'euk',
+                     run_mode = "starter")
+```
 
-<!-- ``` -->
+The above code under the hood will run **signalp-2.0** prediction and output
+result as an instance of ```SignalpResult``` class, which is belongs to a more 
+genric ``CBSResult()`` superclass.
 
-<!-- The above code under the hood will run **signalp-2.0** prediction and output result as an instance of ```SignalpResult``` class, which is belongs to a more genric ``CBSResult()`` superclass. -->
+```{r explain SignalpResult class}
+class(step1_sp2)
+slotNames(step1_sp2)
+```
 
-<!-- ```{r explain SignalpResult class} -->
-<!-- class(step1_sp2) -->
-<!-- slotNames(step1_sp2) -->
-<!-- ``` -->
+```SignalpResult``` object contains 5 slots:
 
-<!-- ```SignalpResult``` object contains 5 slots: -->
++ ``in_fasta`` - original set of input amino acid sequences;
 
-<!-- + ``in_fasta`` - original set of input amino acid sequences; -->
++ ``sp_tibble`` - parsed **signalp** tabular output for positive candidates;
 
-<!-- + ``sp_tibble`` - parsed **signalp** tabular output for positive candidates; -->
++ ``out_fasta`` - full length amino acid sequences of positive candidates;
 
-<!-- + ``out_fasta`` - full length amino acid sequences of positive candidates; -->
++ ``mature_fasta`` - mature sequence for the candidate secreted proteins, i.e 
+sequences with removed N-terminal signal peptides;
 
-<!-- + ``mature_fasta`` - mature sequence for the candidate secreted proteins, i.e sequences with removed N-terminal signal peptides; -->
++ ``sp_version`` - version of **signalp** used.
 
-<!-- + ``sp_version`` - version of **signalp** used. -->
+You can use accessor methods to access contents of individual slots:
 
-<!-- You can use accessor methods to access contents of individual slots: -->
+```{r get input fasta}
+getInfasta(step1_sp2)
+```
+Please note, that by default ``signlap`` truncates all the input sequnces longer
+than 2000 a.a, in this case '_truncated' is added to the original sequence ids
+to keep track of the changes. Alternative option - is discard long sequences
+completely before the analysis, to do so set ``truncate = FALSE`` when running ``signalp``.
 
-<!-- ```{r get input fasta} -->
-<!-- getInfasta(step1_sp2) -->
-<!-- ``` -->
-<!-- Please note, that by default ``signlap`` truncates all the input sequnces longer than 2000 a.a, in this case '_truncated' is added to the original sequence ids to keep track of the changes. Alternative option - is discard long sequences completely before the analysis, to do so set ``truncate = FALSE`` when running ``signalp``. -->
+```{r showcase all other accessors for SignalpResult object}
+getSPtibble(step1_sp2)
+getOutfasta(step1_sp2)
+getMatfasta(step1_sp2)
+getSPversion(step1_sp2)
+```
 
-<!-- ```{r showcase all other accessors for SignalpResult object} -->
-<!-- getSPtibble(step1_sp2) -->
-<!-- getOutfasta(step1_sp2) -->
-<!-- getMatfasta(step1_sp2) -->
-<!-- getSPversion(step1_sp2) -->
-<!-- ``` -->
+Next, imaging we would like to run all the **signalp** version on the same input
+for comparison. To do so, simply change ``version`` parameter:
 
-<!-- Next, imaging we would like to run all the **signalp** version on the same input for comparison. To do so, simply change ``version`` parameter: -->
+```{r run signalp3 and 4, collapse = TRUE, }
+step1_sp3 <- signalp(inp,
+                     version = 3,
+                     organism = 'euk',
+                     run_mode = "starter")
+step1_sp4 <- signalp(inp,
+                     version = 4,
+                     organism = 'euk',
+                     run_mode = "starter")
+```
+In this case ``signalp-4.1`` version resulted in fewer number of candidates. 
+Please note, taht despite differences in the output format generated by multiple 
+versions of **signalp**, ``signalp`` returns ``sp_tibble`` in a standard format.
 
-<!-- ```{r run signalp3 and 4, collapse = TRUE, } -->
-<!-- step1_sp3 <- signalp(inp, -->
-<!--                      version = 3, -->
-<!--                      organism_type = 'euk', -->
-<!--                      run_mode = "starter", -->
-<!--                      paths = santa_paths) -->
+In order to pipe result from differenr versions of **signalp** just switch to the ``run_mode = 'piper'`` for the second and other downstream steps. In this case
+``signalp`` will run the anlysis using contents of ``out_fasta`` slot as an input.
+Say, we want to do the following piping: **signalp2** -> **signalp3** -> **signalp4**.
+We will re-use ``step1_sp2`` object generated earlier in the ``starter`` mode
+and use it as an input for the next step:
 
-<!-- step1_sp4 <- signalp(inp, -->
-<!--                      version = 4, -->
-<!--                      organism_type = 'euk', -->
-<!--                      run_mode = "starter", -->
-<!--                      paths = santa_paths) -->
+```{r signalp piper sp2->sp3, collapse = TRUE}
+step2_sp3 <- signalp(step1_sp2,
+                     version = 3,
+                     organism = 'euk',
+                     run_mode = "piper")
+```
 
-<!-- ``` -->
-<!-- In this case ``signalp-4.1`` version resulted in fewer number of candidates. Please note, taht despite differences in the output format generated by multiple versions of **signalp**, ``signalp`` returns ``sp_tibble`` in a standard format. -->
+Similar with the **signalp3** -> **signalp4** pipig:
 
-<!-- In order to pipe result from differenr versions of **signalp** just switch to the ``run_mode = 'piper'`` for the second and other downstream steps. In this case ``signalp`` will run the anlysis using contents of ``out_fasta`` slot as an input. Say, we want to do the following piping: **signalp2** -> **signalp3** -> **signalp4**. We will re-use ``step1_sp2`` object generated earlier in the ``starter`` mode and use it as an input for the next step: -->
+```{r signalp piper sp3 -> sp4, collapse = TRUE}
+step3_sp4 <- signalp(step2_sp3,
+                     version = 4,
+                     organism = 'euk',
+                     run_mode = "piper")
+```
 
-<!-- ```{r signalp piper sp2->sp3, collapse = TRUE} -->
-<!-- step2_sp3 <- signalp(step1_sp2, -->
-<!--                      version = 3, -->
-<!--                      organism_type = 'euk', -->
-<!--                      run_mode = "piper", -->
-<!--                      paths = santa_paths) -->
-<!-- ``` -->
+With the input fasta files containig more than 1000 sequences,``signalp`` will automatically switch parallel mode: will split the input into smaller chunks and
+will run prediction as an embarassingly parallel proces using all the CPUs
+available. Accurate execution time depend on the number if CPUs available and 
+the input file size. With 48 CPUs it takes ~2 minutes to run ``signalp`` on the
+input fasta file with more than 40'000 seqeunces.
 
-<!-- Similar with the **signalp3** -> **signalp4** pipig: -->
+## TMHMM
+**TMHMM** predicts transmembrane a-helixes and helps to identify integral
+membrane proteins based on HMMs [@Krogh2001; Sonnhammer1998]. It is important to 
+exclude proteins with trans membrane domains locates after signal peptide, as
+they will be retained in the membrane. Quite often **TMHMM** is not able to
+distinguish between N-terminal signal peptides and transmembrane domain. So, it
+is better to run it on the mature sequences with signal peptides removed.
+``tmhmm`` function can handle input objects of SignalpResult class with non-empty ```mature_fasta``` slot (see starters and pipers table for allowed inputs).
 
-<!-- ```{r signalp piper sp3 -> sp4, collapse = TRUE} -->
-<!-- step3_sp4 <- signalp(step2_sp3, -->
-<!--                      version = 4, -->
-<!--                      organism_type = 'euk', -->
-<!--                      run_mode = "piper", -->
-<!--                      paths = santa_paths) -->
-<!-- ``` -->
+Here we will use output of the ``signalp`` function as an iput:
 
-<!-- With the input fasta files containig more than 1000 sequences,``signalp`` will automatically switch parallel mode: will split the input into smaller chunks and will run prediction as an embarassingly parallel proces using all the CPUs available. Accurate execution time depend on the number if CPUs available and the input file size. With 48 CPUs it takes ~2 minutes to run ``signalp`` on the input fasta file with more than 40'000 seqeunces. -->
+```{r tmhmm legal, collapse=TRUE, cache=FALSE}
+tm <- tmhmm(step1_sp2, TM = 0)
+```
+Attempts to run ``tmhmm`` on the ``CBSResult`` object lacking ``mature_fasta`` 
+slot will result in an error:
 
-<!-- ## TMHMM -->
-<!-- **TMHMM** predicts transmembrane a-helixes and helps to identify integral membrane proteins based on HMMs [@Krogh2001; Sonnhammer1998]. It is important to exclude proteins with trans membrane domains locates after signal peptide, as they will be retained in the membrane. Quite often **TMHMM** is not able to distinguish between N-terminal signal peptides and transmembrane domain. So, it is better to run it on the mature sequences with signal peptides removed. ``tmhmm`` function can handle input objects of SignalpResult class with non-empty ```mature_fasta``` slot (see starters and pipers table for allowed inputs). -->
+```{r tmhmm illegal, collapse=TRUE, error=TRUE}
+tm2 <- tmhmm(inp, TM = 0)
 
-<!-- Here we will use output of the ``signalp`` function as an iput: -->
+```
+``tmhmm`` outputs insatces of ``TMhmmResult`` class, againg ineriting from 
+``CBSResult``.
 
-<!-- ```{r tmhmm legal, collapse=TRUE, cache=FALSE} -->
-<!-- tm <- tmhmm(step1_sp2, paths = santa_paths, TM = 0) -->
-<!-- ``` -->
-<!-- Attempts to run ``tmhmm`` on the ``CBSResult`` object lacking ``mature_fasta`` slot will result in an error: -->
-
-<!-- ```{r tmhmm illegal, collapse=TRUE, error=TRUE} -->
-<!-- tm2 <- tmhmm(inp, paths = santa_paths, TM = 0) -->
-
-<!-- ``` -->
-<!-- ``tmhmm`` outputs insatces of ``TMhmmResult`` class, againg ineriting from ``CBSResult``. -->
-
-<!-- ```{r explain TMhmmResult class} -->
-<!-- class(tm) -->
-<!-- slotNames(tm) -->
-<!-- ``` -->
+```{r explain TMhmmResult class}
+class(tm)
+slotNames(tm)
+```
 
 <!-- ``TMhmmResult`` object contains 5 slots: -->
 

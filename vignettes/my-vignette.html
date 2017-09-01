@@ -12,7 +12,7 @@
 
 <meta name="author" content="Anna Gogleva" />
 
-<meta name="date" content="2017-08-31" />
+<meta name="date" content="2017-09-01" />
 
 <title>SecretSanta: flexible pipelines for automated prediction of secreted proteins.</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">SecretSanta: flexible pipelines for automated prediction of secreted proteins.</h1>
 <h4 class="author"><em>Anna Gogleva</em></h4>
-<h4 class="date"><em>2017-08-31</em></h4>
+<h4 class="date"><em>2017-09-01</em></h4>
 
 
 
@@ -287,87 +287,149 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## targetp run completed
 ## wolfpsort run completed</code></pre></div>
 <p>Note, that <code>manage_paths</code> is case insensitive and will convert all the tool names to the lower case.</p>
-<!-- ## Signalp -->
-<!-- **signalp** is a softaware tool to predict classical signal peptides and cleavage sites [@Nielsen1997] in eukaryotes and bacteria. The method combines prediction of signal peptides and cleavage cites based on a combination of artificial neural networks as well as hidden Markov models. The latter allows to distinguish between signal peptides and non-cleaved signal anchors. -->
-<!-- Currently ```signalp``` function from SecretSanta provides an interface for the three recent versions of  **signalp**. The reason behind this is that **signalp-4** and **signalp-4.1** are not sensitive enough to predict certain classes of secreted oomycete and fungal effectors [@Sperschneider2015]. Thus, providing acces to the older versions provide greater flexibility for building versatile prediction pipelines for a wider taxonomic range of species. -->
-<!-- - **signalp-2.0** [@Nielsen1998] -->
-<!-- - **signalp-3.0** [@Bendtsen2004] -->
-<!-- - **signalp-4.0** [@Petersen2011] -->
-<!-- ``signalp`` requires specifying ``organism_type`` parameter; possible values include: -->
-<!-- - 'euk' - for eukaryotes; -->
-<!-- - 'gram+' - for gram-positive bacteria; -->
-<!-- - 'gram-' - for gram-negative bacteria. -->
-<!-- To run signalp prediction, first read fasta file with amino acid sequences and store it's contents in a separate variable: -->
-<!-- ```{r read aa fasta, } -->
-<!-- aa <- readAAStringSet(system.file("extdata", -->
-<!--                                   "sample_prot_100.fasta", -->
-<!--                                   package = "SecretSanta")) -->
-<!-- ``` -->
-<!-- Initialise object of CBSResult class with ```aa``` as ```in_fasta``` attribute. -->
-<!-- ```{r initialise CBSResult, cache=FALSE} -->
-<!-- inp <- CBSResult(in_fasta = aa) -->
-<!-- ``` -->
-<!-- Since this is the first step in our secretome prediction pipeline, we will run ```signalp``` in a *starter* mode. Here we select version number 2 (**signalp-2.0**) and specify ```santa_path``` object generated earlier as a path container for external dependencies: -->
-<!-- ```{r run signalp2,  collapse = TRUE, } -->
-<!-- step1_sp2 <- signalp(inp, -->
-<!--                      version = 2, -->
-<!--                      organism_type = 'euk', -->
-<!--                      run_mode = "starter", -->
-<!--                      paths = santa_paths) -->
-<!-- ``` -->
-<!-- The above code under the hood will run **signalp-2.0** prediction and output result as an instance of ```SignalpResult``` class, which is belongs to a more genric ``CBSResult()`` superclass. -->
-<!-- ```{r explain SignalpResult class} -->
-<!-- class(step1_sp2) -->
-<!-- slotNames(step1_sp2) -->
-<!-- ``` -->
-<!-- ```SignalpResult``` object contains 5 slots: -->
-<!-- + ``in_fasta`` - original set of input amino acid sequences; -->
-<!-- + ``sp_tibble`` - parsed **signalp** tabular output for positive candidates; -->
-<!-- + ``out_fasta`` - full length amino acid sequences of positive candidates; -->
-<!-- + ``mature_fasta`` - mature sequence for the candidate secreted proteins, i.e sequences with removed N-terminal signal peptides; -->
-<!-- + ``sp_version`` - version of **signalp** used. -->
-<!-- You can use accessor methods to access contents of individual slots: -->
-<!-- ```{r get input fasta} -->
-<!-- getInfasta(step1_sp2) -->
-<!-- ``` -->
-<!-- Please note, that by default ``signlap`` truncates all the input sequnces longer than 2000 a.a, in this case '_truncated' is added to the original sequence ids to keep track of the changes. Alternative option - is discard long sequences completely before the analysis, to do so set ``truncate = FALSE`` when running ``signalp``. -->
-<!-- ```{r showcase all other accessors for SignalpResult object} -->
-<!-- getSPtibble(step1_sp2) -->
-<!-- getOutfasta(step1_sp2) -->
-<!-- getMatfasta(step1_sp2) -->
-<!-- getSPversion(step1_sp2) -->
-<!-- ``` -->
-<!-- Next, imaging we would like to run all the **signalp** version on the same input for comparison. To do so, simply change ``version`` parameter: -->
-<!-- ```{r run signalp3 and 4, collapse = TRUE, } -->
-<!-- step1_sp3 <- signalp(inp, -->
-<!--                      version = 3, -->
-<!--                      organism_type = 'euk', -->
-<!--                      run_mode = "starter", -->
-<!--                      paths = santa_paths) -->
-<!-- step1_sp4 <- signalp(inp, -->
-<!--                      version = 4, -->
-<!--                      organism_type = 'euk', -->
-<!--                      run_mode = "starter", -->
-<!--                      paths = santa_paths) -->
-<!-- ``` -->
-<!-- In this case ``signalp-4.1`` version resulted in fewer number of candidates. Please note, taht despite differences in the output format generated by multiple versions of **signalp**, ``signalp`` returns ``sp_tibble`` in a standard format. -->
-<!-- In order to pipe result from differenr versions of **signalp** just switch to the ``run_mode = 'piper'`` for the second and other downstream steps. In this case ``signalp`` will run the anlysis using contents of ``out_fasta`` slot as an input. Say, we want to do the following piping: **signalp2** -> **signalp3** -> **signalp4**. We will re-use ``step1_sp2`` object generated earlier in the ``starter`` mode and use it as an input for the next step: -->
-<!-- ```{r signalp piper sp2->sp3, collapse = TRUE} -->
-<!-- step2_sp3 <- signalp(step1_sp2, -->
-<!--                      version = 3, -->
-<!--                      organism_type = 'euk', -->
-<!--                      run_mode = "piper", -->
-<!--                      paths = santa_paths) -->
-<!-- ``` -->
-<!-- Similar with the **signalp3** -> **signalp4** pipig: -->
-<!-- ```{r signalp piper sp3 -> sp4, collapse = TRUE} -->
-<!-- step3_sp4 <- signalp(step2_sp3, -->
-<!--                      version = 4, -->
-<!--                      organism_type = 'euk', -->
-<!--                      run_mode = "piper", -->
-<!--                      paths = santa_paths) -->
-<!-- ``` -->
-<!-- With the input fasta files containig more than 1000 sequences,``signalp`` will automatically switch parallel mode: will split the input into smaller chunks and will run prediction as an embarassingly parallel proces using all the CPUs available. Accurate execution time depend on the number if CPUs available and the input file size. With 48 CPUs it takes ~2 minutes to run ``signalp`` on the input fasta file with more than 40'000 seqeunces. -->
+</div>
+</div>
+<div id="signalp" class="section level2">
+<h2>Signalp</h2>
+<p><strong>signalp</strong> is a softaware tool to predict classical signal peptides and cleavage sites <span class="citation">(Henrik Nielsen and Heijne 1997)</span> in eukaryotes and bacteria. The method combines prediction of signal peptides and cleavage cites based on a combination of artificial neural networks as well as hidden Markov models. The latter allows to distinguish between signal peptides and non-cleaved signal anchors.</p>
+<p>Currently <code>signalp</code> function from SecretSanta provides an interface for the three recent versions of <strong>signalp</strong>. The reason behind this is that <strong>signalp-4</strong> and <strong>signalp-4.1</strong> are not sensitive enough to predict certain classes of secreted oomycete and fungal effectors <span class="citation">(Sperschneider J 2015)</span>. Thus, providing acces to the older versions provide greater flexibility for building versatile prediction pipelines for a wider taxonomic range of species.</p>
+<ul>
+<li><strong>signalp-2.0</strong> <span class="citation">(Nielsen and Krogh 1998)</span></li>
+<li><strong>signalp-3.0</strong> <span class="citation">(Dyrl�v Bendtsen and Brunak 2004)</span></li>
+<li><strong>signalp-4.0</strong> <span class="citation">(Thomas Nordahl Petersen and Nielsen. 2011)</span></li>
+</ul>
+<p><code>signalp</code> requires specifying <code>organism</code> parameter; possible values include: - ‘euk’ - for eukaryotes; - ‘gram+’ - for gram-positive bacteria; - ‘gram-’ - for gram-negative bacteria.</p>
+<p>To run signalp prediction, first read fasta file with amino acid sequences and store it’s contents in a separate variable:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">aa &lt;-<span class="st"> </span><span class="kw">readAAStringSet</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>,
+                                  <span class="st">&quot;sample_prot_100.fasta&quot;</span>,
+                                  <span class="dt">package =</span> <span class="st">&quot;SecretSanta&quot;</span>))</code></pre></div>
+<p>Initialise object of CBSResult class with <code>aa</code> as <code>in_fasta</code> attribute.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">inp &lt;-<span class="st"> </span><span class="kw">CBSResult</span>(<span class="dt">in_fasta =</span> aa)</code></pre></div>
+<p>Since this is the first step in our secretome prediction pipeline, we will run <code>signalp</code> in a <em>starter</em> mode. Here we select version number 2 (<strong>signalp-2.0</strong>) and assume that signalp is accessible globally, so no path files should be specified.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">step1_sp2 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
+                     <span class="dt">version =</span> <span class="dv">2</span>,
+                     <span class="dt">organism =</span> <span class="st">'euk'</span>,
+                     <span class="dt">run_mode =</span> <span class="st">&quot;starter&quot;</span>)
+## Version used... signalp2
+## running signalp locally...
+## 2 sequences to be truncated
+## Ok for single processing
+## Submitted sequences... 100
+## signalp &lt; 4, calling parser for the output...
+## Candidate sequences with signal peptides... 8</code></pre></div>
+<p>The above code under the hood will run <strong>signalp-2.0</strong> prediction and output result as an instance of <code>SignalpResult</code> class, which is belongs to a more genric <code>CBSResult()</code> superclass.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(step1_sp2)</code></pre></div>
+<pre><code>## [1] &quot;SignalpResult&quot;
+## attr(,&quot;package&quot;)
+## [1] &quot;SecretSanta&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">slotNames</span>(step1_sp2)</code></pre></div>
+<pre><code>## [1] &quot;mature_fasta&quot; &quot;sp_version&quot;   &quot;sp_tibble&quot;    &quot;in_fasta&quot;    
+## [5] &quot;out_fasta&quot;</code></pre>
+<p><code>SignalpResult</code> object contains 5 slots:</p>
+<ul>
+<li><p><code>in_fasta</code> - original set of input amino acid sequences;</p></li>
+<li><p><code>sp_tibble</code> - parsed <strong>signalp</strong> tabular output for positive candidates;</p></li>
+<li><p><code>out_fasta</code> - full length amino acid sequences of positive candidates;</p></li>
+<li><p><code>mature_fasta</code> - mature sequence for the candidate secreted proteins, i.e sequences with removed N-terminal signal peptides;</p></li>
+<li><p><code>sp_version</code> - version of <strong>signalp</strong> used.</p></li>
+</ul>
+<p>You can use accessor methods to access contents of individual slots:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getInfasta</span>(step1_sp2)</code></pre></div>
+<pre><code>##   A AAStringSet instance of length 100
+##       width seq                                        names               
+##   [1]   168 MRLPEAHHWDAAARSESKSL...IWYLPLFAFLKTMKFCKLI ALI_PLTG_61
+##   [2]   962 MADLQESLLAKVDAEKAVDT...TAQKMESVDECIELLELGP ALI_PLTG_94
+##   [3]   454 MLYVKLSKCVFCAEEFPCLG...DRLTKRSHVIATTKKVSAP ALI_PLTG_68
+##   [4]   430 MKASYKETISPIPKSDQKAS...RRLMGLLKERAFFPLSEFG ALI_PLTG_78
+##   [5]   174 MDALRESEDLRIHSPTESSS...LRTRIEMSFGLLANNGRFI ALI_PLTG_30
+##   ...   ... ...
+##  [96]  1999 MAGLGICGEPLVSGITSDLS...EKMELVEKLESQVASTENT ALI_PLTG_9_truncated
+##  [97]  1327 MGDARIVLTTLISEKLLAPG...HPGMDQPDNNDVDMSDWGQ ALI_PLTG_12
+##  [98]   411 MSTDIQTTQPHKKASSRRHQ...KDGLEKFCKGECPDICNKS ALI_PLTG_87
+##  [99]   251 MVLLPFWSRAKRLRQWLLGA...ETCVIAVYDPSIRSVHNIC ALI_PLTG_84
+## [100]   168 MAPATDVKVKLVSMDGEAFE...FTEEEQQRILEENKWCEDV ALI_PLTG_14</code></pre>
+<p>Please note, that by default <code>signlap</code> truncates all the input sequnces longer than 2000 a.a, in this case ’_truncated’ is added to the original sequence ids to keep track of the changes. Alternative option - is discard long sequences completely before the analysis, to do so set <code>truncate = FALSE</code> when running <code>signalp</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getSPtibble</span>(step1_sp2)</code></pre></div>
+<pre><code>## # A tibble: 8 x 9
+##       gene_id  Cmax  Cpos  Ymax  Ypos  Smax  Spos  Smean     Prediction
+##        &lt;fctr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fctr&gt;         &lt;fctr&gt;
+## 1 ALI_PLTG_38 0.572    20 0.696    20 0.994     9  0.954 Signal peptide
+## 2 ALI_PLTG_81 0.305    33 0.388    33 0.826    25  0.471 Signal peptide
+## 3 ALI_PLTG_23 0.641    22 0.683    22 0.969     8  0.803 Signal peptide
+## 4 ALI_PLTG_59 0.210    17 0.288    19 0.948     1  0.666 Signal peptide
+## 5  ALI_PLTG_5 1.000    25 0.687    25 0.906     3  0.637 Signal peptide
+## 6 ALI_PLTG_72 0.887    22 0.804    22 0.986     8  0.805 Signal peptide
+## 7 ALI_PLTG_73 0.489    22 0.316    22 0.927     3  0.721 Signal peptide
+## 8 ALI_PLTG_83 0.393    34 0.506    20 0.956    13  0.846 Signal peptide</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getOutfasta</span>(step1_sp2)</code></pre></div>
+<pre><code>##   A AAStringSet instance of length 8
+##     width seq                                          names               
+## [1]   495 MVVRVLLVVLALLAVGVQSKA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
+## [2]   133 MNFLKSKKTSTQATLLVSPLI...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [3]   653 MKIVALVTFCIATLDSSIVFA...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
+## [4]   125 MLMSTPAALMLRLAQSSLKPT...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
+## [5]   210 MKLSSVCTIIFGLVFIDFNNV...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [6]   118 MRLKFSILIFGAVLLATTTNA...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
+## [7]   154 MYLKFAFMATVATAVVNIAIG...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
+## [8]   164 MVSTSRVFALLLLPSPSARIF...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getMatfasta</span>(step1_sp2)</code></pre></div>
+<pre><code>##   A AAStringSet instance of length 8
+##     width seq                                          names               
+## [1]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
+## [2]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [3]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
+## [4]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
+## [5]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [6]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
+## [7]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
+## [8]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getSPversion</span>(step1_sp2)</code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<p>Next, imaging we would like to run all the <strong>signalp</strong> version on the same input for comparison. To do so, simply change <code>version</code> parameter:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">step1_sp3 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
+                     <span class="dt">version =</span> <span class="dv">3</span>,
+                     <span class="dt">organism =</span> <span class="st">'euk'</span>,
+                     <span class="dt">run_mode =</span> <span class="st">&quot;starter&quot;</span>)
+## Version used... signalp3
+## running signalp locally...
+## 2 sequences to be truncated
+## Ok for single processing
+## Submitted sequences... 100
+## signalp &lt; 4, calling parser for the output...
+## Candidate sequences with signal peptides... 8
+step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
+                     <span class="dt">version =</span> <span class="dv">4</span>,
+                     <span class="dt">organism =</span> <span class="st">'euk'</span>,
+                     <span class="dt">run_mode =</span> <span class="st">&quot;starter&quot;</span>)
+## Version used... signalp4
+## running signalp locally...
+## 2 sequences to be truncated
+## Ok for single processing
+## Submitted sequences... 100
+## Candidate sequences with signal peptides... 5</code></pre></div>
+<p>In this case <code>signalp-4.1</code> version resulted in fewer number of candidates. Please note, taht despite differences in the output format generated by multiple versions of <strong>signalp</strong>, <code>signalp</code> returns <code>sp_tibble</code> in a standard format.</p>
+<p>In order to pipe result from differenr versions of <strong>signalp</strong> just switch to the <code>run_mode = 'piper'</code> for the second and other downstream steps. In this case <code>signalp</code> will run the anlysis using contents of <code>out_fasta</code> slot as an input. Say, we want to do the following piping: <strong>signalp2</strong> -&gt; <strong>signalp3</strong> -&gt; <strong>signalp4</strong>. We will re-use <code>step1_sp2</code> object generated earlier in the <code>starter</code> mode and use it as an input for the next step:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">step2_sp3 &lt;-<span class="st"> </span><span class="kw">signalp</span>(step1_sp2,
+                     <span class="dt">version =</span> <span class="dv">3</span>,
+                     <span class="dt">organism =</span> <span class="st">'euk'</span>,
+                     <span class="dt">run_mode =</span> <span class="st">&quot;piper&quot;</span>)
+## Version used... signalp3
+## running signalp locally...
+## Ok for single processing
+## Submitted sequences... 8
+## signalp &lt; 4, calling parser for the output...
+## Candidate sequences with signal peptides... 8</code></pre></div>
+<p>Similar with the <strong>signalp3</strong> -&gt; <strong>signalp4</strong> pipig:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">step3_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(step2_sp3,
+                     <span class="dt">version =</span> <span class="dv">4</span>,
+                     <span class="dt">organism =</span> <span class="st">'euk'</span>,
+                     <span class="dt">run_mode =</span> <span class="st">&quot;piper&quot;</span>)
+## Version used... signalp4
+## running signalp locally...
+## Ok for single processing
+## Submitted sequences... 8
+## Candidate sequences with signal peptides... 5</code></pre></div>
+<p>With the input fasta files containig more than 1000 sequences,<code>signalp</code> will automatically switch parallel mode: will split the input into smaller chunks and will run prediction as an embarassingly parallel proces using all the CPUs available. Accurate execution time depend on the number if CPUs available and the input file size. With 48 CPUs it takes ~2 minutes to run <code>signalp</code> on the input fasta file with more than 40’000 seqeunces.</p>
 <!-- ## TMHMM -->
 <!-- **TMHMM** predicts transmembrane a-helixes and helps to identify integral membrane proteins based on HMMs [@Krogh2001; Sonnhammer1998]. It is important to exclude proteins with trans membrane domains locates after signal peptide, as they will be retained in the membrane. Quite often **TMHMM** is not able to distinguish between N-terminal signal peptides and transmembrane domain. So, it is better to run it on the mature sequences with signal peptides removed. ``tmhmm`` function can handle input objects of SignalpResult class with non-empty ```mature_fasta``` slot (see starters and pipers table for allowed inputs). -->
 <!-- Here we will use output of the ``signalp`` function as an iput: -->
@@ -571,6 +633,22 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <!-- knitr::include_graphics("pipes_small.png") -->
 <!-- ``` -->
 <!-- ### References -->
+<div id="refs" class="references">
+<div id="ref-Bendtsen2004">
+<p>Dyrl�v Bendtsen, Gunnar von Heijne annick, Henrik Nielsen, and S�ren Brunak. 2004. “Improved Prediction of Signal Peptides: SignalP 3.0.” <em>J. Mol. Biol.</em>, no. 340: 783–95.</p>
+</div>
+<div id="ref-Nielsen1997">
+<p>Henrik Nielsen, S�ren Brunak, Jacob Engelbrecht, and Gunnar von Heijne. 1997. “Identification of Prokaryotic and Eukaryotic Signal Peptides and Prediction of Their Cleavage Sites.” <em>Protein Engineering</em> 10: 1–6.</p>
+</div>
+<div id="ref-Nielsen1998">
+<p>Nielsen, Henrik, and Anders Krogh. 1998. “Prediction of Signal Peptides and Signal Anchors by a Hidden Markov Model.” <em>Proceedings of the Sixth International Conference on Intelligent Systems for Molecular Biology (ISMB 6)</em>, 122–30.</p>
+</div>
+<div id="ref-Sperschneider2015">
+<p>Sperschneider J, Hane JK, Williams AH. 2015. “Evaluation of Secretion Prediction Highlights Differing Approaches Needed for Oomycete and Fungal Effectors.” <em>Front Plant Sci</em>, no. 6: 1168.</p>
+</div>
+<div id="ref-Petersen2011">
+<p>Thomas Nordahl Petersen, Gunnar von Heijne, Soren Brunak, and Henrik Nielsen. 2011. “SignalP 4.0: Discriminating Signal Peptides from Transmembrane Regions.” <em>Nature Methods</em> 8 (10): 785–86.</p>
+</div>
 </div>
 </div>
 
