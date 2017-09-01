@@ -54,50 +54,25 @@ split_XStringSet <- function(string_set, chunk_size) {
 #' @export
 #' @return SignalpResult object
 #' @examples 
-#' my_pa <- manage_paths(system.file(
-#'                       "extdata",
-#'                       "sample_paths",
-#'                       package = "SecretSanta"
-#'                       ))
-#'                                                  
-#' inp2 <- CBSResult(in_fasta =
-#'                   readAAStringSet(
-#'                   system.file("extdata",
-#'                   "tail_prot.fasta",
-#'                   package = "SecretSanta"
-#'                  )
-#'                   ))
-#' inp3 <- CBSResult(in_fasta = 
-#'                   readAAStringSet(
-#'                   system.file("extdata",
-#'                   "tail2_prot.fasta",
-#'                   package = "SecretSanta"
-#'                  )
-#'                   ))
-#' inp4 <- CBSResult(in_fasta =
-#'                  readAAStringSet(
-#'                  system.file("extdata",
+#' aa <- readAAStringSet(system.file("extdata",
 #'                  "sample_prot_100.fasta",
-#'                  package = "SecretSanta"
-#'                 )
-#'                  ))
-#'                   
-#' sp1 <- signalp(input_obj = inp2,
-#'                version = 2,
+#'                   package = "SecretSanta"))
+#' inp2 <- SignalpResult(in_fasta = aa[1:10])
+#' inp3 <- SignalpResult(in_fasta = aa[20:30])
+#' inp4 <- SignalpResult(in_fasta = aa[40:50])                   
+#' r1 <- signalp(input_obj = inp2,
+#'                version = 4,
 #'                organism = 'euk',
-#'                run_mode = 'starter',
-#'                paths = my_pa)
-#' sp2 <- signalp(input_obj = inp3,
-#'                version = 2,
+#'                run_mode = 'starter')
+#' r2 <- signalp(input_obj = inp3,
+#'                version = 4,
 #'                organism = 'euk',
-#'                run_mode = 'starter',
-#'                paths = my_pa)
-#' sp3 <- signalp(input_obj = inp4,
-#'                version = 2,
+#'                run_mode = 'starter')
+#' r3 <- signalp(input_obj = inp4,
+#'                version = 4,
 #'                organism = 'euk',
-#'                run_mode = 'starter', 
-#'                paths = my_pa)
-#' obj <- list(sp1, sp2, sp3)
+#'                run_mode = 'starter') 
+#' obj <- list(r1, r2, r3)
 #' combined_sp <- combine_SpResult(obj)
 
 
