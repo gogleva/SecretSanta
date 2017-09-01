@@ -4,46 +4,46 @@
 \alias{check_khdel}
 \title{check_khdel function}
 \usage{
-check_khdel(input_obj, run_mode)
+check_khdel(input_obj, run_mode = c("starter", "piper"))
 }
 \arguments{
 \item{input_obj}{input object of CBSResult class}
 
-\item{run_mode}{\itemize{
-\item starter - if it is the first step in pipeline;
-\item piper - if you run this function on the output of other CBS tools;
-}}
+\item{run_mode}{\strong{starter} - if it is the first step in a pipeline;
+\strong{piper} - if you run this function on the output of other CBS tools;}
 }
 \value{
 ErResult object
 }
 \description{
-This function checks presence of terminal KDEL/HDEL sequences in the
-candidate secreted proteins.
+This function checks the presence of terminal \strong{KDEL/HDEL} motifs in 
+the provided amino acid equences.
 }
 \examples{
-# check ER retention signals in CBSResult object before running
-# signalp or any other predictions
+# check ER retention signals in CBSResult object
+# before running signalp or any other
+# predictions:
 aa <- readAAStringSet(system.file("extdata",
                                   "sample_prot_100.fasta",
-                                   package = "SecretSanta"),
-                      use.names = TRUE)
-inp <- SignalpResult(in_fasta = aa[1:10])
-et_s <- check_khdel(inp, run_mode = 'starter')
-
-my_pa <- manage_paths(system.file("extdata",
-                                  "sample_paths",
                                    package = "SecretSanta"))
-step1_sp2 <- signalp(inp,
+inp <- SignalpResult(in_fasta = aa[1:10])
+et_s <- check_khdel(inp,
+                    run_mode = 'starter')
+
+# generate signalp predictions:
+step1_sp2 <- signalp(et_s,
                      version = 4,
-                     organism_type = 'euk',
-                     run_mode = 'starter',
-                     paths = my_pa)
+                     organism = 'euk',
+                     run_mode = 'starter')
+# check ER retention signal in the signalp output, 
+# 'starter' mode 
+# (will process the in_fasta slot)
+et_sp <- check_khdel(step1_sp2,
+                     run_mode = 'starter')
 
-# check ER retention signal in the signalp output, 'starter' mode 
-# (will process in_fasta field)
-et_sp <- check_khdel(step1_sp2, run_mode = 'starter')
-
-# check ER retention signal in the signalp output, 'piper' mode
-et_piper <- check_khdel(step1_sp2, run_mode = 'piper')
+# check ER retention signal in the signalp output,
+# 'piper' mode:
+# (will process the out_fasta slot)
+et_piper <- check_khdel(step1_sp2,
+                        run_mode = 'piper')
 }
