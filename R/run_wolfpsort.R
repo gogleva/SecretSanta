@@ -1,14 +1,21 @@
 #' run_WolfPsort function
 #'
-#' This function runs WoLF PSORT to predict protein cellular sub-localisation, 
-#' returns the most probbale one. Provides additional supportig evidence that a
-#' protein might be secreted and deposited outside the cell. Recommended to run
-#' on the late stages of secretome prediction pipeline.
+#' This function runs WoLF PSORT to predict protein cellular sub-localisation
+#' and returns the most probbale one. Including this step in secretome 
+#' prediction pipelines provides additional supportig evidence that a protein
+#' might be secreted and deposited outside the cell.\cr
+#' \cr
+#' Recommended to run on the late stages of secretome prediction pipeline.\cr
+#' \cr
+#' Also see targetp function - for similar functionality.
+#' 
 #' @param input_obj Object of CSBResult class
 #' @param organism  set relevant taxonomic group,
-#'                  Options include: plant, animal, fungi;
-#' @param paths   tibble with paths to external dependencies, generated with
-#'  \code{\link{manage_paths}} function
+#'                  options include: \strong{plant},
+#'                  \strong{animal}, \strong{fungi};
+#' @param paths   if wolfpsort is not acessible globally, a file
+#' conatining a full path to it's executable should be provided; for details
+#' please check SecretSanta vignette. 
 #' @return object of WolfResult class  
 #' @export
 #' @examples
@@ -37,16 +44,22 @@
 #' # run wolfpsort on the signalp output:
 #' w <- wolfpsort(step1_sp2, 'fungi', my_pa)
 
-wolfpsort <- function(input_obj, organism, paths){
+wolfpsort <- function(input_obj,
+                      organism = c('plant', 'animal', 'fungi'),
+                      paths = NULL){
+  
   # check that inputs are valid
+  
+  # check organism argument
+  if (missing(organism)) {stop('missing argument: organism')}
+  organism <- match.arg(organism)
+  
+  # check input_obj
   if (is(input_obj, "CBSResult")) {} else {
     stop('input_object does not belong to CBSResult superclass')}
   if (length(getOutfasta(input_obj)) == 0) {
     stop('the input object contains empty out_fasta slot')}
-  allowed_organisms <- c('plant', 'animal', 'fungi')
-  if (!(organism %in% allowed_organisms)) {
-    stop('input organism is not allowed or does not exist')}
-  
+
   message("running WoLF PSORT locally...")
   
   fasta <- getOutfasta(input_obj)

@@ -4,13 +4,14 @@
 \alias{wolfpsort}
 \title{run_WolfPsort function}
 \usage{
-wolfpsort(input_obj, organism, paths)
+wolfpsort(input_obj, organism = c(), paths)
 }
 \arguments{
 \item{input_obj}{Object of CSBResult class}
 
 \item{organism}{set relevant taxonomic group,
-Options include: plant, animal, fungi;}
+options include: \strong{plant},
+\strong{animal}, \strong{fungi};}
 
 \item{paths}{tibble with paths to external dependencies, generated with
 \code{\link{manage_paths}} function}
@@ -19,10 +20,14 @@ Options include: plant, animal, fungi;}
 object of WolfResult class
 }
 \description{
-This function runs WoLF PSORT to predict protein cellular sub-localisation, 
-returns the most probbale one. Provides additional supportig evidence that a
-protein might be secreted and deposited outside the cell. Recommended to run
-on the late stages of secretome prediction pipeline.
+This function runs WoLF PSORT to predict protein cellular sub-localisation
+and returns the most probbale one. Including this step in secretome 
+prediction pipelines provides additional supportig evidence that a protein
+might be secreted and deposited outside the cell.\cr
+\cr
+Recommended to run on the late stages of secretome prediction pipeline.\cr
+\cr
+Also see targetp function - for similar functionality.
 }
 \examples{
 my_pa <- manage_paths(system.file("extdata",
