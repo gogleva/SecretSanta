@@ -337,52 +337,52 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getInfasta</span>(step1_sp2)</code></pre></div>
 <pre><code>##   A AAStringSet instance of length 100
 ##       width seq                                        names               
-##   [1]   168 MAPATDVKVKLVSMDGEAFE...FTEEEQQRILEENKWCEDV ALI_PLTG_14
-##   [2]   164 RLVNRSITTHIELCPLFVFG...ITDDLVFCVTRNYSLDGVA ALI_PLTG_69
-##   [3]   239 MSLNYLAHTNMRRARENFLK...KTYIEYEAVENNTLNKTEG ALI_PLTG_98
-##   [4]   173 MTMDFKDEGFLNTYLGMDVN...KSATMAGVPMTKHCFSIHR ALI_PLTG_76
-##   [5]   430 MKASYKETISPIPKSDQKAS...RRLMGLLKERAFFPLSEFG ALI_PLTG_78
+##   [1]    99 MRDIYDRNHEELVFNVGPYP...KRRRERRTEFLVEWVGEEQ ALI_PLTG_64
+##   [2]   230 MNVALVRERALHTMNRPGET...GNLVLYRICQMTPLLFCIC ALI_PLTG_92
+##   [3]   456 QFLSELRKVSVSTKLDGVQR...QSQQNSRPREGCCSSCIIF ALI_PLTG_4
+##   [4]   331 MIPTQSYPVNEREFPRLNGR...SQIKAGTVQPANFKLKPPQ ALI_PLTG_58
+##   [5]   842 MAGDFGTKTTTLCARTRLRS...LGCLLYELMTGQVCTLISS ALI_PLTG_45
 ##   ...   ... ...
-##  [96]   495 MVVRVLLVVLALLAVGVQSK...AIVTIGASDGRVRYMNPPS ALI_PLTG_38
-##  [97]   119 MLQATTSKDARQPLHVDTNN...LMQLKRRRSMNLSHPSLFK ALI_PLTG_44
-##  [98]   470 MTSNWTAQVITTTVREVQHD...CWPYTFWGPRLIVSKDLSS ALI_PLTG_93
-##  [99]   236 MSTKRSRSAPILRVKKLTPE...DDDNSAKVLEWINAFIESN ALI_PLTG_97
-## [100]    64 RRIWTDVATAFVSSCREFCS...TGATYRQTCWHQCRTGFSC ALI_PLTG_29</code></pre>
+##  [96]   131 MFTNQQVANFYFQQVLDAQD...IKLTMRSELPIFFGLKLDR ALI_PLTG_33
+##  [97]   239 MSLNYLAHTNMRRARENFLK...KTYIEYEAVENNTLNKTEG ALI_PLTG_98
+##  [98]  1006 MGNCCSTEASAVVSRRSGDK...EDMNIGSVYTGDADWLAGF ALI_PLTG_41
+##  [99]   164 RLVNRSITTHIELCPLFVFG...ITDDLVFCVTRNYSLDGVA ALI_PLTG_69
+## [100]  1999 MAVRAWSWTRIDGRNVLAVP...SDVINETPNESVESEGNDS ALI_PLTG_42_trunc...</code></pre>
 <p>Please note, that by default <code>signlap</code> truncates all the input sequnces longer than 2000 a.a, in this case ’_truncated’ is added to the original sequence ids to keep track of the changes. Alternative option - is discard long sequences completely before the analysis, to do so set <code>truncate = FALSE</code> when running <code>signalp</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getSPtibble</span>(step1_sp2)</code></pre></div>
 <pre><code>## # A tibble: 8 x 9
 ##       gene_id  Cmax  Cpos  Ymax  Ypos  Smax  Spos  Smean     Prediction
 ##        &lt;fctr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fctr&gt;         &lt;fctr&gt;
-## 1 ALI_PLTG_73 0.489    22 0.316    22 0.927     3  0.721 Signal peptide
-## 2  ALI_PLTG_5 1.000    25 0.687    25 0.906     3  0.637 Signal peptide
+## 1 ALI_PLTG_72 0.887    22 0.804    22 0.986     8  0.805 Signal peptide
+## 2 ALI_PLTG_83 0.393    34 0.506    20 0.956    13  0.846 Signal peptide
 ## 3 ALI_PLTG_23 0.641    22 0.683    22 0.969     8  0.803 Signal peptide
-## 4 ALI_PLTG_72 0.887    22 0.804    22 0.986     8  0.805 Signal peptide
-## 5 ALI_PLTG_59 0.210    17 0.288    19 0.948     1  0.666 Signal peptide
-## 6 ALI_PLTG_83 0.393    34 0.506    20 0.956    13  0.846 Signal peptide
-## 7 ALI_PLTG_81 0.305    33 0.388    33 0.826    25  0.471 Signal peptide
-## 8 ALI_PLTG_38 0.572    20 0.696    20 0.994     9  0.954 Signal peptide</code></pre>
+## 4  ALI_PLTG_5 1.000    25 0.687    25 0.906     3  0.637 Signal peptide
+## 5 ALI_PLTG_38 0.572    20 0.696    20 0.994     9  0.954 Signal peptide
+## 6 ALI_PLTG_81 0.305    33 0.388    33 0.826    25  0.471 Signal peptide
+## 7 ALI_PLTG_59 0.210    17 0.288    19 0.948     1  0.666 Signal peptide
+## 8 ALI_PLTG_73 0.489    22 0.316    22 0.927     3  0.721 Signal peptide</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getOutfasta</span>(step1_sp2)</code></pre></div>
 <pre><code>##   A AAStringSet instance of length 8
 ##     width seq                                          names               
-## [1]   154 MYLKFAFMATVATAVVNIAIG...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
-## [2]   210 MKLSSVCTIIFGLVFIDFNNV...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [1]   118 MRLKFSILIFGAVLLATTTNA...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
+## [2]   164 MVSTSRVFALLLLPSPSARIF...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
 ## [3]   653 MKIVALVTFCIATLDSSIVFA...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [4]   118 MRLKFSILIFGAVLLATTTNA...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
-## [5]   125 MLMSTPAALMLRLAQSSLKPT...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
-## [6]   164 MVSTSRVFALLLLPSPSARIF...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
-## [7]   133 MNFLKSKKTSTQATLLVSPLI...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
-## [8]   495 MVVRVLLVVLALLAVGVQSKA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38</code></pre>
+## [4]   210 MKLSSVCTIIFGLVFIDFNNV...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [5]   495 MVVRVLLVVLALLAVGVQSKA...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
+## [6]   133 MNFLKSKKTSTQATLLVSPLI...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [7]   125 MLMSTPAALMLRLAQSSLKPT...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
+## [8]   154 MYLKFAFMATVATAVVNIAIG...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getMatfasta</span>(step1_sp2)</code></pre></div>
 <pre><code>##   A AAStringSet instance of length 8
 ##     width seq                                          names               
-## [1]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
-## [2]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [1]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
+## [2]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
 ## [3]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [4]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
-## [5]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
-## [6]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
-## [7]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
-## [8]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38</code></pre>
+## [4]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [5]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
+## [6]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [7]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
+## [8]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getSPversion</span>(step1_sp2)</code></pre></div>
 <pre><code>## [1] 2</code></pre>
 <p>Next, imaging we would like to run all the <strong>signalp</strong> version on the same input for comparison. To do so, simply change <code>version</code> parameter:</p>
@@ -462,36 +462,36 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
 <pre><code>## # A tibble: 8 x 6
 ##       gene_id length ExpAA First60 PredHel Topology
 ##         &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;
-## 1 ALI_PLTG_73    133  0.00    0.00       0        o
-## 2  ALI_PLTG_5    186  1.29    1.16       0        o
+## 1 ALI_PLTG_72     97  0.00    0.00       0        i
+## 2 ALI_PLTG_83    131  1.44    0.02       0        o
 ## 3 ALI_PLTG_23    632  0.00    0.00       0        o
-## 4 ALI_PLTG_72     97  0.00    0.00       0        i
-## 5 ALI_PLTG_59    109  0.00    0.00       0        o
-## 6 ALI_PLTG_83    131  1.44    0.02       0        o
-## 7 ALI_PLTG_81    101  0.00    0.00       0        o
-## 8 ALI_PLTG_38    476  0.13    0.09       0        o</code></pre>
+## 4  ALI_PLTG_5    186  1.29    1.16       0        o
+## 5 ALI_PLTG_38    476  0.13    0.09       0        o
+## 6 ALI_PLTG_81    101  0.00    0.00       0        o
+## 7 ALI_PLTG_59    109  0.00    0.00       0        o
+## 8 ALI_PLTG_73    133  0.00    0.00       0        o</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getInMatfasta</span>(tm)</code></pre></div>
 <pre><code>##   A AAStringSet instance of length 8
 ##     width seq                                          names               
-## [1]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
-## [2]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [1]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
+## [2]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
 ## [3]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [4]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
-## [5]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
-## [6]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
-## [7]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
-## [8]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38</code></pre>
+## [4]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [5]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
+## [6]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [7]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
+## [8]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getOutMatfasta</span>(tm)</code></pre></div>
 <pre><code>##   A AAStringSet instance of length 8
 ##     width seq                                          names               
-## [1]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73
-## [2]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [1]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
+## [2]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
 ## [3]   632 AECTVDELTEISTIYSEAMTD...SEDPVYPLVKEYSDVVSKHP ALI_PLTG_23
-## [4]    97 DDNSNKRLLRRQEKTDTTNGD...NIRYASMLQDFLNTYHRRGV ALI_PLTG_72
-## [5]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
-## [6]   131 ITTKLKQFNGTGFPAWGVQDK...SMVEHIKTTKRVIDEVQDHV ALI_PLTG_83
-## [7]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
-## [8]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38</code></pre>
+## [4]   186 QCSDVHVVFARGSGEAAGLGI...SDGSVTTAAQKAAALVKANA ALI_PLTG_5
+## [5]   476 KATRVRKSWTAYTSDEKEIYL...FAIVTIGASDGRVRYMNPPS ALI_PLTG_38
+## [6]   101 YGPPADVRPMVVRMKSDYRSY...MGGLMPNLHVDLENGIGNYP ALI_PLTG_81
+## [7]   109 SLKPTVGKAITVGGNHQIPTK...DQGAHVATSGTSNNVLLWHK ALI_PLTG_59
+## [8]   133 NVIDLPMPLTLESPNFVESAA...YAKLLLAYLNDFKRTSGLRS ALI_PLTG_73</code></pre>
 </div>
 <div id="targetp" class="section level2">
 <h2>Targetp</h2>
@@ -545,30 +545,44 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
 ##  9 ALI_PLTG_77    347 0.090 0.475 0.365               S     5
 ## 10 ALI_PLTG_81    133 0.134 0.581 0.133               S     3</code></pre>
 <p><code>targetp</code> will automaticly switch to a parrallel mode if number of input sequences is garted than 1000.</p>
-<!-- ## WoLFPSORT -->
-<!-- **WoLFPSORT** - predicts protein subcellular localisation based on PSORT principle. It converts amino acid sequences into numerical localisation features based on sorting signals, amino acid composition and functional motifs. The converted data is then classified based on k-nearest neighbor algorithm [@Horton2006]. -->
-<!-- ``wolfpsort`` requires ``organism`` parameter, it's possible values include: -->
-<!-- - 'plant'; -->
-<!-- - 'animal'; -->
-<!-- - 'fungi'. -->
-<!-- ``wolfpsort`` function accepts objects of ``CBSResult`` class with non-empty ``out_fasta`` slot, so it is recommeded to run this prediction on later stages of the pipeline. -->
-<!-- ```{r run wolfpsort, collapse = TRUE, cache=FALSE} -->
-<!-- wlf <- wolfpsort(step1_sp2, -->
-<!--                  organism = 'fungi', -->
-<!--                  paths = santa_paths) -->
-<!-- ``` -->
-<!-- ``wolfpsort`` returns an object with 3 slots: -->
-<!-- ```{r explain WolfpsortResult class} -->
-<!-- class(wlf) -->
-<!-- slotNames(wlf) -->
-<!-- ``` -->
-<!-- + ``in_fasta`` and ``out_fasta`` are common attriburtes of all classes inheriting from ``CBSResult`` class; -->
-<!-- + ``wolf_tibble`` - parsed wolfPsort tabular output for sequences with 'extracellular' predicted to be the most probable subcellular localisation. -->
-<!-- To access contents of ``wolf_tibble`` slot use ``getWOlFtibble`` method: -->
-<!-- ```{r access wolf_tibble} -->
-<!-- getWOLFtibble(wlf) -->
-<!-- ``` -->
-<!-- Since ``wolfpsort`` has the same purpouse as ``targetp`` it might be useful to run these functions side by side and compare the obtained results (see [targetp results](#Targetp)). -->
+</div>
+<div id="wolfpsort" class="section level2">
+<h2>WoLFPSORT</h2>
+<p><strong>WoLFPSORT</strong> - predicts protein subcellular localisation based on PSORT principle. It converts amino acid sequences into numerical localisation features based on sorting signals, amino acid composition and functional motifs. The converted data is then classified based on k-nearest neighbor algorithm <span class="citation">(Paul Horton and Nakai 2006)</span>.</p>
+<p><code>wolfpsort</code> requires <code>organism</code> parameter, it’s possible values include:</p>
+<ul>
+<li>‘plant’;</li>
+<li>‘animal’;</li>
+<li>‘fungi’.</li>
+</ul>
+<p><code>wolfpsort</code> function accepts objects of <code>CBSResult</code> class with non-empty <code>out_fasta</code> slot, so it is recommeded to run this prediction on later stages of the pipeline.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">wlf &lt;-<span class="st"> </span><span class="kw">wolfpsort</span>(step1_sp2,
+                 <span class="dt">organism =</span> <span class="st">'fungi'</span>)
+## running WoLF PSORT locally...
+## Number of submitted sequences... 8
+## Candidate sequences with extracellular localisation... 5</code></pre></div>
+<p><code>wolfpsort</code> returns an object with 3 slots:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(wlf)</code></pre></div>
+<pre><code>## [1] &quot;WolfResult&quot;
+## attr(,&quot;package&quot;)
+## [1] &quot;SecretSanta&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">slotNames</span>(wlf)</code></pre></div>
+<pre><code>## [1] &quot;wolf_tibble&quot; &quot;in_fasta&quot;    &quot;out_fasta&quot;</code></pre>
+<ul>
+<li><code>in_fasta</code> and <code>out_fasta</code> are common attriburtes of all classes inheriting from <code>CBSResult</code> class;</li>
+<li><code>wolf_tibble</code> - parsed wolfPsort tabular output for sequences with ‘extracellular’ predicted to be the most probable subcellular localisation.</li>
+</ul>
+<p>To access contents of <code>wolf_tibble</code> slot use <code>getWOlFtibble</code> method:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getWOLFtibble</span>(wlf)</code></pre></div>
+<pre><code>## # A tibble: 5 x 2
+##       gene_id localization
+##        &lt;fctr&gt;       &lt;fctr&gt;
+## 1 ALI_PLTG_23         extr
+## 2  ALI_PLTG_5         extr
+## 3 ALI_PLTG_38         extr
+## 4 ALI_PLTG_81         extr
+## 5 ALI_PLTG_73         extr</code></pre>
+<p>Since <code>wolfpsort</code> has the same purpouse as <code>targetp</code> it might be useful to run these functions side by side and compare the obtained results (see <a href="#Targetp">targetp results</a>).</p>
 <!-- ## Check for terminal ER-retention motifs -->
 <!-- In addition to having signal peptides some proteins might have ER-retention signal in the C-terminal domain, preventing protein from being secreted ouside the cell. There are at least 2 known ER-retention motifs ('KDEL' and 'HDEL') [@Munro1987]. -->
 <!-- The ``check_khdel`` function uses simple pattern matching to scan amino acid sequences and remove those with ER retention signal in the C-terminus. To run it, simply pass a ``CBSResult`` object as an input.  You can run it in either *piper* or *starter* mode. The function does not rely on external dependencies, so providing path container is not required. -->
@@ -702,6 +716,9 @@ step1_sp4 &lt;-<span class="st"> </span><span class="kw">signalp</span>(inp,
 </div>
 <div id="ref-Emanuelsson2008">
 <p>Olof Emanuelsson, Soren Brunak, Henrik Nielsen, and Gunnar von Heijne. 2008. “Predicting Subcellular Localization of Proteins Based on Their N-Terminal Amino Acid Sequence.” <em>J. Mol. Biol.</em>, no. 300: 1005–16.</p>
+</div>
+<div id="ref-Horton2006">
+<p>Paul Horton, Takeshi Obayashi, Keun-Joon Park, and Kenta Nakai. 2006. “Protein Subcellular Localization Prediction with Wolf Psort.” <em>Asian Pacific Bioinformatics Conference, APCB2006</em>.</p>
 </div>
 <div id="ref-Sperschneider2015">
 <p>Sperschneider J, Hane JK, Williams AH. 2015. “Evaluation of Secretion Prediction Highlights Differing Approaches Needed for Oomycete and Fungal Effectors.” <em>Front Plant Sci</em>, no. 6: 1168.</p>

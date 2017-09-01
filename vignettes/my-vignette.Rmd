@@ -437,39 +437,43 @@ getTPtibble(tp)
 
 ``targetp`` will automaticly switch to a parrallel mode if number of input sequences is garted than 1000.
 
-<!-- ## WoLFPSORT -->
-<!-- **WoLFPSORT** - predicts protein subcellular localisation based on PSORT principle. It converts amino acid sequences into numerical localisation features based on sorting signals, amino acid composition and functional motifs. The converted data is then classified based on k-nearest neighbor algorithm [@Horton2006]. -->
+## WoLFPSORT
+**WoLFPSORT** - predicts protein subcellular localisation based on PSORT principle. It converts amino acid sequences into numerical localisation features based on sorting signals, amino acid composition and functional motifs. The converted data is then classified based on k-nearest neighbor algorithm [@Horton2006].
 
-<!-- ``wolfpsort`` requires ``organism`` parameter, it's possible values include: -->
+``wolfpsort`` requires ``organism`` parameter, it's possible values include:
 
-<!-- - 'plant'; -->
-<!-- - 'animal'; -->
-<!-- - 'fungi'. -->
+- 'plant';
+- 'animal';
+- 'fungi'.
 
-<!-- ``wolfpsort`` function accepts objects of ``CBSResult`` class with non-empty ``out_fasta`` slot, so it is recommeded to run this prediction on later stages of the pipeline. -->
+``wolfpsort`` function accepts objects of ``CBSResult`` class with non-empty
+``out_fasta`` slot, so it is recommeded to run this prediction on later stages 
+of the pipeline.
 
-<!-- ```{r run wolfpsort, collapse = TRUE, cache=FALSE} -->
-<!-- wlf <- wolfpsort(step1_sp2, -->
-<!--                  organism = 'fungi', -->
-<!--                  paths = santa_paths) -->
+```{r run wolfpsort, collapse = TRUE, cache=FALSE}
+wlf <- wolfpsort(step1_sp2,
+                 organism = 'fungi')
 
-<!-- ``` -->
+```
 
-<!-- ``wolfpsort`` returns an object with 3 slots: -->
+``wolfpsort`` returns an object with 3 slots:
 
-<!-- ```{r explain WolfpsortResult class} -->
-<!-- class(wlf) -->
-<!-- slotNames(wlf) -->
-<!-- ``` -->
-<!-- + ``in_fasta`` and ``out_fasta`` are common attriburtes of all classes inheriting from ``CBSResult`` class; -->
-<!-- + ``wolf_tibble`` - parsed wolfPsort tabular output for sequences with 'extracellular' predicted to be the most probable subcellular localisation. -->
+```{r explain WolfpsortResult class}
+class(wlf)
+slotNames(wlf)
+```
++ ``in_fasta`` and ``out_fasta`` are common attriburtes of all classes 
+inheriting from ``CBSResult`` class;
++ ``wolf_tibble`` - parsed wolfPsort tabular output for sequences with 
+'extracellular' predicted to be the most probable subcellular localisation.
 
-<!-- To access contents of ``wolf_tibble`` slot use ``getWOlFtibble`` method: -->
-<!-- ```{r access wolf_tibble} -->
-<!-- getWOLFtibble(wlf) -->
-<!-- ``` -->
+To access contents of ``wolf_tibble`` slot use ``getWOlFtibble`` method:
+```{r access wolf_tibble}
+getWOLFtibble(wlf)
+```
 
-<!-- Since ``wolfpsort`` has the same purpouse as ``targetp`` it might be useful to run these functions side by side and compare the obtained results (see [targetp results](#Targetp)). -->
+Since ``wolfpsort`` has the same purpouse as ``targetp`` it might be useful to
+run these functions side by side and compare the obtained results (see [targetp results](#Targetp)).
 
 <!-- ## Check for terminal ER-retention motifs -->
 <!-- In addition to having signal peptides some proteins might have ER-retention signal in the C-terminal domain, preventing protein from being secreted ouside the cell. There are at least 2 known ER-retention motifs ('KDEL' and 'HDEL') [@Munro1987]. -->
