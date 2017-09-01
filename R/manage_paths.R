@@ -116,7 +116,8 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
     # i.e we are able to process a small sample fasta file
     
     # micro fasta file to test with all tools:
-    test_fasta <- system.file("extdata", "small_prot.fasta",                                                        package = "SecretSanta")
+    test_fasta <- system.file("extdata", "small_prot.fasta", 
+                              package = "SecretSanta")
     
     # helper function to extract tool paths when provided in path_file
     get_paths <- function(tool_name) {
