@@ -4,32 +4,34 @@
 \alias{targetp}
 \title{targetp function}
 \usage{
-targetp(input_object, network_type, run_mode, paths)
+targetp(input_obj, network, run_mode, paths)
 }
 \arguments{
-\item{input_object}{an instance of CBSResult class containing protein 
-sequences as on of the attributes}
+\item{input_obj}{an instance of CBSResult class containing protein 
+sequences in one of the slots}
 
-\item{network_type}{possible values: 
-\itemize{
-\item P - for plants;
-\item N - for non-plants;
-}}
+\item{network}{\strong{P} - for plants; \cr
+\strong{N} - for non-plants;}
 
-\item{run_mode}{\itemize{
-\item starter - if it is the first step in pipeline;
-\item piper - if you run this function on the output of other CBS tools;
-}}
+\item{run_mode}{\strong{starter} - if it is the first step in pipeline; \cr
+\strong{piper} - if you run this function on the output of other CBS tools;}
 
-\item{paths}{tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function}
+\item{paths}{if targetp is not acessible globally, a file
+conatining a full path to it's executable should be provided; for details
+please check SecretSanta vignette.}
+
+\item{cores}{optional arguments, number of cores to run the parallel process
+on. If not set default will be 1.}
 }
 \value{
 an object of TargetpResult class
 }
 \description{
 This function calls local targetp to predict subcellular localisation of 
-a protein.
-Parallelised
+a protein.\cr
+\cr
+For large inputs (\strong{>1000} sequences) will automatically run in
+as a massive paralle job.
 }
 \examples{
 my_pa <- manage_paths(system.file("extdata",
@@ -42,8 +44,8 @@ aa <- readAAStringSet(system.file("extdata",
 # assign this object to the input_fasta slot of SignalpResult object
 inp <- CBSResult(in_fasta = aa[1:10])
 
-tp_result <- targetp(input_object = inp,
-                     network_type = 'N',
+tp_result <- targetp(input_obj = inp,
+                     network = 'N',
                      run_mode = 'starter',
                      paths = my_pa)
 }

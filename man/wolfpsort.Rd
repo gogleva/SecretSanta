@@ -31,28 +31,19 @@ Recommended to run on the late stages of secretome prediction pipeline.\cr
 Also see targetp function - for similar functionality.
 }
 \examples{
-my_pa <- manage_paths(system.file("extdata",
-                                  "sample_paths",
-                                   package = "SecretSanta"))
-
-# initialise SignalpResult object
-inp <- SignalpResult()
-
 # read fasta file in AAStringSet object
 aa <- readAAStringSet(system.file("extdata",
                                   "sample_prot_100.fasta",
                                   package = "SecretSanta"))
 
-# assign this object to the input_fasta slot of SignalpResult object
-inp <- setInfasta(inp, aa[1:10])
+# assign this object to the input_fasta slot of CBSResult object
+inp <- CBSResult(in_fasta = aa[1:10])
 
 # run signalp2 on the initial file:
 step1_sp2 <- signalp(inp,
                      version = 2,
-                     'euk',
-                     run_mode = "starter",
-                     paths = my_pa)
-
+                     organism ='euk',
+                     run_mode = "starter")
 # run wolfpsort on the signalp output:
-w <- wolfpsort(step1_sp2, 'fungi', my_pa)
+w <- wolfpsort(step1_sp2, 'fungi')
 }

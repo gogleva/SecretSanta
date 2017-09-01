@@ -1,14 +1,12 @@
-#combine_TaretpResult function
+#' combine_TpResult function
 #'
-#' This helper function combines multiple instances of TargetpResult class,
-#' typically generated with parLapply
-#' @param arguments - a list of TargetpResult objects to be combined in one
+#' This function combines multiple instances of TargetpResult class,
+#' typically generated with parLapply when running targetp in a paralle mode.
+#' @param arguments - a list of TargetpResult objects to be combined.
 #' @export
 #' @return TargetpResult object
 #' @examples 
-#' my_pa <- my_pa <- manage_paths(system.file("extdata",
-#'                                            "sample_paths",
-#'                                             package = "SecretSanta")) 
+#' 
 #' inp2 <- CBSResult(in_fasta = readAAStringSet(
 #'                              system.file("extdata",
 #'                              "tail_prot.fasta",
@@ -23,23 +21,22 @@
 #'                              package = "SecretSanta")))
 #' 
 #' tp1 <- targetp(input_obj = inp2,
-#'                network_type = 'N',
+#'                network = 'N',
 #'                run_mode = 'starter',
 #'                paths = my_pa)
 #' tp2 <- targetp(input_obj = inp3,
-#'                network_type = 'N',
+#'                network = 'N',
 #'                run_mode = 'starter',
 #'                paths = my_pa)
 #' tp3 <- targetp(input_obj = inp4,
-#'                network_type = 'N',
+#'                network = 'N',
 #'                run_mode = 'starter',
 #'                paths = my_pa)
 #' 
 #' obj <- list(tp1, tp2, tp3)
-#  combined_tp <- combine_TargetpResult(obj)
+#'  combined_tp <- combine_TpResult(obj)
 
-
-combine_TargetpResult <- function(arguments) {
+combine_TpResult <- function(arguments) {
   if (all(sapply(arguments, is, 'TargetpResult'))) {
   } else {                               
     stop('Some objects from arguments list do not belong to TargetpResult class.')
@@ -57,21 +54,23 @@ combine_TargetpResult <- function(arguments) {
 #' targetp function
 #'
 #' This function calls local targetp to predict subcellular localisation of 
-#' a protein.
-#' Parallelised
-#' @param input_object    an instance of CBSResult class containing protein 
-#' sequences as on of the attributes
-#' @param network_type possible values: 
-#' \itemize{
-#' \item P - for plants;
-#' \item N - for non-plants;
-#' }
+#' a protein.\cr
+#' \cr
+#' For large inputs (\strong{>1000} sequences) will automatically run
+#' as a massive paralle job.
+#' @param input_obj    an instance of CBSResult class containing protein 
+#' sequences in one of the slots
+#' @param network    
+#' \strong{P} - for plants; \cr
+#' \strong{N} - for non-plants;
 #' @param run_mode
-#' \itemize{
-#' \item starter - if it is the first step in pipeline;
-#' \item piper - if you run this function on the output of other CBS tools;
-#' }
-#' @param paths   tibble with paths to external dependencies, generated with \code{\link{manage_paths}} function
+#' \strong{starter} - if it is the first step in pipeline; \cr
+#' \strong{piper} - if you run this function on the output of other CBS tools;
+#' @param paths if targetp is not acessible globally, a file
+#' conatining a full path to it's executable should be provided; for details
+#' please check SecretSanta vignette.
+#' @param cores optional arguments, number of cores to run the parallel process
+#' on. If not set default will be 1.  
 #' @export
 #' @return an object of TargetpResult class
 #' @examples 
@@ -86,46 +85,55 @@ combine_TargetpResult <- function(arguments) {
 #' # assign this object to the input_fasta slot of SignalpResult object
 #' inp <- CBSResult(in_fasta = aa[1:10])
 #' 
-#' tp_result <- targetp(input_object = inp,
-#'                      network_type = 'N',
+#' tp_result <- targetp(input_obj = inp,
+#'                      network = 'N',
 #'                      run_mode = 'starter',
 #'                      paths = my_pa)
 
 
-targetp <- function(input_object, network_type, run_mode, paths) {
+targetp <- function(input_obj,
+                    network = c('P', 'N'),
+                    run_mode = c('starter', 'piper'),
+                    paths = NULL,
+                    cores = NULL) {
   
-  # helper function: crop long names for AAStringSet object, return character vector
+  # helper function: crop long names for AAStringSet object, returns
+  # character vector
+  
   crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
   
   # ----- Check that inputs are valid
+  
+  # check that arguments are present and valid
+  if (missing(network)) {stop('missing argument: network')}
+  if (missing(run_mode)) {stop('missing argument: run_mode')}
+  organism <- match.arg(network)
+  run_mode <- match.arg(run_mode)
+  
+  if (is.null(cores)) cores = 1 else cores
+  if (is.numeric(cores)) {} else {stop('cores argument must be numeric')}
+  if (cores > detectCores()) {stop('cores value > available core number')}
+  
   # check that input object belong to CBSResult class
-  if (is(input_object, "CBSResult")) {} else {
-    stop('input_object does not belong to CBSResult superclass')}
+  if (is(input_obj, "CBSResult")) {} else {
+    stop('input_obj does not belong to CBSResult superclass')}
   
-  # check that supplied runnig mode is valid
-  if (run_mode %in% c('piper', 'starter')) {} else {
-    stop("Run mode is invalid. Please use 'starter' to initiate prediction pipelie or 'piper' to continue")}
-  
-  # check that input_object contains non-empty in/out_fasta for starter/piper
+  # check that input_obj contains non-empty in/out_fasta for starter/piper
   if (run_mode == 'starter') {
-    if (length(getInfasta(input_object)) != 0) {
-      fasta <- getInfasta(input_object)
+    if (length(getInfasta(input_obj)) != 0) {
+      fasta <- getInfasta(input_obj)
     } else {stop('in_fasta attribute is empty')}
   } else if (run_mode == 'piper') {
-    if (length(getOutfasta(input_object)) != 0) {
-      fasta <- getOutfasta(input_object)
+    if (length(getOutfasta(input_obj)) != 0) {
+      fasta <- getOutfasta(input_obj)
     } else {stop('out_fasta attribute is empty')}
   }
-  
-  # checked that specified networks are valid  
-  allowed_networks = c('P', 'N')
-  
-  if (network_type %in% allowed_networks) {
+
+  # All checked, produce encouragig message  
     message("running targetp locally...")
-  } else {
-    stop('Specified network_type is invalid.')  
-  }
-  
+}
+
+
 # simple function to run targetp on relatively small input files ~1K proteins
   
   simple_targetp <- function(aaSet){
@@ -148,17 +156,17 @@ targetp <- function(input_object, network_type, run_mode, paths) {
       names(aaSet) <- cropped_names
   
       # prep networks argument:
-      NN <- paste('-', network_type, sep = '')
+      NN <- paste('-', network, sep = '')
   
       #run targetp:
       tp <- tibble::as.tibble(read.table(
         text = (system(paste(full_pa, NN, out_tmp),
                        intern = TRUE)[1: length(aaSet) + 8])))
   
-      if (network_type == 'N') {
+      if (network == 'N') {
         names(tp) <- c('gene_id', 'length', 'mTP',
                        'sp', 'other', 'TP_localization', 'RC')}
-      else if (network_type == 'P') {
+      else if (network == 'P') {
         names(tp) <- c('gene_id', 'length', 'cTP',
                        'mTP', 'sp', 'other', 'TP_localization', 'RC')  
       }
@@ -209,7 +217,7 @@ targetp <- function(input_object, network_type, run_mode, paths) {
      stopCluster(cl)
      
      res_comb <- do.call(c,result)
-     combined_TargetpResult <- combine_TargetpResult(unname(res_comb))
+     combined_TargetpResult <- combine_TpResult(unname(res_comb))
      
      # may be add some wraings/messages here:
      
