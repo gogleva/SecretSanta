@@ -60,8 +60,9 @@
 #'              package = "SecretSanta"))
 
 manage_paths <- function(in_path = c(TRUE, FALSE),
-                        test_mode = c('all',                                                                             'signalp2',                                                                                       'signalp3',                                                                                       'signalp4',                                                                                       'targetp',                                                                                        'tmhmm',
-                        'wolfpsort'),
+                        test_mode = c('all','signalp2','signalp3',
+                                      'signalp4', 'targetp', 'tmhmm',
+                                      'wolfpsort'),
                         path_file = NULL) {
     test_mode <- match.arg(test_mode)
     
