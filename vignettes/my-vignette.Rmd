@@ -10,48 +10,54 @@ vignette: >
 bibliography: Santa.bib
 fig_caption: yes
 ---  
-**SecretSanta** provides an R interface for integrative prediction of classically secreted proteins. 
+**SecretSanta** provides an R interface aiding integrative prediction of 
+extracellular proteins secreted via classical secretion pathway, i.e. requiring
+presence of a signal peptide.
 
-Secretome prediction often involves multiple steps. Typically it starts with prediction of short signal peptides at the N-terminus end of a protein (ref).
-Next, it is crucial to ensure absence of motifs and domains preventing the
-protein from being secreted despite the presence of the signal peptide. These sequences include transmembrane domains, short ER retention signals, 
-mitochondria and plastid targeting signals (**Figure 1, c-e**). 
+Secretome prediction often involves multiple steps. Typically it starts with prediction of short signal peptides at the N-terminus end of a protein
+(**Figure 1, a-b**). Next, it is crucial to ensure the absence of motifs and domains preventing the protein from being secreted despite the presence of the signal peptide. These sequences include transmembrane domains, short ER 
+retention signals, mitochondria and plastid targeting signals
+(**Figure 1, c-e**). 
 
-```{r figs2, out.width = "400px", fig.align="center", echo = FALSE, fig.cap="\\label{fig:figs1} Figure 1. Motifs and domains"}
+```{r figs2, out.width = "400px", fig.align="center", echo = FALSE, fig.cap="\\label{fig:figs1} **Figure 1.** Characteristic motifs, domains and their arrangemnets, helping to distinguish extracellular proteins from proteins retained inside the cell.", }
 knitr::include_graphics("motifs_and_domains.png")
 ```
 
-Though, a number of excellent command line tools and web-interfaces exist to perform prediction of individual motifs and signal sequences (signalp, targetp, TMHMM, WolfPsort), the interface allowing to combine the outputs in a single flexible workflow is lacking.
+Though, a number of excellent command line tools and web-interfaces exist to perform prediction of individual motifs and signal sequences ([signalp](http://www.cbs.dtu.dk/services/SignalP/), [targetp](http://www.cbs.dtu.dk/services/TargetP/), [TMHMM](http://www.cbs.dtu.dk/services/TMHMM/), [WolfPsort](https://github.com/fmaguire/WoLFPSort)), the interface allowing to combine the outputs in a single flexible workflow is lacking.
 
 \newline
 
 **SecretSanta** package attempts to bridge this gap. It provides wrapper
 functions around existing command line tools for prediction of signal peptides 
 and protein subcellular localisation. The wrappers are designed to work
-together. They produce the output in a standardized format recognizable by all
+together. They produce an output in a standardized format recognizable by all
 of them. This allows to pipe results between individual predictors easily to
-create flexible custom pipelines as well as compare predictions outputs between similar methods. To speed-up processing of large input fasta files (with several thousands of sequences) recommended initial steps of the pipeline are automatically run as embarrassingly parallel processes when the number of input sequences exceeds a certain limit. Taken together **SecretSanta** provides
-tools aiding automation of multi-step secretome prediction pipelines that can be applied to large protein sets. 
+create flexible custom pipelines as well as compare prediction results between similar methods: **targetp** and **WoLFPsort**; or multiple versions of 
+**signalp**. To speed-up processing of large input fasta files initial steps of 
+the pipeline are automatically run as embarrassingly parallel processes when the number of input sequences exceeds a certain limit. Taken together
+**SecretSanta** provides tools aiding automation of multi-step secretome
+prediction pipelines that can be applied to large protein sets to facilitate comparison of secretomes across multiple species.
 
 \newline 
 
-To avoid confusion, here and further, names of external tools will be shown in 
-bold, the corresponding R functions from the **SecretSanta** package will have 
-standard code highlighting. For example:
+To avoid confusion, here and further, names of external command line tools will
+be shown in **bold**, the corresponding R functions from the **SecretSanta** package will have standard ``code highlighting``, for example:
 
 + **signalp** - CBS signalp and its associated derivative files;
 + ```signalp``` - **SecretSanta** wrap function around **signalp**;
 
-Majority of the functions could be run in 2 modes: 
-+ *starter* - in the case you initiate secretome pipeline with the above tool;
-+ *piper* - for downstream/intermediate steps, so that the tool expects an output from another wrapper function.
+Majority of the **SecretSanta** functions could be run in 2 modes: 
+
++ ``starter`` - in the case you initiate secretome pipeline with the above
+function;
++ ``piper`` - for downstream/intermediate steps, so that the function expects an
+output from another wrapper function.
 
 ## 1. Installation of external dependencies
 
 For prediction of secreted proteins SecretSanta relies on a set of existing
-[CBS tools](http://www.cbs.dtu.dk/services/). Please install them and configure according to the listed requirements. ``SecretSanta`` provides R interface for
-the following tools:
-
+command line tools. Please install them and configure according to the listed 
+instructions.
 \newline
 
 ### 1.1 Download and configure external dependencies
@@ -66,7 +72,7 @@ the following tools:
     cd signalp-2.0
     ```
     + Edit "General settings" at the top of the **signalp** file. Set value of 'SIGNALP' variable to be path to your **signalp-2.0** directory. Other variables usually do not require changes. We will not use plotting functions from signalp,
-    so gnuplot, ppmtogif and ghostview are not required. For more details please check ```signalp-2.0.readme```.
+    so gnuplot, ppmtogif and ghostview are not required. For more details please check ``signalp-2.0.readme``.
     + Since, we want to be able to run different versions of **signalp**,
     including the legacy ones, it is important to be able to discriminate
     between them. R is oblivious to shell aliases, so we will simply rename the    **siganlp** script:
@@ -87,8 +93,7 @@ the following tools:
     ```
     + Similar to **signalp-2.0**, edit "General settings" at the top of the 
     signalp file. Set value of 'SIGNALP' variable to be path to your **signalp-3.0** directory. Other variables usually do not require changes. 
-    We will not use plotting functions from **signalp**, so gnuplot, ppmtogif 
-    and ghostview are not required. For more details please check ```signalp-3.0.readme```.
+    For more details please check ``signalp-3.0.readme``.
     + Rename **signalp** script to avoid further confusion between the versions:
     ```{sh rename signalp3, eval = FALSE}
     mv signalp signalp3
@@ -104,8 +109,7 @@ the following tools:
     tar -zxvf signalp-4.1.Linux.tar.Z
     cd signalp-4.1
     ```
-    + Edit "General settings" at the top of the **signalp** file. Set values for 'SIGNALP' and 'outputDir' variables.
-    For more details please check ```signalp-4.1.readme```.
+    + Edit "General settings" at the top of the **signalp** file. Set values for 'SIGNALP' and 'outputDir' variables. For more details please check ```signalp-4.1.readme```.
     + Rename **signalp** script to avoid further confusion between the versions:
     ```{sh rename signalp4, eval = FALSE}
     mv signalp signalp4
@@ -126,7 +130,7 @@ the following tools:
     + Edit the paragraph labeled "GENERAL SETTINGS, customize" at the top of 
     the **targetp** file.
     Set values for 'TARGETP' and 'TMP' variables. Ensure, that the path to
-    targetp does not exceed 60 characters, otherwise **targetp-1.1** might fail.
+    **targetp** does not exceed 60 characters, otherwise **targetp-1.1** might fail.
 
 \newline
 
@@ -193,8 +197,7 @@ Reload ``/.profile``:
 . ~/.profile
 ```
 
-Reboot
-To make changes visible to R, alternatively - restart the R session.
+Reboot, to make changes visible to R, alternatively - restart the R session.
 
 ####Option B: paths to external dependencies are supplied in a separate file:
 This option should be used when $PATH variable can not be modified. Create a 2-column space-separated text file with listed paths for all the external dependencies. Sample input file listing paths to external dependencies: 
@@ -251,7 +254,10 @@ check2 <- manage_paths(
 
 Note, that ```manage_paths``` is case insensitive and will convert all the tool names to the lower case. 
 
-## Signalp
+
+## 2. Individual methods
+
+### 2.1 Signalp
 
 **signalp** is a software tool to predict classical signal peptides and 
 cleavage sites [@Nielsen1997] in eukaryotes and bacteria. The method combines prediction of signal peptides and cleavage cites based on a combination of artificial neural networks as well as hidden Markov models. The latter allows
@@ -374,7 +380,7 @@ available. Accurate execution time depend on the number if CPUs available and
 the input file size. With 48 CPUs it takes ~2 minutes to run ``signalp`` on the
 input fasta file with more than 40'000 sequences.
 
-## TMHMM
+### 2.2 TMHMM
 **TMHMM** predicts transmembrane a-helices and helps to identify integral
 membrane proteins based on HMMs [@Krogh2001; Sonnhammer1998]. It is important to 
 exclude proteins with trans membrane domains locates after signal peptide, as
@@ -424,7 +430,7 @@ getOutMatfasta(tm)
 ```
 
 
-## Targetp
+### 2.3 Targetp
 **Targetp** predicts subsellular localisation of secreted eukaryotic proteins
 based on the presence of signal peptide (SP), chloroplast transit peptide (cTP)
 or mitochondrial targeting peptide (mTP) in the N-terminus [@Emanuelsson2008]. 
@@ -478,7 +484,7 @@ getTPtibble(tp)
 
 ``targetp`` will automatically switch to a parallel mode if number of input sequences is grater than 1000.
 
-## WoLFPSORT
+### 2.4 WoLFPSORT
 **WoLFPSORT** - predicts protein subcellular localisation based on PSORT
 principle. It converts amino acid sequences into numerical localisation features based on sorting signals, amino acid composition and functional motifs. The converted data is then classified based on k-nearest neighbor algorithm [@Horton2006].
 
@@ -517,7 +523,7 @@ getWOLFtibble(wlf)
 Since ``wolfpsort`` has the same purpose as ``targetp`` it might be useful to
 run these functions side by side and compare the obtained results (see [targetp results](#Targetp)).
 
-## Check for terminal ER-retention motifs
+### 2.5 Check for terminal ER-retention motifs
 In addition to having signal peptides some proteins might have ER-retention 
 signal in the C-terminal domain, preventing protein from being secreted outside 
 the cell. There are at least 2 known ER-retention motifs ('KDEL' and 'HDEL') 
@@ -543,7 +549,7 @@ inheriting from ``CBSResult`` class;
 + ``retained`` - all the sequences with C-terminal '(K/H)DEL' motifs, in case you
 would like to have a look at them.
 
-## M-slicer
+### 2.6 M-slicer
 
 This is an experimental option. ``m_slicer`` function takes the input amino acid
 sequences and generates all possible subsequences starting with methionine based
@@ -592,7 +598,7 @@ sp_rescue <- signalp(r_inp,
 ```
 The slicing procedure returned 15 additional potentially secreted candidates.
 
-## Pipers and/or starters
+## 3. Pipers and/or starters
 
 Here is a short summary:
 
@@ -605,7 +611,7 @@ st <- suppressMessages(readr::read_delim(system.file("extdata",
 knitr::kable(st, align = c(rep('c', 2), 'l', rep('c',3)))
 ```
 
-## Build pipelines, simple workflow
+## 4. Build pipelines, simple workflow
 
 Now, we want to build a pipeline using all our available functions. Say, we 
 would like to have a relatively short one with the following steps:
