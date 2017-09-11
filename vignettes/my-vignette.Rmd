@@ -8,23 +8,33 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: Santa.bib
+fig_caption: yes
 ---  
-Put somewhere: here we cover classical secretion mostly
+**SecretSanta** provides an R interface for integrative prediction of clasically secreted proteins. 
 
-**SecretSanta** provides an R interface for integrative prediction of clasically secreted proteins based on amino acid sequences. 
+Secretome prediction often involves multiple steps. Typically it starts with prediction of short signal peptides at the N-terminus end of a protein (ref).
+Next, it is crucial to ensure absence of motifs and domains preventing the
+protein from being secreted despite the presence of the signal peptide. These sequences include transmembrane domains, short ER retention signals, 
+mitochondria and plastid targeting signals. 
 
-Secretome prediction often involves multiple steps. Typically it starts with prediction of short signal peptides at the N-terminus end of a protein. Next,
-it is crucial to check motifs and domains potentially preventing the protein 
-from being secreted despite the presence of the signal peptide. These sequences include transmembrane domains, short ER retention signals, mitochondria and 
-plastid targeting signals. Though, a number of excellent tools exist to perform
-prediction of individual motifs and signal sequences (signalp, targetp, TMHMM, WolfPsort), the interface allowing to combine the outputs in a single flexible workflow is lacking. **SecretSanta** is a package attempting to bridge
-this gap. It provides wrapper functions around existing command line tools for
-prediction of signal peptides and protein subcellular localisation. The wrappers
-are designed to work together. They produce the output in a standartisied format recognosible by all of them. This alows to pipe results between individual predictors easily to create flexible custom pipelines as well as compare predictions outputs between similar methods. To speed-up processing of large
-input fasta files (with several thousands of sequences) reccommended initial 
-steps of the pipeline are automatically run as embarassingly parallel processes when the number of input sequences exceedes a certain limit. Taken together 
-**SecretSanta** provides tools aiding automation of multi-step secretome 
-prediction pipelines that can be applied to large protein sets. 
+```{r figs, out.width = "300px", fig.align="center", echo = FALSE}
+knitr::include_graphics("motifs_and_domains.png")
+```
+
+in Figure \ref{fig:figs} we see examples of plotting in R.
+
+Though, a number of excellent tools exist to perform prediction of individual motifs and signal sequences (signalp, targetp, TMHMM, WolfPsort), the interface allowing to combine the outputs in a single flexible workflow is lacking.
+
+\newline
+
+**SecretSanta** is a package attempting to bridge this gap. It provides wrapper functions around existing command line tools for prediction of signal peptides 
+and protein subcellular localisation. The wrappers are designed to work
+together. They produce the output in a standartisied format recognosible by all
+of them. This alows to pipe results between individual predictors easily to
+create flexible custom pipelines as well as compare predictions outputs between similar methods. To speed-up processing of large input fasta files (with several thousands of sequences) reccommended initial steps of the pipeline are automatically run as embarassingly parallel processes when the number of input sequences exceedes a certain limit. Taken together **SecretSanta** provides
+tools aiding automation of multi-step secretome prediction pipelines that can be applied to large protein sets. 
+
+\newline 
 
 To avoid confusion, here and further, names of external tools will be shown in 
 bold, the corresponding R functions from the **SecretSanta** package will have 
@@ -33,7 +43,9 @@ standard code highlighting. For example:
 + **signalp** - CBS signalp and its associated derivative files;
 + ```signalp``` - **SecretSanta** wrap function around **signalp**;
 
-Majority of the functions could be run in 2 modes: *starter* - in the case you initiate secretome pipeline with the above tool; and *piper* - for downstream/intermediate steps, so that the tool expects an output from another wraper function.
+Majority of the functions could be run in 2 modes: 
++ *starter* - in the case you initiate secretome pipeline with the above tool;
++ *piper* - for downstream/intermediate steps, so that the tool expects an output from another wraper function.
 
 ## 1. Installation of external dependencies
 
