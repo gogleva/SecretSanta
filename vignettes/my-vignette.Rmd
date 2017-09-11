@@ -9,7 +9,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 bibliography: Santa.bib
 fig_caption: yes
+tables: true
 ---  
+## 1. Background
 **SecretSanta** provides an R interface aiding integrative prediction of 
 extracellular proteins secreted via classical secretion pathway, i.e. requiring
 presence of a signal peptide.
@@ -17,7 +19,9 @@ presence of a signal peptide.
 Secretome prediction often involves multiple steps. Typically it starts with prediction of short signal peptides at the N-terminus end of a protein
 (**Figure 1, a-b**). Next, it is crucial to ensure the absence of motifs and domains preventing the protein from being secreted despite the presence of the signal peptide. These sequences include transmembrane domains, short ER 
 retention signals, mitochondria and plastid targeting signals
-(**Figure 1, c-e**). 
+(**Figure 1, c-e**). The ultimate aim of secretome prediction pipeline is to 
+keep secreted proteins shown in **Figure 1, a-b** and filer out
+those shown in **Figure 1, c-e**.
 
 ```{r figs2, out.width = "400px", fig.align="center", echo = FALSE, fig.cap="\\label{fig:figs1} **Figure 1.** Characteristic motifs, domains and their arrangemnets, helping to distinguish extracellular proteins from proteins retained inside the cell.", }
 knitr::include_graphics("motifs_and_domains.png")
@@ -53,14 +57,14 @@ function;
 + ``piper`` - for downstream/intermediate steps, so that the function expects an
 output from another wrapper function.
 
-## 1. Installation of external dependencies
+## 2. Installation of external dependencies
 
 For prediction of secreted proteins SecretSanta relies on a set of existing
 command line tools. Please install them and configure according to the listed 
 instructions.
 \newline
 
-### 1.1 Download and configure external dependencies
+### 2.1 Download and configure external dependencies
 
 #### Tools for prediction of signal peptides and cleavage sites:
 - **signalp-2.0** 
@@ -166,13 +170,13 @@ instructions.
 \newline
 
 
-### 1.3 Oragnise acess to the external dependecies
+### 2.2 Oragnise acess to the external dependecies
 
 Two options are possible:
 
-####Option A: all the external dependecies are accessible from any location.
+#### Option A: all the external dependecies are accessible from any location.
 
-This requires modification of $PATH environment variable. To make the change permanent, edit ``.profile``:
+This requires modification of ``$PATH`` environment variable. To make the change permanent, edit ``.profile``:
 
 Open ./profile:
 ```{sh edit $PATH, eval = FALSE}
@@ -199,8 +203,8 @@ Reload ``/.profile``:
 
 Reboot, to make changes visible to R, alternatively - restart the R session.
 
-####Option B: paths to external dependencies are supplied in a separate file:
-This option should be used when $PATH variable can not be modified. Create a 2-column space-separated text file with listed paths for all the external dependencies. Sample input file listing paths to external dependencies: 
+#### Option B: paths to external dependencies are supplied in a separate file:
+This option should be used when ``$PATH`` variable can not be modified. Create a 2-column space-separated text file with listed paths for all the external dependencies.  
 
 ```{r load SecretSanta, message=FALSE, echo = FALSE}
 library(SecretSanta)
@@ -216,21 +220,23 @@ pp <-
   ))
   names(pp) <- c('tool', 'path')
   
-  knitr::kable(pp)
+  knitr::kable(pp,
+               format='pandoc',
+               caption = "**Table1**: Sample paths to external dependencies"
+              )
 ```
 
-For CBS tool names please use simple character strings without version numbers. 
-The only exception here are different versions of **signalp**, which require version number in one-digit format in the first column to be distinguishable.
+For external tool names please use simple character strings without version numbers. The only exception here are different versions of **signalp**, which require version number in one-digit format in the first column to be distinguishable.
 
 
-### 1.4 Check that all the required dependencies are installed correctly
+### 2.3 Check that all the required dependencies are installed correctly
 ```{r real load SecretSanta, message=FALSE}
 library(SecretSanta)
 ```
 ```manage_paths``` function will run small test jobs and check that all the
 external dependencies are functional.
 
-In case all the dependencies are available globally:
+In case all the dependencies are available globally (see **Option A**):
 ```{r check_paths_in_path, echo = TRUE, collapse = TRUE}
 check1 <- manage_paths(in_path = TRUE)
 ```
@@ -241,7 +247,7 @@ check1 <- manage_paths(in_path = TRUE,
                        test_mode = 'signalp2')
 ```
 
-In case we have paths organised in a separate file:
+In case we have paths organised in a separate file (see **Option B**):
 
 ```{r check_path_in_file, echo = TRUE, collapse = TRUE}
 check2 <- manage_paths(
@@ -255,9 +261,9 @@ check2 <- manage_paths(
 Note, that ```manage_paths``` is case insensitive and will convert all the tool names to the lower case. 
 
 
-## 2. Individual methods
+## 3. Individual methods
 
-### 2.1 Signalp
+### 3.1 Signalp
 
 **signalp** is a software tool to predict classical signal peptides and 
 cleavage sites [@Nielsen1997] in eukaryotes and bacteria. The method combines prediction of signal peptides and cleavage cites based on a combination of artificial neural networks as well as hidden Markov models. The latter allows
@@ -380,7 +386,7 @@ available. Accurate execution time depend on the number if CPUs available and
 the input file size. With 48 CPUs it takes ~2 minutes to run ``signalp`` on the
 input fasta file with more than 40'000 sequences.
 
-### 2.2 TMHMM
+### 3.2 TMHMM
 **TMHMM** predicts transmembrane a-helices and helps to identify integral
 membrane proteins based on HMMs [@Krogh2001; Sonnhammer1998]. It is important to 
 exclude proteins with trans membrane domains locates after signal peptide, as
@@ -430,7 +436,7 @@ getOutMatfasta(tm)
 ```
 
 
-### 2.3 Targetp
+### 3.3 Targetp
 **Targetp** predicts subsellular localisation of secreted eukaryotic proteins
 based on the presence of signal peptide (SP), chloroplast transit peptide (cTP)
 or mitochondrial targeting peptide (mTP) in the N-terminus [@Emanuelsson2008]. 
@@ -484,7 +490,7 @@ getTPtibble(tp)
 
 ``targetp`` will automatically switch to a parallel mode if number of input sequences is grater than 1000.
 
-### 2.4 WoLFPSORT
+### 3.4 WoLFPSORT
 **WoLFPSORT** - predicts protein subcellular localisation based on PSORT
 principle. It converts amino acid sequences into numerical localisation features based on sorting signals, amino acid composition and functional motifs. The converted data is then classified based on k-nearest neighbor algorithm [@Horton2006].
 
@@ -523,7 +529,7 @@ getWOLFtibble(wlf)
 Since ``wolfpsort`` has the same purpose as ``targetp`` it might be useful to
 run these functions side by side and compare the obtained results (see [targetp results](#Targetp)).
 
-### 2.5 Check for terminal ER-retention motifs
+### 3.5 Check the presence of terminal ER-retention motifs
 In addition to having signal peptides some proteins might have ER-retention 
 signal in the C-terminal domain, preventing protein from being secreted outside 
 the cell. There are at least 2 known ER-retention motifs ('KDEL' and 'HDEL') 
@@ -549,7 +555,7 @@ inheriting from ``CBSResult`` class;
 + ``retained`` - all the sequences with C-terminal '(K/H)DEL' motifs, in case you
 would like to have a look at them.
 
-### 2.6 M-slicer
+### 3.6 M-slicer
 
 This is an experimental option. ``m_slicer`` function takes the input amino acid
 sequences and generates all possible subsequences starting with methionine based
@@ -598,7 +604,7 @@ sp_rescue <- signalp(r_inp,
 ```
 The slicing procedure returned 15 additional potentially secreted candidates.
 
-## 3. Pipers and/or starters
+## 4. Pipers and/or starters
 
 Here is a short summary:
 
@@ -611,7 +617,7 @@ st <- suppressMessages(readr::read_delim(system.file("extdata",
 knitr::kable(st, align = c(rep('c', 2), 'l', rep('c',3)))
 ```
 
-## 4. Build pipelines, simple workflow
+## 5. Build pipelines, simple workflow
 
 Now, we want to build a pipeline using all our available functions. Say, we 
 would like to have a relatively short one with the following steps:
