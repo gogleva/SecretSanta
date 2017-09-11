@@ -23,7 +23,7 @@ retention signals, mitochondria and plastid targeting signals
 keep secreted proteins shown in **Figure 1, a-b** and filer out
 those shown in **Figure 1, c-e**.
 
-```{r figs2, out.width = "400px", fig.align="center", echo = FALSE, fig.cap="\\label{fig:figs1} **Figure 1.** Characteristic motifs, domains and their arrangemnets, helping to distinguish extracellular proteins from proteins retained inside the cell.", }
+```{r motifs, out.width = "400px", fig.align="center", echo = FALSE, fig.cap="\\label{fig:motifs} **Figure 1.** Characteristic motifs, domains and their arrangemnets, helping to distinguish extracellular proteins from proteins retained inside the cell.", }
 knitr::include_graphics("motifs_and_domains.png")
 ```
 
@@ -170,7 +170,7 @@ instructions.
 \newline
 
 
-### 2.2 Oragnise acess to the external dependecies
+### 2.2 Organise acess to the external dependecies
 
 Two options are possible:
 
@@ -394,27 +394,27 @@ chunks and run prediction as an embarrassingly parallel process using specified 
 **TMHMM** predicts transmembrane a-helices and identifies integral
 membrane proteins based on HMMs [@Krogh2001; Sonnhammer1998]. It is important to 
 exclude proteins with transmembrane domains located after signal peptide, as
-they will be retained in the membrane. Quite often **TMHMM** is not able to
-distinguish between N-terminal signal peptides and transmembrane domains. So, it
-is better to ``tmhmmm`` on the mature sequences obtained after running 
+they will be retained in the membrane. Since often **TMHMM** is not able to
+distinguish between N-terminal signal peptides and transmembrane domains, it is
+recommended to run ``tmhmmm`` on the mature sequences obtained after running 
 ``signalp`` function.
 
 ``tmhmm`` function can handle input objects of ``SignalpResult`` class with 
-non-empty ```mature_fasta``` slot.
+non-empty ``mature_fasta`` slot.
 
-Here we will use output of the ``signalp`` function as an input for ``tmhmm``:
+Here we will use output of ``signalp`` function as an input for ``tmhmm``:
 
 ```{r tmhmm legal, collapse=TRUE, cache=FALSE}
 tm <- tmhmm(step1_sp2, TM = 0)
 ```
 Attempts to run ``tmhmm`` on the ``CBSResult`` object lacking ``mature_fasta`` 
-slot will result in an error:
+slot will produce an error:
 
 ```{r tmhmm illegal, collapse=TRUE, error=TRUE}
 tm2 <- tmhmm(inp, TM = 0)
 ```
 
-``tmhmm`` outputs instances of ``TMhmmResult`` class, again inheriting from 
+``tmhmm`` outputs instances of ``TMhmmResult`` class, inheriting from 
 ``CBSResult``.
 
 ```{r explain TMhmmResult class}
@@ -433,7 +433,7 @@ inheriting from the ``CBSResult`` class;
 
 + ``out_mature_fasta`` - outputted mature sequences not having more transmembrane domains than specified by ``TM`` threshold.
 
-To access individual slots you could use accessor functions:
+To get contents of individual slots you could use accessor functions:
 
 ```{r accessors for TMhmmResult class}
 getTMtibble(tm)
@@ -447,15 +447,15 @@ getOutMatfasta(tm)
 based on the presence of signal peptide (SP), chloroplast transit peptide (cTP)
 or mitochondrial targeting peptide (mTP) in the N-terminus [@Emanuelsson2008]. 
 Including **targetp** in the pipeline can provide additional evidence that a 
-protein with a predicted signal peptide is no targeted to plastids or
+protein with a predicted signal peptide is not targeted to plastids or
 mitochondria and is indeed extracellular. ``targetp`` function accepts input
 objects belonging to the ``CBSResult`` class.
 
 ``targetp`` requires specifying ``network_type`` to run correctly. Possible 
 values include:
 
-- 'P' - for plants;
-- 'N' - for non_plants.
+- *'P'* - for plants;
+- *'N'* - for non_plants.
 
 It is possible to run ``targetp`` in both *piper* and *starter* modes.
 Imagine, we want to start our pipeline by running ``targetp`` using already
@@ -502,9 +502,9 @@ principle. It converts amino acid sequences into numerical localisation features
 
 ``wolfpsort`` requires ``organism`` parameter, it's possible values include:
 
-- 'plant';
-- 'animal';
-- 'fungi'.
+- *'plant'*;
+- *'animal'*;
+- *'fungi'*.
 
 ``wolfpsort`` function accepts objects of ``CBSResult`` class with non-empty
 ``out_fasta`` slot, so it is recommended to run this prediction on later stages 
@@ -524,7 +524,7 @@ slotNames(wlf)
 ```
 + ``in_fasta`` and ``out_fasta`` are common attributes of all classes 
 inheriting from ``CBSResult`` class;
-+ ``wolf_tibble`` - parsed wolfPsort tabular output for sequences with 
++ ``wolf_tibble`` - parsed WoLFPsort tabular output for sequences with 
 'extracellular' predicted to be the most probable subcellular localisation.
 
 To access contents of ``wolf_tibble`` slot use ``getWOlFtibble`` method:
@@ -538,13 +538,13 @@ run these functions side by side and compare the obtained results (see [targetp 
 ### 3.5 Check the presence of terminal ER-retention motifs
 In addition to having signal peptides some proteins might have ER-retention 
 signal in the C-terminal domain, preventing protein from being secreted outside 
-the cell. There are at least 2 known ER-retention motifs ('KDEL' and 'HDEL') 
+the cell. There are at least 2 known ER-retention motifs (*KDEL* and *HDEL*) 
 [@Munro1987].
 
 The ``check_khdel`` function uses simple pattern matching to scan amino acid
 sequences and remove those with ER retention signal in the C-terminus. To run
-it, simply pass a ``CBSResult`` object as an input.  You can run it in either *piper* or *starter* mode. The function does not rely on external dependencies,
-so providing path container is not required.
+it, simply pass a ``CBSResult`` object as an input.  You can run ``check_khdel``
+in either *piper* or *starter* mode. The function does not rely on external dependencies, so providing path container is not required.
 
 ```{r check ER retention, collapse = TRUE, cache=FALSE}
 er_result <- check_khdel(step1_sp2,
@@ -558,21 +558,17 @@ slotNames(er_result)
 ```
 + ``in_fasta`` and ``out_fasta`` are common attributes of all classes 
 inheriting from ``CBSResult`` class;
-+ ``retained`` - all the sequences with C-terminal '(K/H)DEL' motifs, in case you
-would like to have a look at them.
++ ``retained`` - all the sequences with C-terminal '(K/H)DEL' motifs, in case 
+you would like to have a look at them.
 
 ### 3.6 M-slicer
 
 This is an experimental option. ``m_slicer`` function takes the input amino acid
 sequences and generates all possible subsequences starting with methionine based
 on the assumption that translation start sites might be mis-predicted in the 
-original set of proteins -> signal peptides might be also mis-predicted. Output 
-of this step can be used as an input for secretome prediction pipeline to rescue
-secreted proteins with mis-predicted start sites. Sequence ids for the newly 
-generated slices are  build by concatenating original sequence id, 'slice' 
-string and position of the Methionine sliced from. For example: ``ALI_PLTG_3_slice_M86`` 
-means that ``ALI_PLTG_3`` sequence was sliced starting from methionine in the 
-position 86.
+original set of proteins resulting in signal peptides also being mis-predicted. Output of this step can be used as an input for secretome prediction pipeline to rescue secreted proteins with mis-predicted start sites. Sequence ids for the
+newly generated slices are build by concatenating original sequence id, 'slice' 
+string and position of the methionine sliced from. For example: ``ALI_PLTG_3_slice_M86`` means that ``ALI_PLTG_3`` sequence was sliced starting from the methionine in the position 86.
 
 ``m_slicer`` has 2 running modes:
 
@@ -612,7 +608,8 @@ The slicing procedure returned 15 additional potentially secreted candidates.
 
 ## 4. Pipers and/or starters
 
-Here is a short summary:
+Here is a short summary of individual methods available via the **SecretSanta**
+package:
 
 ```{r starters_pipers, echo = FALSE}
 st <- suppressMessages(readr::read_delim(system.file("extdata",
@@ -620,24 +617,24 @@ st <- suppressMessages(readr::read_delim(system.file("extdata",
                                     package = 'SecretSanta'),
                         delim = ','))
 
-knitr::kable(st, align = c(rep('c', 2), 'l', rep('c',3)))
+knitr::kable(st, align = c(rep('c', 2), 'l', rep('c',3)),
+             caption = "**Table2**: Individual methods summary.")
 ```
 
 ## 5. Build pipelines
 
-Now, we want to build a pipeline using all our available functions. Say, we 
-would like to have a relatively short one with the following steps:
+Now, we are ready to build a pipeline using all our available methods. Say, we 
+would like to have a relatively short pipeline with the following steps:
 
 + use **signalp4** to predict signal peptides and cleavage sites;
 + run **tmhmm** on the output, to ensure that predicted proteins with
 signal peptides do not contain TM domains, i.e won't be stuck in the membrane;
-+ run **targetp** on the output, to make sure that a set of selected proteins     is no targeted to plastids or mitochondria;
++ run **targetp** on the output, to make sure that a set of selected proteins     is not targeted to plastids or mitochondria;
 + collect the targtep output and scan for ER-retention signals - to ensure
-that proteins are not stuck in ER.
+that proteins won't be stuck in ER.
 
-Now we will run it using ``SecretSanta`` functions, starting with ``aa`` - an
-``AAStringSet`` object with 100 amino acid sequences in it, we will also reuse
-``santa_paths`` created earlier:
+Now we will run the pipeline using ``SecretSanta`` functions, starting with
+``aa`` - an ``AAStringSet`` object containing 100 amino acid sequences.
 
 #### Step 1: predict signal peptides
 
@@ -713,10 +710,10 @@ getOutfasta(step4_er)
 > **Final Result**: 4 candidate proteins with signal peptides; 0 TM domains in
 mature sequences; not targeted to plastids or mitochondria; not retained in ER.
 
-This is an example of a fairly simple pipeline, but you can create more complex ones. The stringent pipeline might look like this and involve stringent 
-filtration on signal peptide prediction as well as additional predictions for 'rescued' proteins:
+This is an example of a fairly simple pipeline, but you can create more complex ones. The stringent pipeline might involve multi-step 
+filtration on signal peptide prediction as well as additional predictions for 'rescued' (**Figure 2**) sequences.
 
-```{r, out.width = "300px", fig.align="center", echo = FALSE}
+```{r pipilines, out.width = "400px", fig.align="center", echo = FALSE, fig.cap="\\label{fig:pipelines} **Figure 2.** Example of a stringent pipeline."}
 knitr::include_graphics("pipes_small.png")
 ```
 
