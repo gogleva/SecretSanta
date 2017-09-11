@@ -1,9 +1,9 @@
-tool, function,purpouse,starter,piper,parallelised
-Signalp-2.0,signalp,predict signal peptides,Yes,Yes,Yes
-Signalp-3.0,signalp,predict signal peptides,Yes,Yes,Yes
-Signalp-4.1,signalp,predict signal peptides,Yes,Yes,Yes
-Targetp-1.1,targetp,predict subcelluar localisation,Yes,Yes,Yes
-wolfpsort,wolfpsort,predict subcelluar localisation,No,Yes,No
-Tmhmm-2.0,tmhmm,predict trasmembrane domains,No,Yes,Yes
-NA,check_khdel,scan for ER-retention motifs,Yes,Yes,No
-NA,m_slicer,generate sequences with \newline alternative translation start sites,Yes,Yes,No
+tool, function,purpouse,organisms,starter,piper,parallelised
+Signalp-2.0,signalp,predict signal peptides,"eukaryotes, gram+, gram-",Yes,Yes,Yes
+Signalp-3.0,signalp,predict signal peptides,"eukaryotes, gram+, gram-",Yes,Yes,Yes
+Signalp-4.1,signalp,predict signal peptides,"eukaryotes, gram+, gram-",Yes,Yes,Yes
+Targetp-1.1,targetp,predict subcelluar localisation,"plants, not plants",Yes,Yes,Yes
+wolfpsort,wolfpsort,predict subcelluar localisation,"plant, animal, fungi",No,Yes,No
+Tmhmm-2.0,tmhmm,predict transmembrane domains,all taxons,No,Yes,Yes
+NA,check_khdel,scan for ER-retention motifs,all taxons,Yes,Yes,No
+NA,m_slicer,generate sequences with \newline alternative translation start sites,all taxons,Yes,Yes,No
