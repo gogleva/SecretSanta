@@ -10,28 +10,27 @@ vignette: >
 bibliography: Santa.bib
 fig_caption: yes
 ---  
-**SecretSanta** provides an R interface for integrative prediction of clasically secreted proteins. 
+**SecretSanta** provides an R interface for integrative prediction of classically secreted proteins. 
 
 Secretome prediction often involves multiple steps. Typically it starts with prediction of short signal peptides at the N-terminus end of a protein (ref).
 Next, it is crucial to ensure absence of motifs and domains preventing the
 protein from being secreted despite the presence of the signal peptide. These sequences include transmembrane domains, short ER retention signals, 
-mitochondria and plastid targeting signals. 
+mitochondria and plastid targeting signals (**Figure 1, c-e**). 
 
-```{r figs, out.width = "300px", fig.align="center", echo = FALSE}
+```{r figs2, out.width = "400px", fig.align="center", echo = FALSE, fig.cap="\\label{fig:figs1} Figure 1. Motifs and domains"}
 knitr::include_graphics("motifs_and_domains.png")
 ```
 
-in Figure \ref{fig:figs} we see examples of plotting in R.
-
-Though, a number of excellent tools exist to perform prediction of individual motifs and signal sequences (signalp, targetp, TMHMM, WolfPsort), the interface allowing to combine the outputs in a single flexible workflow is lacking.
+Though, a number of excellent command line tools and web-interfaces exist to perform prediction of individual motifs and signal sequences (signalp, targetp, TMHMM, WolfPsort), the interface allowing to combine the outputs in a single flexible workflow is lacking.
 
 \newline
 
-**SecretSanta** is a package attempting to bridge this gap. It provides wrapper functions around existing command line tools for prediction of signal peptides 
+**SecretSanta** package attempts to bridge this gap. It provides wrapper
+functions around existing command line tools for prediction of signal peptides 
 and protein subcellular localisation. The wrappers are designed to work
-together. They produce the output in a standartisied format recognosible by all
-of them. This alows to pipe results between individual predictors easily to
-create flexible custom pipelines as well as compare predictions outputs between similar methods. To speed-up processing of large input fasta files (with several thousands of sequences) reccommended initial steps of the pipeline are automatically run as embarassingly parallel processes when the number of input sequences exceedes a certain limit. Taken together **SecretSanta** provides
+together. They produce the output in a standardized format recognizable by all
+of them. This allows to pipe results between individual predictors easily to
+create flexible custom pipelines as well as compare predictions outputs between similar methods. To speed-up processing of large input fasta files (with several thousands of sequences) recommended initial steps of the pipeline are automatically run as embarrassingly parallel processes when the number of input sequences exceeds a certain limit. Taken together **SecretSanta** provides
 tools aiding automation of multi-step secretome prediction pipelines that can be applied to large protein sets. 
 
 \newline 
@@ -45,12 +44,12 @@ standard code highlighting. For example:
 
 Majority of the functions could be run in 2 modes: 
 + *starter* - in the case you initiate secretome pipeline with the above tool;
-+ *piper* - for downstream/intermediate steps, so that the tool expects an output from another wraper function.
++ *piper* - for downstream/intermediate steps, so that the tool expects an output from another wrapper function.
 
 ## 1. Installation of external dependencies
 
 For prediction of secreted proteins SecretSanta relies on a set of existing
-[CBS tools](http://www.cbs.dtu.dk/services/). Please install them and configure according to the listed requirements. ``SecretSanta`` provides R intreface for
+[CBS tools](http://www.cbs.dtu.dk/services/). Please install them and configure according to the listed requirements. ``SecretSanta`` provides R interface for
 the following tools:
 
 \newline
@@ -67,10 +66,10 @@ the following tools:
     cd signalp-2.0
     ```
     + Edit "General settings" at the top of the **signalp** file. Set value of 'SIGNALP' variable to be path to your **signalp-2.0** directory. Other variables usually do not require changes. We will not use plotting functions from signalp,
-    so gnuplot, ppmtogif and ghostview are not requred. For more details please check ```signalp-2.0.readme```.
+    so gnuplot, ppmtogif and ghostview are not required. For more details please check ```signalp-2.0.readme```.
     + Since, we want to be able to run different versions of **signalp**,
-    including the legacy ones, it is important to be able to duscriminate
-    between them. R is oblivious to shell aliaces, so we will simply rename the    **siganlp** script:
+    including the legacy ones, it is important to be able to discriminate
+    between them. R is oblivious to shell aliases, so we will simply rename the    **siganlp** script:
     
     ```{sh rename signalp2, eval = FALSE}
     mv signalp siganlp2
@@ -89,7 +88,7 @@ the following tools:
     + Similar to **signalp-2.0**, edit "General settings" at the top of the 
     signalp file. Set value of 'SIGNALP' variable to be path to your **signalp-3.0** directory. Other variables usually do not require changes. 
     We will not use plotting functions from **signalp**, so gnuplot, ppmtogif 
-    and ghostview are not requred. For more details please check ```signalp-3.0.readme```.
+    and ghostview are not required. For more details please check ```signalp-3.0.readme```.
     + Rename **signalp** script to avoid further confusion between the versions:
     ```{sh rename signalp3, eval = FALSE}
     mv signalp signalp3
@@ -124,7 +123,7 @@ the following tools:
     tar -zxvf targetp-1.1b.Linux.tar.Z 
     cd targetp-1.1
     ```
-    + Edit the paragraph labeled "GENERAL SETTINGS, customise" at the top of 
+    + Edit the paragraph labeled "GENERAL SETTINGS, customize" at the top of 
     the **targetp** file.
     Set values for 'TARGETP' and 'TMP' variables. Ensure, that the path to
     targetp does not exceed 60 characters, otherwise **targetp-1.1** might fail.
@@ -140,7 +139,7 @@ the following tools:
     + Copy the binaries from the appropriate platform specific binary directory         ```./bin/binByPlatform/binary-?``` to ```./bin/```
     + For more details please check the ```INSTALL``` file.
     + The most important script we need **runWolfPsortSummary** has a bulky 
-    name, we will rename it to simply **wolfpsort** for the future convinience:
+    name, we will rename it to simply **wolfpsort** for the future convenience:
     ```{sh rename wolf, eval = FALSE}
     mv runWolfPsortSummary wolfpsort
     ```
@@ -151,12 +150,12 @@ the following tools:
 - **tmhmm-2.0**
     + **tmhmm-2.0** will run on the most common UNIX platforms  
     + Download stand alone tmhmm (http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?tmhmm)
-    + Upack the archive:
+    + Unpack the archive:
     ```{sh, unpack tmhmm-2.0, eval = FALSE}
     tar -zxvf tmhmm-2.0c.Linux.tar.gz
     cd tmhmm-2.0c
     ```
-    + Set correct path for perl 5.x in the first line of ```bin/tmhmm``` and ```bin/tmhmmformat.pl``` scripts.
+    + Set correct path for Perl 5.x in the first line of ```bin/tmhmm``` and ```bin/tmhmmformat.pl``` scripts.
     + For more details please check the ```README``` file.
     
 
@@ -177,7 +176,7 @@ gedit ~/.profile
 ```
 
 Add a line with all the path exports.
-In this example all the dependecies are installed in the `my_tool` directory:
+In this example all the dependencies are installed in the `my_tool` directory:
 ```{sh, eval = FALSE}
 export PATH=
 "/home/my_tools/signalp-4.1:\
@@ -254,12 +253,12 @@ Note, that ```manage_paths``` is case insensitive and will convert all the tool 
 
 ## Signalp
 
-**signalp** is a softaware tool to predict classical signal peptides and 
+**signalp** is a software tool to predict classical signal peptides and 
 cleavage sites [@Nielsen1997] in eukaryotes and bacteria. The method combines prediction of signal peptides and cleavage cites based on a combination of artificial neural networks as well as hidden Markov models. The latter allows
 to distinguish between signal peptides and non-cleaved signal anchors.
 
 Currently ```signalp``` function from SecretSanta provides an interface for the three recent versions of  **signalp**. The reason behind this is that
-**signalp-4** and **signalp-4.1** are not sensitive enough to predict certain classes of secreted oomycete and fungal effectors [@Sperschneider2015]. Thus, providing acces to the older versions provide greater flexibility for building versatile prediction pipelines for a wider taxonomic range of species.
+**signalp-4** and **signalp-4.1** are not sensitive enough to predict certain classes of secreted oomycete and fungal effectors [@Sperschneider2015]. Thus, providing access to the older versions provide greater flexibility for building versatile prediction pipelines for a wider taxonomic range of species.
 
 - **signalp-2.0** [@Nielsen1998]
 - **signalp-3.0** [@Bendtsen2004]
@@ -276,7 +275,7 @@ aa <- readAAStringSet(system.file("extdata",
                                   "sample_prot_100.fasta",
                                   package = "SecretSanta"))
 ```
-Initialise object of CBSResult class with ```aa``` as ```in_fasta``` attribute.
+Initialize object of CBSResult class with ```aa``` as ```in_fasta``` attribute.
 ```{r initialise CBSResult, cache=FALSE}
 inp <- CBSResult(in_fasta = aa)
 ```
@@ -293,7 +292,7 @@ step1_sp2 <- signalp(inp,
 
 The above code under the hood will run **signalp-2.0** prediction and output
 result as an instance of ```SignalpResult``` class, which is belongs to a more 
-genric ``CBSResult()`` superclass.
+generic ``CBSResult()`` superclass.
 
 ```{r explain SignalpResult class}
 class(step1_sp2)
@@ -318,7 +317,7 @@ You can use accessor methods to access contents of individual slots:
 ```{r get input fasta}
 getInfasta(step1_sp2)
 ```
-Please note, that by default ``signlap`` truncates all the input sequnces longer
+Please note, that by default ``signlap`` truncates all the input sequences longer
 than 2000 a.a, in this case '_truncated' is added to the original sequence ids
 to keep track of the changes. Alternative option - is discard long sequences
 completely before the analysis, to do so set ``truncate = FALSE`` when running ``signalp``.
@@ -344,12 +343,12 @@ step1_sp4 <- signalp(inp,
                      run_mode = "starter")
 ```
 In this case ``signalp-4.1`` version resulted in fewer number of candidates. 
-Please note, taht despite differences in the output format generated by multiple 
+Please note, that despite differences in the output format generated by multiple 
 versions of **signalp**, ``signalp`` returns ``sp_tibble`` in a standard format.
 
-In order to pipe result from differenr versions of **signalp** just switch to
+In order to pipe result from different versions of **signalp** just switch to
 the ``run_mode = 'piper'`` for the second and other downstream steps. In this
-case ``signalp`` will run the anlysis using contents of ``out_fasta`` slot as an input. Say, we want to do the following piping: **signalp2** -> **signalp3** -> **signalp4**.
+case ``signalp`` will run the analysis using contents of ``out_fasta`` slot as an input. Say, we want to do the following piping: **signalp2** -> **signalp3** -> **signalp4**.
 We will re-use ``step1_sp2`` object generated earlier in the ``starter`` mode
 and use it as an input for the next step:
 
@@ -360,7 +359,7 @@ step2_sp3 <- signalp(step1_sp2,
                      run_mode = "piper")
 ```
 
-Similar with the **signalp3** -> **signalp4** pipig:
+Similar with the **signalp3** -> **signalp4** piping:
 
 ```{r signalp piper sp3 -> sp4, collapse = TRUE}
 step3_sp4 <- signalp(step2_sp3,
@@ -369,14 +368,14 @@ step3_sp4 <- signalp(step2_sp3,
                      run_mode = "piper")
 ```
 
-With the input fasta files containig more than 1000 sequences,``signalp`` will automatically switch parallel mode: will split the input into smaller chunks and
-will run prediction as an embarassingly parallel proces using all the CPUs
+With the input fasta files containing more than 1000 sequences,``signalp`` will automatically switch parallel mode: will split the input into smaller chunks and
+will run prediction as an embarrassingly parallel process using all the CPUs
 available. Accurate execution time depend on the number if CPUs available and 
 the input file size. With 48 CPUs it takes ~2 minutes to run ``signalp`` on the
-input fasta file with more than 40'000 seqeunces.
+input fasta file with more than 40'000 sequences.
 
 ## TMHMM
-**TMHMM** predicts transmembrane a-helixes and helps to identify integral
+**TMHMM** predicts transmembrane a-helices and helps to identify integral
 membrane proteins based on HMMs [@Krogh2001; Sonnhammer1998]. It is important to 
 exclude proteins with trans membrane domains locates after signal peptide, as
 they will be retained in the membrane. Quite often **TMHMM** is not able to
@@ -385,7 +384,7 @@ is better to run it on the mature sequences with signal peptides removed.
 ``tmhmm`` function can handle input objects of SignalpResult class with 
 non-empty ```mature_fasta``` slot (see starters and pipers table for allowed inputs).
 
-Here we will use output of the ``signalp`` function as an iput:
+Here we will use output of the ``signalp`` function as an input:
 
 ```{r tmhmm legal, collapse=TRUE, cache=FALSE}
 tm <- tmhmm(step1_sp2, TM = 0)
@@ -397,7 +396,7 @@ slot will result in an error:
 tm2 <- tmhmm(inp, TM = 0)
 
 ```
-``tmhmm`` outputs insatces of ``TMhmmResult`` class, againg ineriting from 
+``tmhmm`` outputs instances of ``TMhmmResult`` class, again inheriting from 
 ``CBSResult``.
 
 ```{r explain TMhmmResult class}
@@ -407,14 +406,14 @@ slotNames(tm)
 
 ``TMhmmResult`` object contains 5 slots:
 
-+ ``in_fasta`` and ``out_fasta`` are common attriburtes of all classes 
++ ``in_fasta`` and ``out_fasta`` are common attributes of all classes 
 inheriting from CBSResult class;
 
 + ``tm_tibble`` - parsed **tmhmm** tabular output for candidates not having more transmembrane domains than specified by ``TM`` threshold;
 
 + ``in_mature_fasta`` - mature sequences used as an input for ```tmhmm```
 
-+ ``out_mature_fasta`` - outputed mature sequences not having more transmembrane domains than specified by ``TM`` threshold.
++ ``out_mature_fasta`` - outputted mature sequences not having more transmembrane domains than specified by ``TM`` threshold.
 
 To access individual slots you could use accessor functions:
 
@@ -467,9 +466,9 @@ class(tp)
 slotNames(tp)
 ```
 
-+ ``in_fasta`` and ``out_fasta`` are common attriburtes of all classes 
++ ``in_fasta`` and ``out_fasta`` are common attributes of all classes 
 inheriting from ``CBSResult`` class;
-+ ``tp_tibble`` - parsed tragetp tabular output for candidates not ttargeted
++ ``tp_tibble`` - parsed tragetp tabular output for candidates not targeted
 to mitochondria or plastids, i.e most likely to be secreted.
 
 To access ``tp_tibble`` slot use ``getTPtibble`` method:
@@ -477,7 +476,7 @@ To access ``tp_tibble`` slot use ``getTPtibble`` method:
 getTPtibble(tp)
 ```
 
-``targetp`` will automaticly switch to a parrallel mode if number of input sequences is garted than 1000.
+``targetp`` will automatically switch to a parallel mode if number of input sequences is grater than 1000.
 
 ## WoLFPSORT
 **WoLFPSORT** - predicts protein subcellular localisation based on PSORT
@@ -490,7 +489,7 @@ principle. It converts amino acid sequences into numerical localisation features
 - 'fungi'.
 
 ``wolfpsort`` function accepts objects of ``CBSResult`` class with non-empty
-``out_fasta`` slot, so it is recommeded to run this prediction on later stages 
+``out_fasta`` slot, so it is recommended to run this prediction on later stages 
 of the pipeline.
 
 ```{r run wolfpsort, collapse = TRUE, cache=FALSE}
@@ -505,7 +504,7 @@ wlf <- wolfpsort(step1_sp2,
 class(wlf)
 slotNames(wlf)
 ```
-+ ``in_fasta`` and ``out_fasta`` are common attriburtes of all classes 
++ ``in_fasta`` and ``out_fasta`` are common attributes of all classes 
 inheriting from ``CBSResult`` class;
 + ``wolf_tibble`` - parsed wolfPsort tabular output for sequences with 
 'extracellular' predicted to be the most probable subcellular localisation.
@@ -515,12 +514,12 @@ To access contents of ``wolf_tibble`` slot use ``getWOlFtibble`` method:
 getWOLFtibble(wlf)
 ```
 
-Since ``wolfpsort`` has the same purpouse as ``targetp`` it might be useful to
+Since ``wolfpsort`` has the same purpose as ``targetp`` it might be useful to
 run these functions side by side and compare the obtained results (see [targetp results](#Targetp)).
 
 ## Check for terminal ER-retention motifs
 In addition to having signal peptides some proteins might have ER-retention 
-signal in the C-terminal domain, preventing protein from being secreted ouside 
+signal in the C-terminal domain, preventing protein from being secreted outside 
 the cell. There are at least 2 known ER-retention motifs ('KDEL' and 'HDEL') 
 [@Munro1987].
 
@@ -539,22 +538,22 @@ This will return and object with 3 slots:
 ```{r explain ErResult class}
 slotNames(er_result)
 ```
-+ ``in_fasta`` and ``out_fasta`` are common attriburtes of all classes 
++ ``in_fasta`` and ``out_fasta`` are common attributes of all classes 
 inheriting from ``CBSResult`` class;
-+ ``retained`` - all the sequnces with C-terminal '(K/H)DEL' motifs, in case you
++ ``retained`` - all the sequences with C-terminal '(K/H)DEL' motifs, in case you
 would like to have a look at them.
 
 ## M-slicer
 
 This is an experimental option. ``m_slicer`` function takes the input amino acid
-sequences and generates all posible subsequences startig with methionine based
+sequences and generates all possible subsequences starting with methionine based
 on the assumption that translation start sites might be mis-predicted in the 
 original set of proteins -> signal peptides might be also mis-predicted. Output 
 of this step can be used as an input for secretome prediction pipeline to rescue
 secreted proteins with mis-predicted start sites. Sequence ids for the newly 
 generated slices are  build by concatenating original sequence id, 'slice' 
 string and position of the Methionine sliced from. For example: ``ALI_PLTG_3_slice_M86`` 
-means that ``ALI_PLTG_3`` seqeunce was sliced starting from methionine in the 
+means that ``ALI_PLTG_3`` sequence was sliced starting from methionine in the 
 position 86.
 
 ``m_slicer`` has 2 running modes:
@@ -697,7 +696,7 @@ getOutfasta(step4_er)
 mature sequences; not targeted to plastids or mitochondria; not retained in ER.
 
 This is an example of a fairly simple pipeline, but you can create more complex ones. The stringent pipeline might look like this and involve stringent 
-filatration on signal peptide prediction as well as additional predictions for 'rescued' proteins:
+filtration on signal peptide prediction as well as additional predictions for 'rescued' proteins:
 
 ```{r, out.width = "300px", fig.align="center", echo = FALSE}
 knitr::include_graphics("pipes_small.png")
