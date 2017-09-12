@@ -18,7 +18,7 @@ test_that("terminal KHDEL/HDEL motifs are detected",
             # check object with empty out_fasta in piper run_mode:
             expect_error(
               check_khdel(inp, run_mode = 'piper'),
-              'query fasta is empty, please ensure you are using correct run_mode'
+              'query fasta is empty, please check if run_mode value is correct'
             )
             
             # chek outputs of signalp

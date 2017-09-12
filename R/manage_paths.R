@@ -82,11 +82,12 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
             stop('Please supply path_file')
         } else {
             # read path file in a tibble
-            pp <- suppressMessages(readr::read_delim(path_file,                                                                                     delim = ' ',                                                                                      col_names = FALSE))
+            pp <- suppressMessages(readr::read_delim(path_file, delim = ' ',
+                                                     col_names = FALSE))
             # check that there are only 2 columns, i.e no extra spaces in
             # tool names
             if (!(ncol(pp) == 2)) {
-                stop('Please ensure that there are no spaces in the tool names.')
+                stop('Please check that there are no spaces in the tool names.')
             }
             
             names(pp) <- c("tool", "path")

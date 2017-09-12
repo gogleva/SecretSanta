@@ -12,8 +12,7 @@
 #' # check ER retention signals in CBSResult object
 #' # before running signalp or any other
 #' # predictions:
-#' aa <- readAAStringSet(system.file("extdata",
-#'     "sample_prot_100.fasta",                                                                   
+#' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta",
 #'      package = "SecretSanta"))
 #' inp <- SignalpResult(in_fasta = aa[1:10])
 #' et_s <- check_khdel(inp,
@@ -54,7 +53,7 @@ check_khdel <- function(input_obj, run_mode = c('starter', 'piper')) {
     message(paste('Submitted sequences...', length(fasta)))
     
     if (length(fasta) == 0) {
-        stop('query fasta is empty, please ensure you are using correct run_mode')
+        stop('query fasta is empty, please check if run_mode value is correct')
     }
     
     # find and remove termial ER retention motifs
