@@ -78,7 +78,7 @@ split_XStringSet <- function(string_set, chunk_size) {
 
 combine_SpResult <- function(arguments) {
   if ((all(sapply(arguments, is, 'SignalpResult'))) == FALSE) {
-    stop('Some objects from arguments list do not belong to SignalpResult class.')
+    stop('Some objects from argument list do not belong to SignalpResult class')
   }
   
   c_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))

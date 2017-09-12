@@ -9,7 +9,8 @@ parse_signalp(input, input_type = c("path", "system_call"))
 \arguments{
 \item{input}{output of signalp2 or signalp3}
 
-\item{input_type}{\strong{path}  path to a file with text output from signalp2 or signalp3;\cr
+\item{input_type}{\strong{path}  path to a file with text output from signalp2 
+or signalp3;\cr
 \strong{system_call} output from signalp2/3 system call;}
 }
 \value{

@@ -23,8 +23,7 @@ the provided amino acid equences.
 # check ER retention signals in CBSResult object
 # before running signalp or any other
 # predictions:
-aa <- readAAStringSet(system.file("extdata",
-    "sample_prot_100.fasta",                                                                   
+aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta",
      package = "SecretSanta"))
 inp <- SignalpResult(in_fasta = aa[1:10])
 et_s <- check_khdel(inp,

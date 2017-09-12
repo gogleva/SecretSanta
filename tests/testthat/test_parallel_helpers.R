@@ -55,9 +55,6 @@ test_that("combine_SignalpResult works as intended",
             length(getMatfasta(combined_sp)))
             
             alist <- c(inp2, inp3, inp4)
-            expect_error(
-              combine_SpResult(alist),
-              'Some objects from arguments list do not belong to SignalpResult class.'
-            )
+            expect_error(combine_SpResult(alist))
             
           })

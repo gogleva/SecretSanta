@@ -28,7 +28,7 @@
 combine_TpResult <- function(arguments) {
   if (all(sapply(arguments, is, 'TargetpResult'))) {
   } else {                               
-    stop('Some objects from arguments list do not belong to TargetpResult class.')
+    stop('Some objects from argument list do not belong to TargetpResult class')
   }
   
   c_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
@@ -159,8 +159,8 @@ targetp <- function(input_obj,
       }
   
       tp <- tp %>% dplyr::filter_(~TP_localization == 'S')
-      message(paste('Number of candidate secreted sequences', nrow(tp)))         
-  
+      message(paste('Number of candidate secreted sequences', nrow(tp)))
+      
       candidate_ids <- tp %>%
                        dplyr::select_(~gene_id) %>% 
                        unlist(use.names = FALSE)

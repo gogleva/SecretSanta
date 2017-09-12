@@ -7,7 +7,8 @@
 #' signalp2 and signalp3 captured in a system call or stored in a file.
 #' @param input output of signalp2 or signalp3
 #' @param input_type
-#' \strong{path}  path to a file with text output from signalp2 or signalp3;\cr
+#' \strong{path}  path to a file with text output from signalp2 
+#' or signalp3;\cr
 #' \strong{system_call} output from signalp2/3 system call;
 #' @return parsed signalp2/3 output, organised in a tibble object.
 #' @export
