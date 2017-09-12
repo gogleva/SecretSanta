@@ -2,9 +2,7 @@
 title: 'SecretSanta: flexible pipelines for automated prediction of secreted proteins'
 author: "Anna Gogleva"
 date: '`r Sys.Date()`'
-output:
-  word_document: default
-  pdf_document: default
+output: rmarkdown::html_vignette
 fig_caption: yes
 tables: yes
 bibliography: Santa.bib
@@ -40,7 +38,7 @@ allowing to combine the outputs in a single flexible workflow is lacking.
 
 **SecretSanta** package attempts to bridge this gap. It provides wrapper
 functions around existing command line tools for prediction of signal peptides 
-and protein subcellular localisation. The wrappers are designed to work
+and protein subcellular localization. The wrappers are designed to work
 together by producing standardized output as an instance of ``CBSResult`` superclass. 
 
 \newline 
@@ -67,7 +65,7 @@ knitr::include_graphics("class_structure.png")
 
 This allows to pipe results between individual predictors easily to
 create flexible custom pipelines and also compare predictions between similar methods. For instance, **targetp** and **WoLFPsort** for subcellular 
-localisation and multiple versions of **signalp** for signal peptide prediction.
+localization and multiple versions of **signalp** for signal peptide prediction.
 
 \newline
 
@@ -158,7 +156,7 @@ instructions.
 
 \newline
 
-#### Tools for prediction of protein subcellular localisation:    
+#### Tools for prediction of protein subcellular localization:    
     
 - **taretp-1.1**
     + **tatgetp-1.1** will run on the most common UNIX platforms  
@@ -211,7 +209,7 @@ instructions.
 
 Two options are possible:
 
-#### Option A: all the external dependecies are accessible from any location.
+#### Option A: all the external dependencies are accessible from any location.
 
 This requires modification of ``$PATH`` environment variable. To make the change permanent, edit ``.profile``:
 
@@ -480,7 +478,7 @@ getOutMatfasta(tm)
 
 
 ### 3.3 Targetp
-**Targetp** predicts subsellular localisation of secreted eukaryotic proteins
+**Targetp** predicts subsellular localization of secreted eukaryotic proteins
 based on the presence of signal peptide (SP), chloroplast transit peptide (cTP)
 or mitochondrial targeting peptide (mTP) in the N-terminus [@Emanuelsson2008]. 
 Including **targetp** in the pipeline can provide additional evidence that a 
@@ -534,8 +532,8 @@ getTPtibble(tp)
 ``targetp`` will automatically switch to a parallel mode if number of input sequences is grater than 1000.
 
 ### 3.4 WoLFPSORT
-**WoLFPSORT** - predicts protein subcellular localisation based on PSORT
-principle. It converts amino acid sequences into numerical localisation features based on sorting signals, amino acid composition and functional motifs. The converted data is then classified based on k-nearest neighbor algorithm [@Horton2006].
+**WoLFPSORT** - predicts protein subcellular localization based on PSORT
+principle. It converts amino acid sequences into numerical localization features based on sorting signals, amino acid composition and functional motifs. The converted data is then classified based on k-nearest neighbor algorithm [@Horton2006].
 
 ``wolfpsort`` requires ``organism`` parameter, it's possible values include:
 
@@ -562,7 +560,7 @@ slotNames(wlf)
 + ``in_fasta`` and ``out_fasta`` are common attributes of all classes 
 inheriting from ``CBSResult`` class;
 + ``wolf_tibble`` - parsed WoLFPsort tabular output for sequences with 
-'extracellular' predicted to be the most probable subcellular localisation.
+'extracellular' predicted to be the most probable subcellular localization.
 
 To access contents of ``wolf_tibble`` slot use ``getWOlFtibble`` method:
 ```{r access wolf_tibble}
@@ -719,7 +717,7 @@ getOutMatfasta(step2_tm)
 > **Result**: 5 candidate proteins with signal peptides; 0 TM domains in
 mature sequences.
 
-#### Step 3: predict sub-cellular localisation
+#### Step 3: predict sub-cellular localization
 Here we are using ``targetp``, could have also used ``wolfpsort``.
 
 ```{r, collapse=TRUE}

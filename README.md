@@ -13,14 +13,8 @@ retention signals, mitochondria and plastid targeting signals
 pick secreted proteins shown in **Figure 1, a** and filer out
 those shown in **Figure 1, b-d**.
 
+
 \n
-
-
-```{r motifs, out.width = "400px", fig.align="center", echo = FALSE, fig.cap="\\label{fig:motifs} **Figure 1.** Characteristic motifs, domains and their arrangemnets, helping to distinguish extracellular proteins from proteins retained inside the cell.", }
-knitr::include_graphics("motifs_and_domains.png")
-```
-
-\newline
 
 A number of excellent command line tools and web-interfaces exist to perform
 prediction of individual motifs and domains
@@ -30,7 +24,7 @@ prediction of individual motifs and domains
 [WolfPsort](https://github.com/fmaguire/WoLFPSort)), however the interface
 allowing to combine the outputs in a single flexible workflow is lacking.
 
-\newline
+\n
 
 **SecretSanta** package attempts to bridge this gap. It provides wrapper
 functions around existing command line tools for prediction of signal peptides

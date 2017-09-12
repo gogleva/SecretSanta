@@ -30,7 +30,7 @@ version number;\cr
 a list of length 3 with the following elements:
 \itemize{
 \item \strong{tests}    TRUE if all the exteranl dependencies are working;
-\item \strong{in_path}    TRUE if the dependecies are acessible via $PATH;
+\item \strong{in_path}    TRUE if the dependecies are accessible via $PATH;
 FALSE - if paths are provided with the path_file argument;
 \item \strong{path_tibble} a tibble with verified names and paths for
 external dependencies; \cr
