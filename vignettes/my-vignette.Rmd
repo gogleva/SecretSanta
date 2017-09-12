@@ -57,7 +57,10 @@ sequences with cleaved N-terminal signal peptides;
 + ``sp_version`` - version of **signalp** used to generate this object.
 
 \newline
-
+s1_sp2 <- signalp(inp,
+                  version = 2,
+                  organism = 'euk',
+                  run_mode = "starter")
 This allows to pipe results between individual predictors easily to
 create flexible custom pipelines and also compare predictions between similar methods. For instance, **targetp** and **WoLFPsort** for subcellular 
 localisation and multiple versions of **signalp** for signal peptide prediction.

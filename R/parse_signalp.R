@@ -147,7 +147,13 @@ parse_signalp <-
                           "Spos",
                           "Smean",
                           "Prediction")
+
     
     #filter entries predicted to contain signal peptide
-    return(res %>% filter(res$Prediction == 'Signal peptide'))
+    res <- res %>% filter(res$Prediction == 'Signal peptide')
+    
+    #Smean to numeric
+    res$Smean <- as.numeric(as.character(res$Smean))
+    
+    return(res)
   }
