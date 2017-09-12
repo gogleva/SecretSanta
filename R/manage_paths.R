@@ -28,7 +28,7 @@
 #' @return a list of length 3 with the following elements:
 #' \itemize{
 #' \item \strong{tests}    TRUE if all the exteranl dependencies are working;
-#' \item \strong{in_path}    TRUE if the dependecies are acessible via $PATH;
+#' \item \strong{in_path}    TRUE if the dependecies are accessible via $PATH;
 #' FALSE - if paths are provided with the path_file argument;
 #' \item \strong{path_tibble} a tibble with verified names and paths for
 #' external dependencies; \cr
@@ -66,9 +66,9 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
                         path_file = NULL) {
     test_mode <- match.arg(test_mode)
     
-    # here we assume that all the tools are acessible via $PATH:
+    # here we assume that all the tools are accessible via $PATH:
     if (in_path == TRUE) {
-        message('checking dependencies acessible via $PATH')
+        message('checking dependencies accessible via $PATH')
         if (is.null(path_file)) {
         } else {
             message('path file provided, but not required')
