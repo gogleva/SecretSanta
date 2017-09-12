@@ -22,39 +22,31 @@
 #' # extract out_fasta attribute
 #' getOutfasta(cbs)
 
-CBSResult <- setClass(
-  "CBSResult",
-  
-  slots = list(in_fasta = "AAStringSet",
-               out_fasta = "AAStringSet"),
-  
-  prototype = list(
-    in_fasta = Biostrings::AAStringSet(),
-    out_fasta = Biostrings::AAStringSet()
-  ),
-  
-  validity = function(object)
-  {
+CBSResult <- setClass("CBSResult",
+    slots = list(in_fasta = "AAStringSet", out_fasta = "AAStringSet"),
+    prototype = list(in_fasta = Biostrings::AAStringSet(),
+                    out_fasta = Biostrings::AAStringSet()
+    ),
+    
+    validity = function(object)
+    {
     #check that input is not dna or rna
     
-    al <-
-      Biostrings::alphabetFrequency(object@in_fasta)
-    
+    al <- Biostrings::alphabetFrequency(object@in_fasta)
     
     if (nrow(al) == 1) {
-      most_frequent <- 
-        names(rev(sort(al[, colSums(al != 0) > 0])))[1:4]
+        most_frequent <- names(rev(sort(al[, colSums(al != 0) > 0])))[1:4]
     } else {
-      most_frequent <- 
-        names(rev(sort(colSums(al[, colSums(al != 0) > 0])))[1:4])
+        most_frequent <- 
+            names(rev(sort(colSums(al[, colSums(al != 0) > 0])))[1:4])
     }
    
     if (all(c("A", "C", "G", "T") %in% most_frequent)) {
-      return("Input sequence is DNA, please provide amino acid sequence.")
+        return("Input sequence is DNA, please provide amino acid sequence.")
     }
     
     if (all(c("A", "C", "G", "U") %in% most_frequent)) {
-      return("Input sequence is RNA, amino acid sequence required.")
+        return("Input sequence is RNA, amino acid sequence required.")
     }
     
     

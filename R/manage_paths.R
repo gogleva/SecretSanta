@@ -60,9 +60,8 @@
 #'              package = "SecretSanta"))
 
 manage_paths <- function(in_path = c(TRUE, FALSE),
-                        test_mode = c('all','signalp2','signalp3',
-                                      'signalp4', 'targetp', 'tmhmm',
-                                      'wolfpsort'),
+                        test_mode = c('all','signalp2','signalp3', 'signalp4',
+                                        'targetp', 'tmhmm', 'wolfpsort'),
                         path_file = NULL) {
     test_mode <- match.arg(test_mode)
     
@@ -117,7 +116,7 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
     
     # micro fasta file to test with all tools:
     test_fasta <- system.file("extdata", "small_prot.fasta", 
-                              package = "SecretSanta")
+                                package = "SecretSanta")
     
     # helper function to extract tool paths when provided in path_file
     get_paths <- function(tool_name) {
@@ -128,8 +127,7 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
     
     # helper function to generate success message
     ok_message <- function(tool_name) {
-        message(paste(tool_name,
-                                    'run completed'))
+        message(paste(tool_name, 'run completed'))
     }
     
     # helper function to generate failure message
@@ -151,8 +149,8 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
     #signalp2:
     test_signalp2 <- function() {
         sp2_call <-
-            system(paste(make_call('signalp2'), '-t euk', test_fasta),
-                   intern = TRUE)
+            system(paste(make_call('signalp2'), '-t euk', test_fasta), 
+                    intern = TRUE)
         if (grepl('SignalP predictions', sp2_call[1])) {
             ok_message('signalp2')
             sp2_test <- TRUE
@@ -166,7 +164,7 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
     test_signalp3 <- function() {
         sp3_call <-
             system(paste(make_call('signalp3'), '-t euk', test_fasta),
-                         intern = TRUE)
+            intern = TRUE)
         if (grepl('SignalP 3.0 predictions', sp3_call[1])) {
             ok_message('signalp3')
             sp3_test <- TRUE
@@ -180,7 +178,7 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
     test_signalp4 <- function() {
         sp4_call <-
             system(paste(make_call('signalp4'), '-t euk', test_fasta),
-                         intern = TRUE)
+            intern = TRUE)
         if (grepl('SignalP-4', sp4_call[1])) {
             ok_message('signalp4')
             sp4_test <- TRUE
@@ -264,9 +262,7 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
         pp <- pp %>% filter_( ~ tool == test_mode)
     }
     
-    result <- list(tests = all_tests,
-                   in_path = in_path,
-                   path_tibble = pp)
+    result <- list(tests = all_tests, in_path = in_path, path_tibble = pp)
     
     return(result)
 }

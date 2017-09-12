@@ -26,7 +26,7 @@ test_that("m-slicer treats input objects correctly",
               m_slicer(aa,
                        100,
                        run_mode = 'rescue'),
-              "Please use run_mode 'slice' for an input object of AAStringSet class"
+              "Use run_mode 'slice' for an input object of AAStringSet class"
             )
             
             #test the rescue mode:
