@@ -20,6 +20,10 @@ Suggests:
     testthat,
     knitr,
     rmarkdown
+SystemRequirements: SignalP,
+                    TargetP
+                    TMHMM
+                    WoLFPsort
 VignetteBuilder: knitr
 biocViews: Software,
            Proteomics,

@@ -38,7 +38,9 @@ facilitate comparison of secretomes across multiple species.
 
 For prediction of secreted proteins **SecretSanta** relies on a set of existing
 command line tools. Please install them and configure according to the listed
-instructions.
+instructions. Due to limitations imposed by the external dependencies, some of
+**SecretSanta** wrapper functions won't work in Windows, however should be fully
+functional on Linux and Mac.
 
 ### 2.1 Download and configure external dependencies
 

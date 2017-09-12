@@ -24,7 +24,6 @@ those shown in **Figure 1, b-d**.
 
 \newline
 
-
 ```{r motifs, out.width = "400px", fig.align="center", echo = FALSE, fig.cap="\\label{fig:motifs} **Figure 1.** Characteristic motifs, domains and their arrangements, helping to distinguish extracellular proteins from proteins retained inside the cell.", }
 knitr::include_graphics("motifs_and_domains.png")
 ```
@@ -38,9 +37,8 @@ allowing to combine the outputs in a single flexible workflow is lacking.
 
 **SecretSanta** package attempts to bridge this gap. It provides wrapper
 functions around existing command line tools for prediction of signal peptides 
-and protein subcellular localization. The wrappers are designed to work
-together by producing standardized output as an instance of ``CBSResult`` superclass. 
-
+and protein subcellular localization. The wrappers are designed to work together 
+by producing standardized output as an instance of ``CBSResult`` superclass.
 \newline 
 
 Objects of ``CBSResult`` class contain ``in_fasta`` slot with 
@@ -96,7 +94,8 @@ output from another wrapper function.
 
 For prediction of secreted proteins SecretSanta relies on a set of existing
 command line tools. Please install them and configure according to the listed 
-instructions.
+instructions. Due to limitations imposed by the external dependencies, some of **SecretSanta** wrapper functions won't work in Windows, however should be fully fuctional on Linux and Mac.
+
 \newline
 
 ### 2.1 Download and configure external dependencies
