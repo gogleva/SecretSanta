@@ -8,10 +8,9 @@ prediction of short signal peptides at the N-terminus end of a protein.
 Next, it is crucial to ensure the absence of motifs and
 domains preventing the protein from being secreted despite the presence of the
 signal peptide. These sequences include transmembrane domains, short ER lumen
-retention signals, mitochondria and plastid targeting signals.
-
-A number of excellent command line tools and web-interfaces exist to perform
-prediction of individual motifs and domains
+retention signals, mitochondria and plastid targeting signals.A number of
+excellent command line tools and web-interfaces exist to perform prediction of
+individual motifs and domains
 ([signalp](http://www.cbs.dtu.dk/services/SignalP/),
 [targetp](http://www.cbs.dtu.dk/services/TargetP/),
 [TMHMM](http://www.cbs.dtu.dk/services/TMHMM/),
@@ -25,8 +24,8 @@ together by producing standardized output.
 
 This allows to pipe results between individual predictors easily to
 create flexible custom pipelines and also compare predictions between similar
-methods. For instance, **targetp** and **WoLFPsort** for subcellular localization
-and multiple versions of **signalp** for signal peptide prediction.
+methods. For instance, **targetp** and **WoLFPsort** for subcellular
+localization and multiple versions of **signalp** for signal peptide prediction.
 
 To speed-up processing of large input fasta files initial steps of the pipeline
 are automatically run as an embarrassingly parallel process when the number of
@@ -36,12 +35,11 @@ Taken together **SecretSanta** provides tools aiding automation of multi-step
 secretome prediction pipelines that can be applied to large protein sets to
 facilitate comparison of secretomes across multiple species.
 
-## 2. ## 2. Installation of external dependencies
+## 2. Installation of external dependencies
 
-For prediction of secreted proteins SecretSanta relies on a set of existing
+For prediction of secreted proteins **SecretSanta** relies on a set of existing
 command line tools. Please install them and configure according to the listed
 instructions.
-\newline
 
 ### 2.1 Download and configure external dependencies
 
@@ -54,17 +52,19 @@ instructions.
     tar -zxvf signalp-2.0.Linux.tar.Z
     cd signalp-2.0
     ```
-    + Edit "General settings" at the top of the **signalp** file. Set value of 'SIGNALP' variable to be path to your **signalp-2.0** directory. Other variables usually do not require changes. We will not use plotting functions from signalp,
-    so gnuplot, ppmtogif and ghostview are not required. For more details please check ``signalp-2.0.readme``.
+    + Edit "General settings" at the top of the **signalp** file. Set value of
+    'SIGNALP' variable to be path to your **signalp-2.0** directory.
+    Other variables usually do not require changes. We will not use plotting
+    functions from signalp, so **gnuplot**, **ppmtogif** and **ghostview** are
+    not required. For more details please check ``signalp-2.0.readme``.
     + Since, we want to be able to run different versions of **signalp**,
     including the legacy ones, it is important to be able to discriminate
-    between them. R is oblivious to shell aliases, so we will simply rename the    **siganlp** script:
+    between them. R is oblivious to shell aliases, so we will simply rename the
+    **siganlp** script:
 
     ```{sh rename signalp2, eval = FALSE}
     mv signalp siganlp2
     ```
-
-\newline
 
 - **signalp-3.0**
     + This version will run on the most common UNIX platforms.
@@ -75,14 +75,14 @@ instructions.
     cd signalp-3.0
     ```
     + Similar to **signalp-2.0**, edit "General settings" at the top of the
-    signalp file. Set value of 'SIGNALP' variable to be path to your **signalp-3.0** directory. Other variables usually do not require changes.
+    signalp file. Set value of 'SIGNALP' variable to be path to your
+    **signalp-3.0** directory. Other variables usually do not require changes.
     For more details please check ``signalp-3.0.readme``.
     + Rename **signalp** script to avoid further confusion between the versions:
     ```{sh rename signalp3, eval = FALSE}
     mv signalp signalp3
     ```
 
-\newline
 
 - **signalp-4.1** - the most recent version
     + This version can run under Windows, OS X (Macintosh) and Linux.
@@ -92,14 +92,12 @@ instructions.
     tar -zxvf signalp-4.1.Linux.tar.Z
     cd signalp-4.1
     ```
-    + Edit "General settings" at the top of the **signalp** file. Set values for 'SIGNALP' and 'outputDir' variables. For more details please check ```signalp-4.1.readme```.
+    + Edit "General settings" at the top of the **signalp** file. Set values for
+    'SIGNALP' and 'outputDir' variables. For more details please check ``signalp-4.1.readme``.
     + Rename **signalp** script to avoid further confusion between the versions:
     ```{sh rename signalp4, eval = FALSE}
     mv signalp signalp4
     ```
-
-\newline
-
 #### Tools for prediction of protein subcellular localization:    
 
 - **taretp-1.1**
@@ -113,9 +111,8 @@ instructions.
     + Edit the paragraph labeled "GENERAL SETTINGS, customize" at the top of
     the **targetp** file.
     Set values for 'TARGETP' and 'TMP' variables. Ensure, that the path to
-    **targetp** does not exceed 60 characters, otherwise **targetp-1.1** might fail.
-
-\newline
+    **targetp** does not exceed 60 characters, otherwise **targetp-1.1** might
+    fail.
 
 - **WoLFPsort**
     + Clone WoLFPsort
@@ -123,15 +120,14 @@ instructions.
     git clone https://github.com/fmaguire/WoLFPSort.git
     cd WoLFPSort
     ```
-    + Copy the binaries from the appropriate platform specific binary directory         ```./bin/binByPlatform/binary-?``` to ```./bin/```
-    + For more details please check the ```INSTALL``` file.
+    + Copy the binaries from the appropriate platform specific binary directory
+    ``./bin/binByPlatform/binary-?`` to `./bin/``
+    + For more details please check the `INSTALL` file.
     + The most important script we need **runWolfPsortSummary** has a bulky
     name, we will rename it to simply **wolfpsort** for the future convenience:
     ```{sh rename wolf, eval = FALSE}
     mv runWolfPsortSummary wolfpsort
     ```
-
-\newline
 
 #### Tools for prediction of transmembrane domains
 - **tmhmm-2.0**
@@ -142,8 +138,6 @@ instructions.
     tar -zxvf tmhmm-2.0c.Linux.tar.gz
     cd tmhmm-2.0c
     ```
-    + Set correct path for Perl 5.x in the first line of ```bin/tmhmm``` and ```bin/tmhmmformat.pl``` scripts.
-    + For more details please check the ```README``` file.
-
-
-\newline
+    + Set correct path for Perl 5.x in the first line of ``bin/tmhmm`` and
+    ``bin/tmhmmformat.pl`` scripts.
+    + For more details please check the ``README`` file.
