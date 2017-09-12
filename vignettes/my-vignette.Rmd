@@ -17,30 +17,60 @@ extracellular proteins secreted via classical secretion pathway, i.e. requiring
 presence of a signal peptide.
 
 Secretome prediction often involves multiple steps. Typically it starts with prediction of short signal peptides at the N-terminus end of a protein
-(**Figure 1, a-b**). Next, it is crucial to ensure the absence of motifs and domains preventing the protein from being secreted despite the presence of the signal peptide. These sequences include transmembrane domains, short ER 
+(**Figure 1, a**). Next, it is crucial to ensure the absence of motifs and
+domains preventing the protein from being secreted despite the presence of the signal peptide. These sequences include transmembrane domains, short ER lumen
 retention signals, mitochondria and plastid targeting signals
-(**Figure 1, c-e**). The ultimate aim of secretome prediction pipeline is to 
-keep secreted proteins shown in **Figure 1, a-b** and filer out
-those shown in **Figure 1, c-e**.
+(**Figure 1, b-d**). The ultimate aim of a secretome prediction pipeline is to 
+pick secreted proteins shown in **Figure 1, a** and filer out
+those shown in **Figure 1, b-d**.
+
+\newline
+
 
 ```{r motifs, out.width = "400px", fig.align="center", echo = FALSE, fig.cap="\\label{fig:motifs} **Figure 1.** Characteristic motifs, domains and their arrangemnets, helping to distinguish extracellular proteins from proteins retained inside the cell.", }
 knitr::include_graphics("motifs_and_domains.png")
 ```
 
-Though, a number of excellent command line tools and web-interfaces exist to perform prediction of individual motifs and signal sequences ([signalp](http://www.cbs.dtu.dk/services/SignalP/), [targetp](http://www.cbs.dtu.dk/services/TargetP/), [TMHMM](http://www.cbs.dtu.dk/services/TMHMM/), [WolfPsort](https://github.com/fmaguire/WoLFPSort)), the interface allowing to combine the outputs in a single flexible workflow is lacking.
+\newline
+
+A number of excellent command line tools and web-interfaces exist to perform prediction of individual motifs and domains ([signalp](http://www.cbs.dtu.dk/services/SignalP/), [targetp](http://www.cbs.dtu.dk/services/TargetP/), [TMHMM](http://www.cbs.dtu.dk/services/TMHMM/), [WolfPsort](https://github.com/fmaguire/WoLFPSort)), however the interface 
+allowing to combine the outputs in a single flexible workflow is lacking.
 
 \newline
 
 **SecretSanta** package attempts to bridge this gap. It provides wrapper
 functions around existing command line tools for prediction of signal peptides 
 and protein subcellular localisation. The wrappers are designed to work
-together. They produce an output in a standardized format recognizable by all
-of them. This allows to pipe results between individual predictors easily to
-create flexible custom pipelines as well as compare prediction results between similar methods: **targetp** and **WoLFPsort**; or multiple versions of 
-**signalp**. To speed-up processing of large input fasta files initial steps of 
-the pipeline are automatically run as embarrassingly parallel processes when the number of input sequences exceeds a certain limit. Taken together
-**SecretSanta** provides tools aiding automation of multi-step secretome
-prediction pipelines that can be applied to large protein sets to facilitate comparison of secretomes across multiple species.
+together by producing standardized output as an instance of ``CBSResult`` superclass. 
+
+\newline 
+
+Objects of ``CBSResult`` class contain ``in_fasta`` slot with 
+the initial submitted sequences and ``out_fasta`` slot with positive candidates 
+after the method application. Each particular method then complements this 
+simple structure with relevant slots. For example ``signlp`` function outputs results organised in ``SignalpResult`` objects. Apart from ``in_fasta`` and ``out_fasta`` slots inherited from ``CBSResult`` class, ``SignalpResult`` 
+objects contain three additional slots, relevant for **signalp** method:
+
++ ``sp_tibble`` - parsed **signalp** tabular output for positive candidates;
++ ``mature_fasta`` - mature sequence for the candidate secreted proteins, i.e 
+sequences with cleaved N-terminal signal peptides;
++ ``sp_version`` - version of **signalp** used to generate this object.
+
+\newline
+
+This allows to pipe results between individual predictors easily to
+create flexible custom pipelines and also compare predictions between similar methods. For instance, **targetp** and **WoLFPsort** for subcellular 
+localisation and multiple versions of **signalp** for signal peptide prediction.
+
+\newline
+
+To speed-up processing of large input fasta files initial steps of the pipeline
+are automatically run as an embarrassingly parallel process when the number of
+input sequences exceeds a certain limit. 
+
+\newline
+
+Taken together **SecretSanta** provides tools aiding automation of multi-step secretome prediction pipelines that can be applied to large protein sets to facilitate comparison of secretomes across multiple species.
 
 \newline 
 
