@@ -108,6 +108,7 @@ stand alone CBS tools are available only for Unix, se we should not care about W
 - code profiling to speed-up wrappers
 - parallel runners: Biocheck might complain about library exports (looks like I
   don't need to do clusterEvalQ at all, bingo)
+- Biocheck: fix notes (not absolutely required)
 
 TO DO (required minimum):
 
@@ -117,7 +118,7 @@ take too long to run for R CMD check:
     - 1K,
     - 2K,
     - long sequences
-- Biocheck: fix notes (not absolutely required)
+
 - Individual (and cool!) plotting functions for the outputs
 - prediction graphs (?) when each candidate was rejected -->?
 

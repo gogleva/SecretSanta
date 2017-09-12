@@ -56,6 +56,13 @@ objects contain three additional slots, relevant for **signalp** method:
 sequences with cleaved N-terminal signal peptides;
 + ``sp_version`` - version of **signalp** used to generate this object.
 
+The detailed organisation of class structure is shown in the **Figure 2**. 
+
+```{r objects, out.width = "600px", fig.align="center", echo = FALSE, fig.cap="\\label{fig:motifs} **Figure 2.** SecretSanta class structure.", }
+knitr::include_graphics("class_structure.png")
+```
+
+
 \newline
 
 This allows to pipe results between individual predictors easily to
@@ -654,7 +661,7 @@ knitr::kable(st, align = c(rep('c', 2), 'l', rep('c',3)),
 ## 5. Build pipelines
 
 Now, we are ready to build a pipeline using all our available methods. Say, we 
-would like to have a relatively short pipeline with the following steps:
+would like to have a relatively short pipeline (**Figure 2**) with the following analytic steps:
 
 + use **signalp4** to predict signal peptides and cleavage sites;
 + run **tmhmm** on the output, to ensure that predicted proteins with
@@ -663,7 +670,12 @@ signal peptides do not contain TM domains, i.e won't be stuck in the membrane;
 + collect the targtep output and scan for ER-retention signals - to ensure
 that proteins won't be stuck in ER.
 
-Now we will run the pipeline using ``SecretSanta`` functions, starting with
+
+```{r pipe1, out.width = "200px", fig.align="center", echo = FALSE, fig.cap="\\label{fig:pipe1} **Figure 3.** Minimal pipeline for secretome prediction", }
+knitr::include_graphics("pipes_short.png")
+```
+
+Now we will run this pipeline using ``SecretSanta`` functions, starting with
 ``aa`` - an ``AAStringSet`` object containing 100 amino acid sequences.
 
 #### Step 1: predict signal peptides
@@ -741,10 +753,10 @@ getOutfasta(step4_er)
 mature sequences; not targeted to plastids or mitochondria; not retained in ER.
 
 This is an example of a fairly simple pipeline, but you can create more complex ones. The stringent pipeline might involve multi-step 
-filtration on signal peptide prediction as well as additional predictions for 'rescued' (**Figure 2**) sequences.
+filtration on signal peptide prediction as well as additional predictions for 'rescued' (**Figure 4**) sequences.
 
-```{r pipilines, out.width = "400px", fig.align="center", echo = FALSE, fig.cap="\\label{fig:pipelines} **Figure 2.** Example of a stringent pipeline."}
-knitr::include_graphics("pipes_small.png")
+```{r pipe2, out.width = "300px", fig.align="center", echo = FALSE, fig.cap="\\label{fig:pipe1} **Figure 3.** Example of a stringent pipeline.", }
+knitr::include_graphics("pipes_long.png")
 ```
 
 ### References
