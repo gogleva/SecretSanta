@@ -8,7 +8,7 @@ prediction of short signal peptides at the N-terminus end of a protein.
 Next, it is crucial to ensure the absence of motifs and
 domains preventing the protein from being secreted despite the presence of the
 signal peptide. These sequences include transmembrane domains, short ER lumen
-retention signals, mitochondria and plastid targeting signals.A number of
+retention signals, mitochondria and plastid targeting signals. A number of
 excellent command line tools and web-interfaces exist to perform prediction of
 individual motifs and domains
 ([signalp](http://www.cbs.dtu.dk/services/SignalP/),
@@ -20,12 +20,11 @@ allowing to combine the outputs in a single flexible workflow is lacking.
 **SecretSanta** package attempts to bridge this gap. It provides wrapper
 functions around existing command line tools for prediction of signal peptides
 and protein subcellular localisation. The wrappers are designed to work
-together by producing standardized output.
-
-This allows to pipe results between individual predictors easily to
-create flexible custom pipelines and also compare predictions between similar
-methods. For instance, **targetp** and **WoLFPsort** for subcellular
-localization and multiple versions of **signalp** for signal peptide prediction.
+together by producing standardized output. This allows to pipe results between
+individual predictors easily to create flexible custom pipelines and also
+compare predictions between similar methods. For instance, **targetp** and
+**WoLFPsort** for subcellular localization and multiple versions of **signalp**
+for signal peptide prediction.
 
 To speed-up processing of large input fasta files initial steps of the pipeline
 are automatically run as an embarrassingly parallel process when the number of
@@ -141,3 +140,45 @@ instructions.
     + Set correct path for Perl 5.x in the first line of ``bin/tmhmm`` and
     ``bin/tmhmmformat.pl`` scripts.
     + For more details please check the ``README`` file.
+
+
+### 2.2 Organise access to the external dependencies
+
+The best option would be to make all the external dependencies are accessible
+from any location. This requires modification of ``$PATH`` environment variable.
+
+To make the change permanent, edit ``.profile``:
+Open ./profile:
+```{sh edit $PATH, eval = FALSE}
+gedit ~/.profile
+```
+Add a line with all the path exports.
+In this example all the dependencies are installed in the `my_tool` directory:
+```{sh, eval = FALSE}
+export PATH=
+"/home/my_tools/signalp-4.1:\
+/home/my_tools/signalp-2.0:\
+/home/my_tools/signalp-3.0:\
+/home/my_tools/targetp-1.1:\
+/home/tmhmm-2.0c/bin:\
+/home/my_tools/WoLFPSort/bin:\
+$PATH"
+```
+
+Reload ``/.profile``:
+```{sh, eval = FALSE}
+. ~/.profile
+```
+
+Reboot, to make changes visible to R.
+
+
+## 3. Installation
+
+To install **SecretSanta** package:
+
+```
+library("devtools")
+install_github("gogleva/SecretSanta")
+library("SecretSanta")
+```
