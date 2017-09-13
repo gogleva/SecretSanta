@@ -40,7 +40,7 @@ CBSResult <- setClass("CBSResult",
         most_frequent <- 
             names(rev(sort(colSums(al[, colSums(al != 0) > 0])))[1:4])
     }
-   
+    
     if (all(c("A", "C", "G", "T") %in% most_frequent)) {
         return("Input sequence is DNA, please provide amino acid sequence.")
     }
@@ -51,25 +51,24 @@ CBSResult <- setClass("CBSResult",
     
     
     if (length(object@in_fasta) < length(object@out_fasta)) {
-      return("Number of output sequences > the number of input sequences.")
+        return("Number of output sequences > the number of input sequences.")
     }
     
     if (any(grepl('[*$]', object@in_fasta))) {
-      return("Input fasta contains stop ctop codon symbols '*'")
+        return("Input fasta contains stop ctop codon symbols '*'")
     }
     
     if (any(duplicated(names(object@in_fasta)))) {
-      return("Duplicated gene ids in in_fasta")
+        return("Duplicated gene ids in in_fasta")
     }
     
     if (any(duplicated(names(object@out_fasta)))) {
-      return("Duplicated gene ids in out_fasta")
+        return("Duplicated gene ids in out_fasta")
     }
     
     return(TRUE)
-  }
+    }
 )
-                                 
 
 # Define accessors for CBSResult objects
 
@@ -82,10 +81,10 @@ CBSResult <- setClass("CBSResult",
 #' @rdname CBS_methods
 
 setGeneric(name = "setInfasta",
-           def = function(theObject, in_fasta)
-           {
-             standardGeneric("setInfasta")    
-           }  
+    def = function(theObject, in_fasta)
+    {
+    standardGeneric("setInfasta")    
+    }  
 )
 
 #' @export
@@ -93,20 +92,20 @@ setGeneric(name = "setInfasta",
 #' @aliases setInfasta
 
 setMethod(f = "setInfasta",
-          signature = "CBSResult",
-          definition = function(theObject, in_fasta)
-          {
+        signature = "CBSResult",
+        definition = function(theObject, in_fasta)
+        {
             theObject@in_fasta <- in_fasta
             validObject(theObject)
             return(theObject)
-          }
+        }
 )
 
 setGeneric(name = "getInfasta",
-           def = function(theObject)
-           {
-             standardGeneric("getInfasta")    
-           }  
+            def = function(theObject)
+            {
+                standardGeneric("getInfasta")    
+            }  
 )
 
 #' @export
@@ -114,51 +113,54 @@ setGeneric(name = "getInfasta",
 #' @aliases getInfasta
 
 setMethod(f = "getInfasta",
-          signature = "CBSResult",
-          definition = function(theObject)
-          {
+            signature = "CBSResult",
+            definition = function(theObject)
+            {
             return(theObject@in_fasta)
-          }
+            }
 )
 
 setGeneric(name = "setOutfasta",
-           def = function(theObject, out_fasta)
-           {
-             standardGeneric("setOutfasta")    
-           }  
+            def = function(theObject, out_fasta)
+            {
+            standardGeneric("setOutfasta")    
+            }  
 )
 
 #' @export
 #' @rdname  CBS_methods
 #' @aliases setOutfasta
 
-setMethod(f = "setOutfasta",
-          signature = "CBSResult",
-          definition = function(theObject, out_fasta)
-          {
-            theObject@out_fasta <- out_fasta
-            validObject(theObject)
-            return(theObject)
-          }
+setMethod(
+    f = "setOutfasta",
+    signature = "CBSResult",
+    definition = function(theObject, out_fasta)
+    {
+        theObject@out_fasta <- out_fasta
+        validObject(theObject)
+        return(theObject)
+    }
 )
 
-setGeneric(name = "getOutfasta",
-           def = function(theObject)
-           {
-             standardGeneric("getOutfasta")    
-           }  
+setGeneric(
+    name = "getOutfasta",
+    def = function(theObject)
+    {
+        standardGeneric("getOutfasta")
+    }
 )
 
 #' @export
 #' @rdname  CBS_methods
 #' @aliases getOutfasta
 
-setMethod(f = "getOutfasta",
-          signature = "CBSResult",
-          definition = function(theObject)
-          {
-            return(theObject@out_fasta)
-          }
+setMethod(
+    f = "getOutfasta",
+    signature = "CBSResult",
+    definition = function(theObject)
+    {
+        return(theObject@out_fasta)
+    }
 )
 
 #' An S4 class to represent intermediate and final
@@ -206,55 +208,55 @@ setMethod(f = "getOutfasta",
 
 
 SignalpResult <- setClass(
-  "SignalpResult",
-  contains = "CBSResult",
-  slots = list(
-    mature_fasta = "AAStringSet",
-    sp_version = "numeric",
-    sp_tibble = "tbl_df"
-  ),
-  
-  prototype = list(
-    mature_fasta = Biostrings::AAStringSet(),
-    sp_version = numeric(0),
-    sp_tibble = tibble::tibble()
-  ),
-  
-  validity = function(object)
-  {
-    # check that mature sequences are shorter than full-length sequences
-    if (sum(width(object@out_fasta)) <
-        sum(width(object@mature_fasta))) {
-      return("Mature sequences can not be shorter that full length sequences")
+    "SignalpResult",
+    contains = "CBSResult",
+    slots = list(
+        mature_fasta = "AAStringSet",
+        sp_version = "numeric",
+        sp_tibble = "tbl_df"
+    ),
+    
+    prototype = list(
+        mature_fasta = Biostrings::AAStringSet(),
+        sp_version = numeric(0),
+        sp_tibble = tibble::tibble()
+    ),
+    
+    validity = function(object)
+    {
+        # check that mature sequences are shorter than full-length sequences
+        if (sum(width(object@out_fasta)) <
+            sum(width(object@mature_fasta))) {
+            return("Mature sequences can not be shorter that full length ones")
+        }
+        
+        # check that there are no duplicated gene ids in sp_tibble
+        if (nrow(object@sp_tibble) > 0) {
+            if (any(duplicated(object@sp_tibble$gene_id))) {
+                return("Duplicated gene ids in sp_tibble! ")
+            }
+        }
+        
+        # check that all ids of mature_fasta are identical to ids
+        # in out_fasta
+        
+        if (!(identical(names(object@mature_fasta),
+                        names(object@out_fasta)))) {
+            return("Out_fasta ids do not match mature_fasta ids")
+        }
+        
+        # check that ids of mature_fasta are present in in_fasta
+        if (!(all(names(object@mature_fasta) %in%
+                    names(object@in_fasta)))) {
+            return("Out_fasta ids do not match in_fasta ids")
+        }
+        
+        # check that there are no zero length mature peptides
+        
+        if (any(width(object@mature_fasta) == 0)) {
+            return('mature fasta contains sequences of 0 length')
+        }
     }
-    
-    # check that there are no duplicated gene ids in sp_tibble
-    if (nrow(object@sp_tibble) > 0) {
-      if (any(duplicated(object@sp_tibble$gene_id))) {
-        return("Duplicated gene ids in sp_tibble! ")
-      }
-    }
-    
-    # check that all ids of mature_fasta are identical to ids
-    # in out_fasta
-    
-    if (!(identical(names(object@mature_fasta),
-                    names(object@out_fasta)))) {
-      return("Out_fasta ids do not match mature_fasta ids")
-    }
-    
-    # check that ids of mature_fasta are present in in_fasta
-    if (!(all(names(object@mature_fasta) %in%
-              names(object@in_fasta)))) {
-      return("Out_fasta ids do not match in_fasta ids")
-    }
-    
-    # check that there are no zero length mature peptides
-    
-    if (any(width(object@mature_fasta) == 0)) {
-      return('mature fasta contains sequences of 0 length')
-    }
-  }
 )
 
 # define accessor functions for SignalpResult object
@@ -270,124 +272,136 @@ SignalpResult <- setClass(
 #' @docType methods
 #' @rdname SignalpResult_methods
 
-setGeneric(name = "setMatfasta",
-           def = function(theObject, mature_fasta)
-           {
-             standardGeneric("setMatfasta")    
-           }  
+setGeneric(
+    name = "setMatfasta",
+    def = function(theObject, mature_fasta)
+    {
+        standardGeneric("setMatfasta")
+    }
 )
 
 #' @export
 #' @rdname  SignalpResult_methods
 #' @aliases setMatfasta
 
-setMethod(f = "setMatfasta",
-          signature = "SignalpResult",
-          definition = function(theObject, mature_fasta)
-          {
-            theObject@mature_fasta <- mature_fasta
-            validObject(theObject)
-            return(theObject)
-          }
+setMethod(
+    f = "setMatfasta",
+    signature = "SignalpResult",
+    definition = function(theObject, mature_fasta)
+    {
+        theObject@mature_fasta <- mature_fasta
+        validObject(theObject)
+        return(theObject)
+    }
 )
 
-setGeneric(name = "getMatfasta",
-           def = function(theObject)
-           {
-             standardGeneric("getMatfasta")    
-           }  
+setGeneric(
+    name = "getMatfasta",
+    def = function(theObject)
+    {
+        standardGeneric("getMatfasta")
+    }
 )
 
 #' @export
 #' @rdname  SignalpResult_methods
 #' @aliases getMatfasta
 
-setMethod(f = "getMatfasta",
-          signature = "SignalpResult",
-          definition = function(theObject)
-          {
-            return(theObject@mature_fasta)
-          }
+setMethod(
+    f = "getMatfasta",
+    signature = "SignalpResult",
+    definition = function(theObject)
+    {
+        return(theObject@mature_fasta)
+    }
 )
 
-setGeneric(name = "setSPversion",
-           def = function(theObject, sp_version)
-           {
-             standardGeneric("setSPversion")    
-           }  
+setGeneric(
+    name = "setSPversion",
+    def = function(theObject, sp_version)
+    {
+        standardGeneric("setSPversion")
+    }
 )
 
 #' @export
 #' @rdname  SignalpResult_methods
 #' @aliases setSPversion
 
-setMethod(f = "setSPversion",
-          signature = "SignalpResult",
-          definition = function(theObject, sp_version)
-          {
-            theObject@sp_version <- sp_version
-            validObject(theObject)
-            return(theObject)
-          }
+setMethod(
+    f = "setSPversion",
+    signature = "SignalpResult",
+    definition = function(theObject, sp_version)
+    {
+        theObject@sp_version <- sp_version
+        validObject(theObject)
+        return(theObject)
+    }
 )
 
-setGeneric(name = "getSPversion",
-           def = function(theObject)
-           {
-             standardGeneric("getSPversion")    
-           }  
+setGeneric(
+    name = "getSPversion",
+    def = function(theObject)
+    {
+        standardGeneric("getSPversion")
+    }
 )
 
 #' @export
 #' @rdname  SignalpResult_methods
 #' @aliases getSPversion
 
-setMethod(f = "getSPversion",
-          signature = "SignalpResult",
-          definition = function(theObject)
-          {
-            return(theObject@sp_version)
-          }
+setMethod(
+    f = "getSPversion",
+    signature = "SignalpResult",
+    definition = function(theObject)
+    {
+        return(theObject@sp_version)
+    }
 )
 
-setGeneric(name = "setSPtibble",
-           def = function(theObject, sp_tibble)
-           {
-             standardGeneric("setSPtibble")    
-           }  
+setGeneric(
+    name = "setSPtibble",
+    def = function(theObject, sp_tibble)
+    {
+        standardGeneric("setSPtibble")
+    }
 )
 
 #' @export
 #' @rdname  SignalpResult_methods
 #' @aliases setSPtibble
 
-setMethod(f = "setSPtibble",
-          signature = "SignalpResult",
-          definition = function(theObject, sp_tibble)
-          {
-            theObject@sp_tibble <- sp_tibble
-            validObject(theObject)
-            return(theObject)
-          }
+setMethod(
+    f = "setSPtibble",
+    signature = "SignalpResult",
+    definition = function(theObject, sp_tibble)
+    {
+        theObject@sp_tibble <- sp_tibble
+        validObject(theObject)
+        return(theObject)
+    }
 )
 
-setGeneric(name = "getSPtibble",
-           def = function(theObject)
-           {
-             standardGeneric("getSPtibble")    
-           }  
+setGeneric(
+    name = "getSPtibble",
+    def = function(theObject)
+    {
+        standardGeneric("getSPtibble")
+    }
 )
 
 #' @export
 #' @rdname  SignalpResult_methods
 #' @aliases getSPtibble
 
-setMethod(f = "getSPtibble",
-          signature = "SignalpResult",
-          definition = function(theObject)
-          {
-            return(theObject@sp_tibble)
-          }
+setMethod(
+    f = "getSPtibble",
+    signature = "SignalpResult",
+    definition = function(theObject)
+    {
+        return(theObject@sp_tibble)
+    }
 )
 
 #' An S4 class to represent outputs of WolfPsort
@@ -417,10 +431,8 @@ setMethod(f = "getSPtibble",
 #' getInfasta(w)
 #' getOutfasta(w)
 
-WolfResult <- setClass("WolfResult",
-                          contains = "CBSResult",
-                          slots = list(wolf_tibble = "tbl_df")
-)
+WolfResult <- setClass("WolfResult", contains = "CBSResult",
+                        slots = list(wolf_tibble = "tbl_df"))
 
 #' Accessors for WolfResult objects
 #' @param theObject an object of WolfResult class
@@ -429,44 +441,48 @@ WolfResult <- setClass("WolfResult",
 #' @docType methods
 #' @rdname WolfResult_methods
 
-setGeneric(name = "setWOLFtibble",
-           def = function(theObject, wolf_tibble)
-           {
-             standardGeneric("setWOLFtibble")    
-           }  
+setGeneric(
+    name = "setWOLFtibble",
+    def = function(theObject, wolf_tibble)
+    {
+        standardGeneric("setWOLFtibble")
+    }
 )
 
 #' @export
 #' @rdname  WolfResult_methods
 #' @aliases setWOLFtibble
 
-setMethod(f = "setWOLFtibble",
-          signature = "WolfResult",
-          definition = function(theObject, wolf_tibble)
-          {
-            theObject@wolf_tibble <- wolf_tibble
-            validObject(theObject)
-            return(theObject)
-          }
+setMethod(
+    f = "setWOLFtibble",
+    signature = "WolfResult",
+    definition = function(theObject, wolf_tibble)
+    {
+        theObject@wolf_tibble <- wolf_tibble
+        validObject(theObject)
+        return(theObject)
+    }
 )
 
-setGeneric(name = "getWOLFtibble",
-           def = function(theObject)
-           {
-             standardGeneric("getWOLFtibble")    
-           }  
+setGeneric(
+    name = "getWOLFtibble",
+    def = function(theObject)
+    {
+        standardGeneric("getWOLFtibble")
+    }
 )
 
 #' @export
 #' @rdname  WolfResult_methods
 #' @aliases getWOLFtibble
 
-setMethod(f = "getWOLFtibble",
-          signature = "WolfResult",
-          definition = function(theObject)
-          {
-            return(theObject@wolf_tibble)
-          }
+setMethod(
+    f = "getWOLFtibble",
+    signature = "WolfResult",
+    definition = function(theObject)
+    {
+        return(theObject@wolf_tibble)
+    }
 )
 
 #' An S4 class to represent intermediate and final outputs of the TMHMM
@@ -503,38 +519,38 @@ setMethod(f = "getWOLFtibble",
 #' getTMtibble(tm)
 
 TMhmmResult <- setClass(
-  "TMhmmResult",
-  contains = "CBSResult",
-  slots = list(
-    in_mature_fasta = "AAStringSet",
-    out_mature_fasta = "AAStringSet",
-    tm_tibble = "tbl_df"
-  ),
-  
-  validity = function(object) {
-    # check that there are o duplicated ids in the input
-    # and output fastas and tm_tibble
-    if (nrow(object@tm_tibble) > 0) {
-      if (any(duplicated(object@tm_tibble$gene_id))) {
-        return("Duplicated gene ids in sp_tibble! ")
-      }
-    }
+    "TMhmmResult",
+    contains = "CBSResult",
+    slots = list(
+        in_mature_fasta = "AAStringSet",
+        out_mature_fasta = "AAStringSet",
+        tm_tibble = "tbl_df"
+    ),
     
-    if (any(duplicated(names(object@in_mature_fasta)))) {
-      return("Duplicated gene ids in in_mature_fasta")
+    validity = function(object) {
+        # check that there are o duplicated ids in the input
+        # and output fastas and tm_tibble
+        if (nrow(object@tm_tibble) > 0) {
+            if (any(duplicated(object@tm_tibble$gene_id))) {
+                return("Duplicated gene ids in sp_tibble! ")
+            }
+        }
+        
+        if (any(duplicated(names(object@in_mature_fasta)))) {
+            return("Duplicated gene ids in in_mature_fasta")
+        }
+        
+        if (any(duplicated(names(object@out_mature_fasta)))) {
+            return("Duplicated gene ids in out_mature_fasta")
+        }
+        
+        # check that ids in out_mature_fasta match ids in out_fasta
+        
+        if (!(identical(names(object@out_mature_fasta),
+                        names(object@out_fasta)))) {
+            return("out_fasta ids do not match out_mature_fasta ids")
+        }
     }
-    
-    if (any(duplicated(names(object@out_mature_fasta)))) {
-      return("Duplicated gene ids in out_mature_fasta")
-    }
-    
-    # check that ids in out_mature_fasta match ids in out_fasta
-    
-    if (!(identical(names(object@out_mature_fasta),
-                    names(object@out_fasta)))) {
-      return("out_fasta ids do not match out_mature_fasta ids")
-    }
-  }
 )
 
 
@@ -546,74 +562,82 @@ TMhmmResult <- setClass(
 #' @return TMhmmREsult object
 #' @rdname TMhmmResult_methods
 
-setGeneric(name = "setTMtibble",
-           def = function(theObject, tm_tibble)
-           {
-             standardGeneric("setTMtibble")    
-           }  
+setGeneric(
+    name = "setTMtibble",
+    def = function(theObject, tm_tibble)
+    {
+        standardGeneric("setTMtibble")
+    }
 )
 #' @export
 #' @rdname  TMhmmResult_methods
 #' @aliases setTMtibble
-setMethod(f = "setTMtibble",
-          signature = "TMhmmResult",
-          definition = function(theObject, tm_tibble)
-          {
-            theObject@tm_tibble <- tm_tibble
-            validObject(theObject)
-            return(theObject)
-          }
+setMethod(
+    f = "setTMtibble",
+    signature = "TMhmmResult",
+    definition = function(theObject, tm_tibble)
+    {
+        theObject@tm_tibble <- tm_tibble
+        validObject(theObject)
+        return(theObject)
+    }
 )
 
-setGeneric(name = "getTMtibble",
-           def = function(theObject)
-           {
-             standardGeneric("getTMtibble")    
-           }  
+setGeneric(
+    name = "getTMtibble",
+    def = function(theObject)
+    {
+        standardGeneric("getTMtibble")
+    }
 )
 #' @export
 #' @rdname  TMhmmResult_methods
 #' @aliases getTMtibble
-setMethod(f = "getTMtibble",
-          signature = "TMhmmResult",
-          definition = function(theObject)
-          {
-            return(theObject@tm_tibble)
-          }
+setMethod(
+    f = "getTMtibble",
+    signature = "TMhmmResult",
+    definition = function(theObject)
+    {
+        return(theObject@tm_tibble)
+    }
 )
 
-setGeneric(name = "getInMatfasta",
-           def = function(theObject)
-           {
-             standardGeneric("getInMatfasta")    
-           }  
+setGeneric(
+    name = "getInMatfasta",
+    def = function(theObject)
+    {
+        standardGeneric("getInMatfasta")
+    }
 )
 #' @export
 #' @rdname  TMhmmResult_methods
 #' @aliases getInMatfasta
-setMethod(f = "getInMatfasta",
-          signature = "TMhmmResult",
-          definition = function(theObject)
-          {
-            return(theObject@in_mature_fasta)
-          }
+setMethod(
+    f = "getInMatfasta",
+    signature = "TMhmmResult",
+    definition = function(theObject)
+    {
+        return(theObject@in_mature_fasta)
+    }
 )
 
-setGeneric(name = "getOutMatfasta",
-           def = function(theObject)
-           {
-             standardGeneric("getOutMatfasta")    
-           }  
+setGeneric(
+    name = "getOutMatfasta",
+    def = function(theObject)
+    {
+        standardGeneric("getOutMatfasta")
+    }
 )
 #' @export
 #' @rdname  TMhmmResult_methods
 #' @aliases getOutMatfasta
-setMethod(f = "getOutMatfasta",
-          signature = "TMhmmResult",
-          definition = function(theObject)
-          {
-            return(theObject@out_mature_fasta)
-          }
+setMethod(
+    f = "getOutMatfasta",
+    signature = "TMhmmResult",
+    definition = function(theObject)
+    {
+        return(theObject@out_mature_fasta)
+    }
 )
 
 #' An S4 class to represent intermediate and final outputs of the TMHMM
@@ -629,10 +653,8 @@ setMethod(f = "getOutMatfasta",
 #' er <- check_khdel(CBSResult(in_fasta = aa), run_mode = 'starter')
 #' class(er)
 
-ErResult <- setClass("ErResult",
-                      contains = "CBSResult",
-                      slots = list(retained = "AAStringSet")
-                     )
+ErResult <- setClass("ErResult", contains = "CBSResult",
+                        slots = list(retained = "AAStringSet"))
 
 
 #' An S4 class to represent intermediate and final outputs of the targetP
@@ -689,19 +711,19 @@ ErResult <- setClass("ErResult",
 #' getOutfasta(tp_result)
 
 TargetpResult <- setClass(
-  "TargetpResult",
-  contains = "CBSResult",
-  slots = list(tp_tibble = "tbl_df"),
-  
-  validity = function(object) {
-    # check that there are o duplicated ids in the input
-    # and output fastas and tm_tibble
-    if (nrow(object@tp_tibble) > 0) {
-      if (any(duplicated(object@tp_tibble$gene_id))) {
-        return("Duplicated gene ids in sp_tibble! ")
-      }
+    "TargetpResult",
+    contains = "CBSResult",
+    slots = list(tp_tibble = "tbl_df"),
+    
+    validity = function(object) {
+        # check that there are o duplicated ids in the input
+        # and output fastas and tm_tibble
+        if (nrow(object@tp_tibble) > 0) {
+            if (any(duplicated(object@tp_tibble$gene_id))) {
+                return("Duplicated gene ids in sp_tibble! ")
+            }
+        }
     }
-  }
 )
 
 #' Accessors for TargetpResult objects
@@ -712,42 +734,46 @@ TargetpResult <- setClass(
 #' @docType methods
 #' @rdname TargetpResult_methods
 
-setGeneric(name = "setTPtibble",
-           def = function(theObject, tp_tibble)
-           {
-             standardGeneric("setTPtibble")    
-           }  
+setGeneric(
+    name = "setTPtibble",
+    def = function(theObject, tp_tibble)
+    {
+        standardGeneric("setTPtibble")
+    }
 )
 
 #' @export
 #' @rdname  TargetpResult_methods
 #' @aliases setTPtibble
 
-setMethod(f = "setTPtibble",
-          signature = "TargetpResult",
-          definition = function(theObject, tp_tibble)
-          {
-            theObject@tp_tibble <- tp_tibble
-            validObject(theObject)
-            return(theObject)
-          }
+setMethod(
+    f = "setTPtibble",
+    signature = "TargetpResult",
+    definition = function(theObject, tp_tibble)
+    {
+        theObject@tp_tibble <- tp_tibble
+        validObject(theObject)
+        return(theObject)
+    }
 )
 
-setGeneric(name = "getTPtibble",
-           def = function(theObject)
-           {
-             standardGeneric("getTPtibble")    
-           }  
+setGeneric(
+    name = "getTPtibble",
+    def = function(theObject)
+    {
+        standardGeneric("getTPtibble")
+    }
 )
 
 #' @export
 #' @rdname  TargetpResult_methods
 #' @aliases getTPtibble
 
-setMethod(f = "getTPtibble",
-          signature = "TargetpResult",
-          definition = function(theObject)
-          {
-            return(theObject@tp_tibble)
-          }
+setMethod(
+    f = "getTPtibble",
+    signature = "TargetpResult",
+    definition = function(theObject)
+    {
+        return(theObject@tp_tibble)
+    }
 )

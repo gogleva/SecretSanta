@@ -83,7 +83,7 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
         } else {
             # read path file in a tibble
             pp <- suppressMessages(readr::read_delim(path_file, delim = ' ',
-                                                     col_names = FALSE))
+                                                        col_names = FALSE))
             # check that there are only 2 columns, i.e no extra spaces in
             # tool names
             if (!(ncol(pp) == 2)) {
