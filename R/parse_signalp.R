@@ -93,22 +93,19 @@ parse_signalp <-
                     clean_cleavege, USE.NAMES = FALSE)
         
         max_Y_fixed <- sapply(data[grep("max. Y", data)], clean_score,
-                              USE.NAMES = FALSE)
+                                USE.NAMES = FALSE)
         
         # extract max S score and position
-        max_S_fixed <- sapply(data[grep("max. S", data)],
-                              clean_score,
-                              USE.NAMES = FALSE)
+        max_S_fixed <- sapply(data[grep("max. S", data)], clean_score,
+                                USE.NAMES = FALSE)
         
         # extract mean S score and position
-        mean_S_fixed <- sapply(data[grep("mean S", data)],
-                               clean_mean,
-                               USE.NAMES = FALSE)
+        mean_S_fixed <- sapply(data[grep("mean S", data)], clean_mean,
+                                USE.NAMES = FALSE)
         
         # extract prediction summary
-        Status_fixed <- sapply(data[grep("Prediction: ", data)],
-                               clean_status,
-                               USE.NAMES = FALSE)
+        Status_fixed <- sapply(data[grep("Prediction: ", data)], clean_status,
+                                USE.NAMES = FALSE)
         
         # assemble result object
         res <- tibble::as.tibble(data.frame(
@@ -135,15 +132,9 @@ parse_signalp <-
         )
         
         #re-order columns to match signalp4 output
-        res <- res %>% select("gene_id",
-                              "Cmax",
-                              "Cpos",
-                              "Ymax",
-                              "Ypos",
-                              "Smax",
-                              "Spos",
-                              "Smean",
-                              "Prediction")
+        res <- res %>% select("gene_id", "Cmax", "Cpos",
+                            "Ymax", "Ypos", "Smax",
+                            "Spos", "Smean", "Prediction")
         
         
         #filter entries predicted to contain signal peptide
@@ -153,4 +144,4 @@ parse_signalp <-
         res$Smean <- as.numeric(as.character(res$Smean))
         
         return(res)
-  }
+}

@@ -24,25 +24,25 @@
 #' split_XStringSet(aa,10)                                   
 
 split_XStringSet <- function(string_set, chunk_size) {
-  if (!(is(string_set, 'XStringSet'))) {
-    stop('Input string_set does not belong to XStringSet class')
-  }
-  
-  lst <- length(string_set)
-  
-  if (chunk_size > lst) {
-    stop('Chunk size exceeds total seq number')
-  }
-  
-  total_seq  <- c(1:lst)
-  chunks <- split(total_seq,
-                  ceiling(seq_along(total_seq) / chunk_size))
-  
-  seq_chunker <- function(x) {
-    chunk <- string_set[x]
-  }
-  
-  lapply(chunks, seq_chunker)
+    if (!(is(string_set, 'XStringSet'))) {
+        stop('Input string_set does not belong to XStringSet class')
+    }
+    
+    lst <- length(string_set)
+    
+    if (chunk_size > lst) {
+        stop('Chunk size exceeds total seq number')
+    }
+    
+    total_seq  <- c(1:lst)
+    chunks <- split(total_seq,
+                    ceiling(seq_along(total_seq) / chunk_size))
+    
+    seq_chunker <- function(x) {
+        chunk <- string_set[x]
+    }
+    
+    lapply(chunks, seq_chunker)
 }
 
 #' combine_SpResult function
@@ -77,23 +77,23 @@ split_XStringSet <- function(string_set, chunk_size) {
 
 
 combine_SpResult <- function(arguments) {
-  if ((all(sapply(arguments, is, 'SignalpResult'))) == FALSE) {
+    if ((all(sapply(arguments, is, 'SignalpResult'))) == FALSE) {
     stop('Some objects from argument list do not belong to SignalpResult class')
-  }
-  
-  c_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
-  c_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
-  c_mature_fasta <- do.call(c, (lapply(arguments, getMatfasta)))
-  c_sp_tibble <- do.call(rbind, (lapply(arguments, getSPtibble)))
-  c_sp_version <- unlist((lapply(arguments, getSPversion))[1])
-  
-  c_obj <- SignalpResult(
-    in_fasta = c_in_fasta,
-    out_fasta = c_out_fasta,
-    mature_fasta = c_mature_fasta,
-    sp_tibble = c_sp_tibble,
-    sp_version = c_sp_version
-  )
+    }
+    
+    c_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
+    c_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
+    c_mature_fasta <- do.call(c, (lapply(arguments, getMatfasta)))
+    c_sp_tibble <- do.call(rbind, (lapply(arguments, getSPtibble)))
+    c_sp_version <- unlist((lapply(arguments, getSPversion))[1])
+    
+    c_obj <- SignalpResult(
+        in_fasta = c_in_fasta,
+        out_fasta = c_out_fasta,
+        mature_fasta = c_mature_fasta,
+        sp_tibble = c_sp_tibble,
+        sp_version = c_sp_version
+    )
 }
 
 # PARALLEL SIGNALP ITSELF:
@@ -154,46 +154,70 @@ signalp <- function(input_obj,
                     paths = NULL,
                     truncate = NULL,
                     cores = NULL) {
-  
-  # ----- Check that inputs are valid
-  
-  # arguments are present and have valid values:
-  if (missing(organism)) {stop('missing argument: organism')}
-  if (missing(run_mode)) {stop('missing argument: run_mode')}
-  organism <- match.arg(organism)
-  run_mode <- match.arg(run_mode)
-  
-  # check that input object belong to CBSResult class
-  if (is(input_obj, "CBSResult")) {} else {
-    stop('input_object does not belong to CBSResult superclass')
-  }
-  
-  # check that input_object contains non-empty in/out_fasta for starter/piper
-  if (run_mode == 'starter') {
-    if (length(getInfasta(input_obj)) != 0) {
-      fasta <- getInfasta(input_obj)
-    } else {
-      stop('in_fasta attribute is empty')}
-    
-  } else if (run_mode == 'piper') {
-    if (length(getOutfasta(input_obj)) != 0) {
-      fasta <- getOutfasta(input_obj)
-    } else {
-      stop('out_fasta attribute is empty')}
+    # ----- Check that inputs are valid
+    # arguments are present and have valid values:
+    if (missing(organism)) {
+        stop('missing argument: organism')
     }
-  
-  # check that version number is valid:
-  if (version %in% c(2,3,4)) {} else {
-    stop('version is invalid, allowed versions: c(2,3,4)')}
-  
-  # ----- Set default value for parameters if not provided:
-  
-  if (is.null(truncate)) truncate = TRUE else truncate
-  if (is.logical(truncate)) {} else {stop('truncate argument must be logical')}
-  
-  if (is.null(cores)) cores = 1 else cores
-  if (is.numeric(cores)) {} else {stop('cores argument must be numeric')}
-  if (cores > detectCores()) {stop('cores value > available core number')}
+    if (missing(run_mode)) {
+        stop('missing argument: run_mode')
+    }
+    organism <- match.arg(organism)
+    run_mode <- match.arg(run_mode)
+
+    # check that input object belong to CBSResult class
+    if (is(input_obj, "CBSResult")) {
+    } else {
+        stop('input_object does not belong to CBSResult superclass')
+    }
+    
+    # check that input_object contains non-empty in/out_fasta for starter/piper
+    if (run_mode == 'starter') {
+        if (length(getInfasta(input_obj)) != 0) {
+            fasta <- getInfasta(input_obj)
+        } else {
+            stop('in_fasta attribute is empty')
+        }
+        
+    } else if (run_mode == 'piper') {
+        if (length(getOutfasta(input_obj)) != 0) {
+            fasta <- getOutfasta(input_obj)
+        } else {
+            stop('out_fasta attribute is empty')
+        }
+    }
+    
+    # check that version number is valid:
+    if (version %in% c(2, 3, 4)) {
+    } else {
+        stop('version is invalid, allowed versions: c(2,3,4)')
+    }
+    
+    
+    # ----- Set default value for parameters if not provided:
+    
+    if (is.null(truncate))
+        truncate = TRUE
+    else
+        truncate
+    if (is.logical(truncate)) {
+        
+    } else {
+        stop('truncate argument must be logical')
+    }
+    
+    if (is.null(cores))
+        cores = 1
+    else
+        cores
+    if (is.numeric(cores)) {
+        
+    } else {
+        stop('cores argument must be numeric')
+    }
+    if (cores > detectCores()) {
+        stop('cores value > available core number')
+    }
 
   # ------ Helper functions:
   
