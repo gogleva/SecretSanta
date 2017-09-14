@@ -18,32 +18,27 @@
 #' @param min_len     sliced sequences below this threshold will be
 #'    discarded
 #' @param run_mode    \strong{slice} - to just slice input fasta, regardless
-#'    of it's origin; \cr
+#' of its origin; \cr
 #' \strong{rescue} - to get proteins not predicted to be secreted on the 
-#'    initial run, generate slices; 
+#' initial run, generate slices; 
 #' @return a set of sliced sequences, AAStringSet object
 #' @export     
 #' @examples 
 #' # Example 1: generate proteins with alterative translation start site for
 #' # AAStringSet object
-#' aa <- readAAStringSet(system.file("extdata",
-#'                                  "sample_prot_100.fasta",
-#'                                  package = "SecretSanta"))
+#' aa <- readAAStringSet(system.file("extdata","sample_prot_100.fasta",
+#' package = "SecretSanta"))
 #' m_slicer(aa[1:10], 100, run_mode = 'slice')
 #' 
 #' # Example 2: generate proteins with alterative translation start site for
 #' # CBSResult object
 #' inp <- CBSResult(in_fasta = aa[1:10])
-#' s1_sp2 <- signalp(inp, version = 2,
-#'                   organism = 'euk',
-#'                   run_mode = "starter")                                     
-#' slices <- m_slicer(s1_sp2, min_len = 100,
-#'                    run_mode = 'rescue')
+#' s1_sp2 <- signalp(inp, version = 2, organism = 'euk',
+#' run_mode = "starter")
+#' slices <- m_slicer(s1_sp2, min_len = 100, run_mode = 'rescue')
 #' inp_slices <- CBSResult(in_fasta = slices)
-#' s2_sp2_rescue <- signalp(inp_slices,
-#'                          version = 2,
-#'                          organism = 'euk',
-#'                          run_mode = 'starter')
+#' s2_sp2_rescue <- signalp(inp_slices, version = 2, organism = 'euk',
+#' run_mode = 'starter')
 
 m_slicer <- function(input_obj, min_len, run_mode = c('slice', 'rescue')) {
     

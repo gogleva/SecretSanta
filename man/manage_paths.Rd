@@ -15,7 +15,7 @@ $PATH variable;\cr
 if \strong{FALSE} you should supply path_file.}
 
 \item{test_mode}{if \strong{all} - all the external dependencies will be
-               checked;\cr
+checked;\cr
 alternatively specify a tool name to be checked.}
 
 \item{path_file}{full paths to external dependencies in a
@@ -69,7 +69,5 @@ manage_paths(in_path = TRUE, test_mode = 'signalp2')
 
 manage_paths(in_path = FALSE,
 test_mode = 'all',
-path_file = system.file("extdata",
-             "sample_paths",
-             package = "SecretSanta"))
+path_file = system.file("extdata", "sample_paths", package = "SecretSanta"))
 }

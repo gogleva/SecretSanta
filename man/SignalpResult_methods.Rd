@@ -62,34 +62,30 @@ Accessors for SignalpResult objects
 
 \item{\code{sp_tibble}}{Object of class tibble, columns:
 \itemize{
-  \item gene_id - unique id of the sequence
-  \item Cmax - max raw cleavage site score (C-score)
-  \item Cpos - amino acid position with max C-score
-  \item Cparsed - sp2 and sp3: remove this field?
-  \item Ymax - max combied cleavage site score (Y-score)
-  \item Ypos - amino acid position with max Y-score
-  \item Smax - max signal peptide score
-  \item Spos - amino acid position with max S-score 
-  \item Smean - the average S-score of the possible signal peptide
-   (from position 1 to the position immediately before the maximal Y-score)
-  \item Prediction - final desision on whether the protein is secreted
+\item gene_id - unique id of the sequence
+\item Cmax - max raw cleavage site score (C-score)
+\item Cpos - amino acid position with max C-score
+\item Cparsed - sp2 and sp3: remove this field?
+\item Ymax - max combied cleavage site score (Y-score)
+\item Ypos - amino acid position with max Y-score
+\item Smax - max signal peptide score
+\item Spos - amino acid position with max S-score 
+\item Smean - the average S-score of the possible signal peptide
+(from position 1 to the position immediately before the maximal Y-score)
+\item Prediction - final desision on whether the protein is secreted
   }}
 }}
 
 \examples{
 # read fasta file in AAStringSet object
-aa <- readAAStringSet(system.file("extdata",
-                                  "sample_prot_100.fasta",
-                                  package = "SecretSanta"))#' 
+aa <- readAAStringSet(system.file("extdata","sample_prot_100.fasta",
+package = "SecretSanta")) 
 # create an instance of CBSResult class
 sr <- CBSResult(in_fasta = aa[1:20])
 
 # run signalpeptide prediction and create fully populated instance of
 # SignalpResult class
-step1_sp2 <- signalp(sr,
-                     version = 2,
-                     organism = 'euk',
-                     run_mode = "starter")
+step1_sp2 <- signalp(sr, version = 2, organism = 'euk', run_mode = "starter")
 # access specific slots:
 getOutfasta(step1_sp2)
 getInfasta(step1_sp2)

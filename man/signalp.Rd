@@ -47,20 +47,12 @@ so that signalp prediction could be run as an embarassingly parallel process
 on all the CPUs available.
 }
 \examples{
-
 # read fasta file in AAStringSet object
-aa <- readAAStringSet(system.file(
-                       "extdata",
-                       "sample_prot_100.fasta",
-                        package = "SecretSanta"))
-                                  
+aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta",
+package = "SecretSanta"))
 # assign this object to the input_fasta slot
 # of empty CBSResult object
 inp <- CBSResult(in_fasta = aa[1:10])
-
 # run signalp2 on the initial file:
-r1 <- signalp(inp,
-              version = 2,
-              organism = 'euk',
-              run_mode = "starter")
+r1 <- signalp(inp, version = 2, organism = 'euk', run_mode = "starter")
 }

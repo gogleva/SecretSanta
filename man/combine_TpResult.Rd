@@ -17,22 +17,14 @@ This function combines multiple instances of TargetpResult class,
 typically generated with parLapply when running targetp in parallel mode.
 }
 \examples{
-aa <- readAAStringSet(system.file("extdata",
-                 "sample_prot_100.fasta",
-                  package = "SecretSanta"))
+aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta",
+package = "SecretSanta"))
 inp2 <- CBSResult(in_fasta = aa[1:10])
 inp3 <- CBSResult(in_fasta = aa[20:30])
 inp4 <- CBSResult(in_fasta = aa[40:50])     
- 
-tp1 <- targetp(input_obj = inp2,
-               network = 'N',
-               run_mode = 'starter')
-tp2 <- targetp(input_obj = inp3,
-               network = 'N',
-               run_mode = 'starter')
-tp3 <- targetp(input_obj = inp4,
-               network = 'N',
-               run_mode = 'starter')
+tp1 <- targetp(input_obj = inp2, network = 'N', run_mode = 'starter')
+tp2 <- targetp(input_obj = inp3, network = 'N', run_mode = 'starter')
+tp3 <- targetp(input_obj = inp4, network = 'N', run_mode = 'starter')
 obj <- list(tp1, tp2, tp3)
 combined_tp <- combine_TpResult(obj)
 }

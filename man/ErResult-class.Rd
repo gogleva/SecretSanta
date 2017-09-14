@@ -17,10 +17,8 @@ prediction step
 }}
 
 \examples{
-aa <- readAAStringSet(system.file("extdata", 
-                                  "small_prot.fasta",
-                                   package = "SecretSanta"),
-                      use.names = TRUE)
+aa <- readAAStringSet(system.file("extdata","small_prot.fasta", 
+package = "SecretSanta"), use.names = TRUE)
 er <- check_khdel(CBSResult(in_fasta = aa), run_mode = 'starter')
 class(er)
 }

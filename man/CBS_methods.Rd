@@ -51,9 +51,8 @@ i.e those that passed tool filters}
 
 \examples{
 # read fasta file in AAStringSet object
-aa <- readAAStringSet(system.file("extdata", 
-                                  "sample_prot_100.fasta",
-                                   package = "SecretSanta"))
+aa <- readAAStringSet(system.file("extdata","sample_prot_100.fasta",
+                        package = "SecretSanta"))
 # create an instance of CBSResult class:
 cbs <- CBSResult( in_fasta = aa, out_fasta = aa)
 # check that CBSResult instance is valid

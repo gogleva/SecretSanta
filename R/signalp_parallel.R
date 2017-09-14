@@ -54,24 +54,17 @@ split_XStringSet <- function(string_set, chunk_size) {
 #' @export
 #' @return SignalpResult object
 #' @examples 
-#' aa <- readAAStringSet(system.file("extdata",
-#'                  "sample_prot_100.fasta",
-#'                   package = "SecretSanta"))
+#' aa <- readAAStringSet(system.file(
+#' "extdata", "sample_prot_100.fasta", package = "SecretSanta"))
 #' inp2 <- CBSResult(in_fasta = aa[1:10])
 #' inp3 <- CBSResult(in_fasta = aa[20:30])
 #' inp4 <- CBSResult(in_fasta = aa[40:50])                   
-#' r1 <- signalp(input_obj = inp2,
-#'                version = 4,
-#'                organism = 'euk',
-#'                run_mode = 'starter')
-#' r2 <- signalp(input_obj = inp3,
-#'                version = 4,
-#'                organism = 'euk',
-#'                run_mode = 'starter')
-#' r3 <- signalp(input_obj = inp4,
-#'                version = 4,
-#'                organism = 'euk',
-#'                run_mode = 'starter') 
+#' r1 <- signalp(input_obj = inp2, version = 4, organism = 'euk',
+#' run_mode = 'starter')
+#' r2 <- signalp(input_obj = inp3, version = 4, organism = 'euk',
+#' run_mode = 'starter')
+#' r3 <- signalp(input_obj = inp4, version = 4, organism = 'euk',
+#' run_mode = 'starter') 
 #' obj <- list(r1, r2, r3)
 #' combined_sp <- combine_SpResult(obj)
 
@@ -130,22 +123,14 @@ combine_SpResult <- function(arguments) {
 #' @return an object of SignalpResult class
 #' @export
 #' @examples
-#' 
 #' # read fasta file in AAStringSet object
-#' aa <- readAAStringSet(system.file(
-#'                        "extdata",
-#'                        "sample_prot_100.fasta",
-#'                         package = "SecretSanta"))
-#'                                   
+#' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta",
+#' package = "SecretSanta"))
 #' # assign this object to the input_fasta slot
 #' # of empty CBSResult object
 #' inp <- CBSResult(in_fasta = aa[1:10])
-#' 
 #' # run signalp2 on the initial file:
-#' r1 <- signalp(inp,
-#'               version = 2,
-#'               organism = 'euk',
-#'               run_mode = "starter")
+#' r1 <- signalp(inp, version = 2, organism = 'euk', run_mode = "starter")
 
 signalp <- function(input_obj,
                     version,

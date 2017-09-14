@@ -13,7 +13,7 @@
 #' # before running signalp or any other
 #' # predictions:
 #' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta",
-#'      package = "SecretSanta"))
+#'                                     package = "SecretSanta"))
 #' inp <- SignalpResult(in_fasta = aa[1:10])
 #' et_s <- check_khdel(inp,
 #'     run_mode = 'starter')
