@@ -36,14 +36,11 @@ as a massive paralle job.
 }
 \examples{
 # read fasta file in AAStringSet object
-aa <- readAAStringSet(system.file("extdata",
-                      "sample_prot_100.fasta",
-                      package = "SecretSanta"))
+aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta",
+package = "SecretSanta"))
 # assign this object to the input_fasta 
 # slot of CBSResult object
 inp <- CBSResult(in_fasta = aa[1:10])
 # run target prediction
-tp_result <- targetp(input_obj = inp,
-                    network = 'N',
-                    run_mode = 'starter')
+tp_result <- targetp(input_obj = inp, network = 'N', run_mode = 'starter')
 }

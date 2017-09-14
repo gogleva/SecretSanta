@@ -73,7 +73,7 @@ Accessors for SignalpResult objects
 \item Smean - the average S-score of the possible signal peptide
 (from position 1 to the position immediately before the maximal Y-score)
 \item Prediction - final desision on whether the protein is secreted
-  }}
+}}
 }}
 
 \examples{
@@ -82,7 +82,6 @@ aa <- readAAStringSet(system.file("extdata","sample_prot_100.fasta",
 package = "SecretSanta")) 
 # create an instance of CBSResult class
 sr <- CBSResult(in_fasta = aa[1:20])
-
 # run signalpeptide prediction and create fully populated instance of
 # SignalpResult class
 step1_sp2 <- signalp(sr, version = 2, organism = 'euk', run_mode = "starter")

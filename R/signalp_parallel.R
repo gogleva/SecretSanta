@@ -10,17 +10,10 @@
 #' @export
 #' @examples 
 #' # Read fasta file:
-#' 
-#' aa <- readAAStringSet(
-#'  system.file(
-#'    "extdata", 
-#'    "sample_prot_100.fasta",
-#'     package = "SecretSanta"
-#'  ))
-#'  
+#' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta",
+#' package = "SecretSanta"))
 #' # Split it into chunks
 #' # with 10 sequences each: 
-#'                                    
 #' split_XStringSet(aa,10)                                   
 
 split_XStringSet <- function(string_set, chunk_size) {

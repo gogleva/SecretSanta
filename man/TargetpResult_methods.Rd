@@ -43,23 +43,23 @@ Accessors for TargetpResult objects
 \item    sp - signal peptide NN score
 \item    other - any onther NN score
 \item    TP_localization - Prediction of localization, based on the scores;
- the possible values are:
+the possible values are:
 } 
 \itemize{
 \item    C - Chloroplast, i.e. the sequence contains cTP, a chloroplast
- transit peptide;
+transit peptide;
 \item    M - Mitochondrion, i.e. the sequence contains mTP, a mitochondrial
- targeting peptide;
+targeting peptide;
 \item    S - Secretory pathway, i.e. the sequence contains SP, a signal
- peptide;
+peptide;
 \item    _ - Any other location;
 \item    "don't know" - indicates that cutoff restrictions were set
- (see instructions) and the winning network output score was below the 
- requested cutoff for that category.
+(see instructions) and the winning network output score was below the 
+requested cutoff for that category.
 \item    RC - Reliability class, from 1 to 5, where 1 indicates the 
- strongest prediction. RC is a measure of the size of the difference 
- ('diff') between #'  the highest (winning) and the second highest output
- scores. There are 5 reliability classes, defined as follows:
+strongest prediction. RC is a measure of the size of the difference 
+('diff') between #'  the highest (winning) and the second highest output
+scores. There are 5 reliability classes, defined as follows:
   \itemize{ 
     \item 1 - diff > 0.800;
     \item 2 - 0.800 > diff > 0.600
@@ -72,14 +72,12 @@ Accessors for TargetpResult objects
 
 \examples{
 #read fasta file in AAStringSet object
-aa <- readAAStringSet(system.file("extdata",
-                                 "sample_prot_100.fasta",
-                                 package = "SecretSanta"))
+aa <- readAAStringSet(system.file("extdata","sample_prot_100.fasta",
+package = "SecretSanta"))
 #assign this object to the input_fasta slot of SignalpResult object
 inp <- CBSResult(in_fasta = aa[1:10])
-tp_result <- targetp(input_obj = inp,
-                    network = 'N',
-                    run_mode = 'starter')      
+tp_result <- targetp(input_obj = inp, network = 'N',
+run_mode = 'starter')      
 class(tp_result)
 getTPtibble(tp_result)                     
 getInfasta(tp_result)
