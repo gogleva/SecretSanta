@@ -14,7 +14,7 @@
 \alias{getOutMatfasta,TMhmmResult-method}
 \alias{getOutMatfasta}
 \title{An S4 class to represent intermediate and final outputs of the TMHMM
- prediction step}
+prediction step}
 \usage{
 setTMtibble(theObject, tm_tibble)
 
@@ -36,7 +36,7 @@ TMhmmREsult object
 }
 \description{
 An S4 class to represent intermediate and final outputs of the TMHMM
- prediction step
+prediction step
 
 Accessors for TMhmmResul objects
 }
@@ -51,26 +51,22 @@ TM domains}
 
 \item{\code{tm_tibble}}{tibble with outputs obtained from TMHMM
 \itemize{
-  \item gene_id - unique id of the sequence
-  \item length - length of the protein sequence
-  \item ExpAA - the expected number of amino acids intransmembrane helices
-  \item First60 - the expected number of amino acids in transmembrane 
-  helices in the first 60 amino acids of the protein
-  \item PredHel - the number of predicted transmembrane helices by N-best
-  \item Topology - the topology predicted by N-best' 
+\item gene_id - unique id of the sequence
+\item length - length of the protein sequence
+\item ExpAA - the expected number of amino acids intransmembrane helices
+\item First60 - the expected number of amino acids in transmembrane 
+helices in the first 60 amino acids of the protein
+\item PredHel - the number of predicted transmembrane helices by N-best
+\item Topology - the topology predicted by N-best' 
 }}
 }}
 
 \examples{
-aa <- readAAStringSet(system.file("extdata", 
-                                  "sample_prot_100.fasta",
-                                   package = "SecretSanta"))
-                                                          
+aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta",
+package = "SecretSanta"))
 inp <- CBSResult(in_fasta = aa[1:10])
-s1_sp2 <- signalp(inp,
-                 version = 2,
-                 organism = 'euk',
-                 run_mode = "starter")                  
+s1_sp2 <- signalp(inp, version = 2, organism = 'euk',
+run_mode = "starter")                  
 tm <- tmhmm(s1_sp2, TM = 1)
 class(tm)
 getTMtibble(tm)

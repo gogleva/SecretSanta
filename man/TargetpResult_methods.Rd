@@ -60,7 +60,7 @@ requested cutoff for that category.
 strongest prediction. RC is a measure of the size of the difference 
 ('diff') between #'  the highest (winning) and the second highest output
 scores. There are 5 reliability classes, defined as follows:
-  \itemize{ 
+\itemize{ 
     \item 1 - diff > 0.800;
     \item 2 - 0.800 > diff > 0.600
     \item 3 - 0.600 > diff > 0.400

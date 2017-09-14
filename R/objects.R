@@ -402,21 +402,18 @@ setMethod(
 #' 
 #' @slot wolf_tibble       tibble with outputs obtained from wolfpsort
 #' \itemize{
-#'   \item gene_id - unique sequence id
-#'   \item localization - the most probable localization
+#' \item gene_id - unique sequence id
+#' \item localization - the most probable localization
 #' }
 #' @export WolfResult
 #' @rdname  WolfResult_methods
 #' @return WolfResult object
 #' @examples 
-#' aa <- readAAStringSet(system.file("extdata", 
-#'                                   "sample_prot_100.fasta",
-#'                                    package = "SecretSanta"))
+#' aa <- readAAStringSet(system.file("extdata","sample_prot_100.fasta",
+#' package = "SecretSanta"))
 #' inp <- CBSResult(in_fasta = aa[1:10])
-#' s1_sp2 <- signalp(inp,
-#'                  version = 2,
-#'                  organism = 'euk',
-#'                  run_mode = "starter")
+#' s1_sp2 <- signalp(inp, version = 2, organism = 'euk',
+#' run_mode = "starter")
 #' w <- wolfpsort(s1_sp2, 'fungi')
 #' class(w)
 #' #access result tibble:
@@ -480,7 +477,7 @@ setMethod(
 )
 
 #' An S4 class to represent intermediate and final outputs of the TMHMM
-#'  prediction step
+#' prediction step
 #' 
 #' @slot in_mature_fasta  input mature fasta, extracted from the input 
 #' SignalpResult object
@@ -488,26 +485,22 @@ setMethod(
 #'  TM domains
 #' @slot tm_tibble        tibble with outputs obtained from TMHMM
 #' \itemize{
-#'   \item gene_id - unique id of the sequence
-#'   \item length - length of the protein sequence
-#'   \item ExpAA - the expected number of amino acids intransmembrane helices
-#'   \item First60 - the expected number of amino acids in transmembrane 
-#'   helices in the first 60 amino acids of the protein
-#'   \item PredHel - the number of predicted transmembrane helices by N-best
-#'   \item Topology - the topology predicted by N-best' 
+#' \item gene_id - unique id of the sequence
+#' \item length - length of the protein sequence
+#' \item ExpAA - the expected number of amino acids intransmembrane helices
+#' \item First60 - the expected number of amino acids in transmembrane 
+#' helices in the first 60 amino acids of the protein
+#' \item PredHel - the number of predicted transmembrane helices by N-best
+#' \item Topology - the topology predicted by N-best' 
 #' }
 #' @export TMhmmResult
 #' @rdname TMhmmResult_methods
 #' @examples 
-#' aa <- readAAStringSet(system.file("extdata", 
-#'                                   "sample_prot_100.fasta",
-#'                                    package = "SecretSanta"))
-#'                                                           
+#' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta",
+#' package = "SecretSanta"))
 #' inp <- CBSResult(in_fasta = aa[1:10])
-#' s1_sp2 <- signalp(inp,
-#'                  version = 2,
-#'                  organism = 'euk',
-#'                  run_mode = "starter")                  
+#' s1_sp2 <- signalp(inp, version = 2, organism = 'euk',
+#' run_mode = "starter")                  
 #' tm <- tmhmm(s1_sp2, TM = 1)
 #' class(tm)
 #' getTMtibble(tm)
@@ -677,7 +670,7 @@ ErResult <- setClass("ErResult", contains = "CBSResult",
 #' strongest prediction. RC is a measure of the size of the difference 
 #' ('diff') between #'  the highest (winning) and the second highest output
 #' scores. There are 5 reliability classes, defined as follows:
-#'   \itemize{ 
+#' \itemize{ 
 #'     \item 1 - diff > 0.800;
 #'     \item 2 - 0.800 > diff > 0.600
 #'     \item 3 - 0.600 > diff > 0.400

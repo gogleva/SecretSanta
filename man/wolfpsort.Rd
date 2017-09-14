@@ -32,18 +32,13 @@ Also see targetp function - for similar functionality.
 }
 \examples{
 # read fasta file in AAStringSet object
-aa <- readAAStringSet(system.file("extdata",
-                                  "sample_prot_100.fasta",
-                                  package = "SecretSanta"))
-
+aa <- readAAStringSet(system.file("extdata","sample_prot_100.fasta",
+package = "SecretSanta"))
 # assign this object to the input_fasta slot of CBSResult object
 inp <- CBSResult(in_fasta = aa[1:10])
-
 # run signalp2 on the initial file:
-step1_sp2 <- signalp(inp,
-                     version = 2,
-                     organism ='euk',
-                     run_mode = "starter")
+step1_sp2 <- signalp(inp, version = 2, organism ='euk',
+run_mode = "starter")
 # run wolfpsort on the signalp output:
 w <- wolfpsort(step1_sp2, 'fungi')
 }
