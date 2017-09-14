@@ -219,185 +219,217 @@ signalp <- function(input_obj,
         stop('cores value > available core number')
     }
 
-  # ------ Helper functions:
-  
-  # helper function: crop long names for AAStringSet object,
-  # return character vector
-  crop_names <- function(x) {
-    unlist(stringr::str_split(x, " "))[1]
-  }
-  
-  # helper function to truncate long sequences or throw them away, otherwise
-  # signalp will break (at least signalp2 and signalp3 will)
-  truncate_seq <- function(truncate, seq_set, threshold) {
-    drop_n <- length(seq_set[width(seq_set) >= threshold])
+    # ------ Helper functions:
     
-    if (drop_n == 0) return(seq_set)
-    
-    if (truncate == FALSE) {
-      seq_set <- seq_set[width(seq_set) < threshold]
-      warning(paste(drop_n, 'long sequenses have been thrown away'))
-      return(seq_set)
-      
-    } else if (truncate == TRUE) {
-      message(paste(drop_n, 'sequences to be truncated'))
-      seq_keep <- seq_set[width(seq_set) < threshold] # not so long sequences
-      seq_trunc <- seq_set[width(seq_set) >= threshold] # sequences to truncate
-      t_names <- paste(unname(sapply(names(seq_trunc), crop_names)),
-                       '_truncated',
-                       sep = '')
-      names(seq_trunc) <- t_names #new names for sequences to be truncated
-      seq_trunc <- subseq(seq_trunc, 1, threshold - 1)
-      # shuffle AAStringset to avoid having all the heavy sequences
-      # in the last chunk
-      seq_set <- sample(c(seq_keep, seq_trunc))
-      
-      if (all(width(seq_set) < threshold)) return(seq_set)
+    # helper function: crop long names for AAStringSet object,
+    # return character vector
+    crop_names <- function(x) {
+        unlist(stringr::str_split(x, " "))[1]
     }
-  }
-  
-  # ------ Produce encouarging status messages, inputs should be ok.
-  # create actual tool name with version number provided
-  signalp_version <- paste("signalp", version, sep = '')
-  message(paste('Version used...', signalp_version))
-  message("running signalp locally...")
-  
-  # simple signalp, takes single AAStringSet as an input and runs 
-  # signalp prediction on it
-  
-  simple_signalp <- function(aaSet) {
-    # ---- Run prediction
-    # convert fasta to a temporary file:
-    out_tmp <- tempfile() #create a temporary file for fasta
-    writeXStringSet(aaSet, out_tmp) #write tmp fasta file to use later
-    message(paste('Submitted sequences...', length(aaSet)))
+
+    # helper function to truncate long sequences or throw them away, otherwise
+    # signalp will break (at least signalp2 and signalp3 will)
+    truncate_seq <- function(truncate, seq_set, threshold) {
+        drop_n <- length(seq_set[width(seq_set) >= threshold])
+        
+        if (drop_n == 0)
+            return(seq_set)
+        
+        if (truncate == FALSE) {
+            seq_set <- seq_set[width(seq_set) < threshold]
+            warning(paste(drop_n, 'long sequenses have been thrown away'))
+            return(seq_set)
+            
+        } else if (truncate == TRUE) {
+            message(paste(drop_n, 'sequences to be truncated'))
+            seq_keep <-
+                seq_set[width(seq_set) < threshold] # not so long sequences
+            seq_trunc <-
+                seq_set[width(seq_set) >= threshold] # sequences to truncate
+            t_names <- paste(unname(sapply(names(seq_trunc), crop_names)),
+                                '_truncated', sep = '')
+            names(seq_trunc) <-
+                t_names #new names for sequences to be truncated
+            seq_trunc <- subseq(seq_trunc, 1, threshold - 1)
+            # shuffle AAStringset to avoid having all the heavy sequences
+            # in the last chunk
+            seq_set <- sample(c(seq_keep, seq_trunc))
+            
+            if (all(width(seq_set) < threshold))
+                return(seq_set)
+        }
+    }
     
-    # get and check paths to signalp
-    if (is.null(paths)) {
-      full_pa <- signalp_version
+    # ------ Produce encouraging status messages, inputs should be ok.
+    # create actual tool name with version number provided
+    signalp_version <- paste("signalp", version, sep = '')
+    message(paste('Version used...', signalp_version))
+    message("running signalp locally...")
+    
+    # simple signalp, takes single AAStringSet as an input and runs
+    # signalp prediction on it
+    
+    simple_signalp <- function(aaSet) {
+        # ---- Run prediction
+        # convert fasta to a temporary file:
+        out_tmp <- tempfile() #create a temporary file for fasta
+        writeXStringSet(aaSet, out_tmp) #write tmp fasta file to use later
+        message(paste('Submitted sequences...', length(aaSet)))
+        
+        # get and check paths to signalp
+        if (is.null(paths)) {
+            full_pa <- signalp_version
+        } else {
+            mp <- suppressMessages(manage_paths(
+                in_path = FALSE,
+                test_mode = signalp_version,
+                path_file = paths
+            ))
+            full_pa <- mp$path_tibble$path
+        }
+        
+        # decide how to run signalp depending on a version provided
+        
+        if (version == 4) {
+            # runing signalp versios 4 and 4.1, potentially should work for 5
+            
+            sp <-
+                tibble::as.tibble(read.table(text = (system(
+                    paste(full_pa, "-t", organism, out_tmp),
+                    intern = TRUE
+                ))))
+            names(sp) <- c(
+                "gene_id",
+                "Cmax",
+                "Cpos",
+                "Ymax",
+                "Ypos",
+                "Smax",
+                "Spos",
+                "Smean",
+                "D",
+                "Prediction",
+                "Dmaxcut",
+                "Networks-used"
+            )
+            
+            # reorder columns to match sp2/3 output:
+            sp <- sp %>% select(
+                "gene_id",
+                "Cmax",
+                "Cpos",
+                "Ymax",
+                "Ypos",
+                "Smax",
+                "Spos",
+                "Smean",
+                "Prediction"
+            )
+            
+            sp <- sp %>% filter_(~ Prediction == 'Y')
+            sp$Prediction <-
+                ifelse(sp$Prediction == 'Y', 'Signal peptide')
+            
+        } else if (version < 4) {
+            # running signalp versions 2 and 3, call parse_signalp
+            message('signalp < 4, calling parser for the output...')
+            con <-
+                system(paste(full_pa, "-t", organism, out_tmp), intern = TRUE)
+            sp <- parse_signalp(input = con, input_type = "system_call")
+        }
+        
+        message(paste('Candidate sequences with signal peptides...', nrow(sp)))
+        
+        if (nrow(sp) == 0) {
+            warning('Signal peptide prediction yeilded 0 candidates')
+        }
+        
+        # generate cropped names for input fasta
+        cropped_names <- unname(sapply(names(aaSet), crop_names))
+        # replace long names with cropped names
+        names(aaSet) <- cropped_names
+        # get ids of candidate secreted proteins
+        candidate_ids <- sp %>%
+            select_(~ gene_id) %>%
+            unlist(use.names = FALSE)
+        out_fasta_sp <- aaSet[candidate_ids]
+        
+        # generate mature sequences
+        sp_Cpos <- sp %>% select_(~ Cpos) %>% unlist(use.names = FALSE)
+        cropped_fasta <- subseq(out_fasta_sp, start = sp_Cpos, end = -1)
+        
+        # construct output object
+        out_obj <- SignalpResult(
+            in_fasta = aaSet,
+            out_fasta = out_fasta_sp,
+            mature_fasta = cropped_fasta,
+            sp_version = version,
+            sp_tibble = sp
+        )
+        
+        # check that intended output is valid
+        if (validObject(out_obj)) {
+            return(out_obj)
+        }
+    } #close simple_fasta
+    
+    # Handle long sequences if any present in the input,
+    # if necessary - run signalp as a parallel process
+    
+    # estimate how big is the file, if required - split it into smaller
+    # chunks and run signalp as an embarassingly parallel process
+    
+    fasta <- truncate_seq(truncate = truncate, fasta, 2000)
+    
+    # helper function to estimate approximate length threshold if chunk
+    # size exceedes 200000
+    
+    estimate_lim <- function(fasta_chunk) {
+        len_lim <- (200000 / length(fasta_chunk) + 50)
+        if (sum(width(fasta_chunk)) >= 200000) {
+            message(paste(
+                    'fasta size exceedes maximal total residue limit, seqs >',
+                    round(len_lim),
+                    'residues will be truncated'
+                )
+            )
+            
+            fasta_trunc <-
+                truncate_seq(truncate = truncate, fasta_chunk, len_lim)
+            return(fasta_trunc)
+        } else {
+            return(fasta_chunk)
+        }
+    }
+    
+    if (length(fasta) <= 600) {
+        message('Ok for single processing')
+        return(simple_signalp(estimate_lim(fasta)))
     } else {
-      mp <- suppressMessages(manage_paths(in_path = FALSE,
-                             test_mode = signalp_version,
-                             path_file = paths))
-      full_pa <- mp$path_tibble$path
-    } 
-    
-    # decide how to run signalp depending on a version provided
-    
-    if (version == 4) {
-      # runing signalp versios 4 and 4.1, potentially should work for 5
-      
-      sp <- tibble::as.tibble(read.table(text = (system(paste(full_pa, "-t",
-                                                      organism, out_tmp),
-                                                      intern = TRUE))))
-      names(sp) <- c("gene_id", "Cmax", "Cpos",
-                     "Ymax", "Ypos", "Smax",
-                     "Spos", "Smean", "D",
-                     "Prediction", "Dmaxcut",
-                     "Networks-used")
-
-      # reorder columns to match sp2/3 output:
-      sp <- sp %>% select("gene_id", "Cmax", "Cpos",
-                          "Ymax", "Ypos", "Smax",
-                          "Spos", "Smean", "Prediction")
-
-      sp <- sp %>% filter_( ~ Prediction == 'Y')
-      sp$Prediction <- ifelse(sp$Prediction == 'Y', 'Signal peptide')
-
-    } else if (version < 4) {
-      # running signalp versions 2 and 3, call parse_signalp for the output
-      message('signalp < 4, calling parser for the output...')
-      con <- system(paste(full_pa, "-t", organism, out_tmp), intern = TRUE)
-      sp <- parse_signalp(input = con, input_type = "system_call")
-    }
-
-    message(paste('Candidate sequences with signal peptides...', nrow(sp)))
-
-    if (nrow(sp) == 0) {
-      warning('Signal peptide prediction yeilded 0 candidates')
-    }
-
-    # generate cropped names for input fasta
-    cropped_names <- unname(sapply(names(aaSet), crop_names))
-    # replace long names with cropped names
-    names(aaSet) <- cropped_names
-    # get ids of candidate secreted proteins
-    candidate_ids <- sp %>%
-                     select_( ~ gene_id) %>%
-                     unlist(use.names = FALSE)
-    out_fasta_sp <- aaSet[candidate_ids]
-
-    # generate mature sequences
-    sp_Cpos <- sp %>% select_( ~ Cpos) %>% unlist(use.names = FALSE)
-    cropped_fasta <- subseq(out_fasta_sp, start = sp_Cpos, end = -1)
-
-    # construct output object
-    out_obj <- SignalpResult(
-      in_fasta = aaSet,
-      out_fasta = out_fasta_sp,
-      mature_fasta = cropped_fasta,
-      sp_version = version,
-      sp_tibble = sp)
-    
-    # check that intended output is valid
-    if (validObject(out_obj)) {return(out_obj)}
-  } #close simple_fasta
-  
-  # Handle long sequences if any present in the input,
-  # if necessary - run signalp as a parallel process
-
-  # estimate how big is the file, if required - split it into smaller
-  # chunks and run signalp as an embarassingly parallel process
-
-  fasta <- truncate_seq(truncate = truncate, fasta, 2000)
-
-  # helper function to estimate approximate length threshold if chunk
-  # size exceedes 200000
-  estimate_lim <- function(fasta_chunk) {
-    len_lim <- (200000 / length(fasta_chunk) + 50)
-    if (sum(width(fasta_chunk)) >= 200000) {
-      message(paste(
-          'fasta size exceedes maximal total residue limit, sequences longer',
-          round(len_lim),
-          'will be truncated'))
-      
-      fasta_trunc <- truncate_seq(truncate = truncate, fasta_chunk, len_lim)
-      return(fasta_trunc)
-    } else {
-      return(fasta_chunk)
-    }
-  }
-
-  if (length(fasta) <= 600) {
-    message('Ok for single processing')
-    return(simple_signalp(estimate_lim(fasta)))
-  } else {
-    message('Input fasta contains >600 sequences, entering batch mode...')
-
-    #split and check that chunks do not exceed 200K residue limit
-    split_fasta <- sapply(split_XStringSet(fasta, 500), estimate_lim)
-
-    # Initiate cluster
-    cl <- makeCluster(cores)
-    # run parallel process
-
-    clusterExport(cl = cl,
-                  varlist = c("paths"),
-                  envir = environment())
-    result <- parLapply(cl, split_fasta, simple_signalp)
-    stopCluster(cl)
-
-    res_comb <- do.call(c, result)
-    combined_SignalpResult <- combine_SpResult(unname(res_comb))
-
-    sp_count <- nrow(getSPtibble(combined_SignalpResult))
-    message(paste('Candidate sequences with signal peptides...',
-                  sp_count))
-    if (sp_count == 0) {
-      warning('Signal peptide prediction yeilded 0 candidates')
-    }
+        message('Input fasta contains >600 sequences, entering batch mode...')
+        
+        #split and check that chunks do not exceed 200K residue limit
+        split_fasta <-
+            sapply(split_XStringSet(fasta, 500), estimate_lim)
+        
+        # Initiate cluster
+        cl <- makeCluster(cores)
+        # run parallel process
+        
+        clusterExport(cl = cl, varlist = c("paths"), envir = environment())
+        result <- parLapply(cl, split_fasta, simple_signalp)
+        stopCluster(cl)
+        
+        res_comb <- do.call(c, result)
+        combined_SignalpResult <- combine_SpResult(unname(res_comb))
+        
+        sp_count <- nrow(getSPtibble(combined_SignalpResult))
+        message(paste('Candidate sequences with signal peptides...', sp_count))
+        if (sp_count == 0) {
+            warning('Signal peptide prediction yeilded 0 candidates')
+        }
 
     closeAllConnections()
     return(combined_SignalpResult)
-  }
+    }
 }

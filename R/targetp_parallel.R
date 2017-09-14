@@ -26,19 +26,19 @@
 #' combined_tp <- combine_TpResult(obj)
 
 combine_TpResult <- function(arguments) {
-  if (all(sapply(arguments, is, 'TargetpResult'))) {
-  } else {                               
+    if (all(sapply(arguments, is, 'TargetpResult'))) {
+        
+    } else {
     stop('Some objects from argument list do not belong to TargetpResult class')
-  }
-  
-  c_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
-  c_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
-  c_tp_tibble <- do.call(rbind, (lapply(arguments, getTPtibble)))
-  
-  c_obj <- TargetpResult(in_fasta = c_in_fasta,
-                         out_fasta = c_out_fasta,
-                         tp_tibble = c_tp_tibble)
-  }
+    }
+    
+    c_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
+    c_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
+    c_tp_tibble <- do.call(rbind, (lapply(arguments, getTPtibble)))
+    
+    c_obj <- TargetpResult(in_fasta = c_in_fasta, out_fasta = c_out_fasta,
+                            tp_tibble = c_tp_tibble)
+}
 
 #' targetp function
 #'
@@ -80,136 +80,162 @@ targetp <- function(input_obj,
                     run_mode = c('starter', 'piper'),
                     paths = NULL,
                     cores = NULL) {
-  
-  # helper function: crop long names for AAStringSet object, returns
-  # character vector
-  
-  crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
-  
-  # ----- Check that inputs are valid
-  
-  # check that arguments are present and valid
-  if (missing(network)) {stop('missing argument: network')}
-  if (missing(run_mode)) {stop('missing argument: run_mode')}
-  organism <- match.arg(network)
-  run_mode <- match.arg(run_mode)
-  
-  if (is.null(cores)) cores = 1 else cores
-  if (is.numeric(cores)) {} else {stop('cores argument must be numeric')}
-  if (cores > detectCores()) {stop('cores value > available core number')}
-  
-  # check that input object belong to CBSResult class
-  if (is(input_obj, "CBSResult")) {} else {
-    stop('input_obj does not belong to CBSResult superclass')}
-  
-  # check that input_obj contains non-empty in/out_fasta for starter/piper
-  if (run_mode == 'starter') {
-    if (length(getInfasta(input_obj)) != 0) {
-      fasta <- getInfasta(input_obj)
-    } else {stop('in_fasta attribute is empty')}
-  } else if (run_mode == 'piper') {
-    if (length(getOutfasta(input_obj)) != 0) {
-      fasta <- getOutfasta(input_obj)
-    } else {stop('out_fasta attribute is empty')}
-  }
-
-  # All checked, produce an encouragig message  
+    
+    # helper function: crop long names for AAStringSet object, returns
+    # character vector
+    
+    crop_names <- function(x) {
+        unlist(stringr::str_split(x, " "))[1]
+    }
+    
+    # ----- Check that inputs are valid
+    
+    # check that arguments are present and valid
+    if (missing(network)) {
+        stop('missing argument: network')
+    }
+    if (missing(run_mode)) {
+        stop('missing argument: run_mode')
+    }
+    organism <- match.arg(network)
+    run_mode <- match.arg(run_mode)
+    
+    if (is.null(cores))
+        cores = 1
+    else
+        cores
+    if (is.numeric(cores)) {
+    } else {
+        stop('cores argument must be numeric')
+    }
+    if (cores > detectCores()) {
+        stop('cores value > available core number')
+    }
+    
+    # check that input object belong to CBSResult class
+    if (is(input_obj, "CBSResult")) {
+    } else {
+        stop('input_obj does not belong to CBSResult superclass')
+    }
+    
+    # check that input_obj contains non-empty in/out_fasta for starter/piper
+    if (run_mode == 'starter') {
+        if (length(getInfasta(input_obj)) != 0) {
+            fasta <- getInfasta(input_obj)
+        } else {
+            stop('in_fasta attribute is empty')
+        }
+    } else if (run_mode == 'piper') {
+        if (length(getOutfasta(input_obj)) != 0) {
+            fasta <- getOutfasta(input_obj)
+        } else {
+            stop('out_fasta attribute is empty')
+        }
+    }
+    
+    # All checked, produce an encouragig message
     message("running targetp locally...")
+    
+    # simple function to run targetp on small input files <1K proteins
+    
+    simple_targetp <- function(aaSet) {
+        #----- Run targetp prediction:
+        message(paste('Number of submitted sequences...', length(aaSet)))
+        
+        # convert fasta to a temporary file:
+        out_tmp <- tempfile() #create a temporary file for fasta
+        Biostrings::writeXStringSet(aaSet, out_tmp) #write tmp fasta file
+        
+        # get and check paths to signalp
+        if (is.null(paths)) {
+            full_pa <- 'targetp'
+        } else {
+            mp <- suppressMessages(manage_paths(
+                in_path = FALSE,
+                test_mode = 'targetp',
+                path_file = paths
+            ))
+            full_pa <- mp$path_tibble$path
+        }
+        
+        # prep fasta:
+        # generate cropped names for input fasta
+        cropped_names <- unname(sapply(names(aaSet), crop_names))
+        # replace long names with cropped names
+        names(aaSet) <- cropped_names
+        
+        # prep networks argument:
+        NN <- paste('-', network, sep = '')
+        
+        #run targetp:
+        tp <- tibble::as.tibble(read.table(text = (system(
+            paste(full_pa, NN, out_tmp),
+            intern = TRUE
+        )[1:length(aaSet) + 8])))
+        
+        if (network == 'N') {
+            names(tp) <- c('gene_id', 'length', 'mTP', 'sp', 'other',
+                            'TP_localization', 'RC')
+        }
+        else if (network == 'P') {
+            names(tp) <- c('gene_id', 'length', 'cTP', 'mTP', 'sp', 'other',
+                            'TP_localization', 'RC')
+        }
+        
+        tp <- tp %>% dplyr::filter_( ~ TP_localization == 'S')
+        message(paste('Number of candidate secreted sequences', nrow(tp)))
+        
+        candidate_ids <- tp %>%
+            dplyr::select_( ~ gene_id) %>%
+            unlist(use.names = FALSE)
+        out_fasta_tp <- aaSet[candidate_ids]
+        
+        # generate output object:
+        out_obj <- TargetpResult(in_fasta = aaSet, out_fasta = out_fasta_tp,
+                                    tp_tibble = tp)
+        
+        if (validObject(out_obj)) {
+            return(out_obj)
+        }
+    }
 
-# simple function to run targetp on relatively small input files ~1K proteins
-  
-  simple_targetp <- function(aaSet){
-      #----- Run targetp prediction:
-      message(paste('Number of submitted sequences...', length(aaSet)))
-  
-      # convert fasta to a temporary file:
-      out_tmp <- tempfile() #create a temporary file for fasta
-      Biostrings::writeXStringSet(aaSet, out_tmp) #write tmp fasta file
-  
-      # get and check paths to signalp
-      if (is.null(paths)) {
-        full_pa <- 'targetp'
-      } else {
-        mp <- suppressMessages(manage_paths(in_path = FALSE,
-                                            test_mode = 'targetp',
-                                            path_file = paths))
-        full_pa <- mp$path_tibble$path
-      } 
-  
-      # prep fasta:
-      # generate cropped names for input fasta
-      cropped_names <- unname(sapply(names(aaSet), crop_names))
-      # replace long names with cropped names
-      names(aaSet) <- cropped_names
-  
-      # prep networks argument:
-      NN <- paste('-', network, sep = '')
-  
-      #run targetp:
-      tp <- tibble::as.tibble(read.table(
-        text = (system(paste(full_pa, NN, out_tmp),
-                       intern = TRUE)[1: length(aaSet) + 8])))
-  
-      if (network == 'N') {
-        names(tp) <- c('gene_id', 'length', 'mTP',
-                       'sp', 'other', 'TP_localization', 'RC')}
-      else if (network == 'P') {
-        names(tp) <- c('gene_id', 'length', 'cTP',
-                       'mTP', 'sp', 'other', 'TP_localization', 'RC')  
-      }
-  
-      tp <- tp %>% dplyr::filter_(~TP_localization == 'S')
-      message(paste('Number of candidate secreted sequences', nrow(tp)))
-      
-      candidate_ids <- tp %>%
-                       dplyr::select_(~gene_id) %>% 
-                       unlist(use.names = FALSE)
-      out_fasta_tp <- aaSet[candidate_ids]
-  
-      # generate output object:
-      out_obj <- TargetpResult(in_fasta = aaSet,
-                               out_fasta = out_fasta_tp,
-                               tp_tibble = tp)
-  
-      if (validObject(out_obj)) {return(out_obj)}
-  }
-
-   # Check input file size and decide how to run targetp:
-   # in parallel mode or not:
-  
-   if (length(fasta) <= 1000) {
-     message('Ok for single processing')
-     return(simple_targetp(fasta))
-   } else {
-     message('Input fasta contains >1000 sequences, entering batch mode...')
-     message(paste('Number of submitted sequences...', length(fasta)))
-     # split fasta:
-     split_fasta <- split_XStringSet(fasta, 1000)
-     
-     # initiate cluster 
-     cl <- makeCluster(cores)
-    # clusterEvalQ(cl, library(SecretSanta))
-  
-     #  works oly with my_pa, not paths!
-     clusterExport(cl=cl, varlist=c("paths"), envir=environment()) 
-
-     # run parallel targetp:
-     result <- parLapply(cl, split_fasta, simple_targetp)
-     stopCluster(cl)
-     
-     # combine outputs from multiple workers
-     res_comb <- do.call(c,result)
-     combined_TargetpResult <- combine_TpResult(unname(res_comb))
-     
-     tp_count <- nrow(getTPtibble(combined_TargetpResult))    
-     message(paste('Number of candidate secerted sequences...', tp_count))
-     if (tp_count == 0) {
-       warning('Targetp prediction yeilded 0 extracellular candidates')}
-     
-     closeAllConnections()
-     return(combined_TargetpResult)
-     
-   } 
-  }
+    # Check input file size and decide how to run targetp:
+    # in parallel mode or not:
+    
+    if (length(fasta) <= 1000) {
+        message('Ok for single processing')
+        return(simple_targetp(fasta))
+    } else {
+        message('Input fasta contains >1000 sequences, entering batch mode...')
+        message(paste('Number of submitted sequences...', length(fasta)))
+        # split fasta:
+        split_fasta <- split_XStringSet(fasta, 1000)
+        
+        # initiate cluster
+        cl <- makeCluster(cores)
+        # clusterEvalQ(cl, library(SecretSanta))
+        
+        #  works oly with my_pa, not paths!
+        clusterExport(cl = cl, varlist = c("paths"), envir = environment())
+        
+        # run parallel targetp:
+        result <- parLapply(cl, split_fasta, simple_targetp)
+        stopCluster(cl)
+        
+        # combine outputs from multiple workers
+        res_comb <- do.call(c, result)
+        combined_TargetpResult <- combine_TpResult(unname(res_comb))
+        
+        tp_count <- nrow(getTPtibble(combined_TargetpResult))
+        message(paste('Number of candidate secerted sequences...', tp_count))
+        if (tp_count == 0) {
+            warning('Targetp prediction yeilded 0 extracellular candidates')
+        }
+        
+        closeAllConnections()
+        return(combined_TargetpResult)
+        
+    }
+}
 
 
