@@ -3,10 +3,10 @@
 #' split_XStringSet function
 #'
 #' This function splits large XStringSet objects into chunks of given size and 
-#' returns a list of AAStringSet objects  \code{\link{DNAStringSet}}.
+#' returns a list of AAStringSet objects.
 #' @param string_set input AAStringSet object;
 #' @param chunk_size the number of sequenses in a single chunk;
-#' @return list of AAStringSet chunks.
+#' @return list of AAStringSet chunks [signalp()].
 #' @export
 #' @examples 
 #' # Read fasta file:

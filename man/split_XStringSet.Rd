@@ -12,11 +12,11 @@ split_XStringSet(string_set, chunk_size)
 \item{chunk_size}{the number of sequenses in a single chunk;}
 }
 \value{
-list of AAStringSet chunks.
+list of AAStringSet chunks [signalp()].
 }
 \description{
 This function splits large XStringSet objects into chunks of given size and 
-returns a list of AAStringSet objects  \code{\link{DNAStringSet}}.
+returns a list of AAStringSet objects.
 }
 \examples{
 # Read fasta file:
