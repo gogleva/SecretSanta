@@ -1,5 +1,5 @@
 Package: SecretSanta
-Title: predict, annotate, classify, visualise secretomes
+Title: flexible pipelines for secretome prediction
 Version: 0.99.0
 Authors@R: person("Anna", "Gogleva", email = "anna.gogleva@slcu.cam.ac.uk", role = c("aut", "cre"))
 Description: Flexible pipelines for automated prediction of secreted proteins.
