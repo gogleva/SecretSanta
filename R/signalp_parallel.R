@@ -6,7 +6,7 @@
 #' returns a list of AAStringSet objects.
 #' @param string_set input AAStringSet object;
 #' @param chunk_size the number of sequenses in a single chunk;
-#' @return list of AAStringSet chunks [signalp()].
+#' @return list of AAStringSet chunks.
 #' @export
 #' @examples 
 #' # Read fasta file:

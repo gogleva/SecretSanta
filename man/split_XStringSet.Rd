@@ -12,7 +12,7 @@ split_XStringSet(string_set, chunk_size)
 \item{chunk_size}{the number of sequenses in a single chunk;}
 }
 \value{
-list of AAStringSet chunks [signalp()].
+list of AAStringSet chunks.
 }
 \description{
 This function splits large XStringSet objects into chunks of given size and 
