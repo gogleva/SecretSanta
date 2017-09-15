@@ -188,4 +188,4 @@ browseVignettes(package = "SecretSanta") # manual
 
 ## Reporting bugs
 
-email anna.gogleva@slcu.cam.ac.uk 
+email anna.gogleva@slcu.cam.ac.uk about bugs and strange things.
