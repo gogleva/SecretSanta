@@ -64,8 +64,10 @@ combine_TpResult <- function(arguments) {
 #' # run target prediction
 #' tp_result <- targetp(input_obj = inp, network = 'N', run_mode = 'starter')
 
-targetp <- function(input_obj, network = c('P', 'N'),
-                    run_mode = c('starter', 'piper'), paths = NULL,
+targetp <- function(input_obj,
+                    network = c('P', 'N'),
+                    run_mode = c('starter', 'piper'),
+                    paths = NULL,
                     cores = NULL) {
     
     # helper function: crop long names for AAStringSet object, returns

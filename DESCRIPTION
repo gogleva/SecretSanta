@@ -21,8 +21,8 @@ Suggests:
     knitr,
     rmarkdown
 SystemRequirements: SignalP,
-                    TargetP
-                    TMHMM
+                    TargetP,
+                    TMHMM,
                     WoLFPsort
 VignetteBuilder: knitr
 biocViews: Software,

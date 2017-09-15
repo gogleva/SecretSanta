@@ -9,7 +9,7 @@
 \alias{setWOLFtibble}
 \alias{getWOLFtibble,WolfResult-method}
 \alias{getWOLFtibble}
-\title{An S4 class to represent outputs of WolfPsort}
+\title{An S4 class to represent outputs of wolfpsort function}
 \usage{
 setWOLFtibble(theObject, wolf_tibble)
 
@@ -26,7 +26,7 @@ setWOLFtibble(theObject, wolf_tibble)
 WolfResult object
 }
 \description{
-An S4 class to represent outputs of WolfPsort
+An S4 class to represent outputs of wolfpsort function
 
 Accessors for WolfResult objects
 }

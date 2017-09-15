@@ -16,7 +16,7 @@ list of AAStringSet chunks.
 }
 \description{
 This function splits large XStringSet objects into chunks of given size and 
-returns a list of AAStringSet objects.
+returns a list of AAStringSet objects  \code{\link{DNAStringSet}}.
 }
 \examples{
 # Read fasta file:

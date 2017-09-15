@@ -398,9 +398,9 @@ setMethod(
     }
 )
 
-#' An S4 class to represent outputs of WolfPsort
+#' An S4 class to represent outputs of wolfpsort function
 #' 
-#' @slot wolf_tibble       tibble with outputs obtained from wolfpsort
+#' @slot wolf_tibble    tibble with outputs obtained from wolfpsort
 #' \itemize{
 #' \item gene_id - unique sequence id
 #' \item localization - the most probable localization
