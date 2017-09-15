@@ -92,7 +92,7 @@ combine_SpResult <- function(arguments) {
 #' \cr
 #' Large input files (>500 sequnces) are automatically split into smaller chunks
 #' so that signalp prediction could be run as an embarassingly parallel process
-#' on all the CPUs available.
+#' on specified number of cores.
 #' @param input_obj   an instance of CBSResult class containing protein 
 #' sequences as one of the attributes
 #' @param version  signalp version to run, supported versions include: \cr
