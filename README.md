@@ -185,3 +185,7 @@ install_github("gogleva/SecretSanta", build_vignettes = TRUE)
 library("SecretSanta")
 browseVignettes(package = "SecretSanta") # manual
 ```
+
+## Reporting bugs
+
+email anna.gogleva@slcu.cam.ac.uk 
