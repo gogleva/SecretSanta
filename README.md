@@ -1,16 +1,16 @@
 ## 1. Background
-**SecretSanta** provides an R interface aiding integrative prediction of
-extracellular proteins secreted via classical secretion pathway, i.e. requiring
-presence of a signal peptide.
+The **SecretSanta** provides an R interface aiding integrative prediction of
+extracellular proteins secreted via classical secretion pathways.
 
-Secretome prediction often involves multiple steps. Typically it starts with
-prediction of short signal peptides at the N-terminus end of a protein.
+Secretome prediction often involves multiple steps. Typically, it starts with
+prediction of short signal peptides at the N-terminal end of a protein.
 Next, it is crucial to ensure the absence of motifs and
 domains preventing the protein from being secreted despite the presence of the
 signal peptide. These sequences include transmembrane domains, short ER lumen
-retention signals, mitochondria and plastid targeting signals. A number of
-excellent command line tools and web-interfaces exist to perform prediction of
-individual motifs and domains
+retention signals,and mitochondria/plastid targeting signals.
+
+A number of excellent command line tools and web-interfaces exist to perform
+predictions of individual motifs and domains
 ([signalp](http://www.cbs.dtu.dk/services/SignalP/),
 [targetp](http://www.cbs.dtu.dk/services/TargetP/),
 [TMHMM](http://www.cbs.dtu.dk/services/TMHMM/),
@@ -21,23 +21,22 @@ allowing to combine the outputs in a single flexible workflow is lacking.
 functions around existing command line tools for prediction of signal peptides
 and protein subcellular localisation. The wrappers are designed to work
 together by producing standardized output. This allows to pipe results between
-individual predictors easily to create flexible custom pipelines and also
-compare predictions between similar methods. For instance, **targetp** and
-**WoLFPsort** for subcellular localization and multiple versions of **signalp**
-for signal peptide prediction.
+individual predictors easily to create flexible custom pipelines and also to
+compare predictions between similar methods.
 
 To speed-up processing of large input fasta files initial steps of the pipeline
 are automatically run as an embarrassingly parallel process when the number of
 input sequences exceeds a certain limit.
 
-Taken together **SecretSanta** provides tools aiding automation of multi-step
+Taken together **SecretSanta** provides a platform to build automated multi-step
 secretome prediction pipelines that can be applied to large protein sets to
-facilitate comparison of secretomes across multiple species.
+facilitate comparison of secretomes across multiple species or under various
+conditions.
 
 ## 2. Installation of external dependencies
 
-For prediction of secreted proteins **SecretSanta** relies on a set of existing
-command line tools. Please install them and configure according to the listed
+**SecretSanta** relies on a set of existing command line tools to predict
+secreted proteins. Please install them and configure according to the listed
 instructions. Due to limitations imposed by the external dependencies, some of
 **SecretSanta** wrapper functions won't work in Windows, however should be fully
 functional on Linux and Mac.
