@@ -1,6 +1,6 @@
 ## 1. Background
-The **SecretSanta** provides an R interface aiding integrative prediction of
-extracellular proteins secreted via classical secretion pathways.
+The **SecretSanta** package provides an R interface aiding integrative prediction
+of extracellular proteins secreted via classical secretion pathways.
 
 Secretome prediction often involves multiple steps. Typically, it starts with
 prediction of short signal peptides at the N-terminal end of a protein.
@@ -86,7 +86,7 @@ functional on Linux and Mac.
 
 - **signalp-4.1** - the most recent version
     + This version can run under Windows, OS X (Macintosh) and Linux.
-    + Download stand alone signalp4.0 http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+4.0
+    + Download stand alone signalp4.0 http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?signalp
     + Unpack the archive
     ```{sh unpack signalp-4.1, eval = FALSE}
     tar -zxvf signalp-4.1.Linux.tar.Z
