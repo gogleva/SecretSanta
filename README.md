@@ -33,7 +33,23 @@ secretome prediction pipelines that can be applied to large protein sets to
 facilitate comparison of secretomes across multiple species or under various
 conditions.
 
-## 2. Installation of external dependencies
+## 2. Automatic installation of external dependencies
+
+Download the external dependencies:
+
+- **siganlp2.0** http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+2.0
+- **signalp-3.0** http://www.cbs.dtu.dk/cgi-bin/sw_request?signalp+3.0
+- **signalp-4.1** http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?signalp
+- **targetp-1.1** http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?targetp
+- **WoLFpsort** https://github.com/fmaguire/WoLFPSort.git
+- **tmhmm-2.0** (http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?tmhmm)
+
+Place all the tarballs in a dedicated directory and run the following installation
+script: https://gist.github.com/gogleva/9ee60038d34327e300edf082a786fa55
+
+
+
+## 3. Manual installation of external dependencies
 
 **SecretSanta** relies on a set of existing command line tools to predict
 secreted proteins. Please install them and configure according to the listed
@@ -41,7 +57,7 @@ instructions. Due to limitations imposed by the external dependencies, some of
 **SecretSanta** wrapper functions won't work in Windows, however should be fully
 functional on Linux and Mac.
 
-### 2.1 Download and configure external dependencies
+### 3.1 Download and configure external dependencies
 
 #### Tools for prediction of signal peptides and cleavage sites:
 - **signalp-2.0**
@@ -143,7 +159,7 @@ functional on Linux and Mac.
     + For more details please check the ``README`` file.
 
 
-### 2.2 Organise access to the external dependencies
+### 3.2 Organise access to the external dependencies
 
 The best option would be to make all the external dependencies are accessible
 from any location. This requires modification of ``$PATH`` environment variable.
