@@ -1,5 +1,7 @@
 [![Project Status: Concept – Minimal or no implementation has been done yet, or the repository is only intended to be a limited example, demo, or proof-of-concept.](http://www.repostatus.org/badges/latest/concept.svg)](http://www.repostatus.org/#concept)
 [![license](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2017--10--03-yellowgreen.svg)](/commits/master)
+[![minimal R version](https://img.shields.io/badge/R%3E%3D-3.4.0-6666ff.svg)](https://cran.r-project.org/)
 
 
 ## 1. Background
@@ -17,7 +19,6 @@ To speed-up processing of large input fasta files initial steps of the pipeline 
 Taken together **SecretSanta** provides a platform to build automated multi-step secretome prediction pipelines that can be applied to large protein sets to facilitate comparison of secretomes across multiple species or under various conditions.
 
 ## 2. External dependencies
-------------------------
 
 SecretSanta relies on a set of existing command line tools to predict secreted proteins. Please install them and configure according to the listed instructions. Due to limitations imposed by the external dependencies, some of SecretSanta wrapper functions won't work in Windows, however should be fully functional on Linux and Mac.
 
@@ -36,7 +37,6 @@ Download the external dependencies:
 Place all the tarballs in a dedicated directory and run the following installation script inside it: <https://gist.github.com/gogleva/9ee60038d34327e300edf082a786fa55>
 
 ### 2.2 Manual installation of external dependencies
-------------------------------------------------
 
 #### Tools for prediction of signal peptides and cleavage sites:
 
@@ -167,7 +167,6 @@ Reload `/.profile`:
 Reboot, to make changes visible to R.
 
 ### 3. Installation
----------------
 
 To install **SecretSanta** package:
 
@@ -179,6 +178,5 @@ browseVignettes(package = "SecretSanta") # manual
 ```
 
 ### Reporting bugs
---------------
 
 email <anna.gogleva@slcu.cam.ac.uk> about bugs and strange things.
