@@ -2,7 +2,7 @@
 [![license](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 [![Last-changedate](https://img.shields.io/badge/last%20change-2017--10--03-yellowgreen.svg)](/commits/master)
 [![minimal R version](https://img.shields.io/badge/R%3E%3D-3.4.0-6666ff.svg)](https://cran.r-project.org/)
-
+[![Travis-CI Build Status](https://travis-ci.org/gogleva/SecretSanta.svg?branch=master)](ht#tps://travis-ci.org/gogleva/SecretSanta)
 
 ## 1. Background
 
