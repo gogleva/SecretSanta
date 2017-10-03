@@ -23,7 +23,6 @@ Taken together **SecretSanta** provides a platform to build automated multi-step
 SecretSanta relies on a set of existing command line tools to predict secreted proteins. Please install them and configure according to the listed instructions. Due to limitations imposed by the external dependencies, some of SecretSanta wrapper functions won't work in Windows, however should be fully functional on Linux and Mac.
 
 ### 2.1 Automatic installation of external dependencies
----------------------------------------------------
 
 Download the external dependencies:
 
