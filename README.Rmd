@@ -4,6 +4,7 @@ output:
     variant: markdown_github
 html_preview: false
 ---
+badgecreatr::dynamic_badges_minimal(license = "GPL-3", codecov = TRUE)
 
 ## 1. Background
 The **SecretSanta** package provides an R interface aiding integrative prediction
