@@ -8,3 +8,4 @@ bioc_required: true
 bioc_use_devel: true
 r_build_args: --no-build-vignettes --no-manual --no-resave-data --no-examples --no-tests
 r_check_args: --no-build-vignettes --no-manual --no-examples --no-tests
+warnings_are_errors: false
