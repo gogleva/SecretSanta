@@ -6,3 +6,5 @@ cache: packages
 r: bioc-devel
 bioc_required: true
 bioc_use_devel: true
+r_build_args: --no-build-vignettes --no-manual --no-resave-data
+r_check_args: --no-build-vignettes --no-manual
