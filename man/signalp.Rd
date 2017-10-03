@@ -44,7 +44,7 @@ signal peptide cleavage sites in amino acid sequences.
 \cr
 Large input files (>500 sequnces) are automatically split into smaller chunks
 so that signalp prediction could be run as an embarassingly parallel process
-on all the CPUs available.
+on specified number of cores.
 }
 \examples{
 # read fasta file in AAStringSet object

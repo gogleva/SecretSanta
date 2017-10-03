@@ -1,3 +1,10 @@
+---
+output:
+  md_document:
+    variant: markdown_github
+html_preview: false
+---
+
 ## 1. Background
 The **SecretSanta** package provides an R interface aiding integrative prediction
 of extracellular proteins secreted via classical secretion pathways.
@@ -193,7 +200,7 @@ Reboot, to make changes visible to R.
 
 To install **SecretSanta** package:
 
-```
+```{r, message = FALSE}
 library("devtools")
 install_github("gogleva/SecretSanta", build_vignettes = TRUE)
 library("SecretSanta")
