@@ -6,7 +6,8 @@
 
 ## 1. Background
 
-The **SecretSanta** package provides an R interface aiding integrative prediction of extracellular proteins secreted via classical secretion pathways.
+The **SecretSanta** package provides an R interface for the integrative
+prediction of extracellular proteins that are secreted via classical pathways.
 
 Secretome prediction often involves multiple steps. Typically, it starts with prediction of short signal peptides at the N-terminal end of a protein. Next, it is crucial to ensure the absence of motifs and domains preventing the protein from being secreted despite the presence of the signal peptide. These sequences include transmembrane domains, short ER lumen retention signals,and mitochondria/plastid targeting signals.
 
