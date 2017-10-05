@@ -70,13 +70,6 @@ targetp <- function(input_obj,
                     paths = NULL,
                     cores = NULL) {
     
-    # helper function: crop long names for AAStringSet object, returns
-    # character vector
-    
-    crop_names <- function(x) {
-        unlist(stringr::str_split(x, " "))[1]
-    }
-    
     # ----- Check that inputs are valid
     
     # check that arguments are present and valid

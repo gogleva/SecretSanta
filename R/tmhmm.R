@@ -106,12 +106,6 @@ tmhmm <- function(input_obj, TM, paths = NULL) {
         nrow(tm)
     ))
     
-    # helper function: crop long names for AAStringSet object, return
-    # character vector
-    crop_names <- function(x) {
-        unlist(stringr::str_split(x, " "))[1]
-    }
-    
     #generate cropped names for input fasta
     full_fasta <- getInfasta(input_obj)
     cropped_names <- unname(sapply(names(full_fasta), crop_names))

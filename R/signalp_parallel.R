@@ -198,12 +198,6 @@ signalp <- function(input_obj,
     }
 
     # ------ Helper functions:
-    
-    # helper function: crop long names for AAStringSet object,
-    # return character vector
-    crop_names <- function(x) {
-        unlist(stringr::str_split(x, " "))[1]
-    }
 
     # helper function to truncate long sequences or throw them away, otherwise
     # signalp will break (at least signalp2 and signalp3 will)
