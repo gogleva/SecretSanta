@@ -4,8 +4,13 @@
 \name{ErResult-class}
 \alias{ErResult-class}
 \alias{ErResult}
+\alias{getErRetained,ErResult-method}
+\alias{getErRetained}
 \title{accesor functions for objects of ErResult S4 class, outputs of the 
 check_khedel fucntion}
+\usage{
+\S4method{getErRetained}{ErResult}(theObject)
+}
 \description{
 accesor functions for objects of ErResult S4 class, outputs of the 
 check_khedel fucntion

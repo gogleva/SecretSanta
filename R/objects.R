@@ -1,4 +1,4 @@
-#' accesor functions for objects of CBSResult S4 class, minimal parent class for
+#' accessor functions for objects of CBSResult S4 class, minimal parent class for
 #' SecretSanat outputs
 #' 
 #' @slot in_fasta        initial fasta file
@@ -163,7 +163,7 @@ setMethod(
     }
 )
 
-#' accesor functions for objects of SignalpResult S4 class, intermediate and 
+#' accessor functions for objects of SignalpResult S4 class, intermediate and 
 #' final outputs of the signalp prediction step
 #' 
 #' @slot mature_fasta    fasta with mature sequences
@@ -396,7 +396,7 @@ setMethod(
     }
 )
 
-#' accesor functions for objects of WolfResult S4 class, outputs of the wolf 
+#' accessor functions for objects of WolfResult S4 class, outputs of the wolf 
 #' prediction step
 #' 
 #' @slot wolf_tibble    tibble with outputs obtained from wolfpsort
@@ -475,7 +475,7 @@ setMethod(
     }
 )
 
-#' accesor functions for objects of TMhmmResult S4 class, intermediate and 
+#' accessor functions for objects of TMhmmResult S4 class, intermediate and 
 #' final outputs of the tmhmm prediction step
 #' @slot in_mature_fasta  input mature fasta, extracted from the input 
 #' SignalpResult object
@@ -625,11 +625,12 @@ setMethod(
     }
 )
 
-#' accesor functions for objects of ErResult S4 class, outputs of the 
+#' accessor functions for objects of ErResult S4 class, outputs of the 
 #' check_khedel fucntion
 #' 
 #' @slot retained - sequences with ER retention signals
 #' @export ErResult
+#' @rdname ErResult_methods
 #' @examples
 #' aa <- readAAStringSet(system.file("extdata","small_prot.fasta", 
 #' package = "SecretSanta"), use.names = TRUE)
@@ -640,7 +641,30 @@ ErResult <- setClass("ErResult", contains = "CBSResult",
                         slots = list(retained = "AAStringSet"))
 
 
-#' accesor functions for objects of TargetpResult S4 class, intermediate and 
+setGeneric(
+    name = "getErRetained",
+    def = function(theObject)
+    {
+        standardGeneric("getErRetained")
+    }
+)
+
+#' @export
+#' @rdname  ErResult_methods
+#' @aliases getErRetained
+
+setMethod(
+    f = "getErRetained",
+    signature = "ErResult",
+    definition = function(theObject)
+    {
+        return(theObject@retained)
+    }
+)
+
+
+
+#' accessor functions for objects of TargetpResult S4 class, intermediate and 
 #' final outputs of the targetp prediction step
 #' 
 #' @slot tp_tibble        tibble with outputs obtained from targetp

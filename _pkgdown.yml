@@ -10,13 +10,13 @@ reference:
       - tmhmm
       - check_khdel
       - m_slicer  
-  - title: "Helper fuctions"
+  - title: "Helper functions"
     contents:
       - parse_signalp
       - split_XStringSet
       - combine_SpResult
       - combine_TpResult
-  - title: "Acessor functions for S4 objects"
+  - title: "Acessor functions for outputs, organised in S4 classes"
     contents:
       - setInfasta
       - getInfasta
@@ -36,4 +36,5 @@ reference:
       - getOutMatfasta
       - setWOLFtibble
       - getWOLFtibble
+      - getErRetained
       

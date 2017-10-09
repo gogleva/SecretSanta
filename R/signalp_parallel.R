@@ -1,6 +1,6 @@
 # HELPER FUNCTIONS FOR PARALLEL SIGNALP:
 
-#' split XStrinSet objects
+#' split XStringSet objects
 #'
 #' This function splits large XStringSet objects into chunks of given size and 
 #' returns a list of AAStringSet objects.
