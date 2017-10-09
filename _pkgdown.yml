@@ -1,3 +1,14 @@
+templates:
+  params:
+    bootswatch: flatly
+
+navbar:
+  left:
+  - text: Vignette
+    href: articles/SecretSanta-vignette.html
+  - text: Reference
+    href: reference/index.html
+
 reference:
   - title: "Organise pathways and check external dependecies"
     contents: 
