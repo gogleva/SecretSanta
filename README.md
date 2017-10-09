@@ -176,7 +176,7 @@ install_github("gogleva/SecretSanta", build_vignettes = TRUE)
 library("SecretSanta")
 ```
 
-Please find the full vignette with use cases [here:](https://gogleva.github.io/SecretSanta/articles/SecretSanta-vignette.html)
+Please find the full vignette with use cases [here](https://gogleva.github.io/SecretSanta/index.html)
 ### Reporting bugs
 
 email <anna.gogleva@slcu.cam.ac.uk> about bugs and strange things.
