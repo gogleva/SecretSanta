@@ -1,4 +1,5 @@
-#' An S4 class to represent minimal basic structure of CBS output objects.
+#' accesor functions for objects of CBSResult S4 class, minimal parent class for
+#' SecretSanat outputs
 #' 
 #' @slot in_fasta        initial fasta file
 #' @slot out_fasta       output fasta with only positive candidates,
@@ -162,8 +163,8 @@ setMethod(
     }
 )
 
-#' An S4 class to represent intermediate and final
-#' outputs of the signalp prediction step
+#' accesor functions for objects of SignalpResult S4 class, intermediate and 
+#' final outputs of the signalp prediction step
 #' 
 #' @slot mature_fasta    fasta with mature sequences
 #' @slot sp_version      version of signalp used to generate this object
@@ -252,9 +253,6 @@ SignalpResult <- setClass(
         }
     }
 )
-
-# define accessor functions for SignalpResult object
-# setter for mature_fasta
 
 #' Accessors for SignalpResult objects
 #' @param theObject SignalpResult object
@@ -398,7 +396,8 @@ setMethod(
     }
 )
 
-#' An S4 class to represent outputs of wolfpsort function
+#' accesor functions for objects of WolfResult S4 class, outputs of the wolf 
+#' prediction step
 #' 
 #' @slot wolf_tibble    tibble with outputs obtained from wolfpsort
 #' \itemize{
@@ -476,9 +475,8 @@ setMethod(
     }
 )
 
-#' An S4 class to represent intermediate and final outputs of the TMHMM
-#' prediction step
-#' 
+#' accesor functions for objects of TMhmmResult S4 class, intermediate and 
+#' final outputs of the tmhmm prediction step
 #' @slot in_mature_fasta  input mature fasta, extracted from the input 
 #' SignalpResult object
 #' @slot out_mature_fasta output mature, conatins mature sequences without
@@ -627,9 +625,9 @@ setMethod(
     }
 )
 
-#' An S4 class to represent intermediate and final outputs of the TMHMM
-#' prediction step
-#'
+#' accesor functions for objects of ErResult S4 class, outputs of the 
+#' check_khedel fucntion
+#' 
 #' @slot retained - sequences with ER retention signals
 #' @export ErResult
 #' @examples
@@ -642,8 +640,8 @@ ErResult <- setClass("ErResult", contains = "CBSResult",
                         slots = list(retained = "AAStringSet"))
 
 
-#' An S4 class to represent intermediate and final outputs of the targetP
-#' prediction step
+#' accesor functions for objects of TargetpResult S4 class, intermediate and 
+#' final outputs of the targetp prediction step
 #' 
 #' @slot tp_tibble        tibble with outputs obtained from targetp
 #' \itemize{

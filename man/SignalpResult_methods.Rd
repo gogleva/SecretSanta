@@ -16,8 +16,8 @@
 \alias{setSPtibble}
 \alias{getSPtibble,SignalpResult-method}
 \alias{getSPtibble}
-\title{An S4 class to represent intermediate and final
-outputs of the signalp prediction step}
+\title{accesor functions for objects of SignalpResult S4 class, intermediate and 
+final outputs of the signalp prediction step}
 \usage{
 setMatfasta(theObject, mature_fasta)
 
@@ -47,8 +47,8 @@ object}
 SignalpResult object
 }
 \description{
-An S4 class to represent intermediate and final
-outputs of the signalp prediction step
+accesor functions for objects of SignalpResult S4 class, intermediate and 
+final outputs of the signalp prediction step
 
 Accessors for SignalpResult objects
 }

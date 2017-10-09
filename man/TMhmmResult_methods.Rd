@@ -12,8 +12,8 @@
 \alias{getInMatfasta}
 \alias{getOutMatfasta,TMhmmResult-method}
 \alias{getOutMatfasta}
-\title{An S4 class to represent intermediate and final outputs of the TMHMM
-prediction step}
+\title{accesor functions for objects of TMhmmResult S4 class, intermediate and 
+final outputs of the tmhmm prediction step}
 \usage{
 setTMtibble(theObject, tm_tibble)
 
@@ -34,8 +34,8 @@ setTMtibble(theObject, tm_tibble)
 TMhmmREsult object
 }
 \description{
-An S4 class to represent intermediate and final outputs of the TMHMM
-prediction step
+accesor functions for objects of TMhmmResult S4 class, intermediate and 
+final outputs of the tmhmm prediction step
 
 Accessors for TMhmmResul objects
 }

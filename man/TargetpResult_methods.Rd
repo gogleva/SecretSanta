@@ -8,8 +8,8 @@
 \alias{setTPtibble,TargetpResult-method}
 \alias{getTPtibble,TargetpResult-method}
 \alias{getTPtibble}
-\title{An S4 class to represent intermediate and final outputs of the targetP
-prediction step}
+\title{accesor functions for objects of TargetpResult S4 class, intermediate and 
+final outputs of the targetp prediction step}
 \usage{
 setTPtibble(theObject, tp_tibble)
 
@@ -26,8 +26,8 @@ setTPtibble(theObject, tp_tibble)
 TargetpResult object
 }
 \description{
-An S4 class to represent intermediate and final outputs of the targetP
-prediction step
+accesor functions for objects of TargetpResult S4 class, intermediate and 
+final outputs of the targetp prediction step
 
 Accessors for TargetpResult objects
 }

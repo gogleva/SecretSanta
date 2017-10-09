@@ -12,7 +12,8 @@
 \alias{setOutfasta}
 \alias{getOutfasta,CBSResult-method}
 \alias{getOutfasta}
-\title{An S4 class to represent minimal basic structure of CBS output objects.}
+\title{accesor functions for objects of CBSResult S4 class, minimal parent class for
+SecretSanat outputs}
 \usage{
 setInfasta(theObject, in_fasta)
 
@@ -35,7 +36,8 @@ setInfasta(theObject, in_fasta)
 CBSREsult object
 }
 \description{
-An S4 class to represent minimal basic structure of CBS output objects.
+accesor functions for objects of CBSResult S4 class, minimal parent class for
+SecretSanat outputs
 
 Accessors for CBSResult objects
 }

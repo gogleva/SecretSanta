@@ -4,11 +4,11 @@
 \name{ErResult-class}
 \alias{ErResult-class}
 \alias{ErResult}
-\title{An S4 class to represent intermediate and final outputs of the TMHMM
-prediction step}
+\title{accesor functions for objects of ErResult S4 class, outputs of the 
+check_khedel fucntion}
 \description{
-An S4 class to represent intermediate and final outputs of the TMHMM
-prediction step
+accesor functions for objects of ErResult S4 class, outputs of the 
+check_khedel fucntion
 }
 \section{Slots}{
 
