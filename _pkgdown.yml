@@ -1,0 +1,39 @@
+reference:
+  - title: "Organise pathways and check external dependecies"
+    contents: 
+      - manage_paths
+  - title: "Analystic steps for secretome prediction"
+    contents:
+      - signalp
+      - targetp
+      - tmhmm
+      - wolfpsort
+      - check_khdel
+      - m_slicer  
+  - title: "Helper fuctions"
+    contents:
+      - parse_signalp
+      - split_XStringSet
+      - combine_SpResult
+      - combine_TpResult
+  - title: "Acessor functions for S4 objects"
+    contents:
+      - setInfasta
+      - getInfasta
+      - setOutfasta
+      - getOutfasta
+      - setMatfasta
+      - getMatfasta
+      - setSPversion
+      - getSPversion
+      - setSPtibble
+      - getSPtibble
+      - setTPtibble
+      - getTPtibble
+      - setTMtibble
+      - getTMtibble
+      - getInMatfasta
+      - getOutMatfasta
+      - setWOLFtibble
+      - getWOLFtibble
+      
