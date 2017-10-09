@@ -174,9 +174,9 @@ To install **SecretSanta** package:
 library("devtools")
 install_github("gogleva/SecretSanta", build_vignettes = TRUE)
 library("SecretSanta")
-browseVignettes(package = "SecretSanta") # manual
 ```
 
+Please find the full vignette with use cases [here:](https://gogleva.github.io/SecretSanta/articles/SecretSanta-vignette.html)
 ### Reporting bugs
 
 email <anna.gogleva@slcu.cam.ac.uk> about bugs and strange things.
