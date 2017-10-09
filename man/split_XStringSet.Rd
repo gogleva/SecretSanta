@@ -2,7 +2,7 @@
 % Please edit documentation in R/signalp_parallel.R
 \name{split_XStringSet}
 \alias{split_XStringSet}
-\title{split_XStringSet function}
+\title{split XStrinSet objects}
 \usage{
 split_XStringSet(string_set, chunk_size)
 }

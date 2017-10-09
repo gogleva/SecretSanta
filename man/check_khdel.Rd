@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_khdel.R
 \name{check_khdel}
 \alias{check_khdel}
-\title{check_khdel function}
+\title{check C-terminal ER-retention signals}
 \usage{
 check_khdel(input_obj, run_mode = c("starter", "piper"))
 }

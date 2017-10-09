@@ -2,7 +2,7 @@
 % Please edit documentation in R/manage_paths.R
 \name{manage_paths}
 \alias{manage_paths}
-\title{manage_paths function}
+\title{organise and test external dependencies}
 \usage{
 manage_paths(in_path = c(TRUE, FALSE), test_mode = c("all", "signalp2",
   "signalp3", "signalp4", "targetp", "tmhmm", "wolfpsort"), path_file = NULL)

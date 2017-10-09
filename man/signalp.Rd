@@ -2,7 +2,7 @@
 % Please edit documentation in R/signalp_parallel.R
 \name{signalp}
 \alias{signalp}
-\title{signalp function}
+\title{predict signal peptides}
 \usage{
 signalp(input_obj, version, organism = c("euk", "gram+", "gram-"),
   run_mode = c("starter", "piper"), paths = NULL, truncate = NULL,

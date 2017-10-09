@@ -2,7 +2,7 @@
 % Please edit documentation in R/signalp_parallel.R
 \name{combine_SpResult}
 \alias{combine_SpResult}
-\title{combine_SpResult function}
+\title{combine multiple objects of SignalpResult class}
 \usage{
 combine_SpResult(arguments)
 }

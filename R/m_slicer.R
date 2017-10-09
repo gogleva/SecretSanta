@@ -1,4 +1,4 @@
-#' m_slicer function
+#' generate proteins with alternative translation start sites
 #'
 #' NB: this is an \strong{experimental option}.\cr
 #' \cr

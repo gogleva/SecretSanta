@@ -1,4 +1,4 @@
-#' parse_signalp function
+#' convert output of Signalp-2.0 and Signalp-3.0 to Signalp-4.0++ format
 #' 
 #' This function parses signalp2 and signalp3 output and is called internally
 #' in the \code{\link{signalp}} function to standardize outputs.\cr

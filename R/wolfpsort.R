@@ -1,4 +1,4 @@
-#' run_WolfPsort function
+#' predict subcellular protein localization with WoLFpsort
 #'
 #' This function runs WoLF PSORT to predict protein cellular sub-localisation
 #' and returns the most probbale one. Including this step in secretome 

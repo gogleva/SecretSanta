@@ -6,7 +6,6 @@
 \alias{TMhmmResult}
 \alias{setTMtibble}
 \alias{setTMtibble,TMhmmResult-method}
-\alias{setTMtibble}
 \alias{getTMtibble,TMhmmResult-method}
 \alias{getTMtibble}
 \alias{getInMatfasta,TMhmmResult-method}

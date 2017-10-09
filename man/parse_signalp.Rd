@@ -2,7 +2,7 @@
 % Please edit documentation in R/parse_signalp.R
 \name{parse_signalp}
 \alias{parse_signalp}
-\title{parse_signalp function}
+\title{convert output of Signalp-2.0 and Signalp-3.0 to Signalp-4.0++ format}
 \usage{
 parse_signalp(input, input_type = c("path", "system_call"))
 }

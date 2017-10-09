@@ -2,7 +2,7 @@
 % Please edit documentation in R/wolfpsort.R
 \name{wolfpsort}
 \alias{wolfpsort}
-\title{run_WolfPsort function}
+\title{predict subcellular protein localization with WoLFpsort}
 \usage{
 wolfpsort(input_obj, organism = c("plant", "animal", "fungi"), paths = NULL)
 }

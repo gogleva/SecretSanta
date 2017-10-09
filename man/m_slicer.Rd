@@ -2,7 +2,7 @@
 % Please edit documentation in R/m_slicer.R
 \name{m_slicer}
 \alias{m_slicer}
-\title{m_slicer function}
+\title{generate proteins with alternative translation start sites}
 \usage{
 m_slicer(input_obj, min_len, run_mode = c("slice", "rescue"))
 }

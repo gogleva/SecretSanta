@@ -2,7 +2,7 @@
 % Please edit documentation in R/tmhmm.R
 \name{tmhmm}
 \alias{tmhmm}
-\title{tmhmm function}
+\title{predict transmembrane domains}
 \usage{
 tmhmm(input_obj, TM, paths = NULL)
 }

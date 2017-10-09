@@ -2,7 +2,7 @@
 % Please edit documentation in R/targetp_parallel.R
 \name{targetp}
 \alias{targetp}
-\title{targetp function}
+\title{predict subcellular protein localization with TargetP}
 \usage{
 targetp(input_obj, network = c("P", "N"), run_mode = c("starter", "piper"),
   paths = NULL, cores = NULL)

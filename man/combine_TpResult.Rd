@@ -2,7 +2,7 @@
 % Please edit documentation in R/targetp_parallel.R
 \name{combine_TpResult}
 \alias{combine_TpResult}
-\title{combine_TpResult function}
+\title{combine multiple objects of TargetpResult class}
 \usage{
 combine_TpResult(arguments)
 }

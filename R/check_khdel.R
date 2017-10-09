@@ -1,4 +1,4 @@
-#' check_khdel function
+#' check C-terminal ER-retention signals
 #'
 #' This function checks the presence of terminal \strong{KDEL/HDEL} motifs in 
 #' the provided amino acid equences.

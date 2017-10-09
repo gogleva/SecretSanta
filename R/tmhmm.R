@@ -1,4 +1,4 @@
-#' tmhmm function
+#' predict transmembrane domains
 #'
 #' This function calls local TMHMM to predict transmembarne domains in protein
 #' sequence. \cr

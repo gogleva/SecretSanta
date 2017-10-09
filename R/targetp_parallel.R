@@ -1,4 +1,4 @@
-#' combine_TpResult function
+#' combine multiple objects of TargetpResult class
 #'
 #' This function combines multiple instances of TargetpResult class,
 #' typically generated with parLapply when running targetp in parallel mode.
@@ -32,7 +32,7 @@ combine_TpResult <- function(arguments) {
                             tp_tibble = c_tp_tibble)
 }
 
-#' targetp function
+#' predict subcellular protein localization with TargetP
 #'
 #' This function calls local targetp to predict subcellular localisation of 
 #' a protein.\cr

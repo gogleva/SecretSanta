@@ -1,4 +1,4 @@
-#' manage_paths function
+#' organise and test external dependencies
 #'
 #' This function checks that all the external dependencies required for
 #' secertome prediction pipelines are available and can sucessfully pass test

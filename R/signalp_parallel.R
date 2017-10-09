@@ -1,6 +1,6 @@
 # HELPER FUNCTIONS FOR PARALLEL SIGNALP:
 
-#' split_XStringSet function
+#' split XStrinSet objects
 #'
 #' This function splits large XStringSet objects into chunks of given size and 
 #' returns a list of AAStringSet objects.
@@ -38,7 +38,7 @@ split_XStringSet <- function(string_set, chunk_size) {
     lapply(chunks, seq_chunker)
 }
 
-#' combine_SpResult function
+#' combine multiple objects of SignalpResult class
 #'
 #' This function combines multiple instances of SignalpResult class,
 #' typically generated with parLapply while running signalp predictions in 
@@ -84,7 +84,7 @@ combine_SpResult <- function(arguments) {
 
 # PARALLEL SIGNALP ITSELF:
 
-#' signalp function
+#' predict signal peptides
 #'
 #' This function calls local signalp to predict the presence and location of
 #' signal peptide cleavage sites in amino acid sequences.

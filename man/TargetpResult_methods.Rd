@@ -6,7 +6,6 @@
 \alias{TargetpResult}
 \alias{setTPtibble}
 \alias{setTPtibble,TargetpResult-method}
-\alias{setTPtibble}
 \alias{getTPtibble,TargetpResult-method}
 \alias{getTPtibble}
 \title{An S4 class to represent intermediate and final outputs of the targetP

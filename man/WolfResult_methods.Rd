@@ -6,7 +6,6 @@
 \alias{WolfResult}
 \alias{setWOLFtibble}
 \alias{setWOLFtibble,WolfResult-method}
-\alias{setWOLFtibble}
 \alias{getWOLFtibble,WolfResult-method}
 \alias{getWOLFtibble}
 \title{An S4 class to represent outputs of wolfpsort function}

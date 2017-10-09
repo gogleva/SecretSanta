@@ -6,8 +6,8 @@ reference:
     contents:
       - signalp
       - targetp
-      - tmhmm
       - wolfpsort
+      - tmhmm
       - check_khdel
       - m_slicer  
   - title: "Helper fuctions"
