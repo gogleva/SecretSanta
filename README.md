@@ -172,7 +172,7 @@ To install **SecretSanta** package:
 
 ``` r
 library("devtools")
-install_github("gogleva/SecretSanta", build_vignettes = TRUE)
+install_github("gogleva/SecretSanta")
 library("SecretSanta")
 ```
 
