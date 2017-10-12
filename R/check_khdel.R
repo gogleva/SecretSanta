@@ -33,6 +33,8 @@
 
 check_khdel <- function(input_obj, run_mode = c('starter', 'piper')) {
     
+    #--- set default run_mode to piper:
+
     if (missing(run_mode)) {stop('missing argument: run_mode')}
     run_mode = match.arg(run_mode)
     
