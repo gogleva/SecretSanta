@@ -92,10 +92,9 @@ m_slicer <- function(input_obj, min_len, run_mode = c('slice', 'rescue')) {
                         '_slice_M',
                         x,
                         sep = '')
-        if (width(st) >= min_len) {
-            return (st)
+        if (width(st) >= min_len) {return(st)} 
+        
         }
-    }
     
     # one AAStringSet object:
     
