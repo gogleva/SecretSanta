@@ -180,3 +180,4 @@ accompanied by a function [reference](https://gogleva.github.io/SecretSanta/refe
 ### Reporting bugs
 
 email <anna.gogleva@slcu.cam.ac.uk> about bugs and strange things.
+###
