@@ -32,7 +32,6 @@ Download the external dependencies:
 -   **WoLFpsort** <https://github.com/fmaguire/WoLFPSort.git>
 -   **tmhmm-2.0** (<http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?tmhmm>)
 
-Place all the tarballs in a dedicated directory and run the following installation script inside it: <https://gist.github.com/gogleva/9ee60038d34327e300edf082a786fa55>
 
 ### 2.2 Manual installation of external dependencies
 
