@@ -227,8 +227,7 @@ signalp <- function(input_obj,
             # in the last chunk
             seq_set <- sample(c(seq_keep, seq_trunc))
             
-            if (all(width(seq_set) < threshold))
-                return(seq_set)
+            if (all(width(seq_set) < threshold)) {return(seq_set)}
         }
     }
     
