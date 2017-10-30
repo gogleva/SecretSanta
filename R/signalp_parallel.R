@@ -218,10 +218,10 @@ signalp <- function(input_obj,
                 seq_set[width(seq_set) < threshold] # not so long sequences
             seq_trunc <-
                 seq_set[width(seq_set) >= threshold] # sequences to truncate
-            t_names <- paste(unname(sapply(names(seq_trunc), crop_names)),
-                                '_truncated', sep = '')
-            names(seq_trunc) <-
-                t_names #new names for sequences to be truncated
+          #  t_names <- paste(unname(sapply(names(seq_trunc), crop_names)),
+           #                     '_truncated', sep = '')
+            t_names <- unname(sapply(names(seq_trunc), crop_names))
+            names(seq_trunc) <- t_names #new names for sequences to be truncated
             seq_trunc <- subseq(seq_trunc, 1, threshold - 1)
             # shuffle AAStringset to avoid having all the heavy sequences
             # in the last chunk
@@ -350,14 +350,14 @@ signalp <- function(input_obj,
     # estimate how big is the file, if required - split it into smaller
     # chunks and run signalp as an embarassingly parallel process
     
-    fasta <- truncate_seq(truncate = truncate, fasta, 2000)
+    fasta <- truncate_seq(truncate = truncate, fasta, 2e03)
     
     # helper function to estimate approximate length threshold if chunk
     # size exceedes 200000
     
     estimate_lim <- function(fasta_chunk) {
-        len_lim <- (200000 / length(fasta_chunk) + 50)
-        if (sum(width(fasta_chunk)) >= 200000) {
+        len_lim <- (2e05 / length(fasta_chunk) + 50)
+        if (sum(width(fasta_chunk)) >= 2e05) {
             message(paste(
                     'fasta size exceedes maximal total residue limit, seqs >',
                     round(len_lim),
@@ -365,8 +365,7 @@ signalp <- function(input_obj,
                 )
             )
             
-            fasta_trunc <-
-                truncate_seq(truncate = truncate, fasta_chunk, len_lim)
+            fasta_trunc <- truncate_seq(truncate = truncate, fasta_chunk, len_lim)
             return(fasta_trunc)
         } else {
             return(fasta_chunk)
