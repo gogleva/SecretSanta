@@ -15,7 +15,7 @@
 #' $PATH variable;\cr
 #' \cr
 #' if \strong{FALSE} you should supply path_file.
-#' @param test_mode if \strong{all} - all the external dependencies will be
+#' @param test_tool if \strong{all} - all the external dependencies will be
 #' checked;\cr
 #' alternatively specify a tool name to be checked.
 #' @param path_file    full paths to external dependencies in a
@@ -42,10 +42,10 @@
 #' # external dependencies are attached to
 #' # the $PATH variable:
 #'
-#' manage_paths(in_path = TRUE, test_mode = 'all')
+#' manage_paths(in_path = TRUE, test_tool = 'all')
 #'
 #' # to test just a single tool:
-#' manage_paths(in_path = TRUE, test_mode = 'signalp2')
+#' manage_paths(in_path = TRUE, test_tool = 'signalp2')
 #'
 #' # Example2:
 #' # alternatively, we are in a situation
@@ -54,16 +54,16 @@
 #' # paths to the external dependencies:
 #'
 #' manage_paths(in_path = FALSE,
-#' test_mode = 'all',
+#' test_tool = 'all',
 #' path_file = system.file("extdata", "sample_paths", package = "SecretSanta"))
 
 manage_paths <- function(in_path = c(TRUE, FALSE),
-                            test_mode = c('all', 'signalp2', 'signalp3',
+                            test_tool = c('all', 'signalp2', 'signalp3',
                                             'signalp4','targetp', 'tmhmm',
                                             'wolfpsort'),
                             path_file = NULL) {
     
-    test_mode <- match.arg(test_mode)
+    test_tool <- match.arg(test_tool)
     
     # here we assume that all the tools are accessible via $PATH:
     if (in_path == TRUE) {
@@ -82,8 +82,10 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
             stop('Please supply path_file')
         } else {
             # read path file in a tibble
-            pp <- suppressMessages(readr::read_delim(path_file, delim = ' ',
-                                                        col_names = FALSE))
+            pp <- tibble::as.tibble(read.table(path_file, sep = ' ',
+                                               header = FALSE,
+                                               stringsAsFactors = FALSE))
+
             # check that there are only 2 columns, i.e no extra spaces in
             # tool names
             if (!(ncol(pp) == 2)) {
@@ -125,6 +127,7 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
         filter_(~ tool == tool_name) %>%
         select_(~ path)
     }
+    
     
     # helper function to generate success message
     ok_message <- function(tool_name) {
@@ -233,7 +236,7 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
     # now we will run required tests according to the actual value
     # of the mode argument
     
-    if (test_mode == 'all') {
+    if (test_tool == 'all') {
         all_tests <- all(
             test_signalp2(),
             test_signalp3(),
@@ -242,25 +245,25 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
             test_targetp(),
             test_wolfpsort()
         )
-    } else if (test_mode == 'signalp2') {
+    } else if (test_tool == 'signalp2') {
         all_tests <- test_signalp2()
-    } else if (test_mode == 'signalp3') {
+    } else if (test_tool == 'signalp3') {
         all_tests <- test_signalp3()
-    } else if (test_mode == 'signalp4') {
+    } else if (test_tool == 'signalp4') {
         all_tests <- test_signalp4()
-    } else if (test_mode == 'tmhmm') {
+    } else if (test_tool == 'tmhmm') {
         all_tests <- test_tmhmm()
-    } else if (test_mode == 'targetp') {
+    } else if (test_tool == 'targetp') {
         all_tests <- test_targetp()
-    } else if (test_mode == 'wolfpsort') {
+    } else if (test_tool == 'wolfpsort') {
         all_tests <- test_wolfpsort()
     }
     
     # construct the final output
     
     # output paths only for the tools tested
-    if (in_path == FALSE & (test_mode != 'all')) {
-        pp <- pp %>% filter_( ~ tool == test_mode)
+    if (in_path == FALSE & (test_tool != 'all')) {
+        pp <- pp %>% filter_( ~ tool == test_tool)
     }
     
     result <- list(tests = all_tests, in_path = in_path, path_tibble = pp)

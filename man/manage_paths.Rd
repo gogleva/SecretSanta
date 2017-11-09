@@ -4,7 +4,7 @@
 \alias{manage_paths}
 \title{organise and test external dependencies}
 \usage{
-manage_paths(in_path = c(TRUE, FALSE), test_mode = c("all", "signalp2",
+manage_paths(in_path = c(TRUE, FALSE), test_tool = c("all", "signalp2",
   "signalp3", "signalp4", "targetp", "tmhmm", "wolfpsort"), path_file = NULL)
 }
 \arguments{
@@ -14,7 +14,7 @@ $PATH variable;\cr
 \cr
 if \strong{FALSE} you should supply path_file.}
 
-\item{test_mode}{if \strong{all} - all the external dependencies will be
+\item{test_tool}{if \strong{all} - all the external dependencies will be
 checked;\cr
 alternatively specify a tool name to be checked.}
 
@@ -56,10 +56,10 @@ For the instalation instructions please see SecretSanta vignette.
 # external dependencies are attached to
 # the $PATH variable:
 
-manage_paths(in_path = TRUE, test_mode = 'all')
+manage_paths(in_path = TRUE, test_tool = 'all')
 
 # to test just a single tool:
-manage_paths(in_path = TRUE, test_mode = 'signalp2')
+manage_paths(in_path = TRUE, test_tool = 'signalp2')
 
 # Example2:
 # alternatively, we are in a situation
@@ -68,6 +68,6 @@ manage_paths(in_path = TRUE, test_mode = 'signalp2')
 # paths to the external dependencies:
 
 manage_paths(in_path = FALSE,
-test_mode = 'all',
+test_tool = 'all',
 path_file = system.file("extdata", "sample_paths", package = "SecretSanta"))
 }
