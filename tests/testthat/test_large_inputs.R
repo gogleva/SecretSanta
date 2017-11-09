@@ -1,3 +1,4 @@
+context("test large inputs")
 test_that("test split_XStringSet",
           { aa_10K <- readAAStringSet("~/anna/Labjournal/SecretSanta_external/test_fastas/large_10K.fasta")
             large_inp <- CBSResult(in_fasta = aa_10K)

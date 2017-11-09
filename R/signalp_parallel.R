@@ -197,8 +197,6 @@ signalp <- function(input_obj,
         stop('cores value > available core number')
     }
 
-    # ------ Helper functions:
-
     # ------ Produce encouraging status messages, inputs should be ok.
     # create actual tool name with version number provided
     signalp_version <- paste("signalp", version, sep = '')
@@ -319,37 +317,15 @@ signalp <- function(input_obj,
     # chunks and run signalp as an embarassingly parallel process
     
     fasta <- truncate_seq(truncate = truncate, fasta, 2000)
-    # 
-    # helper function to estimate approximate length threshold if chunk
-    # size exceedes 200000
-
-    estimate_lim <- function(fasta_chunk) {
-        len_lim <- (200000 / length(fasta_chunk) + 50)
-        if (sum(width(fasta_chunk)) >= 200000) {
-            message(paste(
-                    'fasta size exceedes maximal total residue limit, seqs >',
-                    round(len_lim),
-                    'residues will be truncated'
-                )
-            )
-
-            fasta_trunc <-
-                truncate_seq(truncate = truncate, fasta_chunk, len_lim)
-            return(fasta_trunc)
-        } else {
-            return(fasta_chunk)
-        }
-    }
-
     if (length(fasta) <= 600) {
         message('Ok for single processing')
-        return(simple_signalp(estimate_lim(fasta)))
+        return(simple_signalp(estimate_lim(fasta, truncate)))
     } else {
         message('Input fasta contains >600 sequences, entering batch mode...')
         
         #split and check that chunks do not exceed 200K residue limit
         split_fasta <-
-            sapply(split_XStringSet(fasta, 500), estimate_lim)
+            sapply(split_XStringSet(fasta, 500), estimate_lim, truncate)
         
         # Initiate cluster
         cl <- makeCluster(cores)

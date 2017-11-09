@@ -49,3 +49,36 @@ truncate_seq <- function(truncate, seq_set, threshold) {
             return(seq_set)
     }
 }
+
+
+#
+# helper function to estimate approximate length threshold if chunk
+# size exceedes 200000
+
+
+#' estimate_lim
+#' 
+#' helper function to estimate len limit and truncate long sequences or throw 
+#' them away, otherwise signalp will break (at least signalp2 and signalp3 will)
+#' @return truncated AAStringSet
+#' @param fasta_chunk AAStringSet
+#' @param truncate truncate or throw away
+#' @keywords internal
+## @export 
+
+estimate_lim <- function(fasta_chunk, truncate) {
+    len_lim <- (200000 / length(fasta_chunk) + 50)
+    if (sum(width(fasta_chunk)) >= 200000) {
+        message(paste(
+                'fasta size exceedes maximal total residue limit, seqs >',
+                round(len_lim),
+                'residues will be truncated'
+            )
+        )
+        fasta_trunc <-
+            truncate_seq(truncate = truncate, fasta_chunk, len_lim)
+        return(fasta_trunc)
+    } else {
+        return(fasta_chunk)
+    }
+}
