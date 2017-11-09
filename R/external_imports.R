@@ -1,4 +1,3 @@
-#' @import stringr
 #' @import parallel
 #' @import tibble
 #' @importFrom Biostrings readAAStringSet

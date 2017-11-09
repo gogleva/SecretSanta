@@ -6,7 +6,7 @@
 #' @keywords internal
 ## @export 
 
-crop_names <- function(x){unlist(stringr::str_split(x, " "))[1]}
+crop_names <- function(x){unlist(strsplit(x, " "))[1]}
 
 #' truncate_seq
 #' 

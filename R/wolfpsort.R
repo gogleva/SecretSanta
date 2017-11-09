@@ -74,7 +74,7 @@ wolfpsort <- function(input_obj, organism = c('plant', 'animal', 'fungi'),
     
     #parse wolf output
     clean_strings <- function(x, field) {
-        unlist((stringr::str_split(x, " ")))[c(field)]
+        unlist((strsplit(x, " ")))[c(field)]
     }
     
     gene_id <- sapply(X = wolf, field = 1, clean_strings, USE.NAMES = FALSE)

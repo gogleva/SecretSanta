@@ -36,19 +36,19 @@ parse_signalp <-
         
         # helper function to rescue gene ids
         clean_geneids <- function(x) {
-            gsub('>', '', unlist(stringr::str_split(x, " "))[1])
+            gsub('>', '', unlist(strsplit(x, " "))[1])
         }
         
         # helper function to parse C-score, Y-score and S-score:
         # split line with varibale number of spaces
         clean_score <- function(x) {
-            as.numeric(stringr::str_split(x, "\\s+")[[1]][c(4, 5)])
+            as.numeric(strsplit(x, "\\s+")[[1]][c(4, 5)])
         }
         
     # helper function to get signal peptide cleavage site (from HMM prediction)
     # NN predictions often output wrong coordinates
         clean_cleavege <- function(x) {
-            as.numeric(tail(unlist(stringr::str_split(x, "\\s+")), n = 1))
+            as.numeric(tail(unlist(strsplit(x, "\\s+")), n = 1))
         }
     
     # helper function to parse S mean

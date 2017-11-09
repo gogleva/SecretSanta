@@ -89,7 +89,7 @@ tmhmm <- function(input_obj, TM, paths = NULL) {
     
     # clean output values remove '... =' value
     clean_outp <- function(x) {
-        unlist(stringr::str_split(x, '='))[2]
+        unlist(strsplit(x, '='))[2]
     }
     tm <- dplyr::mutate(
         tm,
