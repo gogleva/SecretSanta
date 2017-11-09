@@ -119,7 +119,7 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
     
     # helper function to extract tool paths when provided in path_file
 
-    get_paths <- function(tool_name) { pp[pp$tool == tool_name,]$path}
+    get_paths <- function(tool_name) { pp[pp$tool == tool_name,]$path }
     
     # helper function to generate success message
     ok_message <- function(tool_name) {
@@ -132,15 +132,17 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
     }
     
     # helper function to make a tool call, wrap in get_paths if necessary
-    make_call <- function(tool) {
-        if (in_path == TRUE) {
-            tool <- tool
-        } else if (in_path == FALSE) {
-            tool <- get_paths(tool)
+    make_call <- function(tool) { 
+        if (in_path == TRUE) tool else get_paths(tool)
         }
-    }
+    
     
     # now we will wrap calls and evaluation of the outputs in small functions:
+    
+    ## need to re-write this as a list of functions?/function factory?
+    
+    # test_tool <- function(tool_name, call_param, grep_param){
+    #        }
     
     #signalp2:
     test_signalp2 <- function() {
