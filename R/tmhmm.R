@@ -80,7 +80,9 @@ tmhmm <- function(input_obj, TM, paths = NULL) {
     con <- system(paste(full_pa, out_tmp, '--short'), intern = TRUE)
     con_tmp <- tempfile()
     write(con, con_tmp)
-    tm <- suppressMessages(readr::read_delim(con_tmp, '\t', col_names = FALSE))
+ #  tm <- suppressMessages(readr::read_delim(con_tmp, '\t', col_names = FALSE))
+    tm <- tibble::as.tibble(read.table(con_tmp, sep = '\t', header = FALSE,
+                                       stringsAsFactors = FALSE))
     
     names(tm) <- c("gene_id", "length", "ExpAA", "First60", "PredHel",
                     "Topology")
