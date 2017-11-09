@@ -199,39 +199,6 @@ signalp <- function(input_obj,
 
     # ------ Helper functions:
 
-    # helper function to truncate long sequences or throw them away, otherwise
-    # signalp will break (at least signalp2 and signalp3 will)
-    truncate_seq <- function(truncate, seq_set, threshold) {
-        drop_n <- length(seq_set[width(seq_set) >= threshold])
-        
-        if (drop_n == 0)
-            return(seq_set)
-        
-        if (truncate == FALSE) {
-            seq_set <- seq_set[width(seq_set) < threshold]
-            warning(paste(drop_n, 'long sequenses have been thrown away'))
-            return(seq_set)
-            
-        } else if (truncate == TRUE) {
-            message(paste(drop_n, 'sequences to be truncated'))
-            seq_keep <-
-                seq_set[width(seq_set) < threshold] # not so long sequences
-            seq_trunc <-
-                seq_set[width(seq_set) >= threshold] # sequences to truncate
-            t_names <- paste(unname(sapply(names(seq_trunc), crop_names)),
-                                '_truncated', sep = '')
-            names(seq_trunc) <-
-                t_names #new names for sequences to be truncated
-            seq_trunc <- subseq(seq_trunc, 1, threshold - 1)
-            # shuffle AAStringset to avoid having all the heavy sequences
-            # in the last chunk
-            seq_set <- sample(c(seq_keep, seq_trunc))
-            
-            if (all(width(seq_set) < threshold))
-                return(seq_set)
-        }
-    }
-    
     # ------ Produce encouraging status messages, inputs should be ok.
     # create actual tool name with version number provided
     signalp_version <- paste("signalp", version, sep = '')
@@ -352,10 +319,10 @@ signalp <- function(input_obj,
     # chunks and run signalp as an embarassingly parallel process
     
     fasta <- truncate_seq(truncate = truncate, fasta, 2000)
-    
+    # 
     # helper function to estimate approximate length threshold if chunk
     # size exceedes 200000
-    
+
     estimate_lim <- function(fasta_chunk) {
         len_lim <- (200000 / length(fasta_chunk) + 50)
         if (sum(width(fasta_chunk)) >= 200000) {
@@ -365,7 +332,7 @@ signalp <- function(input_obj,
                     'residues will be truncated'
                 )
             )
-            
+
             fasta_trunc <-
                 truncate_seq(truncate = truncate, fasta_chunk, len_lim)
             return(fasta_trunc)
@@ -373,7 +340,7 @@ signalp <- function(input_obj,
             return(fasta_chunk)
         }
     }
-    
+
     if (length(fasta) <= 600) {
         message('Ok for single processing')
         return(simple_signalp(estimate_lim(fasta)))
