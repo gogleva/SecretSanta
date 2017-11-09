@@ -103,11 +103,7 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
                 
             } else {
                 message('Supplied file path does not exist.')
-                message(sapply(pp %>%
-                        dplyr::filter_( ~status == FALSE) %>%
-                        dplyr::select_( ~path),
-                    paste, '\n'
-                ))
+                message(sapply(pp[pp$status == TRUE,]$path, paste, '\n'))
                 stop('Please check that supplied paths are correct')
             }
         }
@@ -122,12 +118,8 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
                                 package = "SecretSanta")
     
     # helper function to extract tool paths when provided in path_file
-    get_paths <- function(tool_name) {
-        pp %>%
-        filter_(~ tool == tool_name) %>%
-        select_(~ path)
-    }
-    
+
+    get_paths <- function(tool_name) { pp[pp$tool == tool_name,]$path}
     
     # helper function to generate success message
     ok_message <- function(tool_name) {
@@ -263,7 +255,7 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
     
     # output paths only for the tools tested
     if (in_path == FALSE & (test_tool != 'all')) {
-        pp <- pp %>% filter_( ~ tool == test_tool)
+        pp <- pp[pp$tool == test_tool,] 
     }
     
     result <- list(tests = all_tests, in_path = in_path, path_tibble = pp)
