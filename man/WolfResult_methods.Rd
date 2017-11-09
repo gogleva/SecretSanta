@@ -8,7 +8,7 @@
 \alias{setWOLFtibble,WolfResult-method}
 \alias{getWOLFtibble,WolfResult-method}
 \alias{getWOLFtibble}
-\title{accesor functions for objects of WolfResult S4 class, outputs of the wolf 
+\title{accessor functions for objects of WolfResult S4 class, outputs of the wolf 
 prediction step}
 \usage{
 setWOLFtibble(theObject, wolf_tibble)
@@ -26,7 +26,7 @@ setWOLFtibble(theObject, wolf_tibble)
 WolfResult object
 }
 \description{
-accesor functions for objects of WolfResult S4 class, outputs of the wolf 
+accessor functions for objects of WolfResult S4 class, outputs of the wolf 
 prediction step
 
 Accessors for WolfResult objects
