@@ -94,16 +94,16 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
             
             names(pp) <- c("tool", "path")
             # check that all supplied paths exist
-            pp$status <- file.exists(pp$path)
+            pp$exists <- file.exists(pp$path)
             
-            if (all(pp$status)) {
+            if (all(pp$exists)) {
                 message('All paths are valid')
                 # convert all the tool names to lower case to avoid confusion
                 pp$tool <- tolower(pp$tool)
                 
             } else {
                 message('Supplied file path does not exist.')
-                message(sapply(pp[pp$status == TRUE,]$path, paste, '\n'))
+                message(sapply(pp[pp$exists == TRUE,]$path, paste, '\n'))
                 stop('Please check that supplied paths are correct')
             }
         }
@@ -171,9 +171,8 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
                        grep_params, grep_lines))
     } else {
         t_ind <- tool_names == test_tool
-        all_tests <- test_my_tool(test_tool, call_params[t_ind],
-                             grep_params[t_ind],
-                             grep_lines[t_ind])
+        t_args <- lapply(list(call_params, grep_params, grep_lines), '[', t_ind)
+        all_tests <- do.call(test_my_tool, c(test_tool, t_args))
     } 
     
     # construct the final output:
