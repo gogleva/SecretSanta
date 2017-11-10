@@ -126,139 +126,64 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
     status_message <- function(tool_name, status) {
         if (status == 'OK') {message(paste(tool_name, 'run completed'))}
         if (status == 'FAIL') {message(paste(tool_name, 'test_run_failed'))}
-        
     }
         
     # helper function to make a tool call, wrap in get_paths if necessary
-    make_call <- function(tool) { 
-        if (in_path == TRUE) tool else get_paths(tool)
-        }
-    
-    
+    make_call <- function(tool) {if (in_path == TRUE) tool else get_paths(tool)}
+        
     # now we will wrap calls and evaluation of the outputs in small functions:
     
     ## need to re-write this as a list of functions?/function factory?
-        # test_tool <- function(tool_name, call_param, grep_param){
-    #        }
-    # and Map/mapply?
+    ## test_fasta will be in parent function environment, so we may skip
+    ## this argument
     
-    #signalp2:
-    test_signalp2 <- function() {
-        sp2_call <-
-            system(paste(make_call('signalp2'), '-t euk', test_fasta), 
-                    intern = TRUE)
-        if (grepl('SignalP predictions', sp2_call[1])) {
-            status_message('signalp2', 'OK')
-            sp2_test <- TRUE
+    test_my_tool <- function(tool_name, call_param, grep_param, grep_line){
+        tool_call <- system(paste(make_call(tool_name),
+                                  call_param,
+                                  test_fasta), intern = TRUE)
+        if (grepl(grep_param, tool_call[grep_line]))  {
+            status_message(tool_name, 'OK')
+            tool_status <- TRUE
         } else {
-            status_message('signalp2', 'FAIL')
-            sp2_test <- FALSE
+            status_message(tool_name, 'FAIL')
+            tool_status <- FALSE
         }
+        return(tool_status)
     }
-    
-    #signalp3:
-    test_signalp3 <- function() {
-        sp3_call <-
-            system(paste(make_call('signalp3'), '-t euk', test_fasta),
-            intern = TRUE)
-        if (grepl('SignalP 3.0 predictions', sp3_call[1])) {
-            status_message('signalp3', 'OK')
-            sp3_test <- TRUE
-        } else {
-            status_message('signalp3', 'FAIL')
-            sp3_test <- FALSE
-        }
-    }
-    
-    #signalp4:
-    test_signalp4 <- function() {
-        sp4_call <-
-            system(paste(make_call('signalp4'), '-t euk', test_fasta),
-            intern = TRUE)
-        if (grepl('SignalP-4', sp4_call[1])) {
-            status_message('signalp4', 'OK')
-            sp4_test <- TRUE
-        } else {
-            status_message('signalp4', 'FAIL')
-            sp4_test <- FALSE
-        }
-    }
-    
-    #targetp:
-    test_targetp <- function() {
-        tp_call <- system(paste(make_call('targetp'), '-P', test_fasta),
-                                            intern = TRUE)
-        if (grepl('targetp v1.1 prediction results', tp_call[2])) {
-            status_message('targetp', 'OK')
-            tp_test <- TRUE
-        } else {
-            status_message('targetp', 'FAIL')
-            tp_test <- FALSE
-        }
-    }
-    
-    # tmhmm:
-    test_tmhmm <- function() {
-        tm_call <- system(paste(make_call('tmhmm'), '--short', test_fasta),
-                                            intern = TRUE)
-        if (grepl('ALI_PLTG_1\tlen=94\tExpAA=22.44', tm_call[1])) {
-            status_message('tmhmm', 'OK')
-            tm_test <- TRUE
-        } else {
-            status_message('tmhmm', 'FAIL')
-            tm_test <- FALSE
-        }
-    }
-    
-    # wolfpsort:
-    test_wolfpsort <- function() {
-        wolf_call <- system(paste(make_call('wolfpsort'), 'fungi', '<',
-                                                            test_fasta),
-                                                intern = TRUE)
-        
-        if (grepl('# k used for kNN is: 27', wolf_call[1])) {
-            status_message('wolfpsort', 'OK')
-            wolf_test <- TRUE
-        } else {
-            status_message('wolfpsort', 'FAIL')
-            wolf_test <- FALSE
-        }
-    }
-    
+
+    # gather parameters in lists
+    tool_names <- c('signalp2', 'signalp3', 'signalp4', 'targetp', 'tmhmm',
+                    'wolfpsort')
+    call_params <- c(rep('-t euk', 3), '-P', '--short', 'fungi <')
+    grep_params <- c('SignalP predictions',
+                     'SignalP 3.0 predictions',
+                     'SignalP-4',
+                     'targetp v1.1 prediction results',
+                     'ALI_PLTG_1\tlen=94\tExpAA=22.44',
+                     '# k used for kNN is: 27')
+    grep_lines <- c(rep(1, 3), 2, rep(1,2))
+
     # now we will run required tests according to the actual value
     # of the mode argument
     
     if (test_tool == 'all') {
-        all_tests <- all(
-            test_signalp2(),
-            test_signalp3(),
-            test_signalp4(),
-            test_tmhmm(),
-            test_targetp(),
-            test_wolfpsort()
-        )
-    } else if (test_tool == 'signalp2') {
-        all_tests <- test_signalp2()
-    } else if (test_tool == 'signalp3') {
-        all_tests <- test_signalp3()
-    } else if (test_tool == 'signalp4') {
-        all_tests <- test_signalp4()
-    } else if (test_tool == 'tmhmm') {
-        all_tests <- test_tmhmm()
-    } else if (test_tool == 'targetp') {
-        all_tests <- test_targetp()
-    } else if (test_tool == 'wolfpsort') {
-        all_tests <- test_wolfpsort()
-    }
+        all_tests <- Map(test_my_tool, tool_names, call_params,
+                       grep_params, grep_lines)
+    } else {
+        t_ind <- tool_names == test_tool
+        all_tests <- test_my_tool(test_tool, call_params[t_ind],
+                             grep_params[t_ind],
+                             grep_lines[t_ind])
+    } 
     
     # construct the final output
     
-    # output paths only for the tools tested
-    if (in_path == FALSE & (test_tool != 'all')) {
-        pp <- pp[pp$tool == test_tool,] 
-    }
+    # # output paths only for the tools tested
+    # if (in_path == FALSE & (test_tool != 'all')) {
+    #     pp <- pp[pp$tool == test_tool,] 
+    # }
     
-    result <- list(tests = all_tests, in_path = in_path, path_tibble = pp)
+#    result <- list(tests = all_tests, in_path = in_path, path_tibble = pp)
     
-    return(result)
+    return(all_tests)
 }
