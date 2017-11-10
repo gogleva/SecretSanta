@@ -70,7 +70,7 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
         message('checking dependencies accessible via $PATH')
         if (is.null(path_file)) {
         } else {
-            message('path file provided, but not required')
+        message('path file provided, but not required')
         }
         pp <- NA
     }

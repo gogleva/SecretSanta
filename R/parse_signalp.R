@@ -78,6 +78,14 @@ parse_signalp <-
             stop('gene_ids vector contains duplicated elements')
         }
         
+        # clean the remaining fields in a more optimal/functional way?
+        
+        # organise cleaning functions in a list:
+        fun_list <- list(clean_score, clean_cleavege, clean_mean,
+                         clean_status)
+        
+                         
+        
         # extract max C score and position
         max_C_fixed <- sapply(data[grep("max. C", data)], clean_score,
                             USE.NAMES = FALSE)
@@ -127,16 +135,15 @@ parse_signalp <-
         )
         
         #re-order columns to match signalp4 output
-        res <- res %>% select("gene_id", "Cmax", "Cpos",
-                            "Ymax", "Ypos", "Smax",
-                            "Spos", "Smean", "Prediction")
+        res <- res[c("gene_id", "Cmax", "Cpos",
+                     "Ymax", "Ypos", "Smax",
+                      "Spos", "Smean", "Prediction")]
         
         
         #filter entries predicted to contain signal peptide
-        res <- res %>% filter(res$Prediction == 'Signal peptide')
+        res <- res[res$Prediction == 'Signal peptide',]
         
         #Smean to numeric
         res$Smean <- as.numeric(as.character(res$Smean))
-        
         return(res)
 }
