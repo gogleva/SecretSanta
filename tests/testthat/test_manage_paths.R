@@ -20,7 +20,7 @@ test_that("manage_paths returns correct object and messages",
             # this test is crucial
             r1 <- manage_paths(in_path = TRUE, test_tool = 'all')
             expect_is(r1, 'list')
-            expect_true(r1["tests"] == TRUE)
+            expect_true(all(r1[["tests"]] == TRUE))
             expect_true(r1["in_path"] == TRUE)
             expect_true(is.na(r1["path_tibble"]))
             
@@ -42,7 +42,7 @@ test_that("manage_paths returns correct object and messages",
                                path_file = s_file)
             
             expect_is(r2, 'list')
-            expect_true(r2["tests"] == TRUE)
+            expect_true(all(r2[["tests"]] == TRUE))
             expect_true(r2["in_path"] == FALSE)
             expect_is(r2$path_tibble, 'tbl')
             expect_equal(ncol(r2$path_tibble), 3)

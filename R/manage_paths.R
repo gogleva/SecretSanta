@@ -130,10 +130,9 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
         
     # helper function to make a tool call, wrap in get_paths if necessary
     make_call <- function(tool) {if (in_path == TRUE) tool else get_paths(tool)}
-        
-    # now we will wrap calls and evaluation of the outputs in small functions:
     
-    ## need to re-write this as a list of functions?/function factory?
+    # helper function to test a generic tool and reutrn it's status based on
+    # generated output
     ## test_fasta will be in parent function environment, so we may skip
     ## this argument
     
@@ -167,8 +166,9 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
     # of the mode argument
     
     if (test_tool == 'all') {
-        all_tests <- Map(test_my_tool, tool_names, call_params,
-                       grep_params, grep_lines)
+        # to return named logical vector
+        all_tests <- unlist(Map(test_my_tool, tool_names, call_params,
+                       grep_params, grep_lines))
     } else {
         t_ind <- tool_names == test_tool
         all_tests <- test_my_tool(test_tool, call_params[t_ind],
@@ -176,14 +176,12 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
                              grep_lines[t_ind])
     } 
     
-    # construct the final output
+    # construct the final output:
+    # output paths only for the tools tested
+     if (in_path == FALSE & (test_tool != 'all')) {
+         pp <- pp[pp$tool == test_tool,] 
+     }
     
-    # # output paths only for the tools tested
-    # if (in_path == FALSE & (test_tool != 'all')) {
-    #     pp <- pp[pp$tool == test_tool,] 
-    # }
-    
-#    result <- list(tests = all_tests, in_path = in_path, path_tibble = pp)
-    
-    return(all_tests)
+    result <- list(tests = all_tests, in_path = in_path, path_tibble = pp)
+    return(result)
 }
