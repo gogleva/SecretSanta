@@ -121,16 +121,14 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
 
     get_paths <- function(tool_name) { pp[pp$tool == tool_name,]$path }
     
-    # helper function to generate success message
-    ok_message <- function(tool_name) {
-        message(paste(tool_name, 'run completed'))
+    # helper function to generate status message: tool failed or not
+
+    status_message <- function(tool_name, status) {
+        if (status == 'OK') {message(paste(tool_name, 'run completed'))}
+        if (status == 'FAIL') {message(paste(tool_name, 'test_run_failed'))}
+        
     }
-    
-    # helper function to generate failure message
-    failure_message <- function(tool_name) {
-        message(paste(tool_name, 'test run failed'))
-    }
-    
+        
     # helper function to make a tool call, wrap in get_paths if necessary
     make_call <- function(tool) { 
         if (in_path == TRUE) tool else get_paths(tool)
@@ -140,9 +138,9 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
     # now we will wrap calls and evaluation of the outputs in small functions:
     
     ## need to re-write this as a list of functions?/function factory?
-    
-    # test_tool <- function(tool_name, call_param, grep_param){
+        # test_tool <- function(tool_name, call_param, grep_param){
     #        }
+    # and Map/mapply?
     
     #signalp2:
     test_signalp2 <- function() {
@@ -150,10 +148,10 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
             system(paste(make_call('signalp2'), '-t euk', test_fasta), 
                     intern = TRUE)
         if (grepl('SignalP predictions', sp2_call[1])) {
-            ok_message('signalp2')
+            status_message('signalp2', 'OK')
             sp2_test <- TRUE
         } else {
-            failure_message('signalp2')
+            status_message('signalp2', 'FAIL')
             sp2_test <- FALSE
         }
     }
@@ -164,10 +162,10 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
             system(paste(make_call('signalp3'), '-t euk', test_fasta),
             intern = TRUE)
         if (grepl('SignalP 3.0 predictions', sp3_call[1])) {
-            ok_message('signalp3')
+            status_message('signalp3', 'OK')
             sp3_test <- TRUE
         } else {
-            failure_message('signalp3')
+            status_message('signalp3', 'FAIL')
             sp3_test <- FALSE
         }
     }
@@ -178,10 +176,10 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
             system(paste(make_call('signalp4'), '-t euk', test_fasta),
             intern = TRUE)
         if (grepl('SignalP-4', sp4_call[1])) {
-            ok_message('signalp4')
+            status_message('signalp4', 'OK')
             sp4_test <- TRUE
         } else {
-            failure_message('signalp4')
+            status_message('signalp4', 'FAIL')
             sp4_test <- FALSE
         }
     }
@@ -191,10 +189,10 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
         tp_call <- system(paste(make_call('targetp'), '-P', test_fasta),
                                             intern = TRUE)
         if (grepl('targetp v1.1 prediction results', tp_call[2])) {
-            ok_message('targetp')
+            status_message('targetp', 'OK')
             tp_test <- TRUE
         } else {
-            failure_message('targetp')
+            status_message('targetp', 'FAIL')
             tp_test <- FALSE
         }
     }
@@ -204,10 +202,10 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
         tm_call <- system(paste(make_call('tmhmm'), '--short', test_fasta),
                                             intern = TRUE)
         if (grepl('ALI_PLTG_1\tlen=94\tExpAA=22.44', tm_call[1])) {
-            ok_message('tmhmm')
+            status_message('tmhmm', 'OK')
             tm_test <- TRUE
         } else {
-            failure_message('tmhmm')
+            status_message('tmhmm', 'FAIL')
             tm_test <- FALSE
         }
     }
@@ -219,10 +217,10 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
                                                 intern = TRUE)
         
         if (grepl('# k used for kNN is: 27', wolf_call[1])) {
-            ok_message('wolfpsort')
+            status_message('wolfpsort', 'OK')
             wolf_test <- TRUE
         } else {
-            failure_message('wolfpsort')
+            status_message('wolfpsort', 'FAIL')
             wolf_test <- FALSE
         }
     }
