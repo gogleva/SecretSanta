@@ -20,22 +20,14 @@ split_XStringSet <- function(string_set, chunk_size) {
     if (!(is(string_set, 'XStringSet'))) {
         stop('Input string_set does not belong to XStringSet class')
     }
+    lss <- length(string_set)
+    if (chunk_size > lss) {stop('Chunk size exceeds total seq number')}
     
-    lst <- length(string_set)
-    
-    if (chunk_size > lst) {
-        stop('Chunk size exceeds total seq number')
-    }
-    
-    total_seq  <- c(1:lst)
+    total_seq  <- c(1:lss)
     chunks <- split(total_seq,
                     ceiling(seq_along(total_seq) / chunk_size))
     
-    seq_chunker <- function(x) {
-        chunk <- string_set[x]
-    }
-    
-    lapply(chunks, seq_chunker)
+    lapply(chunks, function(x) string_set[x])
 }
 
 #' combine multiple objects of SignalpResult class
