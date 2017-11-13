@@ -45,17 +45,21 @@ parse_signalp <-
             as.numeric(strsplit(x, "\\s+")[[1]][c(4, 5)])
         }
         
-        # helper function to get signal peptide cleavage site (from HMM prediction)
-        # NN predictions often output wrong coordinates
+    # helper function to get signal peptide cleavage site (from HMM prediction)
+    # NN predictions often output wrong coordinates
         clean_cleavege <- function(x) {
             as.numeric(tail(unlist(strsplit(x, "\\s+")), n = 1))
         }
     
-        # helper function to parse S mean
-        clean_mean <- function(x) { strsplit(x, "\\s+")[[1]][c(4, 5)]}
+    # helper function to parse S mean
+        clean_mean <- function(x) {
+            strsplit(x, "\\s+")[[1]][c(4, 5)]
+        }
         
         # helper function to parse prediction summary:
-        clean_status <- function(x) { gsub('Prediction: ', '', x) }
+        clean_status <- function(x) {
+            gsub('Prediction: ', '', x)
+        }
         
         # read data
         if (input_type == 'path') {
@@ -66,7 +70,8 @@ parse_signalp <-
         
         # extract gene ids
         gene_ids <- data[(grep("SignalP-HMM result:", data) + 1)]
-        gene_ids_fixed <- (sapply(gene_ids, clean_geneids, USE.NAMES = FALSE))
+        gene_ids_fixed <-
+            (sapply(gene_ids, clean_geneids, USE.NAMES = FALSE))
         
         # check that there are no duplicated gene ids:
         if (any(duplicated(gene_ids))) {
@@ -75,38 +80,45 @@ parse_signalp <-
         
         # clean the remaining fields in a more optimal/functional way?
         
-    #    data <- system(paste('signalp2 -t euk', s_fasta), intern = TRUE)
         # organise cleaning functions in a list:
         fun_list <- list(clean_score, clean_cleavege, clean_mean,
                          clean_status)
         
-        # helper function to grep plain text data by mathcing patterns
-        grep_data <- function(grep_expr) {data[grep(grep_expr, data)]}
+                         
         
-        # key hooks to grep the lines with required info
-        grep_param <- c("max. C", "Max cleavage site probability:",
-                        "max. Y", "max. S", "mean S", "Prediction: ")
+        # extract max C score and position
+        max_C_fixed <- sapply(data[grep("max. C", data)], clean_score,
+                            USE.NAMES = FALSE)
         
-        arg_list <- lapply(grep_param, grep_data)
+        # extract max Y score and position
+        C_pos <-
+            sapply(data[grep("Max cleavage site probability:", data)],
+                    clean_cleavege, USE.NAMES = FALSE)
         
-        # HERE clean_score is repetaed 3 times, rearrange functions better?
-        fun_fun_list <- list(clean_score, clean_cleavege,
-                             clean_score, clean_score,
-                             clean_mean, clean_status)
+        max_Y_fixed <- sapply(data[grep("max. Y", data)], clean_score,
+                                USE.NAMES = FALSE)
         
-        mymap <- Map(function(x,y) sapply(y,x, USE.NAMES = FALSE),
-                 fun_fun_list, arg_list)
+        # extract max S score and position
+        max_S_fixed <- sapply(data[grep("max. S", data)], clean_score,
+                                USE.NAMES = FALSE)
         
-
-        ## This is not super elegant, but works - apply transposition better
-        res <- tibble::as_tibble(data.frame(
+        # extract mean S score and position
+        mean_S_fixed <- sapply(data[grep("mean S", data)], clean_mean,
+                                USE.NAMES = FALSE)
+        
+        # extract prediction summary
+        Status_fixed <- sapply(data[grep("Prediction: ", data)], clean_status,
+                                USE.NAMES = FALSE)
+        
+        # assemble result object
+        res <- tibble::as.tibble(data.frame(
             gene_ids_fixed,
-            t(mymap[[1]])[,2],
-            mymap[[2]],
-            t(mymap[[3]]),
-            t(mymap[[4]]),
-            t(mymap[[5]]),
-            mymap[[6]]
+            t(max_C_fixed)[, 2],
+            C_pos,
+            t(max_Y_fixed),
+            t(max_S_fixed),
+            t(mean_S_fixed),
+            Status_fixed
         ))
         
         names(res) <- c(
@@ -123,7 +135,6 @@ parse_signalp <-
         )
         
         #re-order columns to match signalp4 output
-        # MAY BE I COULD AVOID THIS STEP AT ALL?
         res <- res[c("gene_id", "Cmax", "Cpos",
                      "Ymax", "Ypos", "Smax",
                       "Spos", "Smean", "Prediction")]
