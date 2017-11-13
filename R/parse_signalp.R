@@ -34,11 +34,12 @@ parse_signalp <-
              input_type = c('path', 'system_call')) {
         input_type <- match.arg(input_type)
         
+        # helper functions----
         # helper function to rescue gene ids
         clean_geneids <- function(x) {
             gsub('>', '', unlist(strsplit(x, " "))[1])
         }
-        
+       
         # helper function to parse C-score, Y-score and S-score:
         # split line with varibale number of spaces
         clean_score <- function(x) {
@@ -57,6 +58,8 @@ parse_signalp <-
         # helper function to parse prediction summary:
         clean_status <- function(x) { gsub('Prediction: ', '', x) }
         
+        # end of helper functions----
+        
         # read data
         if (input_type == 'path') {
             data <- readLines(input)
@@ -73,36 +76,44 @@ parse_signalp <-
             stop('gene_ids vector contains duplicated elements')
         }
         
-        # clean the remaining fields in a more optimal/functional way?
+        # clean the remaining fields in a more optimal/functional way
         
-        # data <- system(paste('signalp2 -t euk', s_fasta), intern = TRUE)
+        
+        # TESTING:: data <- system(paste('signalp2 -t euk', s_fasta), intern = TRUE)
+        
         # organise cleaning functions in a list:
-        fun_list <- list(clean_score, clean_cleavege, clean_mean,
-                         clean_status)
+        clean_stats_fun <- list(clean_cleavege, clean_mean, clean_status)
+            
+#            list(clean_score, clean_cleavege, clean_mean,
+ #                        clean_status)
         
         # helper function to grep plain text data by mathcing patterns
         grep_data <- function(grep_expr) {data[grep(grep_expr, data)]}
         
         # key hooks to grep the lines with required info
-        grep_param <- c("max. C", "Max cleavage site probability:",
-                        "max. Y", "max. S", "mean S", "Prediction: ")
+        grep_param <- c("max. C", "max. Y", "max. S",
+                        "Max cleavage site probability:", "mean S",
+                        "Prediction: ")
         
         arg_list <- lapply(grep_param, grep_data)
         
-        # HERE clean_score is repetaed 3 times, rearrange functions better?
-        fun_fun_list <- list(clean_score, clean_cleavege,
-                             clean_score, clean_score,
-                             clean_mean, clean_status)
+        # 2 separte maps - one to map a list of functions over a list of lines;
+        # the other - just to map clean_score over a list of lines and transpose
+        # the output
         
-        mymap <- Map(function(x,y) sapply(y,x, USE.NAMES = FALSE),
-                     fun_fun_list, arg_list)
+        map_stats <- Map(function(x,y) sapply(y, x, USE.NAMES = FALSE),
+                         clean_stats_fun, arg_list[4:6])
+        names(map_stats) <- c("C_pos", "mean_S_fixed", "Status_fixed")
         
-        map_scores <-
-            
-        map_stats <-     
-            
+        map_scores <- Map(function(x) t(sapply(x, clean_score, USE.NAMES = FALSE)),
+                          arg_list[1:3])    
+        names(map_scores) <- c("C_max_fixed", "Y_max_fixed", "S_max_fixed")
         
+       # initial combined map function
+       # mymap <- Map(function(x,y) sapply(y,x, USE.NAMES = FALSE),
+        #             fun_fun_list, arg_list)
         
+
         ## This is not super elegant, but works - apply transposition better
         res <- tibble::as_tibble(data.frame(
             gene_ids_fixed,
