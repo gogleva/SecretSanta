@@ -77,16 +77,10 @@ parse_signalp <-
         }
         
         # clean the remaining fields in a more optimal/functional way
-        
-        
-        # TESTING:: data <- system(paste('signalp2 -t euk', s_fasta), intern = TRUE)
-        
+
         # organise cleaning functions in a list:
         clean_stats_fun <- list(clean_cleavege, clean_mean, clean_status)
             
-#            list(clean_score, clean_cleavege, clean_mean,
- #                        clean_status)
-        
         # helper function to grep plain text data by mathcing patterns
         grep_data <- function(grep_expr) {data[grep(grep_expr, data)]}
         
@@ -97,32 +91,27 @@ parse_signalp <-
         
         arg_list <- lapply(grep_param, grep_data)
         
-        # 2 separte maps - one to map a list of functions over a list of lines;
-        # the other - just to map clean_score over a list of lines and transpose
-        # the output
+        # 2 separate maps:
         
+        # one to map a list of functions over a list of lines;
         map_stats <- Map(function(x,y) sapply(y, x, USE.NAMES = FALSE),
                          clean_stats_fun, arg_list[4:6])
         names(map_stats) <- c("C_pos", "mean_S_fixed", "Status_fixed")
         
+        # map clean_score over a list of lines and transpose the output
         map_scores <- Map(function(x) t(sapply(x, clean_score, USE.NAMES = FALSE)),
                           arg_list[1:3])    
         names(map_scores) <- c("C_max_fixed", "Y_max_fixed", "S_max_fixed")
         
-       # initial combined map function
-       # mymap <- Map(function(x,y) sapply(y,x, USE.NAMES = FALSE),
-        #             fun_fun_list, arg_list)
-        
-
         ## This is not super elegant, but works - apply transposition better
         res <- tibble::as_tibble(data.frame(
             gene_ids_fixed,
-            t(mymap[[1]])[,2],
-            mymap[[2]],
-            t(mymap[[3]]),
-            t(mymap[[4]]),
-            t(mymap[[5]]),
-            mymap[[6]]
+            map_scores$C_max_fixed[,2],
+            map_stats$C_pos,
+            map_scores$Y_max_fixed,
+            map_scores$S_max_fixed,
+            t(map_stats$mean_S_fixed),
+            map_stats$Status_fixed
         ))
         
         names(res) <- c(
@@ -139,7 +128,6 @@ parse_signalp <-
         )
         
         #re-order columns to match signalp4 output
-        # MAY BE I COULD AVOID THIS STEP AT ALL?
         res <- res[c("gene_id", "Cmax", "Cpos",
                      "Ymax", "Ypos", "Smax",
                      "Spos", "Smean", "Prediction")]
