@@ -13,9 +13,9 @@ class containing protein sequences as on of the attributes}
 \item{min_len}{sliced sequences below this threshold will be
 discarded}
 
-\item{run_mode}{\strong{slice} - to just slice input fasta, regardless
+\item{run_mode}{\strong{slice} - just slice input fasta, regardless
 of its origin; \cr
-\strong{rescue} - to get proteins not predicted to be secreted on the 
+\strong{rescue} - get proteins not predicted to be secreted on the 
 initial run, generate slices;}
 }
 \value{
