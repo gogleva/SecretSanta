@@ -40,45 +40,38 @@
 #' s2_sp2_rescue <- signalp(inp_slices, version = 2, organism = 'euk',
 #' run_mode = 'starter')
 
-input_obj <- readAAStringSet(system.file("extdata","sample_prot_100.fasta",
-                                        package = "SecretSanta"))
-#min_len <- 100
-#m_slic
+#FOR_TESTING----
+#input_obj <- readAAStringSet(system.file("extdata","sample_prot_100.fasta",
+#                                        package = "SecretSanta"))
+#input_obj <- CBSResult(in_fasta = aa[1:10])
+###FOR_TESTING----
 
 m_slicer <- function(input_obj, min_len, run_mode = c('slice', 'rescue')) {
-    
-    # helper function:
-    '%!in%' <- function(x, y) !('%in%'(x, y))
-    
+
     # check that inputs are valid
     if (missing(run_mode)) {stop('missing argument: run_mode')}
+   
     run_mode = match.arg(run_mode)
     
-    
-    if (is(input_obj, 'AAStringSet') &&
-            (run_mode != 'slice')) {
+    if (is(input_obj, 'AAStringSet') && (run_mode != 'slice')) {
         stop("Use run_mode 'slice' for an input object of AAStringSet class")
-    }
+        }
     
-    if (is(input_obj, 'CBSResult') &&
-            (run_mode != 'rescue'))
-    {
-        stop("Use run_mode 'rescue' for an input object of CBSResult class")
-    }
+    if (is(input_obj, 'CBSResult') && (run_mode != 'rescue')) {
+    stop("Use run_mode 'rescue' for an input object of CBSResult class")
+        }
     
     # hadle inputs
     
-    if (is(input_obj, 'AAStringSet')) {
-        input_obj <- input_obj
-    }
+    if (is(input_obj, 'AAStringSet')) { input_obj <- input_obj }
     
     if (is(input_obj, 'CBSResult')) {
         infa <- getInfasta(input_obj)
         outfa <- getOutfasta(input_obj)
-        input_obj <- infa[names(infa) %!in% names(outfa)]
+        input_obj <- infa[!is.element(names(infa), names(outfa))]
     }
     
-    # TO DO: this is not clear, comment?
+    # get positions of all Methioneines in the AAStringSet object
     
     mi <- vmatchPattern('M', input_obj)
     smi <- startIndex(mi) #all M-positions
@@ -90,8 +83,8 @@ m_slicer <- function(input_obj, min_len, run_mode = c('slice', 'rescue')) {
     input_obj <- input_obj[which(lengths(smi) > 0)]
     smi <- smi[lengths(smi) > 0]
     
-    # slice one AAString
-    slice <- function(x, seq) {
+    # function to slice one AAString based on M coordinates
+    slice_string <- function(x, seq) {
         st <- subseq(seq, start = x, end = -1)
         names(st) <- paste(unlist(strsplit(names(st), ' '))[1],
                         '_slice_M',
@@ -100,16 +93,16 @@ m_slicer <- function(input_obj, min_len, run_mode = c('slice', 'rescue')) {
         if (width(st) >= min_len) return(st)
         }
     
-    # one AAStringSet object:
+    # extention to slice AAStringSet (multiple strings):
     
-    many_slices <- function(n) {
+    slice_set <- function(n) {
         sl <- unlist(sapply(
-            X = unlist(smi[n]), FUN = slice, 
+            X = unlist(smi[n]), FUN = slice_string, 
             seq = input_obj[n]
         ))
     }
     
-    smt <- sapply(1:length(smi), many_slices)
+    smt <- sapply(1:length(smi), slice_set)
     return(do.call(c, unlist(smt)))
     
 }
