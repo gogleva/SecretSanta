@@ -48,7 +48,7 @@
 
 m_slicer <- function(input_obj, min_len, run_mode = c('slice', 'rescue')) {
 
-    # check that inputs are valid
+    # check that inputs are present and valid
     if (missing(run_mode)) {stop('missing argument: run_mode')}
    
     run_mode = match.arg(run_mode)
@@ -61,23 +61,20 @@ m_slicer <- function(input_obj, min_len, run_mode = c('slice', 'rescue')) {
     stop("Use run_mode 'rescue' for an input object of CBSResult class")
         }
     
-    # handle inputs
-    
-    if (is(input_obj, 'AAStringSet')) { input_obj <- input_obj }
+    # transform input_object if necessary
     
     if (is(input_obj, 'CBSResult')) {
         infa <- getInfasta(input_obj)
         outfa <- getOutfasta(input_obj)
         input_obj <- infa[!is.element(names(infa), names(outfa))]
-    }
+    } else {input_obj}
     
     # get positions of all Meths in the AAStringSet object
     
     mi <- vmatchPattern('M', input_obj)
-    smi <- startIndex(mi) #all M-positions
     
-    # remove first methionine from all M-coord lists
-    smi <- sapply(smi, function(x) x[x > 1])
+    # get all M-positions and remove first methionine from all M-coord lists
+    smi <- sapply(startIndex(mi), function(x) x[x > 1])
     
     # filter input object and m start indexes list (smi)
     input_obj <- input_obj[which(lengths(smi) > 0)]
