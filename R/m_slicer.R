@@ -40,6 +40,11 @@
 #' s2_sp2_rescue <- signalp(inp_slices, version = 2, organism = 'euk',
 #' run_mode = 'starter')
 
+input_obj <- readAAStringSet(system.file("extdata","sample_prot_100.fasta",
+                                        package = "SecretSanta"))
+#min_len <- 100
+#m_slic
+
 m_slicer <- function(input_obj, min_len, run_mode = c('slice', 'rescue')) {
     
     # helper function:
@@ -70,30 +75,29 @@ m_slicer <- function(input_obj, min_len, run_mode = c('slice', 'rescue')) {
     if (is(input_obj, 'CBSResult')) {
         infa <- getInfasta(input_obj)
         outfa <- getOutfasta(input_obj)
-        input_obj <-
-            infa[names(infa) %!in% names(outfa)]
+        input_obj <- infa[names(infa) %!in% names(outfa)]
     }
+    
+    # TO DO: this is not clear, comment?
     
     mi <- vmatchPattern('M', input_obj)
     smi <- startIndex(mi) #all M-positions
-    fifi <- function(x) {unlist(x)[unlist(x) > 1]}
     
-    # remove 1's from smi:
-    smi <- lapply(smi, fifi)
-    wi <- which(lengths(smi) > 0)
-    input_obj <- input_obj[wi]
+    # remove first methionine from all M-coord lists
+    smi <- sapply(smi, function(x) x[x > 1])
+    
+    # filter input object and m start indexes list (smi)
+    input_obj <- input_obj[which(lengths(smi) > 0)]
     smi <- smi[lengths(smi) > 0]
     
     # slice one AAString
     slice <- function(x, seq) {
         st <- subseq(seq, start = x, end = -1)
-        names(st) <-
-            paste(unlist(strsplit(names(st), ' '))[1],
+        names(st) <- paste(unlist(strsplit(names(st), ' '))[1],
                         '_slice_M',
                         x,
                         sep = '')
-        if (width(st) >= min_len) {return(st)} 
-        
+        if (width(st) >= min_len) return(st)
         }
     
     # one AAStringSet object:
