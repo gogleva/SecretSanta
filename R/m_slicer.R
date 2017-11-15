@@ -61,7 +61,7 @@ m_slicer <- function(input_obj, min_len, run_mode = c('slice', 'rescue')) {
     stop("Use run_mode 'rescue' for an input object of CBSResult class")
         }
     
-    # hadle inputs
+    # handle inputs
     
     if (is(input_obj, 'AAStringSet')) { input_obj <- input_obj }
     
@@ -71,7 +71,7 @@ m_slicer <- function(input_obj, min_len, run_mode = c('slice', 'rescue')) {
         input_obj <- infa[!is.element(names(infa), names(outfa))]
     }
     
-    # get positions of all Methioneines in the AAStringSet object
+    # get positions of all Meths in the AAStringSet object
     
     mi <- vmatchPattern('M', input_obj)
     smi <- startIndex(mi) #all M-positions
@@ -86,6 +86,7 @@ m_slicer <- function(input_obj, min_len, run_mode = c('slice', 'rescue')) {
     # function to slice one AAString based on M coordinates
     slice_string <- function(x, seq) {
         st <- subseq(seq, start = x, end = -1)
+        # update names with M-coordinates
         names(st) <- paste(unlist(strsplit(names(st), ' '))[1],
                         '_slice_M',
                         x,
@@ -96,11 +97,8 @@ m_slicer <- function(input_obj, min_len, run_mode = c('slice', 'rescue')) {
     # extention to slice AAStringSet (multiple strings):
     
     slice_set <- function(n) {
-        sl <- unlist(sapply(
-            X = unlist(smi[n]), FUN = slice_string, 
-            seq = input_obj[n]
-        ))
-    }
+        unlist(sapply(unlist(smi[n]), slice_string, input_obj[n]))
+        }
     
     smt <- sapply(1:length(smi), slice_set)
     return(do.call(c, unlist(smt)))
