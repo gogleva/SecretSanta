@@ -59,18 +59,27 @@ combine_SpResult <- function(arguments) {
     stop('Some objects from argument list do not belong to SignalpResult class')
     }
     
-    c_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
-    c_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
-    c_mature_fasta <- do.call(c, (lapply(arguments, getMatfasta)))
-    c_sp_tibble <- do.call(rbind, (lapply(arguments, getSPtibble)))
-    c_sp_version <- unlist((lapply(arguments, getSPversion))[1])
+    if (length(unique(sapply(arguments, getSPversion))) != 1) {
+    stop('Supplied objects were generated with different versions of signalp')    
+    }
+
+    # combine accesors for fasta slots in a list
+    fasta_getters <- list(getInfasta, getOutfasta, getMatfasta)
     
+    # apply the list with fasta getters to all the elements in the argument list
+    z <- Map(function(x) sapply(fasta_getters, function(f) f(x)), arguments)
+    
+    # combine fasta fileds by slot types
+    got_fastas <- sapply(1:3, 
+                         function(i) do.call(c, sapply(z, function(x) x[i])))
+    
+    # arrange combined slots in SignalpResult object:
     c_obj <- SignalpResult(
-        in_fasta = c_in_fasta,
-        out_fasta = c_out_fasta,
-        mature_fasta = c_mature_fasta,
-        sp_tibble = c_sp_tibble,
-        sp_version = c_sp_version
+        in_fasta = got_fastas[[1]],
+        out_fasta = got_fastas[[2]],
+        mature_fasta = got_fastas[[3]],
+        sp_tibble = do.call(rbind, (lapply(arguments, getSPtibble))),
+        sp_version = getSPversion(arguments[[1]])
     )
 }
 
@@ -135,7 +144,7 @@ signalp <- function(input_obj,
     organism <- match.arg(organism)
     run_mode <- match.arg(run_mode)
 
-    # check that input object belong to CBSResult class
+    # check that input object belongs to CBSResult class
     if (is(input_obj, "CBSResult")) {
     } else {
         stop('input_object does not belong to CBSResult superclass')
@@ -158,11 +167,10 @@ signalp <- function(input_obj,
     }
     
     # check that version number is valid:
-    if (version %in% c(2, 3, 4)) {
+    if (is.element(version, c(2, 3, 4))) {
     } else {
         stop('version is invalid, allowed versions: c(2,3,4)')
     }
-    
     
     # ----- Set default value for parameters if not provided:
     
@@ -176,18 +184,11 @@ signalp <- function(input_obj,
         stop('truncate argument must be logical')
     }
     
-    if (is.null(cores))
-        cores = 1
-    else
-        cores
-    if (is.numeric(cores)) {
-        
-    } else {
-        stop('cores argument must be numeric')
-    }
-    if (cores > detectCores()) {
-        stop('cores value > available core number')
-    }
+    if (is.null(cores)) cores = 1  else cores
+    
+    if (is.numeric(cores)) { } else {stop('cores argument must be numeric')}
+    if (cores > detectCores()) {stop('cores value > available core number')}
+    
 
     # ------ Produce encouraging status messages, inputs should be ok.
     # create actual tool name with version number provided
@@ -198,8 +199,19 @@ signalp <- function(input_obj,
     # simple signalp, takes single AAStringSet as an input and runs
     # signalp prediction on it
     
+    
+    #----FOR tests
+    # aaSet <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta",
+    #                         package = "SecretSanta"))
+    # paste("signalp", 2, sep = '')
+    # full_pa = 'signalp2'
+    # organism = 'euk'
+    #----FOR tests
+    
+    
     simple_signalp <- function(aaSet) {
         # ---- Run prediction
+    
         # convert fasta to a temporary file:
         out_tmp <- tempfile() #create a temporary file for fasta
         writeXStringSet(aaSet, out_tmp) #write tmp fasta file to use later
@@ -212,8 +224,7 @@ signalp <- function(input_obj,
             mp <- suppressMessages(manage_paths(
                 in_path = FALSE,
                 test_mode = signalp_version,
-                path_file = paths
-            ))
+                path_file = paths))
             full_pa <- mp$path_tibble$path
         }
         
@@ -227,37 +238,19 @@ signalp <- function(input_obj,
                     paste(full_pa, "-t", organism, out_tmp),
                     intern = TRUE
                 ))))
-            names(sp) <- c(
-                "gene_id",
-                "Cmax",
-                "Cpos",
-                "Ymax",
-                "Ypos",
-                "Smax",
-                "Spos",
-                "Smean",
-                "D",
-                "Prediction",
-                "Dmaxcut",
-                "Networks-used"
-            )
+            names(sp) <- c("gene_id", "Cmax", "Cpos",
+                           "Ymax", "Ypos", "Smax",
+                           "Spos", "Smean", "D",
+                           "Prediction", "Dmaxcut", 
+                           "Networks-used")
             
             # reorder columns to match sp2/3 output:
-            sp <- sp %>% select(
-                "gene_id",
-                "Cmax",
-                "Cpos",
-                "Ymax",
-                "Ypos",
-                "Smax",
-                "Spos",
-                "Smean",
-                "Prediction"
-            )
+            sp <- sp[c("gene_id", "Cmax", "Cpos",
+                       "Ymax", "Ypos", "Smax",
+                       "Spos", "Smean", "Prediction")]
             
-            sp <- sp %>% filter_(~ Prediction == 'Y')
-            sp$Prediction <-
-                ifelse(sp$Prediction == 'Y', 'Signal peptide')
+            sp <- sp[sp$Prediction == 'Y',]
+            sp$Prediction <- ifelse(sp$Prediction == 'Y', 'Signal peptide')
             
         } else if (version < 4) {
             # running signalp versions 2 and 3, call parse_signalp
@@ -274,18 +267,12 @@ signalp <- function(input_obj,
         }
         
         # generate cropped names for input fasta
-        cropped_names <- unname(sapply(names(aaSet), crop_names))
-        # replace long names with cropped names
-        names(aaSet) <- cropped_names
+        names(aaSet) <- unname(sapply(names(aaSet), crop_names))
         # get ids of candidate secreted proteins
-        candidate_ids <- sp %>%
-            select_(~ gene_id) %>%
-            unlist(use.names = FALSE)
-        out_fasta_sp <- aaSet[candidate_ids]
+        out_fasta_sp <- aaSet[sp$gene_id]
         
         # generate mature sequences
-        sp_Cpos <- sp %>% select_(~ Cpos) %>% unlist(use.names = FALSE)
-        cropped_fasta <- subseq(out_fasta_sp, start = sp_Cpos, end = -1)
+        cropped_fasta <- subseq(out_fasta_sp, start = sp$Cpos, end = -1)
         
         # construct output object
         out_obj <- SignalpResult(
