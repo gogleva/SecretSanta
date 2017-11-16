@@ -73,17 +73,19 @@ m_slicer <- function(input_obj, min_len, run_mode = c('slice', 'rescue')) {
     
     mi <- vmatchPattern('M', input_obj)
     
-    # get all M-positions and remove first methionine from all M-coord lists
+    # select start M-positions and remove first methionine from all M-coord 
+    # lists (1st, as in the original protein sequences)
     smi <- sapply(startIndex(mi), function(x) x[x > 1])
     
-    # filter input object and m start indexes list (smi)
-    input_obj <- input_obj[which(lengths(smi) > 0)]
+    # filter input AAStringSet object and M start indexes list
     smi <- smi[lengths(smi) > 0]
+    input_obj <- input_obj[smi]
+    
     
     # function to slice one AAString based on M coordinates
     slice_string <- function(x, seq) {
         st <- subseq(seq, start = x, end = -1)
-        # update names with M-coordinates
+        # update names by adding with M-coordinates sequences were sliced from
         names(st) <- paste(unlist(strsplit(names(st), ' '))[1],
                         '_slice_M',
                         x,
@@ -92,10 +94,11 @@ m_slicer <- function(input_obj, min_len, run_mode = c('slice', 'rescue')) {
         }
     
     # extention to slice AAStringSet (multiple strings):
+    # may be just an anonymous function instead?
     
     slice_set <- function(n) {
-        unlist(sapply(unlist(smi[n]), slice_string, input_obj[n]))
-        }
+        unlist(sapply(smi[[n]], slice_string, input_obj[n]))
+    }
     
     smt <- sapply(1:length(smi), slice_set)
     return(do.call(c, unlist(smt)))

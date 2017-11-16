@@ -17,5 +17,3 @@ secret_factory <- function(){
     #   run simple method in parallel and return combined result
 }
 
-# do I need to split these 4 into 4 different factory/closure functions?
-# how to generate docs? when to generate function? how to deal with environment# s?
