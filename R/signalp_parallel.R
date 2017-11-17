@@ -199,6 +199,16 @@ signalp <- function(input_obj,
     # simple signalp, takes single AAStringSet as an input and runs
     # signalp prediction on it
     
+    
+    #----FOR tests
+    # aaSet <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta",
+    #                         package = "SecretSanta"))
+    # paste("signalp", 2, sep = '')
+    # full_pa = 'signalp2'
+    # organism = 'euk'
+    #----FOR tests
+    
+    
     simple_signalp <- function(aaSet) {
         # ---- Run prediction
     
