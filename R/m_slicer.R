@@ -81,9 +81,8 @@ m_slicer <- function(input_obj, min_len, run_mode = c('slice', 'rescue')) {
     # sequences that don't have alteranative methionines, probbly will be none,
     # but it is better to check
     
+    input_obj <- input_obj[lengths(smi) > 0]
     smi <- smi[lengths(smi) > 0]
-    input_obj <- input_obj[smi]
-    
     
     # function to slice one AAString based on single M coordinate
     slice_string <- function(x, seq) {
@@ -94,8 +93,7 @@ m_slicer <- function(input_obj, min_len, run_mode = c('slice', 'rescue')) {
                         '_slice_M',
                         x,
                         sep = '')
-        stopifnot(width(st) >= min_len)
-        return(st)
+        if (width(st) >= min_len) return(st)
         }
     
     # extention to slice AAStringSet (multiple strings):
