@@ -1,7 +1,3 @@
-templates:
-  params:
-    bootswatch: flatly
-
 navbar:
   left:
   - text: Vignette
