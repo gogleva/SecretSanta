@@ -69,7 +69,7 @@ combine_SpResult <- function(arguments) {
     # apply the list with fasta getters to all the elements in the argument list
     z <- Map(function(x) sapply(fasta_getters, function(f) f(x)), arguments)
     
-    # combine fasta fileds by slot types
+    # combine fasta fields by slot types
     got_fastas <- sapply(1:3, 
                          function(i) do.call(c, sapply(z, function(x) x[i])))
     
@@ -186,7 +186,7 @@ signalp <- function(input_obj,
     
     if (is.null(cores)) cores = 1  else cores
     
-    if (is.numeric(cores)) { } else {stop('cores argument must be numeric')}
+    if (is.numeric(cores)) {} else {stop('cores argument must be numeric')}
     if (cores > detectCores()) {stop('cores value > available core number')}
     
 
@@ -198,16 +198,6 @@ signalp <- function(input_obj,
     
     # simple signalp, takes single AAStringSet as an input and runs
     # signalp prediction on it
-    
-    
-    #----FOR tests
-    # aaSet <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta",
-    #                         package = "SecretSanta"))
-    # paste("signalp", 2, sep = '')
-    # full_pa = 'signalp2'
-    # organism = 'euk'
-    #----FOR tests
-    
     
     simple_signalp <- function(aaSet) {
         # ---- Run prediction

@@ -628,7 +628,7 @@ setMethod(
 #' accessor functions for objects of ErResult S4 class, outputs of the 
 #' check_khedel fucntion
 #' 
-#' @slot retained - sequences with ER retention signals
+#' @slot retained_fasta - sequences with ER retention signals
 #' @export ErResult
 #' @rdname ErResult_methods
 #' @examples
@@ -638,27 +638,27 @@ setMethod(
 #' class(er)
 
 ErResult <- setClass("ErResult", contains = "CBSResult",
-                        slots = list(retained = "AAStringSet"))
+                        slots = list(retained_fasta = "AAStringSet"))
 
 
 setGeneric(
-    name = "getErRetained",
+    name = "getRetainedfasta",
     def = function(theObject)
     {
-        standardGeneric("getErRetained")
+        standardGeneric("getRetainedfasta")
     }
 )
 
 #' @export
 #' @rdname  ErResult_methods
-#' @aliases getErRetained
+#' @aliases getRetainedfasta
 
 setMethod(
-    f = "getErRetained",
+    f = "getRetainedfasta",
     signature = "ErResult",
     definition = function(theObject)
     {
-        return(theObject@retained)
+        return(theObject@retained_fasta)
     }
 )
 

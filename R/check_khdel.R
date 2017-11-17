@@ -75,7 +75,7 @@ check_khdel <- function(input_obj, run_mode = c('starter', 'piper')) {
     
     out_obj <- ErResult(in_fasta = fasta,
                         out_fasta = non_retained,
-                        retained = fasta[!un])
+                        retained_fasta = fasta[!un])
     
     ret_count <- length(fasta[!un])
     message(paste('Sequences with terminal ER retention signals detected...',
