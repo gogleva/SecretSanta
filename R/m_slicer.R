@@ -40,12 +40,6 @@
 #' s2_sp2_rescue <- signalp(inp_slices, version = 2, organism = 'euk',
 #' run_mode = 'starter')
 
-#FOR_TESTING----
-#input_obj <- readAAStringSet(system.file("extdata","sample_prot_100.fasta",
-#                                        package = "SecretSanta"))
-#input_obj <- CBSResult(in_fasta = aa[1:10])
-###FOR_TESTING----
-
 m_slicer <- function(input_obj, min_len, run_mode = c('slice', 'rescue')) {
 
     # check that inputs are present and valid
