@@ -77,24 +77,30 @@ m_slicer <- function(input_obj, min_len, run_mode = c('slice', 'rescue')) {
     # lists (1st, as in the original protein sequences)
     smi <- sapply(startIndex(mi), function(x) x[x > 1])
     
-    # filter input AAStringSet object and M start indexes list
+    # filter input AAStringSet object and M start indexes list (to remove 
+    # sequences that don't have alteranative methionines, probbly will be none,
+    # but it is better to check
+    
     smi <- smi[lengths(smi) > 0]
     input_obj <- input_obj[smi]
     
     
-    # function to slice one AAString based on M coordinates
+    # function to slice one AAString based on single M coordinate
     slice_string <- function(x, seq) {
         st <- subseq(seq, start = x, end = -1)
-        # update names by adding with M-coordinates sequences were sliced from
-        names(st) <- paste(unlist(strsplit(names(st), ' '))[1],
+        # cop and update names by adding with M-coordinates sequences were
+        # sliced from
+        names(st) <- paste(strsplit(names(st), ' ')[[1]][1],
                         '_slice_M',
                         x,
                         sep = '')
-        if (width(st) >= min_len) return(st)
+        stopifnot(width(st) >= min_len)
+        return(st)
         }
     
     # extention to slice AAStringSet (multiple strings):
     # may be just an anonymous function instead?
+    # do I even need this unlist?
     
     slice_set <- function(n) {
         unlist(sapply(smi[[n]], slice_string, input_obj[n]))
