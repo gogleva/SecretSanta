@@ -58,129 +58,174 @@
 #' path_file = system.file("extdata", "sample_paths", package = "SecretSanta"))
 
 manage_paths <- function(in_path = c(TRUE, FALSE),
-                            test_tool = c('all', 'signalp2', 'signalp3',
-                                            'signalp4','targetp', 'tmhmm',
-                                            'wolfpsort'),
-                            path_file = NULL) {
-    
-    test_tool <- match.arg(test_tool)
-    
-    # here we assume that all the tools are accessible via $PATH:
-    if (in_path == TRUE) {
-        message('checking dependencies accessible via $PATH')
-        if (is.null(path_file)) {
-        } else {
-        message('path file provided, but not required')
-        }
-        pp <- NA
-    }
-    
-    # alternatively, we will be dealing with paths supplied in a separate
-    # path_file, first check that all the supplied paths are valid
-    if (in_path == FALSE) {
-        if (is.null(path_file)) {
-            stop('Please supply path_file')
-        } else {
-            # read path file in a tibble
-            pp <- tibble::as.tibble(read.table(path_file, sep = ' ',
-                                               header = FALSE,
-                                               stringsAsFactors = FALSE))
+                         test_tool = c('all',
+                                       'signalp2',
+                                       'signalp3',
+                                       'signalp4',
+                                       'targetp',
+                                       'tmhmm',
+                                       'wolfpsort'),
+                         path_file = NULL) {
+  test_tool <- match.arg(test_tool)
 
-            # check that there are only 2 columns, i.e no extra spaces in
-            # tool names
-            if (!(ncol(pp) == 2)) {
-                stop('Please check that there are no spaces in the tool names.')
-            }
-            
-            names(pp) <- c("tool", "path")
-            # check that all supplied paths exist
-            pp$exists <- file.exists(pp$path)
-            
-            if (all(pp$exists)) {
-                message('All paths are valid')
-                # convert all the tool names to lower case to avoid confusion
-                pp$tool <- tolower(pp$tool)
-                
-            } else {
-                message('Supplied file path does not exist.')
-                message(sapply(pp[pp$exists == TRUE,]$path, paste, '\n'))
-                stop('Please check that supplied paths are correct')
-            }
-        }
-        pp
-    }
-    
-    # check that all the dependencies are executable in principle,
-    # i.e we are able to process a small sample fasta file
-    
-    # micro fasta file to test with all tools:
-    test_fasta <- system.file("extdata", "small_prot.fasta", 
-                                package = "SecretSanta")
-    
-    # helper function to extract tool paths when provided in path_file
-
-    get_paths <- function(tool_name) { pp[pp$tool == tool_name,]$path }
-    
-    # helper function to generate status message: tool failed or not
-
-    status_message <- function(tool_name, status) {
-        if (status == 'OK') {message(paste(tool_name, 'run completed'))}
-        if (status == 'FAIL') {message(paste(tool_name, 'test_run_failed'))}
-    }
-        
-    # helper function to make a tool call, wrap in get_paths if necessary
-    make_call <- function(tool) {if (in_path == TRUE) tool else get_paths(tool)}
-    
-    # helper function to test a generic tool and reutrn it's status based on
-    # generated output
-    ## test_fasta will be in parent function environment, so we may skip
-    ## this argument
-    
-    test_my_tool <- function(tool_name, call_param, grep_param, grep_line){
-        tool_call <- system(paste(make_call(tool_name),
-                                  call_param,
-                                  test_fasta), intern = TRUE)
-        if (grepl(grep_param, tool_call[grep_line]))  {
-            status_message(tool_name, 'OK')
-            tool_status <- TRUE
-        } else {
-            status_message(tool_name, 'FAIL')
-            tool_status <- FALSE
-        }
-        return(tool_status)
-    }
-
-    # gather parameters in lists
-    tool_names <- c('signalp2', 'signalp3', 'signalp4', 'targetp', 'tmhmm',
-                    'wolfpsort')
-    call_params <- c(rep('-t euk', 3), '-P', '--short', 'fungi <')
-    grep_params <- c('SignalP predictions',
-                     'SignalP 3.0 predictions',
-                     'SignalP-4',
-                     'targetp v1.1 prediction results',
-                     'ALI_PLTG_1\tlen=94\tExpAA=22.44',
-                     '# k used for kNN is: 27')
-    grep_lines <- c(rep(1, 3), 2, rep(1,2))
-
-    # now we will run required tests according to the actual value
-    # of the mode argument
-    
-    if (test_tool == 'all') {
-        # to return named logical vector
-        all_tests <- unlist(Map(test_my_tool, tool_names, call_params,
-                       grep_params, grep_lines))
+  # here we assume that all the tools are accessible via $PATH:
+  if (in_path) {
+    message('Checking dependencies accessible via $PATH ...')
+    if (is.null(path_file)) {
+      message("No path has been specified ...")
     } else {
-        t_ind <- tool_names == test_tool
-        t_args <- lapply(list(call_params, grep_params, grep_lines), '[', t_ind)
-        all_tests <- do.call(test_my_tool, c(test_tool, t_args))
-    } 
-    
-    # construct the final output:
-    # output paths only for the tools tested
-     if (in_path == FALSE & (test_tool != 'all')) {
-         pp <- pp[pp$tool == test_tool,] 
-     }
-    
-    result <- list(tests = all_tests, in_path = in_path, path_tibble = pp)
-    return(result)
+      message('Path file provided, but not required ...')
+    }
+    pp <- NA
+  }
+
+  # alternatively, we will be dealing with paths supplied in a separate
+  # path_file, first check that all the supplied paths are valid
+  if (!in_path) {
+    if (is.null(path_file)) {
+      stop('Please supply path_file')
+    } else {
+      # read path file in a tibble
+      pp <- tibble::as.tibble(read.table(
+        path_file,
+        sep = ' ',
+        header = FALSE,
+        stringsAsFactors = FALSE
+      ))
+
+      if (nrow(pp) == 0) {
+        stop ("The path_file was empty ... Please check that the path_file stores valid content.")
+      }
+
+      # check that there are only 2 columns, i.e no extra spaces in
+      # tool names
+      if (ncol(pp) > 2) {
+        stop('Please check that there are no spaces in the tool names.')
+      }
+
+      names(pp) <- c("tool", "path")
+      # check that all supplied paths exist
+      pp$exists <- file.exists(pp$path)
+
+      if (all(pp$exists)) {
+        message('All paths are valid ...')
+        # convert all the tool names to lower case to avoid confusion
+        pp$tool <- tolower(pp$tool)
+
+      } else {
+        message('Supplied file path does not exist ...')
+        message(sapply(pp[pp$exists == TRUE, ]$path, paste, '\n'))
+        stop('Please check that supplied paths are correct!')
+      }
+    }
+    pp
+  }
+
+  # check that all the dependencies are executable in principle,
+  # i.e we are able to process a small sample fasta file
+
+  # micro fasta file to test with all tools:
+  test_fasta <- system.file("extdata", "small_prot.fasta",
+                            package = "SecretSanta")
+
+  # helper function to extract tool paths when provided in path_file
+
+  get_paths <-
+    function(tool_name) {
+      pp[pp$tool == tool_name, ]$path
+    }
+
+  # helper function to generate status message: tool failed or not
+
+  status_message <- function(tool_name, status) {
+    if (status == 'OK') {
+      message(paste(tool_name, ' run completed!'))
+    }
+    if (status == 'FAIL') {
+      message(paste(tool_name, ' test_run_failed!'))
+    }
+  }
+
+  # helper function to make a tool call, wrap in get_paths if necessary
+  make_call <-
+    function(tool) {
+      if (in_path)
+        tool
+      else
+        get_paths(tool)
+    }
+
+  # helper function to test a generic tool and reutrn it's status based on
+  # generated output
+  ## test_fasta will be in parent function environment, so we may skip
+  ## this argument
+
+  test_my_tool <-
+    function(tool_name,
+             call_param,
+             grep_param,
+             grep_line) {
+      tool_call <- system(paste(make_call(tool_name),
+                                call_param,
+                                test_fasta), intern = TRUE)
+      if (grepl(grep_param, tool_call[grep_line]))  {
+        status_message(tool_name, 'OK')
+        tool_status <- TRUE
+      } else {
+        status_message(tool_name, 'FAIL')
+        tool_status <- FALSE
+      }
+      return(tool_status)
+    }
+
+  # gather parameters in lists
+  tool_names <-
+    c('signalp2',
+      'signalp3',
+      'signalp4',
+      'targetp',
+      'tmhmm',
+      'wolfpsort')
+  call_params <- c(rep('-t euk', 3), '-P', '--short', 'fungi <')
+  grep_params <- c(
+    'SignalP predictions',
+    'SignalP 3.0 predictions',
+    'SignalP-4',
+    'targetp v1.1 prediction results',
+    'ALI_PLTG_1\tlen=94\tExpAA=22.44',
+    '# k used for kNN is: 27'
+  )
+  grep_lines <- c(rep(1, 3), 2, rep(1, 2))
+
+  # now we will run required tests according to the actual value
+  # of the mode argument
+
+  if (test_tool == 'all') {
+    # to return named logical vector
+    all_tests <-
+      unlist(Map(
+        test_my_tool,
+        tool_names,
+        call_params,
+        grep_params,
+        grep_lines
+      ))
+  } else {
+    t_ind <- tool_names == test_tool
+    t_args <-
+      lapply(list(call_params, grep_params, grep_lines), '[', t_ind)
+    all_tests <- do.call(test_my_tool, c(test_tool, t_args))
+  }
+
+  # construct the final output:
+  # output paths only for the tools tested
+  if ((!in_path) & (test_tool != 'all')) {
+    pp <- pp[pp$tool == test_tool, ]
+  }
+
+  result <-
+    list(tests = all_tests,
+         in_path = in_path,
+         path_tibble = pp)
+  return(result)
 }
