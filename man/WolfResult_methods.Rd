@@ -6,6 +6,7 @@
 \alias{WolfResult}
 \alias{setWOLFtibble}
 \alias{setWOLFtibble,WolfResult-method}
+\alias{setWOLFtibble}
 \alias{getWOLFtibble,WolfResult-method}
 \alias{getWOLFtibble}
 \title{accessor functions for objects of WolfResult S4 class, outputs of the wolf 

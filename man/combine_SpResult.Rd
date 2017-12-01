@@ -14,7 +14,7 @@ SignalpResult object
 }
 \description{
 This function combines multiple instances of SignalpResult class,
-typically generated with parLapply while running signalp predictions in 
+typically generated with parLapply while running signalp predictions in
 parallel mode.
 }
 \examples{
@@ -22,13 +22,13 @@ aa <- readAAStringSet(system.file(
 "extdata", "sample_prot_100.fasta", package = "SecretSanta"))
 inp2 <- CBSResult(in_fasta = aa[1:10])
 inp3 <- CBSResult(in_fasta = aa[20:30])
-inp4 <- CBSResult(in_fasta = aa[40:50])                   
+inp4 <- CBSResult(in_fasta = aa[40:50])
 r1 <- signalp(input_obj = inp2, version = 4, organism = 'euk',
 run_mode = 'starter')
 r2 <- signalp(input_obj = inp3, version = 4, organism = 'euk',
 run_mode = 'starter')
 r3 <- signalp(input_obj = inp4, version = 4, organism = 'euk',
-run_mode = 'starter') 
+run_mode = 'starter')
 obj <- list(r1, r2, r3)
 combined_sp <- combine_SpResult(obj)
 }

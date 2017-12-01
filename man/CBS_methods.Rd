@@ -6,6 +6,7 @@
 \alias{CBSResult}
 \alias{setInfasta}
 \alias{setInfasta,CBSResult-method}
+\alias{setInfasta}
 \alias{getInfasta,CBSResult-method}
 \alias{getInfasta}
 \alias{setOutfasta,CBSResult-method}

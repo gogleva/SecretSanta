@@ -6,6 +6,7 @@
 \alias{TargetpResult}
 \alias{setTPtibble}
 \alias{setTPtibble,TargetpResult-method}
+\alias{setTPtibble}
 \alias{getTPtibble,TargetpResult-method}
 \alias{getTPtibble}
 \title{accessor functions for objects of TargetpResult S4 class, intermediate and 
