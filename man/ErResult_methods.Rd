@@ -6,13 +6,13 @@
 \alias{ErResult}
 \alias{getErRetained,ErResult-method}
 \alias{getErRetained}
-\title{accessor functions for objects of ErResult S4 class, outputs of the 
+\title{accessor functions for objects of ErResult S4 class, outputs of the
 check_khedel fucntion}
 \usage{
 \S4method{getErRetained}{ErResult}(theObject)
 }
 \description{
-accessor functions for objects of ErResult S4 class, outputs of the 
+accessor functions for objects of ErResult S4 class, outputs of the
 check_khedel fucntion
 }
 \section{Slots}{
@@ -22,7 +22,7 @@ check_khedel fucntion
 }}
 
 \examples{
-aa <- readAAStringSet(system.file("extdata","small_prot.fasta", 
+aa <- readAAStringSet(system.file("extdata","small_prot.fasta",
 package = "SecretSanta"), use.names = TRUE)
 er <- check_khdel(CBSResult(in_fasta = aa), run_mode = 'starter')
 class(er)

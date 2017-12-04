@@ -9,7 +9,7 @@
 \alias{setTPtibble}
 \alias{getTPtibble,TargetpResult-method}
 \alias{getTPtibble}
-\title{accessor functions for objects of TargetpResult S4 class, intermediate and 
+\title{accessor functions for objects of TargetpResult S4 class, intermediate and
 final outputs of the targetp prediction step}
 \usage{
 setTPtibble(theObject, tp_tibble)
@@ -27,7 +27,7 @@ setTPtibble(theObject, tp_tibble)
 TargetpResult object
 }
 \description{
-accessor functions for objects of TargetpResult S4 class, intermediate and 
+accessor functions for objects of TargetpResult S4 class, intermediate and
 final outputs of the targetp prediction step
 
 Accessors for TargetpResult objects
@@ -44,7 +44,7 @@ Accessors for TargetpResult objects
 \item    other - any onther NN score
 \item    TP_localization - Prediction of localization, based on the scores;
 the possible values are:
-} 
+}
 \itemize{
 \item    C - Chloroplast, i.e. the sequence contains cTP, a chloroplast
 transit peptide;
@@ -54,13 +54,13 @@ targeting peptide;
 peptide;
 \item    _ - Any other location;
 \item    "don't know" - indicates that cutoff restrictions were set
-(see instructions) and the winning network output score was below the 
+(see instructions) and the winning network output score was below the
 requested cutoff for that category.
-\item    RC - Reliability class, from 1 to 5, where 1 indicates the 
-strongest prediction. RC is a measure of the size of the difference 
+\item    RC - Reliability class, from 1 to 5, where 1 indicates the
+strongest prediction. RC is a measure of the size of the difference
 ('diff') between #'  the highest (winning) and the second highest output
 scores. There are 5 reliability classes, defined as follows:
-\itemize{ 
+\itemize{
     \item 1 - diff > 0.800;
     \item 2 - 0.800 > diff > 0.600
     \item 3 - 0.600 > diff > 0.400
@@ -77,9 +77,9 @@ package = "SecretSanta"))
 #assign this object to the input_fasta slot of SignalpResult object
 inp <- CBSResult(in_fasta = aa[1:10])
 tp_result <- targetp(input_obj = inp, network = 'N',
-run_mode = 'starter')      
+run_mode = 'starter')
 class(tp_result)
-getTPtibble(tp_result)                     
+getTPtibble(tp_result)
 getInfasta(tp_result)
 getOutfasta(tp_result)
 }
