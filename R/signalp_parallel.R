@@ -185,14 +185,14 @@ signalp <- function(input_obj,
         if (length(getInfasta(input_obj)) != 0) {
             fasta <- getInfasta(input_obj)
         } else {
-            stop('in_fasta attribute is empty', call. = FALSE)
+            stop('in_fasta attribute is empty ...', call. = FALSE)
         }
 
     } else if (run_mode == 'piper') {
         if (length(getOutfasta(input_obj)) != 0) {
             fasta <- getOutfasta(input_obj)
         } else {
-            stop('out_fasta attribute is empty', call. = FALSE)
+            stop('out_fasta attribute is empty ...', call. = FALSE)
         }
     }
 
@@ -214,8 +214,8 @@ signalp <- function(input_obj,
     # ------ Produce encouraging status messages, inputs should be ok.
     # create actual tool name with version number provided
     signalp_version <- paste("signalp", version, sep = '')
-    message(paste('Version used...', signalp_version))
-    message("running signalp locally...")
+    message(paste('Version used ...', signalp_version))
+    message("running signalp locally ...")
 
     # simple signalp, takes single AAStringSet as an input and runs
     # signalp prediction on it
@@ -261,7 +261,7 @@ signalp <- function(input_obj,
                        "Spos", "Smean", "Prediction")]
 
             sp <- sp[sp$Prediction == 'Y',]
-            sp$Prediction <- ifelse(sp$Prediction == 'Y', 'Signal peptide')
+            sp$Prediction <- ifelse(sp$Prediction == 'Y', 'Signal peptide', "none")
 
         } else if (version < 4) {
             # running signalp versions 2 and 3, call parse_signalp
@@ -274,7 +274,7 @@ signalp <- function(input_obj,
         message(paste('Candidate sequences with signal peptides...', nrow(sp)))
 
         if (nrow(sp) == 0) {
-            warning('Signal peptide prediction yeilded 0 candidates')
+            warning('Signal peptide prediction yeilded 0 candidates ... ', call. = FALSE)
         }
 
         # generate cropped names for input fasta
@@ -318,12 +318,12 @@ signalp <- function(input_obj,
             sapply(split_XStringSet(fasta, 500), estimate_lim, truncate)
 
         # Initiate cluster
-        cl <- makeCluster(cores)
+        cl <- parallel::makeCluster(cores)
         # run parallel process
 
-        clusterExport(cl = cl, varlist = c("paths"), envir = environment())
-        result <- parLapply(cl, split_fasta, simple_signalp)
-        stopCluster(cl)
+        parallel::clusterExport(cl = cl, varlist = c("paths"), envir = environment())
+        result <- parallel::parLapply(cl, split_fasta, simple_signalp)
+        parallel::stopCluster(cl)
 
         res_comb <- do.call(c, result)
         combined_SignalpResult <- combine_SpResult(unname(res_comb))
@@ -331,7 +331,7 @@ signalp <- function(input_obj,
         sp_count <- nrow(getSPtibble(combined_SignalpResult))
         message(paste('Candidate sequences with signal peptides...', sp_count))
         if (sp_count == 0) {
-            warning('Signal peptide prediction yeilded 0 candidates')
+            warning('Signal peptide prediction yeilded 0 candidates ...', call. = FALSE)
         }
 
     closeAllConnections()
