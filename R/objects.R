@@ -1,13 +1,14 @@
-#' accessor functions for objects of CBSResult S4 class, minimal parent class for
+#' accessor functions for objects of \code{\link{CBSResult}} S4 class, minimal parent class for
 #' SecretSanat outputs
-#' 
+#'
 #' @slot in_fasta        initial fasta file
-#' @slot out_fasta       output fasta with only positive candidates,
+#' @slot out_fasta       output fasta file with only positive candidates,
 #'                       i.e those that passed tool filters
 #' @export CBSResult
 #' @return CBSREsult object
 #' @rdname CBS_methods
 #' @examples
+#' library(Biostrings)
 #' # read fasta file in AAStringSet object
 #' aa <- readAAStringSet(system.file("extdata","sample_prot_100.fasta",
 #'                         package = "SecretSanta"))
@@ -15,10 +16,10 @@
 #' cbs <- CBSResult( in_fasta = aa, out_fasta = aa)
 #' # check that CBSResult instance is valid
 #' validObject(cbs)
-#' 
+#'
 #' # extract in_fasta attribute
 #' getInfasta(cbs)
-#' 
+#'
 #' # extract out_fasta attribute
 #' getOutfasta(cbs)
 
@@ -27,53 +28,53 @@ CBSResult <- setClass("CBSResult",
     prototype = list(in_fasta = Biostrings::AAStringSet(),
                     out_fasta = Biostrings::AAStringSet()
     ),
-    
+
     validity = function(object)
     {
     #check that input is not dna or rna
-    
+
     al <- Biostrings::alphabetFrequency(object@in_fasta)
-    
+
     if (nrow(al) == 1) {
-        most_frequent <- names(rev(sort(al[, colSums(al != 0) > 0])))[1:4]
+        most_frequent <- names(rev(sort(al[ , colSums(al != 0) > 0])))[1:4]
     } else {
-        most_frequent <- 
+        most_frequent <-
             names(rev(sort(colSums(al[, colSums(al != 0) > 0])))[1:4])
     }
-    
+
     if (all(c("A", "C", "G", "T") %in% most_frequent)) {
         return("Input sequence is DNA, please provide amino acid sequence.")
     }
-    
+
     if (all(c("A", "C", "G", "U") %in% most_frequent)) {
         return("Input sequence is RNA, amino acid sequence required.")
     }
-    
-    
+
+
     if (length(object@in_fasta) < length(object@out_fasta)) {
         return("Number of output sequences > the number of input sequences.")
     }
-    
+
     if (any(grepl('[*$]', object@in_fasta))) {
         return("Input fasta contains stop ctop codon symbols '*'")
     }
-    
+
     if (any(duplicated(names(object@in_fasta)))) {
         return("Duplicated gene ids in in_fasta")
     }
-    
+
     if (any(duplicated(names(object@out_fasta)))) {
         return("Duplicated gene ids in out_fasta")
     }
-    
+
     return(TRUE)
     }
 )
 
-# Define accessors for CBSResult objects
+# define accessors for CBSResult objects
 
-#' Accessors for CBSResult objects
-#' @param theObject CBSResult object
+#' accessors for CBSResult objects
+#' @param theObject \code{\link{CBSResult}} object
 #' @param in_fasta input fasta, AAStringSet object
 #' @param out_fasta output fasta, AAStringSet object
 #' @export
@@ -83,8 +84,8 @@ CBSResult <- setClass("CBSResult",
 setGeneric(name = "setInfasta",
     def = function(theObject, in_fasta)
     {
-    standardGeneric("setInfasta")    
-    }  
+    standardGeneric("setInfasta")
+    }
 )
 
 #' @export
@@ -104,8 +105,8 @@ setMethod(f = "setInfasta",
 setGeneric(name = "getInfasta",
             def = function(theObject)
             {
-                standardGeneric("getInfasta")    
-            }  
+                standardGeneric("getInfasta")
+            }
 )
 
 #' @export
@@ -123,8 +124,8 @@ setMethod(f = "getInfasta",
 setGeneric(name = "setOutfasta",
             def = function(theObject, out_fasta)
             {
-            standardGeneric("setOutfasta")    
-            }  
+            standardGeneric("setOutfasta")
+            }
 )
 
 #' @export
@@ -163,11 +164,11 @@ setMethod(
     }
 )
 
-#' accessor functions for objects of SignalpResult S4 class, intermediate and 
+#' accessor functions for objects of SignalpResult S4 class, intermediate and
 #' final outputs of the signalp prediction step
-#' 
+#'
 #' @slot mature_fasta    fasta with mature sequences
-#' @slot sp_version      version of signalp used to generate this object
+#' @slot sp_version      version of \code{signalp} used to generate this object
 #' @slot sp_tibble       Object of class tibble, columns:
 #' \itemize{
 #' \item gene_id - unique id of the sequence
@@ -177,18 +178,18 @@ setMethod(
 #' \item Ymax - max combied cleavage site score (Y-score)
 #' \item Ypos - amino acid position with max Y-score
 #' \item Smax - max signal peptide score
-#' \item Spos - amino acid position with max S-score 
+#' \item Spos - amino acid position with max S-score
 #' \item Smean - the average S-score of the possible signal peptide
 #' (from position 1 to the position immediately before the maximal Y-score)
 #' \item Prediction - final desision on whether the protein is secreted
 #' }
 #' @export SignalpResult
-#' @rdname SignalpResult_methods 
+#' @rdname SignalpResult_methods
 #' @return SignalpResult object
-#' @examples 
+#' @examples
 #' # read fasta file in AAStringSet object
 #' aa <- readAAStringSet(system.file("extdata","sample_prot_100.fasta",
-#' package = "SecretSanta")) 
+#' package = "SecretSanta"))
 #' # create an instance of CBSResult class
 #' sr <- CBSResult(in_fasta = aa[1:20])
 #' # run signalpeptide prediction and create fully populated instance of
@@ -199,7 +200,7 @@ setMethod(
 #' getInfasta(step1_sp2)
 #' getSPtibble(step1_sp2)
 #' getSPversion(step1_sp2)
-#' getMatfasta(step1_sp2) 
+#' getMatfasta(step1_sp2)
 
 
 SignalpResult <- setClass(
@@ -210,52 +211,52 @@ SignalpResult <- setClass(
         sp_version = "numeric",
         sp_tibble = "tbl_df"
     ),
-    
+
     prototype = list(
         mature_fasta = Biostrings::AAStringSet(),
         sp_version = numeric(0),
         sp_tibble = tibble::tibble()
     ),
-    
+
     validity = function(object)
     {
         # check that mature sequences are shorter than full-length sequences
-        if (sum(width(object@out_fasta)) <
-            sum(width(object@mature_fasta))) {
+        if (sum(Biostrings::width(object@out_fasta)) <
+            sum(Biostrings::width(object@mature_fasta))) {
             return("Mature sequences can not be shorter that full length ones")
         }
-        
+
         # check that there are no duplicated gene ids in sp_tibble
         if (nrow(object@sp_tibble) > 0) {
             if (any(duplicated(object@sp_tibble$gene_id))) {
                 return("Duplicated gene ids in sp_tibble! ")
             }
         }
-        
+
         # check that all ids of mature_fasta are identical to ids
         # in out_fasta
-        
+
         if (!(identical(names(object@mature_fasta),
                         names(object@out_fasta)))) {
             return("Out_fasta ids do not match mature_fasta ids")
         }
-        
+
         # check that ids of mature_fasta are present in in_fasta
         if (!(all(names(object@mature_fasta) %in%
                     names(object@in_fasta)))) {
             return("Out_fasta ids do not match in_fasta ids")
         }
-        
+
         # check that there are no zero length mature peptides
-        
+
         if (any(width(object@mature_fasta) == 0)) {
             return('mature fasta contains sequences of 0 length')
         }
     }
 )
 
-#' Accessors for SignalpResult objects
-#' @param theObject SignalpResult object
+#' accessors for SignalpResult objects
+#' @param theObject \code{\link{SignalpResult}} object
 #' @param mature_fasta sequences with clipped signal peptides, AAStringSet
 #' object
 #' @param sp_version version of signalp used to generate SignalpResult object
@@ -396,9 +397,9 @@ setMethod(
     }
 )
 
-#' accessor functions for objects of WolfResult S4 class, outputs of the wolf 
+#' accessor functions for objects of WolfResult S4 class, outputs of the wolf
 #' prediction step
-#' 
+#'
 #' @slot wolf_tibble    tibble with outputs obtained from wolfpsort
 #' \itemize{
 #' \item gene_id - unique sequence id
@@ -407,7 +408,8 @@ setMethod(
 #' @export WolfResult
 #' @rdname  WolfResult_methods
 #' @return WolfResult object
-#' @examples 
+#' @examples
+#' library(Biostrings)
 #' aa <- readAAStringSet(system.file("extdata","sample_prot_100.fasta",
 #' package = "SecretSanta"))
 #' inp <- CBSResult(in_fasta = aa[1:10])
@@ -424,7 +426,7 @@ setMethod(
 WolfResult <- setClass("WolfResult", contains = "CBSResult",
                         slots = list(wolf_tibble = "tbl_df"))
 
-#' Accessors for WolfResult objects
+#' accessors for WolfResult objects
 #' @param theObject an object of WolfResult class
 #' @param wolf_tibble parsed output of wolfpsort in tabular format
 #' @export
@@ -475,9 +477,9 @@ setMethod(
     }
 )
 
-#' accessor functions for objects of TMhmmResult S4 class, intermediate and 
+#' accessor functions for objects of TMhmmResult S4 class, intermediate and
 #' final outputs of the tmhmm prediction step
-#' @slot in_mature_fasta  input mature fasta, extracted from the input 
+#' @slot in_mature_fasta  input mature fasta, extracted from the input
 #' SignalpResult object
 #' @slot out_mature_fasta output mature, conatins mature sequences without
 #'  TM domains
@@ -486,19 +488,19 @@ setMethod(
 #' \item gene_id - unique id of the sequence
 #' \item length - length of the protein sequence
 #' \item ExpAA - the expected number of amino acids intransmembrane helices
-#' \item First60 - the expected number of amino acids in transmembrane 
+#' \item First60 - the expected number of amino acids in transmembrane
 #' helices in the first 60 amino acids of the protein
 #' \item PredHel - the number of predicted transmembrane helices by N-best
-#' \item Topology - the topology predicted by N-best' 
+#' \item Topology - the topology predicted by N-best'
 #' }
 #' @export TMhmmResult
 #' @rdname TMhmmResult_methods
-#' @examples 
+#' @examples
 #' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta",
 #' package = "SecretSanta"))
 #' inp <- CBSResult(in_fasta = aa[1:10])
 #' s1_sp2 <- signalp(inp, version = 2, organism = 'euk',
-#' run_mode = "starter")                  
+#' run_mode = "starter")
 #' tm <- tmhmm(s1_sp2, TM = 1)
 #' class(tm)
 #' getTMtibble(tm)
@@ -511,7 +513,7 @@ TMhmmResult <- setClass(
         out_mature_fasta = "AAStringSet",
         tm_tibble = "tbl_df"
     ),
-    
+
     validity = function(object) {
         # check that there are o duplicated ids in the input
         # and output fastas and tm_tibble
@@ -520,17 +522,17 @@ TMhmmResult <- setClass(
                 return("Duplicated gene ids in sp_tibble! ")
             }
         }
-        
+
         if (any(duplicated(names(object@in_mature_fasta)))) {
             return("Duplicated gene ids in in_mature_fasta")
         }
-        
+
         if (any(duplicated(names(object@out_mature_fasta)))) {
             return("Duplicated gene ids in out_mature_fasta")
         }
-        
+
         # check that ids in out_mature_fasta match ids in out_fasta
-        
+
         if (!(identical(names(object@out_mature_fasta),
                         names(object@out_fasta)))) {
             return("out_fasta ids do not match out_mature_fasta ids")
@@ -625,14 +627,14 @@ setMethod(
     }
 )
 
-#' accessor functions for objects of ErResult S4 class, outputs of the 
+#' accessor functions for objects of ErResult S4 class, outputs of the
 #' check_khedel fucntion
-#' 
+#'
 #' @slot retained - sequences with ER retention signals
 #' @export ErResult
 #' @rdname ErResult_methods
 #' @examples
-#' aa <- readAAStringSet(system.file("extdata","small_prot.fasta", 
+#' aa <- readAAStringSet(system.file("extdata","small_prot.fasta",
 #' package = "SecretSanta"), use.names = TRUE)
 #' er <- check_khdel(CBSResult(in_fasta = aa), run_mode = 'starter')
 #' class(er)
@@ -664,9 +666,9 @@ setMethod(
 
 
 
-#' accessor functions for objects of TargetpResult S4 class, intermediate and 
+#' accessor functions for objects of TargetpResult S4 class, intermediate and
 #' final outputs of the targetp prediction step
-#' 
+#'
 #' @slot tp_tibble        tibble with outputs obtained from targetp
 #' \itemize{
 #' \item    gene_id - unique id of the sequence
@@ -676,7 +678,7 @@ setMethod(
 #' \item    other - any onther NN score
 #' \item    TP_localization - Prediction of localization, based on the scores;
 #' the possible values are:
-#' } 
+#' }
 #' \itemize{
 #' \item    C - Chloroplast, i.e. the sequence contains cTP, a chloroplast
 #' transit peptide;
@@ -686,13 +688,13 @@ setMethod(
 #' peptide;
 #' \item    _ - Any other location;
 #' \item    "don't know" - indicates that cutoff restrictions were set
-#' (see instructions) and the winning network output score was below the 
+#' (see instructions) and the winning network output score was below the
 #' requested cutoff for that category.
-#' \item    RC - Reliability class, from 1 to 5, where 1 indicates the 
-#' strongest prediction. RC is a measure of the size of the difference 
+#' \item    RC - Reliability class, from 1 to 5, where 1 indicates the
+#' strongest prediction. RC is a measure of the size of the difference
 #' ('diff') between #'  the highest (winning) and the second highest output
 #' scores. There are 5 reliability classes, defined as follows:
-#' \itemize{ 
+#' \itemize{
 #'     \item 1 - diff > 0.800;
 #'     \item 2 - 0.800 > diff > 0.600
 #'     \item 3 - 0.600 > diff > 0.400
@@ -702,16 +704,16 @@ setMethod(
 #' }
 #' @export TargetpResult
 #' @rdname TargetpResult_methods
-#' @examples 
+#' @examples
 #' #read fasta file in AAStringSet object
 #' aa <- readAAStringSet(system.file("extdata","sample_prot_100.fasta",
 #' package = "SecretSanta"))
 #' #assign this object to the input_fasta slot of SignalpResult object
 #' inp <- CBSResult(in_fasta = aa[1:10])
 #' tp_result <- targetp(input_obj = inp, network = 'N',
-#' run_mode = 'starter')      
+#' run_mode = 'starter')
 #' class(tp_result)
-#' getTPtibble(tp_result)                     
+#' getTPtibble(tp_result)
 #' getInfasta(tp_result)
 #' getOutfasta(tp_result)
 
@@ -719,7 +721,7 @@ TargetpResult <- setClass(
     "TargetpResult",
     contains = "CBSResult",
     slots = list(tp_tibble = "tbl_df"),
-    
+
     validity = function(object) {
         # check that there are o duplicated ids in the input
         # and output fastas and tm_tibble
