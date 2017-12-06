@@ -6,9 +6,10 @@
 \alias{WolfResult}
 \alias{setWOLFtibble}
 \alias{setWOLFtibble,WolfResult-method}
+\alias{setWOLFtibble}
 \alias{getWOLFtibble,WolfResult-method}
 \alias{getWOLFtibble}
-\title{accessor functions for objects of WolfResult S4 class, outputs of the wolf 
+\title{accessor functions for objects of WolfResult S4 class, outputs of the wolf
 prediction step}
 \usage{
 setWOLFtibble(theObject, wolf_tibble)
@@ -26,10 +27,10 @@ setWOLFtibble(theObject, wolf_tibble)
 WolfResult object
 }
 \description{
-accessor functions for objects of WolfResult S4 class, outputs of the wolf 
+accessor functions for objects of WolfResult S4 class, outputs of the wolf
 prediction step
 
-Accessors for WolfResult objects
+accessors for WolfResult objects
 }
 \section{Slots}{
 
@@ -42,6 +43,7 @@ Accessors for WolfResult objects
 }}
 
 \examples{
+library(Biostrings)
 aa <- readAAStringSet(system.file("extdata","sample_prot_100.fasta",
 package = "SecretSanta"))
 inp <- CBSResult(in_fasta = aa[1:10])

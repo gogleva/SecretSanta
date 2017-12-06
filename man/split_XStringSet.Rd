@@ -15,7 +15,7 @@ split_XStringSet(string_set, chunk_size)
 list of AAStringSet chunks.
 }
 \description{
-This function splits large XStringSet objects into chunks of given size and 
+This function splits large XStringSet objects into chunks of given size and
 returns a list of AAStringSet objects.
 }
 \examples{
@@ -23,6 +23,6 @@ returns a list of AAStringSet objects.
 aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta",
 package = "SecretSanta"))
 # Split it into chunks
-# with 10 sequences each: 
-split_XStringSet(aa,10)                                   
+# with 10 sequences each:
+split_XStringSet(aa,10)
 }

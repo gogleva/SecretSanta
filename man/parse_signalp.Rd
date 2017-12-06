@@ -4,39 +4,58 @@
 \alias{parse_signalp}
 \title{convert output of Signalp-2.0 and Signalp-3.0 to Signalp-4.0++ format}
 \usage{
-parse_signalp(input, input_type = c("path", "system_call"))
+parse_signalp(input, input_type = c("path", "system_call"),
+  pred_filter = "Signal peptide")
 }
 \arguments{
-\item{input}{output of signalp2 or signalp3}
+\item{input}{output of the command line tools \code{signalp2} or \code{signalp3}/}
 
-\item{input_type}{\strong{path}  path to a file with text output from signalp2 
-or signalp3;\cr
-\strong{system_call} output from signalp2/3 system call;}
+\item{input_type}{a character string with the following options:
+\itemize{
+\item \code{input_type = "path"}  - path to a file with text output from \code{signalp2}
+or \code{signalp3}
+\item \code{input_type = "system_call"} - output from the \code{signalp2}
+or \code{signalp3} system call
+}}
+
+\item{pred_filter}{filter for the type of prediction. Options are:
+\itemize{
+\item \code{pred_filter = "Signal peptide"}
+\item \code{pred_filter = "Signal anchor"}
+\item \code{pred_filter = "Non-secretory protein"}
+\item \code{pred_filter = "all"} - in case all three filter options shall be included
+}}
 }
 \value{
-parsed signalp2/3 output, organised in a tibble object.
+parsed \code{signalp2}
+or \code{signalp3} output, organised in a \code{\link[tibble]{tibble}} object.
 }
 \description{
-This function parses signalp2 and signalp3 output and is called internally
-in the \code{\link{signalp}} function to standardize outputs.\cr
+This function parses the output of the command line tools \code{signalp2} and \code{signalp3} to standardize outputs for data analysis.\cr
 \cr
-Alternatively, parse_signalp can be called independently on outputs of 
-signalp2 and signalp3 captured in a system call or stored in a file.
+Alternatively, \code{parse_signalp} can be called independently on outputs of
+\code{signalp2} and \code{signalp3} and captured in a system call or stored in a file.
 }
 \examples{
 # Example 1: parse signalp2 output, stored in a file:
 s_path <- system.file("extdata", "sample_prot_signalp2_out2",
-package = "SecretSanta") 
-parse_signalp(input = s_path, input_type = "path")
+package = "SecretSanta")
+parse_signalp(input = s_path, input_type = "path", pred_filter = "Signal anchor")
+
+# alternatively users can select for all prediction filters
+parse_signalp(input = s_path, input_type = "path", pred_filter = "all")
 
 # Example2: parse signalp2 output
 # captured in a system call. Note, here we assume that
 # signalp2 is accessible via $PATH.
-s_fasta <- system.file("extdata", "small_prot.fasta", 
-package = "SecretSanta") 
+s_fasta <- system.file("extdata", "small_prot.fasta",
+package = "SecretSanta")
 # capture system call:
 con <- system(paste('signalp2 -t euk', s_fasta), intern = TRUE)
 
 # parse captured system call:
 parse_signalp(input = con, input_type = "system_call")
+}
+\seealso{
+\code{\link{signalp}}
 }

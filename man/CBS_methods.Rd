@@ -6,13 +6,14 @@
 \alias{CBSResult}
 \alias{setInfasta}
 \alias{setInfasta,CBSResult-method}
+\alias{setInfasta}
 \alias{getInfasta,CBSResult-method}
 \alias{getInfasta}
 \alias{setOutfasta,CBSResult-method}
 \alias{setOutfasta}
 \alias{getOutfasta,CBSResult-method}
 \alias{getOutfasta}
-\title{accessor functions for objects of CBSResult S4 class, minimal parent class for
+\title{accessor functions for objects of \code{\link{CBSResult}} S4 class, minimal parent class for
 SecretSanat outputs}
 \usage{
 setInfasta(theObject, in_fasta)
@@ -26,7 +27,7 @@ setInfasta(theObject, in_fasta)
 \S4method{getOutfasta}{CBSResult}(theObject)
 }
 \arguments{
-\item{theObject}{CBSResult object}
+\item{theObject}{\code{\link{CBSResult}} object}
 
 \item{in_fasta}{input fasta, AAStringSet object}
 
@@ -36,21 +37,22 @@ setInfasta(theObject, in_fasta)
 CBSREsult object
 }
 \description{
-accessor functions for objects of CBSResult S4 class, minimal parent class for
+accessor functions for objects of \code{\link{CBSResult}} S4 class, minimal parent class for
 SecretSanat outputs
 
-Accessors for CBSResult objects
+accessors for CBSResult objects
 }
 \section{Slots}{
 
 \describe{
 \item{\code{in_fasta}}{initial fasta file}
 
-\item{\code{out_fasta}}{output fasta with only positive candidates,
+\item{\code{out_fasta}}{output fasta file with only positive candidates,
 i.e those that passed tool filters}
 }}
 
 \examples{
+library(Biostrings)
 # read fasta file in AAStringSet object
 aa <- readAAStringSet(system.file("extdata","sample_prot_100.fasta",
                         package = "SecretSanta"))

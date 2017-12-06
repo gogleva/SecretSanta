@@ -6,13 +6,14 @@
 \alias{TMhmmResult}
 \alias{setTMtibble}
 \alias{setTMtibble,TMhmmResult-method}
+\alias{setTMtibble}
 \alias{getTMtibble,TMhmmResult-method}
 \alias{getTMtibble}
 \alias{getInMatfasta,TMhmmResult-method}
 \alias{getInMatfasta}
 \alias{getOutMatfasta,TMhmmResult-method}
 \alias{getOutMatfasta}
-\title{accessor functions for objects of TMhmmResult S4 class, intermediate and 
+\title{accessor functions for objects of TMhmmResult S4 class, intermediate and
 final outputs of the tmhmm prediction step}
 \usage{
 setTMtibble(theObject, tm_tibble)
@@ -34,7 +35,7 @@ setTMtibble(theObject, tm_tibble)
 TMhmmREsult object
 }
 \description{
-accessor functions for objects of TMhmmResult S4 class, intermediate and 
+accessor functions for objects of TMhmmResult S4 class, intermediate and
 final outputs of the tmhmm prediction step
 
 Accessors for TMhmmResul objects
@@ -42,7 +43,7 @@ Accessors for TMhmmResul objects
 \section{Slots}{
 
 \describe{
-\item{\code{in_mature_fasta}}{input mature fasta, extracted from the input 
+\item{\code{in_mature_fasta}}{input mature fasta, extracted from the input
 SignalpResult object}
 
 \item{\code{out_mature_fasta}}{output mature, conatins mature sequences without
@@ -53,10 +54,10 @@ TM domains}
 \item gene_id - unique id of the sequence
 \item length - length of the protein sequence
 \item ExpAA - the expected number of amino acids intransmembrane helices
-\item First60 - the expected number of amino acids in transmembrane 
+\item First60 - the expected number of amino acids in transmembrane
 helices in the first 60 amino acids of the protein
 \item PredHel - the number of predicted transmembrane helices by N-best
-\item Topology - the topology predicted by N-best' 
+\item Topology - the topology predicted by N-best'
 }}
 }}
 
@@ -65,7 +66,7 @@ aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta",
 package = "SecretSanta"))
 inp <- CBSResult(in_fasta = aa[1:10])
 s1_sp2 <- signalp(inp, version = 2, organism = 'euk',
-run_mode = "starter")                  
+run_mode = "starter")
 tm <- tmhmm(s1_sp2, TM = 1)
 class(tm)
 getTMtibble(tm)

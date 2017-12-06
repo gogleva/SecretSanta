@@ -6,45 +6,53 @@
 \usage{
 signalp(input_obj, version, organism = c("euk", "gram+", "gram-"),
   run_mode = c("starter", "piper"), paths = NULL, truncate = NULL,
-  cores = NULL)
+  cores = 1)
 }
 \arguments{
-\item{input_obj}{an instance of CBSResult class containing protein 
+\item{input_obj}{an instance of class \code{CBSResult} containing protein
 sequences as one of the attributes}
 
-\item{version}{signalp version to run, supported versions include: \cr
-2, 3, 4.}
+\item{version}{version of \code{signalp}, supported versions include: \cr
+\code{signalp2}, \code{signalp3}, \code{signalp4}.}
 
-\item{organism}{\strong{euk} - for eukaryotes;\cr
-\strong{gram+} - for gram-positive bacteria;\cr
-\strong{gram-} - for gram-negative bacteria;\cr}
+\item{organism}{a character string with the following options:
+\itemize{
+\item \code{organism = "euk"} - for eukaryotes
+\item \code{organism = "gram+"} - for gram-positive bacteria
+\item \code{organism = "gram-"} - for gram-negative bacteria
+}}
 
-\item{run_mode}{\strong{starter} - if it is the first step in pipeline;\cr
-\strong{piper} - if you run this function on the output of other CBS tools;}
+\item{run_mode}{a character string with the following options:
+\itemize{
+\item \code{run_mode = "starter"} - if it is the first step in pipeline
+\item \code{run_mode = "piper"} - if you run this function on the output of other CBS tools
+}}
 
-\item{paths}{if required version of signalp is not acessible globally, a file
+\item{paths}{if required version of \code{signalp} is not acessible globally, a file
 conatining a full path to it's executable should be provided; for details
 please check SecretSanta vignette.}
 
-\item{truncate}{if \strong{TRUE} - sequences longer 2000 residues will be 
-truncated to this length limit and renamed;\cr
-if \strong{FALSE} - long sequences will be excluded from the analysis;\cr
-Default = TRUE.}
+\item{truncate}{a logical indicating:
+\itemize{
+\item \code{truncate = TRUE} - sequences longer 2000 residues will be
+truncated to this length limit and renamed
+\item \code{truncate = FALSE} - long sequences will be excluded from the analysis
+}
+Default is \code{truncate = TRUE}.}
 
-\item{cores}{optional arguments, number of cores to run the parallel process
-on. If not set default will be 1.}
+\item{cores}{number of cores for multicore processing. Default is \code{cores = 1}.}
 }
 \value{
 an object of SignalpResult class
 }
 \description{
-This function calls local signalp to predict the presence and location of
+This function calls the command line tool \code{signalp} to predict the presence and location of
 signal peptide cleavage sites in amino acid sequences.
 \cr
 \cr
 Large input files (>500 sequnces) are automatically split into smaller chunks
-so that signalp prediction could be run as an embarassingly parallel process
-on specified number of cores.
+so that \code{signalp} prediction can be run as an embarassingly parallel process
+on a specified number of cores.
 }
 \examples{
 # read fasta file in AAStringSet object
@@ -55,4 +63,7 @@ package = "SecretSanta"))
 inp <- CBSResult(in_fasta = aa[1:10])
 # run signalp2 on the initial file:
 r1 <- signalp(inp, version = 2, organism = 'euk', run_mode = "starter")
+}
+\seealso{
+\code{\link{parse_signalp}}
 }
