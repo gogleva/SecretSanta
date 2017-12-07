@@ -7,20 +7,20 @@
 \alias{getRetainedfasta}
 \alias{getRetainedfasta,ErResult-method}
 \title{accessor functions for objects of ErResult S4 class, outputs of the
-check_khedel fucntion}
+check_khedel function}
 \usage{
 getRetainedfasta(theObject)
 
 \S4method{getRetainedfasta}{ErResult}(theObject)
 }
 \arguments{
-\item{theObject}{an object of WolfResult class}
+\item{theObject}{an object of ErResult class}
 
 \item{retained_fasta}{sequences with ER retention signals}
 }
 \description{
 accessor functions for objects of ErResult S4 class, outputs of the
-check_khedel fucntion
+check_khedel function
 
 accessors for ErResult objects
 }

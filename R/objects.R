@@ -628,7 +628,7 @@ setMethod(
 )
 
 #' accessor functions for objects of ErResult S4 class, outputs of the
-#' check_khedel fucntion
+#' check_khedel function
 #' @slot retained_fasta  sequences with ER retention signals
 #' @export ErResult
 #' @rdname ErResult_methods
@@ -643,7 +643,7 @@ ErResult <- setClass("ErResult", contains = "CBSResult",
 
 
 #' accessors for ErResult objects
-#' @param theObject an object of WolfResult class
+#' @param theObject an object of ErResult class
 #' @param retained_fasta sequences with ER retention signals
 #' @export
 #' @docType methods
