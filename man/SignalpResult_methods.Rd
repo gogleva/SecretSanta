@@ -6,7 +6,6 @@
 \alias{SignalpResult}
 \alias{setMatfasta}
 \alias{setMatfasta,SignalpResult-method}
-\alias{setMatfasta}
 \alias{getMatfasta,SignalpResult-method}
 \alias{getMatfasta}
 \alias{setSPversion,SignalpResult-method}

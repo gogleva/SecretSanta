@@ -4,21 +4,30 @@
 \name{ErResult-class}
 \alias{ErResult-class}
 \alias{ErResult}
-\alias{getErRetained,ErResult-method}
-\alias{getErRetained}
+\alias{getRetainedfasta}
+\alias{getRetainedfasta,ErResult-method}
 \title{accessor functions for objects of ErResult S4 class, outputs of the
 check_khedel fucntion}
 \usage{
+getRetainedfasta(theObject)
+
 \S4method{getRetainedfasta}{ErResult}(theObject)
+}
+\arguments{
+\item{theObject}{an object of WolfResult class}
+
+\item{retained_fasta}{sequences with ER retention signals}
 }
 \description{
 accessor functions for objects of ErResult S4 class, outputs of the
 check_khedel fucntion
+
+accessors for ErResult objects
 }
 \section{Slots}{
 
 \describe{
-\item{\code{retained_fasta}}{- sequences with ER retention signals}
+\item{\code{retained_fasta}}{sequences with ER retention signals}
 }}
 
 \examples{

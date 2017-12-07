@@ -134,7 +134,7 @@ targetp <- function(input_obj,
         } else {
             mp <- suppressMessages(manage_paths(
                 in_path = FALSE,
-                test_mode = 'targetp',
+                test_tool = 'targetp',
                 path_file = paths
             ))
             full_pa <- mp$path_tibble$path

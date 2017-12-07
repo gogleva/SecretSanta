@@ -546,7 +546,7 @@ TMhmmResult <- setClass(
 #' @param tm_tibble parsed tmhmm output in tabular format
 #' @export
 #' @docType methods
-#' @return TMhmmREsult object
+#' @return TMhmmResult object
 #' @rdname TMhmmResult_methods
 
 setGeneric(
@@ -629,8 +629,7 @@ setMethod(
 
 #' accessor functions for objects of ErResult S4 class, outputs of the
 #' check_khedel fucntion
-#'
-#' @slot retained - sequences with ER retention signals
+#' @slot retained_fasta  sequences with ER retention signals
 #' @export ErResult
 #' @rdname ErResult_methods
 #' @examples
@@ -643,6 +642,13 @@ ErResult <- setClass("ErResult", contains = "CBSResult",
                         slots = list(retained_fasta = "AAStringSet"))
 
 
+#' accessors for ErResult objects
+#' @param theObject an object of WolfResult class
+#' @param retained_fasta sequences with ER retention signals
+#' @export
+#' @docType methods
+#' @rdname ErResult_methods
+
 setGeneric(
     name = "getRetainedfasta",
     def = function(theObject)
@@ -654,6 +660,7 @@ setGeneric(
 #' @export
 #' @rdname  ErResult_methods
 #' @aliases getRetainedfasta
+
 
 setMethod(
     f = "getRetainedfasta",

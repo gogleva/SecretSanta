@@ -63,7 +63,7 @@ wolfpsort <- function(input_obj, organism = c('plant', 'animal', 'fungi'),
     } else {
         mp <- suppressMessages(manage_paths(
             in_path = FALSE,
-            test_mode = 'wolfpsort',
+            test_tool = 'wolfpsort',
             path_file = paths
         ))
         full_pa <- mp$path_tibble$path

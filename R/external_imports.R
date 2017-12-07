@@ -18,4 +18,5 @@
 #' @importFrom utils read.table
 #' @importFrom utils tail
 #' @importFrom tibble as_tibble
+#' @importFrom stringr str_split
 NULL

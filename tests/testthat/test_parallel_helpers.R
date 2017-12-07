@@ -1,4 +1,4 @@
-context("test helper functions for parallel sinalp")
+context("test helper functions for parallel signalp")
 
 test_that("combine_SignalpResult works as intended",
           {

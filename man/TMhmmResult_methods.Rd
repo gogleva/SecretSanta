@@ -6,7 +6,6 @@
 \alias{TMhmmResult}
 \alias{setTMtibble}
 \alias{setTMtibble,TMhmmResult-method}
-\alias{setTMtibble}
 \alias{getTMtibble,TMhmmResult-method}
 \alias{getTMtibble}
 \alias{getInMatfasta,TMhmmResult-method}
@@ -32,7 +31,7 @@ setTMtibble(theObject, tm_tibble)
 \item{tm_tibble}{parsed tmhmm output in tabular format}
 }
 \value{
-TMhmmREsult object
+TMhmmResult object
 }
 \description{
 accessor functions for objects of TMhmmResult S4 class, intermediate and

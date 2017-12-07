@@ -71,7 +71,7 @@ tmhmm <- function(input_obj, TM, paths = NULL) {
     } else {
         mp <- suppressMessages(manage_paths(
             in_path = FALSE,
-            test_mode = 'tmhmm',
+            test_tool = 'tmhmm',
             path_file = paths
         ))
         full_pa <- mp$path_tibble$path
