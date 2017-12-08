@@ -2,4 +2,4 @@ Hello World
 
 ### SecretSanta
 
-[vignette](vignettes/SecretSanta-vignette.html
+[vignette](vignettes/SecretSanta-vignette.html)
