@@ -15,8 +15,6 @@ getRetainedfasta(theObject)
 }
 \arguments{
 \item{theObject}{an object of ErResult class}
-
-\item{retained_fasta}{sequences with ER retention signals}
 }
 \description{
 accessor functions for objects of ErResult S4 class, outputs of the
@@ -27,6 +25,8 @@ accessors for ErResult objects
 \section{Slots}{
 
 \describe{
+\item{\code{retained_fasta}}{sequences with ER retention signals}
+
 \item{\code{retained_fasta}}{sequences with ER retention signals}
 }}
 

@@ -644,7 +644,7 @@ ErResult <- setClass("ErResult", contains = "CBSResult",
 
 #' accessors for ErResult objects
 #' @param theObject an object of ErResult class
-#' @param retained_fasta sequences with ER retention signals
+#' @slot retained_fasta sequences with ER retention signals
 #' @export
 #' @docType methods
 #' @rdname ErResult_methods
