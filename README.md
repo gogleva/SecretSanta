@@ -174,8 +174,7 @@ install_github("gogleva/SecretSanta")
 library("SecretSanta")
 ```
 
-Use cases are documented in the [vignette](https://github.com/gogleva/SecretSanta/blob/master/vignettes/SecretSanta-vignette.html),
-accompanied by a function [reference](https://gogleva.github.io/SecretSanta/reference/index.html) list.
+Use cases are documented in the [vignette].
 
 ### Reporting bugs
 
