@@ -52,7 +52,7 @@ Place all the tarballs in a dedicated directory and run the following installati
     -   Since, we want to be able to run different versions of **signalp**, including the legacy ones, it is important to be able to discriminate between them. R is oblivious to shell aliases, so we will simply rename the **siganlp** script:
 
     ``` sh
-    mv signalp siganlp2
+    mv signalp signalp2
     ```
 
 -   **signalp-3.0**
@@ -174,7 +174,7 @@ install_github("gogleva/SecretSanta")
 library("SecretSanta")
 ```
 
-Use cases are documented in the [vignette](https://gogleva.github.io/SecretSanta/articles/SecretSanta-vignette.html),
+Use cases are documented in the [vignette](https://github.com/gogleva/SecretSanta/blob/master/vignettes/SecretSanta-vignette.html),
 accompanied by a function [reference](https://gogleva.github.io/SecretSanta/reference/index.html) list.
 
 ### Reporting bugs
