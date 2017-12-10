@@ -2,6 +2,8 @@
 [![minimal R version](https://img.shields.io/badge/R%3E%3D-3.4.0-6666ff.svg)](https://cran.r-project.org/)
 [![Linux Build Status](https://travis-ci.org/gogleva/SecretSanta.svg?branch=master)](https://travis-ci.org/gogleva/SecretSanta)
 
+![sticker](vignettes/Santa_hexagon.png)
+
 ## 1. Background
 
 The **SecretSanta** package provides an R interface for the integrative
