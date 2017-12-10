@@ -2,7 +2,7 @@
 [![minimal R version](https://img.shields.io/badge/R%3E%3D-3.4.0-6666ff.svg)](https://cran.r-project.org/)
 [![Linux Build Status](https://travis-ci.org/gogleva/SecretSanta.svg?branch=master)](https://travis-ci.org/gogleva/SecretSanta)
 
-![sticker](vignettes/Santa_hexagon.png)
+<img src="vignettes/Santa_hexagon.png" width="200" height="200" />
 
 ## 1. Background
 
