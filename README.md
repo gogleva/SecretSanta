@@ -21,7 +21,7 @@ Taken together **SecretSanta** provides a platform to build automated multi-step
 
 ## 2. External dependencies
 
-SecretSanta relies on a set of existing command line tools to predict secreted proteins. Please install them and configure according to the listed instructions. Due to limitations imposed by the external dependencies, some of SecretSanta wrapper functions won't work in Windows, however are fully functional on Linux. 
+SecretSanta relies on a set of existing command line tools to predict secreted proteins. Please install them and configure according to the listed instructions. Due to limitations imposed by the external dependencies, some of SecretSanta wrapper functions won't work in Windows, however are fully functional on Linux.
 
 ### 2.1 Automatic installation of external dependencies
 
@@ -34,7 +34,7 @@ Download the external dependencies:
 -   **WoLFpsort** <https://github.com/fmaguire/WoLFPSort.git>
 -   **tmhmm-2.0** (<http://www.cbs.dtu.dk/cgi-bin/nph-sw_request?tmhmm>)
 
-Place all the tarballs in a dedicated directory and run the following installation script inside it: <https://gist.github.com/gogleva/3d60be51328ca7703cbd52b5fba2baee>
+Place all the tarballs in a dedicated directory and run the [installation script](https://gist.github.com/gogleva/3d60be51328ca7703cbd52b5fba2baee) inside it.
 
 ### 2.2 Manual installation of external dependencies
 
