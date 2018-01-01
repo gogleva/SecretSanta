@@ -16,6 +16,9 @@
 #' @param paths   if wolfpsort is not acessible globally, a file
 #' conatining a full path to it's executable should be provided; for details
 #' please check SecretSanta vignette. 
+#' @param run_mode 
+#' \strong{starter} - if it is the first step in pipeline; \cr
+#' \strong{piper} - if you run this function on the output of other methods;
 #' @return object of WolfResult class  
 #' @export
 #' @examples
@@ -28,10 +31,10 @@
 #' step1_sp2 <- signalp(inp, version = 2, organism ='euk',
 #' run_mode = "starter")
 #' # run wolfpsort on the signalp output:
-#' w <- wolfpsort(step1_sp2, 'fungi')
+#' w <- wolfpsort(step1_sp2, 'fungi', run_mode = 'piper')
 
 wolfpsort <- function(input_obj, organism = c('plant', 'animal', 'fungi'),
-                        paths = NULL) {
+                      run_mode = c('starter', 'piper'), paths = NULL) {
     # check that inputs are valid
     
     # check organism argument
@@ -45,14 +48,33 @@ wolfpsort <- function(input_obj, organism = c('plant', 'animal', 'fungi'),
     } else {
         stop('input_object does not belong to CBSResult superclass')
     }
-    if (length(getOutfasta(input_obj)) == 0) {
-        stop('the input object contains empty out_fasta slot')
-    }
-    
+
     message("running WoLF PSORT locally...")
     
-    fasta <- getOutfasta(input_obj)
+   # fasta <- getOutfasta(input_obj)
+
+   # check that input_obj contains non-empty in/out_fasta for starter/piper
+    if (run_mode == 'starter') {
+        if (length(getInfasta(input_obj)) != 0) {
+            fasta <- getInfasta(input_obj)
+        } else {
+            stop('in_fasta attribute is empty')
+        }
+    } else if (run_mode == 'piper') {
+        if (length(getOutfasta(input_obj)) != 0) {
+            fasta <- getOutfasta(input_obj)
+        } else {
+            stop('out_fasta attribute is empty')
+        }
+    }
+   
     message(paste("Number of submitted sequences...", length(fasta)))
+    
+    # prep fasta:
+    # generate cropped names for input fasta
+    cropped_names <- unname(sapply(names(fasta), crop_names))
+    # replace long names with cropped names
+    names(fasta) <- cropped_names
     
     out_tmp <- tempfile()
     Biostrings::writeXStringSet(fasta, out_tmp)
@@ -68,7 +90,7 @@ wolfpsort <- function(input_obj, organism = c('plant', 'animal', 'fungi'),
         ))
         full_pa <- mp$path_tibble$path
     }
-    
+
     wolf <-
         system(paste(full_pa,  organism, '<', out_tmp), intern = TRUE)
     

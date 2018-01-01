@@ -21,18 +21,21 @@ test_that("wolfpsort is ok and handles invalid inputs correctly",
           er_native <- check_khdel(inp, run_mode = 'starter')
           
           # run tests
-          expect_is(wolfpsort(step1_sp2, 'fungi'), 'WolfResult')
-          expect_is(wolfpsort(tm, 'fungi'), 'WolfResult')
-          expect_is(wolfpsort(step2_sp3, 'fungi'), 'WolfResult')
-          expect_is(wolfpsort(step1_sp2, 'plant'), 'WolfResult')
-          expect_is(wolfpsort(step1_sp2, 'animal'), 'WolfResult')
-          expect_is(wolfpsort(er, 'animal'), 'WolfResult')
-          expect_is(wolfpsort(er_native, 'animal'), 'WolfResult')
+          expect_is(wolfpsort(inp, 'fungi', run_mode = 'starter'), 'WolfResult')
+          expect_is(wolfpsort(step1_sp2, 'fungi', run_mode = 'starter'), 'WolfResult')
+          expect_is(wolfpsort(step1_sp2, 'fungi', run_mode = 'piper'), 'WolfResult')
+          expect_is(wolfpsort(tm, 'fungi', run_mode = 'piper'), 'WolfResult')
+          expect_is(wolfpsort(step2_sp3, 'fungi', run_mode = 'piper'), 'WolfResult')
+          expect_is(wolfpsort(step1_sp2, 'plant', run_mode = 'piper'), 'WolfResult')
+          expect_is(wolfpsort(step1_sp2, 'animal', run_mode = 'piper'), 'WolfResult')
+          expect_is(wolfpsort(er, 'animal', run_mode = 'piper'), 'WolfResult')
+          expect_is(wolfpsort(er_native, 'animal', run_mode = 'piper'), 'WolfResult')
           
-          expect_error(wolfpsort(aa[1:10], 'fungi'),
+
+          
+          expect_error(wolfpsort(aa[1:10], 'fungi', run_mode = 'piper'),
                        'input_object does not belong to CBSResult superclass')
-          expect_error(wolfpsort(inp, 'fungi'),
-                       'the input object contains empty out_fasta slot')
-          expect_error(wolfpsort(step1_sp2, 'plants'))
+          
+          expect_error(wolfpsort(step1_sp2, 'plants', run_mode = 'piper'))
           
           })

@@ -49,7 +49,7 @@ test_that("workflows work",
             
             # ------- #Step5: WoLFPsort
             
-            s5_wo <- wolfpsort(s4_tm, organism = 'fungi')
+            s5_wo <- wolfpsort(s4_tm, organism = 'fungi', run_mode = 'piper' )
             expect_is(s5_wo, 'WolfResult')
             
             # ------- #Step6: Check C-terminal ER-retention signals:
@@ -67,7 +67,7 @@ test_that("workflows work",
             
             # ------ #Step2: run WoLFPsort on the output:
             
-            s2_wo <- wolfpsort(s1_er, organism = 'fungi')
+            s2_wo <- wolfpsort(s1_er, organism = 'fungi', run_mode = 'piper')
             expect_is(s2_wo, 'WolfResult')
             
             

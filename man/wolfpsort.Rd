@@ -4,7 +4,8 @@
 \alias{wolfpsort}
 \title{predict subcellular protein localization with WoLFpsort}
 \usage{
-wolfpsort(input_obj, organism = c("plant", "animal", "fungi"), paths = NULL)
+wolfpsort(input_obj, organism = c("plant", "animal", "fungi"),
+  run_mode = c("starter", "piper"), paths = NULL)
 }
 \arguments{
 \item{input_obj}{Object of CSBResult class}
@@ -12,6 +13,9 @@ wolfpsort(input_obj, organism = c("plant", "animal", "fungi"), paths = NULL)
 \item{organism}{set relevant taxonomic group,
 options include: \strong{plant},
 \strong{animal}, \strong{fungi};}
+
+\item{run_mode}{\strong{starter} - if it is the first step in pipeline; \cr
+\strong{piper} - if you run this function on the output of other methods;}
 
 \item{paths}{if wolfpsort is not acessible globally, a file
 conatining a full path to it's executable should be provided; for details
@@ -40,5 +44,5 @@ inp <- CBSResult(in_fasta = aa[1:10])
 step1_sp2 <- signalp(inp, version = 2, organism ='euk',
 run_mode = "starter")
 # run wolfpsort on the signalp output:
-w <- wolfpsort(step1_sp2, 'fungi')
+w <- wolfpsort(step1_sp2, 'fungi', run_mode = 'piper')
 }
