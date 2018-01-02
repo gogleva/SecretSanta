@@ -14,7 +14,7 @@ test_that("terminal KHDEL/HDEL motifs are detected",
             # check valid inputs, starter mode on a CBSResult object:
 
             # check object with empty out_fasta:
-            expect_error(check_khdel(inp),
+            expect_error(check_khdel(inp, pattern = 'strict'),
               'the input object contains empty out_fasta slot'
             )
 
@@ -24,11 +24,11 @@ test_that("terminal KHDEL/HDEL motifs are detected",
                       version = 2,
                       organism = 'euk',
                       run_mode = "starter")
-            expect_is(check_khdel(sp), 'ErResult')
-            expect_message(check_khdel(sp),
+            expect_is(check_khdel(sp, pattern = 'prosite'), 'ErResult')
+            expect_message(check_khdel(sp, pattern = 'prosite'),
                            'Submitted sequences... 1')
             expect_message(
-              check_khdel(sp),
+              check_khdel(sp, pattern = 'strict'),
               'Sequences with terminal ER retention signals detected... 0'
             )
 
@@ -44,7 +44,7 @@ test_that("terminal KHDEL/HDEL motifs are detected",
                            run_mode = "starter")
             
             expect_message(
-              check_khdel(sp2),
+              check_khdel(sp2, pattern = 'prosite'),
               'Sequences with terminal ER retention signals detected... 2'
             )
             

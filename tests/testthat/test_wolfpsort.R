@@ -17,7 +17,7 @@ test_that("wolfpsort is ok and handles invalid inputs correctly",
                                run_mode = 'piper')
           #frozen tests
           tm <- tmhmm(step1_sp2, TM = 1)
-          er <- check_khdel(tm)
+          er <- check_khdel(tm, pattern = 'strict')
 
           # run tests
           expect_is(wolfpsort(inp, 'fungi', run_mode = 'starter'), 'WolfResult')

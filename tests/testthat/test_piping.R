@@ -21,8 +21,8 @@ test_that("workflows work",
             
             # ------- #Step3: check (K/H)DELs
             
-            result0 <- check_khdel(s2_tm0)
-            result1 <- check_khdel(s2_tm1)
+            result0 <- check_khdel(s2_tm0, pattern = 'strict')
+            result1 <- check_khdel(s2_tm1, pattern = 'strict')
             expect_is(result0, 'ErResult')
             expect_is(result1, 'ErResult')
             
@@ -54,7 +54,7 @@ test_that("workflows work",
             
             # ------- #Step6: Check C-terminal ER-retention signals:
             
-            s6_result <- check_khdel(s5_wo)
+            s6_result <- check_khdel(s5_wo, pattern = 'strict')
             expect_is(s6_result, 'CBSResult')
             
             
@@ -75,7 +75,7 @@ test_that("workflows work",
             
             # ------ #Step4: check (K/H)DEL
             
-            s4_khdel <- check_khdel(s3_tm)
+            s4_khdel <- check_khdel(s3_tm, pattern = 'strict')
             expect_is(s4_khdel, 'ErResult')
             
            
@@ -187,7 +187,7 @@ test_that("workflows work",
             # ----- exhaustive input tests for (K/H)DEL check:
             
             check_ER <- function(x, m) { 
-                result  <-  suppressMessages(check_khdel(x))
+                result  <-  suppressMessages(check_khdel(x, pattern = 'strict'))
                 return(is(result, 'CBSResult')) 
             }
             
