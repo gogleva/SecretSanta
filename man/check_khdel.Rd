@@ -4,13 +4,10 @@
 \alias{check_khdel}
 \title{check C-terminal ER-retention signals}
 \usage{
-check_khdel(input_obj, run_mode = c("starter", "piper"))
+check_khdel(input_obj)
 }
 \arguments{
 \item{input_obj}{input object of CBSResult class}
-
-\item{run_mode}{\strong{starter} - if it is the first step in a pipeline;
-\strong{piper} - if you run this function on the output of other CBS tools;}
 }
 \value{
 ErResult object
@@ -32,13 +29,6 @@ et_s <- check_khdel(inp,
 # generate signalp predictions:
 step1_sp2 <- signalp(et_s, version = 4, organism = 'euk', 
     run_mode = 'starter')
-# check ER retention signal in the signalp output, 
-# 'starter' mode 
-# (will process the in_fasta slot)
-et_sp <- check_khdel(step1_sp2, run_mode = 'starter')
-
-# check ER retention signal in the signalp output,
-# 'piper' mode:
-# (will process the out_fasta slot)
-et_piper <- check_khdel(step1_sp2, run_mode = 'piper')
+# check ER retention signal in the signalp output
+et_result <- check_khdel(step1_sp2)
 }

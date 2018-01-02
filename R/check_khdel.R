@@ -3,9 +3,6 @@
 #' This function checks the presence of terminal \strong{KDEL/HDEL} motifs in 
 #' the provided amino acid equences.
 #' @param input_obj input object of CBSResult class
-#' @param run_mode 
-#' \strong{starter} - if it is the first step in a pipeline;
-#' \strong{piper} - if you run this function on the output of other CBS tools;
 #' @return ErResult object
 #' @export
 #' @examples 
@@ -21,42 +18,27 @@
 #' # generate signalp predictions:
 #' step1_sp2 <- signalp(et_s, version = 4, organism = 'euk', 
 #'     run_mode = 'starter')
-#' # check ER retention signal in the signalp output, 
-#' # 'starter' mode 
-#' # (will process the in_fasta slot)
-#' et_sp <- check_khdel(step1_sp2, run_mode = 'starter')
-#' 
-#' # check ER retention signal in the signalp output,
-#' # 'piper' mode:
-#' # (will process the out_fasta slot)
-#' et_piper <- check_khdel(step1_sp2, run_mode = 'piper')
+#' # check ER retention signal in the signalp output
+#' et_result <- check_khdel(step1_sp2)
 
-check_khdel <- function(input_obj, run_mode = c('starter', 'piper')) {
-    
-    #--- set default run_mode to piper:
-
-    if (missing(run_mode)) {stop('missing argument: run_mode')}
-    run_mode = match.arg(run_mode)
+check_khdel <- function(input_obj) {
     
     # check the input
     if (is(input_obj, "CBSResult")) {} else {stop(
         'input_object does not belong to CBSResult superclass')
     }
+    
+    if (length(getOutfasta(input_obj)) == 0) {
+        stop('the input object contains empty out_fasta slot')
+    }
+    
     # starting message:
     message("checking for terminal ER retention signals...")
     
-    # determine which fasta to take
-    if (run_mode == 'piper') {
-        fasta <- getOutfasta(input_obj)
-    } else if (run_mode == 'starter'){
-        fasta <- getInfasta(input_obj)
-    }
+    # select out_fasta slot
+    fasta <- getOutfasta(input_obj)
     
     message(paste('Submitted sequences...', length(fasta)))
-    
-    if (length(fasta) == 0) {
-        stop('query fasta is empty, please check if run_mode value is correct')
-    }
     
     # find and remove termial ER retention motifs
     ER1 <- Biostrings::AAString('KDEL')

@@ -21,8 +21,8 @@ test_that("workflows work",
             
             # ------- #Step3: check (K/H)DELs
             
-            result0 <- check_khdel(s2_tm0, run_mode = 'piper')
-            result1 <- check_khdel(s2_tm1, run_mode = 'piper')
+            result0 <- check_khdel(s2_tm0)
+            result1 <- check_khdel(s2_tm1)
             expect_is(result0, 'ErResult')
             expect_is(result1, 'ErResult')
             
@@ -54,23 +54,31 @@ test_that("workflows work",
             
             # ------- #Step6: Check C-terminal ER-retention signals:
             
-            s6_result <- check_khdel(s5_wo, run_mode = 'piper')
+            s6_result <- check_khdel(s5_wo)
             expect_is(s6_result, 'CBSResult')
             
             
-            # ----- Reverse workflow: (K/H)DEL -> Wolf -> signalp4 -> TMHMM
+            # ----- Reverse workflow:  Wolf -> signalp4 -> TMHMM -> (K/H)DEL 
+    
+            # ------ #Step1: run WoLFPsort on the output:
             
-            # ------ #Step1: remove sequences with N-terminal ER-retention signals:
+            s1_wo <- wolfpsort(inp, organism = 'fungi', run_mode = 'starter')
+            expect_is(s1_wo, 'WolfResult')
             
-            s1_er <- check_khdel(inp, run_mode = 'starter')
-            expect_is(s1_er, c('CBSResult', 'ErResult'))
+            # ------ #Step2: run signalp4:
             
-            # ------ #Step2: run WoLFPsort on the output:
+            s2_sp4 <- signalp(s1_wo, organism = "euk", run_mode = 'piper', version = 4)
             
-            s2_wo <- wolfpsort(s1_er, organism = 'fungi', run_mode = 'piper')
-            expect_is(s2_wo, 'WolfResult')
+            # ------ #Step3: run TMHMM:
             
+            s3_tm <- tmhmm(s2_sp4, TM = 0)
             
+            # ------ #Step4: check (K/H)DEL
+            
+            s4_khdel <- check_khdel(s3_tm)
+            expect_is(s4_khdel, 'ErResult')
+            
+           
             # ----- Illegal workflows
             
             #------- #Start with TMHMM:
@@ -78,10 +86,10 @@ test_that("workflows work",
             expect_error(tmhmm(input_obj = inp, TM = 0),
                          'input_object does not belong to SignalpResult class')
             
-            expect_error(tmhmm(input_obj = s1_er, TM = 0),
+            expect_error(tmhmm(input_obj = s4_khdel, TM = 0),
                          'input_object does not belong to SignalpResult class')
             
-            expect_error(tmhmm(input_obj = s2_wo, paths = my_pa, TM = 1),
+            expect_error(tmhmm(input_obj = s3_tm, paths = my_pa, TM = 1),
                          'input_object does not belong to SignalpResult class')
             
             # ----- Exhaustive input tests
@@ -108,11 +116,11 @@ test_that("workflows work",
             # s1_tp - targetp output, SignalpResult object
             # s2_tm0 - TMHMM output, TMhmmResult object # === PIPER
             # s1_er - check K/HDEL output, ErResult object
-            # s2_wo - WolfPsort output, WolfResult object # === PIPER
+            # s2_wo - WolfPsort output, WolfResult object 
             
             # should be the same for all the tools, except TMHMM - this one can only pipe, so requires mature_fasta
             
-            valid_inputs <- list(s1_sp2, s1_sp3, s1_sp4, s2_tm0, s1_er, s2_wo, s1_tp)
+            valid_inputs <- list(s1_sp2, s1_sp3, s1_sp4, s2_tm0, s1_wo, s1_tp)
             
             check_sp <- function(x, v, m) {
                 result  <-  suppressMessages(
@@ -179,14 +187,14 @@ test_that("workflows work",
             # ----- exhaustive input tests for (K/H)DEL check:
             
             check_ER <- function(x, m) { 
-                result  <-  suppressMessages(check_khdel(x, run_mode = m))
+                result  <-  suppressMessages(check_khdel(x))
                 return(is(result, 'CBSResult')) 
             }
             
-            er_starters <- lapply(valid_inputs, check_ER, m = 'starter')
-            expect_true(all(unlist(er_starters)))
+            #er_starters <- lapply(valid_inputs, check_ER)
+            #expect_false(all(unlist(er_starters)))
             
-            er_pipers <- lapply(valid_inputs, check_ER, m = 'piper')
+            er_pipers <- lapply(valid_inputs, check_ER)
             expect_true(all(unlist(er_pipers)))
             
             

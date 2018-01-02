@@ -17,9 +17,8 @@ test_that("wolfpsort is ok and handles invalid inputs correctly",
                                run_mode = 'piper')
           #frozen tests
           tm <- tmhmm(step1_sp2, TM = 1)
-          er <- check_khdel(tm, run_mode = 'piper')
-          er_native <- check_khdel(inp, run_mode = 'starter')
-          
+          er <- check_khdel(tm)
+
           # run tests
           expect_is(wolfpsort(inp, 'fungi', run_mode = 'starter'), 'WolfResult')
           expect_is(wolfpsort(step1_sp2, 'fungi', run_mode = 'starter'), 'WolfResult')
@@ -29,8 +28,6 @@ test_that("wolfpsort is ok and handles invalid inputs correctly",
           expect_is(wolfpsort(step1_sp2, 'plant', run_mode = 'piper'), 'WolfResult')
           expect_is(wolfpsort(step1_sp2, 'animal', run_mode = 'piper'), 'WolfResult')
           expect_is(wolfpsort(er, 'animal', run_mode = 'piper'), 'WolfResult')
-          expect_is(wolfpsort(er_native, 'animal', run_mode = 'piper'), 'WolfResult')
-          
 
           
           expect_error(wolfpsort(aa[1:10], 'fungi', run_mode = 'piper'),
