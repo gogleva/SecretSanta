@@ -4,10 +4,17 @@
 \alias{check_khdel}
 \title{check C-terminal ER-retention signals}
 \usage{
-check_khdel(input_obj)
+check_khdel(input_obj, pattern = c("prosite", "elm", "strict"))
 }
 \arguments{
 \item{input_obj}{input object of CBSResult class}
+
+\item{pattern}{ER-pattern to check for:
+\itemize{
+\item \code{pattern = 'prosite'} - "[KRHQSA][DENQ]EL$>"
+\item \code{pattern = 'elm'} - "[KRHQSAP][DENQT]EL$"  
+\item \code{pattern = 'strict'} - "[KH]DEL$"
+}}
 }
 \value{
 ErResult object
@@ -29,6 +36,6 @@ et_s <- check_khdel(inp,
 # generate signalp predictions:
 step1_sp2 <- signalp(et_s, version = 4, organism = 'euk', 
     run_mode = 'starter')
-# check ER retention signal in the signalp output
-et_result <- check_khdel(step1_sp2)
+# check ER retention signal in the signalp output, PROSITE pattern
+et_result <- check_khdel(step1_sp2, pattern = 'prosite')
 }
