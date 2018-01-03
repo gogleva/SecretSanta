@@ -253,7 +253,8 @@ signalp <- function(input_obj,
 
             sp <-
                 tibble::as.tibble(read.table(text = (system(
-                    paste(full_pa, "-t", organism, out_tmp),
+                    paste(full_pa, "-t", organism, , 
+                          "-f short -trunc 70", out_tmp),
                     intern = TRUE
                 ))))
             names(sp) <- c("gene_id", "Cmax", "Cpos",
