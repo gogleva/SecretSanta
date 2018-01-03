@@ -30,11 +30,8 @@ the provided amino acid equences.
 aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta",
                                     package = "SecretSanta"))
 inp <- SignalpResult(in_fasta = aa[1:10])
-et_s <- check_khdel(inp,
-    run_mode = 'starter')
-
-# generate signalp predictions:
-step1_sp2 <- signalp(et_s, version = 4, organism = 'euk', 
+generate signalp predictions:
+step1_sp2 <- signalp(inp, version = 4, organism = 'euk', 
     run_mode = 'starter')
 # check ER retention signal in the signalp output, PROSITE pattern
 et_result <- check_khdel(step1_sp2, pattern = 'prosite')

@@ -4,8 +4,9 @@
 \alias{parse_signalp}
 \title{convert output of Signalp-2.0 and Signalp-3.0 to Signalp-4.0++ format}
 \usage{
-parse_signalp(input, input_type = c("path", "system_call"),
-  pred_filter = "Signal peptide")
+parse_signalp(input, input_type = c("path", "system_call"), method = c("nn",
+  "hmm"), pred_filter = "Signal peptide", version = c(2, 3),
+  source_fasta = NULL)
 }
 \arguments{
 \item{input}{output of the command line tools \code{signalp2} or \code{signalp3}/}
@@ -18,6 +19,12 @@ or \code{signalp3}
 or \code{signalp3} system call
 }}
 
+\item{method}{which prediction method to use. Options are:
+\itemize{
+\item \code{method = "hmm"} - for HMM-based predictions
+\item \code{method = "nn"} - for prediction based on neural networks
+}}
+
 \item{pred_filter}{filter for the type of prediction. Options are:
 \itemize{
 \item \code{pred_filter = "Signal peptide"}
@@ -25,6 +32,10 @@ or \code{signalp3} system call
 \item \code{pred_filter = "Non-secretory protein"}
 \item \code{pred_filter = "all"} - in case all three filter options shall be included
 }}
+
+\item{version}{version of SignalP used: 2.0 or 3.0}
+
+\item{source_fasta}{source fasta file, required to resque names when signalp2, nn method is used}
 }
 \value{
 parsed \code{signalp2}
@@ -51,10 +62,12 @@ parse_signalp(input = s_path, input_type = "path", pred_filter = "all")
 s_fasta <- system.file("extdata", "small_prot.fasta",
 package = "SecretSanta")
 # capture system call:
-con <- system(paste('signalp2 -t euk', s_fasta), intern = TRUE)
-
+con_hmm <- system(paste('signalp2 -t euk -f short -m hmm -trunc 70', s_fasta), intern = TRUE)
+con_nn <- system(paste('signalp3 -t euk -f short -m nn -trunc 70', s_fasta), intern = TRUE)
 # parse captured system call:
-parse_signalp(input = con, input_type = "system_call")
+parse_signalp(input = con_hmm, input_type = "system_call", method = 'hmm')
+parse_signalp(input = con_nn, input_type = "system_call",
+method = 'nn')
 }
 \seealso{
 \code{\link{signalp}}

@@ -24,6 +24,8 @@
 #' \item \code{pred_filter = "Non-secretory protein"}
 #' \item \code{pred_filter = "all"} - in case all three filter options shall be included
 #' }
+#' @param version version of SignalP used: 2.0 or 3.0
+#' @param source_fasta source fasta file, required to resque names when signalp2, nn method is used
 #' @return parsed \code{signalp2}
 #' or \code{signalp3} output, organised in a \code{\link[tibble]{tibble}} object.
 #' @export
@@ -42,7 +44,7 @@
 #' s_fasta <- system.file("extdata", "small_prot.fasta",
 #' package = "SecretSanta")
 #' # capture system call:
-#' con_hmm <- system(paste('signalp3 -t euk -f short -m hmm -trunc 70', s_fasta), intern = TRUE)
+#' con_hmm <- system(paste('signalp2 -t euk -f short -m hmm -trunc 70', s_fasta), intern = TRUE)
 #' con_nn <- system(paste('signalp3 -t euk -f short -m nn -trunc 70', s_fasta), intern = TRUE)
 #' # parse captured system call:
 #' parse_signalp(input = con_hmm, input_type = "system_call", method = 'hmm')
@@ -54,15 +56,34 @@ parse_signalp <-
     function(input,
              input_type = c('path', 'system_call'),
              method = c('nn', 'hmm'),
-             pred_filter = "Signal peptide") {
+             pred_filter = "Signal peptide",
+             version = c(2, 3),
+             source_fasta = NULL
+             ){
 
         input_type <- match.arg(input_type)
         
         if (missing(method)) {
             stop('missing argument: method')
         }
-        
         method <- match.arg(method)
+        
+        if (missing(version)) {
+            stop('missing argument: version')
+        }
+
+        # ----- source_fasta set to default or complain if not provided
+        # when sp2+nn
+        
+        if (all(version == 2, method == 'nn')) {
+            if (is.null(source_fasta)) {
+                stop("please provide source_fasta")
+            } else {
+                if (!(file.exists(source_fasta))) {
+                    stop('source_fasta file does not exist, please check the supplied file name')
+                }
+            }
+        }
 
         if (!is.element(input_type, c('path', 'system_call')))
           stop("please specify either input_type = 'path' or input_type = 'system_call'.", call. = FALSE)
@@ -71,7 +92,6 @@ parse_signalp <-
           stop("please provide a valid filter type ...", call. = FALSE)
 
         message("signalp output is imported and filter '", pred_filter,"' is applied ...")
-        ## branching point - parse differently, depending on the method
         
         # read data
         if (input_type == 'path') {
@@ -82,18 +102,39 @@ parse_signalp <-
             data <- read.table(tmp_con)
         }
         
+        # testing:
+        inp2_nn <- system(paste('signalp2 -t euk -f short -m nn -trunc 70', s_fasta), intern = TRUE)
+        inp3_nn <- system(paste('signalp3 -t euk -f short -m nn -trunc 70', s_fasta), intern = TRUE)   
         
-        # # check that there are no duplicated gene ids:
-        if (any(duplicated(data$V1))) {
-             stop('gene_ids vector contains duplicated elements ...', ... call. = FALSE)
-        }
-        
+        # proceed differently, depending on a prediction method selected
         if (method == 'nn') {
-            names(data) <- c('gene_id', 'Cmax', 'Cpos',
-                             'd1', 'Ymax', 'Ypos', 'd3',
-                             'Smax', 'Spos', 'd4', 'Smean',
-                             'd5', 'D', 'Prediction_YN'
+            
+            if (version == 2) {
+                # we need to rescue seqeunce names, nn method crops
+                # them too much and can create duplicate gene_ids when
+                # siganlp2 is used
+                
+                names(data) <- c('gene_id', 'Cmax', 'Cpos',
+                                 'C_pred', 'Ymax', 'Ypos', 'Y_pred',
+                                 'Smax', 'Spos', 'S_pred', 'Smean',
+                                 'S_predm')
+                
+                data$Prediction_YN <- data$Ymax 
+                
+                fasta <- readAAStringSet(source_fasta)
+                cropped_names <- unname(sapply(names(fasta), crop_names))
+                data$gene_id <- cropped_names
+                
+            } else {
+                
+           names(data) <- c('gene_id', 'Cmax', 'Cpos',
+                             'C_pred', 'Ymax', 'Ypos', 'Y_pred',
+                             'Smax', 'Spos', 'S_pred', 'Smean',
+                             'S_predm', 'D', 'Prediction_YN'
                              )
+            }
+
+            
             data$Sprob <- data$Prediction <- NA
             data <- as.tibble(data) %>% 
                 dplyr::mutate(
@@ -116,6 +157,14 @@ parse_signalp <-
                 Prediction == 'A' ~ "Signal anchor",
                 Prediction == 'Q' ~ "Non-secretory protein"))
         }
+        
+        # check that there are no duplicated gene ids:
+        if (any(duplicated(data$gene_id))) {
+            stop('gene_ids vector contains duplicated elements ...', 
+                 call. = FALSE)
+        }
+        
+        # reformat table to be compatible with siganlp4++ output
         
         gene_id <- Cmax <- Cpos <- Ymax <- Ypos <- Smax <- NULL
         Spos <- Smean <- Prediction <- Prediction_YN <- NULL
