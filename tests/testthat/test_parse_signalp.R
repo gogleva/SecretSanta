@@ -33,7 +33,7 @@ test_that("signalp outputs are correctly parsed for system calls",
               parse_signalp(input = hmm_in, input_type = i_type,
                             method = 'hmm', version = version)
             expect_is(parse_hmm_system, 'tbl')
-            expect_equal(ncol(parse_hmm_system), 10)
+            expect_equal(ncol(parse_hmm_system), 9)
             expect_true(all(parse_hmm_system$Prediction == 'Signal peptide'))
 
             expect_error(
@@ -52,7 +52,7 @@ test_that("signalp outputs are correctly parsed for system calls",
                 parse_signalp(input = nn_in, input_type = i_type,
                               method = 'nn', version = version, source_fasta = s_fasta)
             expect_is(parse_nn_system, 'tbl')
-            expect_equal(ncol(parse_nn_system), 10)
+            expect_equal(ncol(parse_nn_system), 9)
             expect_true(all(parse_nn_system$Prediction == 'Signal peptide'))
             
             #check that all the fields are present:
@@ -64,8 +64,7 @@ test_that("signalp outputs are correctly parsed for system calls",
                         "Smax",
                         "Spos",
                         "Smean",
-                        "Prediction",
-                        "Prediction_YN")
+                        "Prediction")
             expect_equal(names(parse_hmm_system), fields)
             expect_equal(names(parse_nn_system), fields)
             
