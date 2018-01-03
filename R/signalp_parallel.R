@@ -120,6 +120,11 @@ combine_SpResult <- function(arguments) {
 #' }
 #' Default is \code{truncate = TRUE}.
 #' @param cores number of cores for multicore processing. Default is \code{cores = 1}.
+#' @param legacymethod optional argument, which prediction method to use when running SiganlP 2.0 and SignalP 3.0:
+#' \itemize{
+#' \item \code{legacy_method = "hmm"} - for HMM-based predictions
+#' \item \code{legacy_method = "nn"} - for prediction based on neural networks
+#' }
 #' @return an object of SignalpResult class
 #' @export
 #' @examples
@@ -130,7 +135,9 @@ combine_SpResult <- function(arguments) {
 #' # of empty CBSResult object
 #' inp <- CBSResult(in_fasta = aa[1:10])
 #' # run signalp2 on the initial file:
-#' r1 <- signalp(inp, version = 2, organism = 'euk', run_mode = "starter")
+#' r1 <- signalp(inp, version = 2, organism = 'euk', run_mode = "starter",
+#' legacy_method = 'hmm')
+#' r4 <- signalp(inp, version = 4, organism = 'euk', run_mode = "starter")
 #' @seealso \code{\link{parse_signalp}}
 
 signalp <- function(input_obj,
@@ -139,7 +146,8 @@ signalp <- function(input_obj,
                     run_mode = c('starter', 'piper'),
                     paths = NULL,
                     truncate = NULL,
-                    cores = 1) {
+                    cores = 1,
+                    legacy_method) {
 
   if (!is.numeric(cores))
     stop('cores argument must be numeric', call. = FALSE)
@@ -152,10 +160,8 @@ signalp <- function(input_obj,
       cores,
       " cores. please fix ...",
       call. = FALSE
-
     )
-
-
+    
     # ----- Check that inputs are valid
     # arguments are present and have valid values:
     if (missing(organism)) {
@@ -168,12 +174,13 @@ signalp <- function(input_obj,
     if (missing(run_mode)) {
         stop('missing argument: run_mode', call. = FALSE)
     }
-
+    
     if (!is.element(run_mode, c("starter", "piper")))
       stop("please specify a run_mode that is supported by this function ...", call. = FALSE)
     organism <- match.arg(organism)
     run_mode <- match.arg(run_mode)
 
+    
     # check that input object belongs to CBSResult class
     if (is(input_obj, "CBSResult")) {
     } else {
@@ -267,8 +274,15 @@ signalp <- function(input_obj,
             # running signalp versions 2 and 3, call parse_signalp
             message('signalp < 4, calling parser for the output...')
             con <-
-                system(paste(full_pa, "-t", organism, out_tmp), intern = TRUE)
-            sp <- parse_signalp(input = con, input_type = "system_call", pred_filter = "Signal peptide")
+                system(paste(full_pa, "-t", organism, "-f short -trunc 70",
+                             "-m", legacy_method, out_tmp), intern = TRUE)
+
+            sp <- parse_signalp(input = con,
+                                input_type = "system_call",
+                                version = version,
+                                method = legacy_method,
+                                source_fasta = out_tmp,
+                                pred_filter = "Signal peptide")
         }
 
         message(paste('Candidate sequences with signal peptides...', nrow(sp)))

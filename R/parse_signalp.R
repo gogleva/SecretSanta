@@ -25,7 +25,7 @@
 #' \item \code{pred_filter = "all"} - in case all three filter options shall be included
 #' }
 #' @param version version of SignalP used: 2.0 or 3.0
-#' @param source_fasta source fasta file, required to resque names when signalp2, nn method is used
+#' @param source_fasta source fasta file, required to rescue names when signalp2, nn method is used
 #' @return parsed \code{signalp2}
 #' or \code{signalp3} output, organised in a \code{\link[tibble]{tibble}} object.
 #' @export
@@ -66,6 +66,7 @@ parse_signalp <-
         if (missing(method)) {
             stop('missing argument: method')
         }
+        
         method <- match.arg(method)
         
         if (missing(version)) {
@@ -139,8 +140,7 @@ parse_signalp <-
                 dplyr::mutate(
                     Prediction = ifelse(Prediction_YN == 'Y',
                                         "Signal peptide", NA))
-            
-            
+        
         } else if (method == 'hmm') {
             # narrow table
             names(data) <- c('gene_id', 'Prediction', 'Cmax',
@@ -166,7 +166,7 @@ parse_signalp <-
         # reformat table to be compatible with siganlp4++ output
         
         gene_id <- Cmax <- Cpos <- Ymax <- Ypos <- Smax <- NULL
-        Spos <- Smean <- Prediction <- Prediction_YN <- NULL
+        Spos <- Smean <- Prediction <- NULL
         res <- dplyr::select(data, gene_id, Cmax,
                              Cpos, Ymax, Ypos, Smax,
                              Spos, Smean, Prediction)             
