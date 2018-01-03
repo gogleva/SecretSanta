@@ -21,18 +21,25 @@ test_that("signalp correctly responds to invalid inputs",
                                                 version = 2, 
                                                 run_mode = "starter")),
                        "input_object does not belong to CBSResult superclass")
+          expect_error(suppressMessages(signalp(inp,
+                                             version = 2,
+                                             organism = 'euk',
+                                             run_mode = "starter")),
+                    'argument "legacy_method" is missing, with no default')
           
           # test starters with valid input options:
           
           expect_is(suppressMessages(signalp(inp,
                                              version = 2,
                                              organism = 'euk',
-                                             run_mode = "starter")),
+                                             run_mode = "starter",
+                                             legacy_method = 'hmm')),
                                              "SignalpResult")
           expect_is(suppressMessages(signalp(inp,
                                              version = 3,
                                              organism = 'euk',
-                                             run_mode = "starter")),
+                                             run_mode = "starter",
+                                             legacy_method = 'hmm')),
                                              "SignalpResult")
           expect_is(suppressMessages(signalp(inp,
                                              version = 4,
@@ -43,7 +50,8 @@ test_that("signalp correctly responds to invalid inputs",
           expect_is(suppressMessages(signalp(inp,
                                              version = 3.0,
                                              organism = 'euk',
-                                             run_mode = "starter")), 
+                                             run_mode = "starter",
+                                             legacy_method = 'hmm')), 
                                              "SignalpResult")
           
           # test pipers with valid input options:
@@ -51,12 +59,15 @@ test_that("signalp correctly responds to invalid inputs",
           s1_sp2 <- signalp(inp,
                             version = 2, 
                             organism = 'euk',
-                            run_mode = "starter")
+                            run_mode = "starter",
+                            legacy_method = 'hmm')
           expect_is(s1_sp2, "SignalpResult")
+          
           s2_sp3 <- signalp(s1_sp2,
                             version = 3,
                             organism = 'euk',
-                            run_mode = "piper")
+                            run_mode = "piper",
+                            legacy_method = 'hmm')
           expect_is(s2_sp3, "SignalpResult")
           s3_sp4 <- signalp(s2_sp3,
                             version = 4,
