@@ -42,7 +42,7 @@ Default is \code{truncate = TRUE}.}
 
 \item{cores}{number of cores for multicore processing. Default is \code{cores = 1}.}
 
-\item{legacymethod}{optional argument, which prediction method to use when running SiganlP 2.0 and SignalP 3.0:
+\item{legacy_method}{optional argument, which prediction method to use when running SiganlP 2.0 and SignalP 3.0:
 \itemize{
 \item \code{legacy_method = "hmm"} - for HMM-based predictions
 \item \code{legacy_method = "nn"} - for prediction based on neural networks

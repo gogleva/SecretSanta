@@ -103,10 +103,6 @@ parse_signalp <-
             data <- read.table(tmp_con)
         }
         
-        # testing:
-        inp2_nn <- system(paste('signalp2 -t euk -f short -m nn -trunc 70', s_fasta), intern = TRUE)
-        inp3_nn <- system(paste('signalp3 -t euk -f short -m nn -trunc 70', s_fasta), intern = TRUE)   
-        
         # proceed differently, depending on a prediction method selected
         if (method == 'nn') {
             

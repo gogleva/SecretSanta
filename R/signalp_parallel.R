@@ -120,7 +120,7 @@ combine_SpResult <- function(arguments) {
 #' }
 #' Default is \code{truncate = TRUE}.
 #' @param cores number of cores for multicore processing. Default is \code{cores = 1}.
-#' @param legacymethod optional argument, which prediction method to use when running SiganlP 2.0 and SignalP 3.0:
+#' @param legacy_method optional argument, which prediction method to use when running SiganlP 2.0 and SignalP 3.0:
 #' \itemize{
 #' \item \code{legacy_method = "hmm"} - for HMM-based predictions
 #' \item \code{legacy_method = "nn"} - for prediction based on neural networks
@@ -253,7 +253,7 @@ signalp <- function(input_obj,
 
             sp <-
                 tibble::as.tibble(read.table(text = (system(
-                    paste(full_pa, "-t", organism, , 
+                    paste(full_pa, "-t", organism,
                           "-f short -trunc 70", out_tmp),
                     intern = TRUE
                 ))))

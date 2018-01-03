@@ -41,6 +41,7 @@ test_that("signalp correctly responds to invalid inputs",
                                              run_mode = "starter",
                                              legacy_method = 'hmm')),
                                              "SignalpResult")
+          
           expect_is(suppressMessages(signalp(inp,
                                              version = 4,
                                              organism = 'euk',
