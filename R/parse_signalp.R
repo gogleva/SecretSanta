@@ -12,6 +12,11 @@
 #' \item \code{input_type = "system_call"} - output from the \code{signalp2}
 #' or \code{signalp3} system call
 #' }
+#' @param method which prediction method to use. Options are:
+#' \itemize{
+#' \item \code{method = "hmm"} - for HMM-based predictions
+#' \item \code{method = "nn"} - for prediction based on neural networks
+#' }
 #' @param pred_filter filter for the type of prediction. Options are:
 #' \itemize{
 #' \item \code{pred_filter = "Signal peptide"}
@@ -37,18 +42,27 @@
 #' s_fasta <- system.file("extdata", "small_prot.fasta",
 #' package = "SecretSanta")
 #' # capture system call:
-#' con <- system(paste('signalp2 -t euk', s_fasta), intern = TRUE)
-#'
+#' con_hmm <- system(paste('signalp3 -t euk -f short -m hmm -trunc 70', s_fasta), intern = TRUE)
+#' con_nn <- system(paste('signalp3 -t euk -f short -m nn -trunc 70', s_fasta), intern = TRUE)
 #' # parse captured system call:
-#' parse_signalp(input = con, input_type = "system_call")
+#' parse_signalp(input = con_hmm, input_type = "system_call", method = 'hmm')
+#' parse_signalp(input = con_nn, input_type = "system_call",
+#' method = 'nn')
 #' @seealso \code{\link{signalp}}
 
 parse_signalp <-
     function(input,
              input_type = c('path', 'system_call'),
+             method = c('nn', 'hmm'),
              pred_filter = "Signal peptide") {
 
         input_type <- match.arg(input_type)
+        
+        if (missing(method)) {
+            stop('missing argument: method')
+        }
+        
+        method <- match.arg(method)
 
         if (!is.element(input_type, c('path', 'system_call')))
           stop("please specify either input_type = 'path' or input_type = 'system_call'.", call. = FALSE)
@@ -57,119 +71,67 @@ parse_signalp <-
           stop("please provide a valid filter type ...", call. = FALSE)
 
         message("signalp output is imported and filter '", pred_filter,"' is applied ...")
-        # helper functions----
-        # helper function to rescue gene ids
-        clean_geneids <- function(x) {
-            gsub('>', '', unlist(strsplit(x, " "))[1])
-        }
-
-        # helper function to parse C-score, Y-score and S-score:
-        # split line with varibale number of spaces
-        clean_score <- function(x) {
-            as.numeric(strsplit(x, "\\s+")[[1]][c(4, 5)])
-        }
-
-        # helper function to get signal peptide cleavage site (from HMM prediction)
-        # NN predictions often output wrong coordinates
-        clean_cleavege <- function(x) {
-            as.numeric(tail(unlist(strsplit(x, "\\s+")), n = 1))
-        }
-
-        # helper function to parse S mean
-        clean_mean <- function(x) { strsplit(x, "\\s+")[[1]][c(4, 5)]}
-
-        # helper function to parse prediction summary:
-        clean_status <- function(x) { gsub('Prediction: ', '', x) }
-
-        # end of helper functions----
-
+        ## branching point - parse differently, depending on the method
+        
         # read data
         if (input_type == 'path') {
-            data <- readLines(input)
+            data <- read.table(input)
         } else if (input_type == 'system_call') {
-            data <- input #system call already captured in a character object
+            tmp_con <- tempfile()
+            write(input, tmp_con) # put everything in a tmp file
+            data <- read.table(tmp_con)
         }
-
-        # extract gene ids
-        gene_ids <- data[(grep("SignalP-HMM result:", data) + 1)]
-        gene_ids_fixed <- (sapply(gene_ids, clean_geneids, USE.NAMES = FALSE))
-
-        # check that there are no duplicated gene ids:
-        if (any(duplicated(gene_ids))) {
-            stop('gene_ids vector contains duplicated elements ...', call. = FALSE)
+        
+        
+        # # check that there are no duplicated gene ids:
+        if (any(duplicated(data$V1))) {
+             stop('gene_ids vector contains duplicated elements ...', ... call. = FALSE)
         }
-
-        # clean the remaining fields in a more optimal/functional way
-
-        # organise cleaning functions in a list:
-        clean_stats_fun <- list(clean_cleavege, clean_mean, clean_status)
-
-        # helper function to grep plain text data by mathcing patterns
-        grep_data <- function(grep_expr) {data[grep(grep_expr, data)]}
-
-        # key hooks to grep the lines with required info
-        grep_param <- c("max. C", "max. Y", "max. S",
-                        "Max cleavage site probability:", "mean S",
-                        "Prediction: ")
-
-        arg_list <- lapply(grep_param, grep_data)
-
-        # 2 separate maps:
-
-        # one to map a list of functions over a list of lines;
-        map_stats <- Map(function(x,y) sapply(y, x, USE.NAMES = FALSE),
-                         clean_stats_fun, arg_list[4:6])
-        names(map_stats) <- c("C_pos", "mean_S_fixed", "Status_fixed")
-
-        # map clean_score over a list of lines and transpose the output
-        map_scores <- Map(function(x) t(sapply(x, clean_score, USE.NAMES = FALSE)),
-                          arg_list[1:3])
-        names(map_scores) <- c("C_max_fixed", "Y_max_fixed", "S_max_fixed")
-
-        ## This is not super elegant, but works - apply transposition better
-
-        res <- tibble::as_tibble(data.frame(
-            gene_ids_fixed,
-            map_scores$C_max_fixed[ ,2],
-            map_stats$C_pos,
-            map_scores$Y_max_fixed,
-            map_scores$S_max_fixed,
-            t(map_stats$mean_S_fixed),
-            map_stats$Status_fixed
-        ))
-
-        names(res) <- c(
-            "gene_id",
-            "Cmax",
-            "Cpos",
-            "Ypos",
-            "Ymax",
-            "Spos",
-            "Smax",
-            "Srange",
-            "Smean",
-            "Prediction"
-        )
-
-        #re-order columns to match signalp4 output
+        
+        if (method == 'nn') {
+            names(data) <- c('gene_id', 'Cmax', 'Cpos',
+                             'd1', 'Ymax', 'Ypos', 'd3',
+                             'Smax', 'Spos', 'd4', 'Smean',
+                             'd5', 'D', 'Prediction_YN'
+                             )
+            data$Sprob <- data$Prediction <- NA
+            data <- as.tibble(data) %>% 
+                dplyr::mutate(
+                    Prediction = ifelse(Prediction_YN == 'Y',
+                                        "Signal peptide", NA))
+            
+            
+        } else if (method == 'hmm') {
+            # narrow table
+            names(data) <- c('gene_id', 'Prediction', 'Cmax',
+                             'Cpos', 'v5', 'Sprob', 'Prediction_YN')
+            # columns absent from the hmm-output
+            data$Ymax <- data$Ypos <- data$Smax <-
+                data$Spos <- data$Smean <- NA
+            
+            # replace SQA codes to be consistent with nn output
+            data <- as_tibble(data) %>% 
+                dplyr::mutate(Prediction = case_when(
+                Prediction == 'S' ~ "Signal peptide",
+                Prediction == 'A' ~ "Signal anchor",
+                Prediction == 'Q' ~ "Non-secretory protein"))
+        }
+        
         gene_id <- Cmax <- Cpos <- Ymax <- Ypos <- Smax <- NULL
-        Spos <- Smean <- Prediction <- NULL
-        res <- dplyr::select(res, gene_id, Cmax, Cpos,
-                     Ymax, Ypos, Smax,
-                     Spos, Smean, Prediction)
-
-
+        Spos <- Smean <- Prediction <- Prediction_YN <- NULL
+        res <- dplyr::select(data, gene_id, Cmax,
+                             Cpos, Ymax, Ypos, Smax,
+                             Spos, Smean, Prediction, Prediction_YN)             
         #filter entries predicted to contain signal peptide
         if (pred_filter != "all")
-          res <- dplyr::filter(res, Prediction == pred_filter)
+        res <- dplyr::filter(res, Prediction == pred_filter)
         if (pred_filter == "all")
-          res <- dplyr::filter(res, Prediction %in% c("Signal peptide", "Signal anchor", "Non-secretory protein"))
-
-
-          #res <- res[res$Prediction == 'Signal peptide',]
+        res <- dplyr::filter(res, Prediction %in% c("Signal peptide", "Signal anchor", "Non-secretory protein"))
 
         #Smean to numeric
         res$Smean <- as.numeric(as.character(res$Smean))
         message("import completed!")
         return(res)
     }
+    
+
