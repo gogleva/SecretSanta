@@ -10,11 +10,13 @@ test_that("wolfpsort is ok and handles invalid inputs correctly",
           step1_sp2 <- signalp(inp,
                                version = 2,
                                organism = 'euk',
-                               run_mode = "starter")
+                               run_mode = "starter",
+                               legacy_method = 'hmm')
           step2_sp3 <- signalp(step1_sp2,
                                version = 3,
                                organism = 'euk',
-                               run_mode = 'piper')
+                               run_mode = 'piper',
+                               legacy_method = 'hmm')
           #frozen tests
           tm <- tmhmm(step1_sp2, TM = 1)
           er <- check_khdel(tm, pattern = 'strict')

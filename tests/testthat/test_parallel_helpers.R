@@ -13,20 +13,23 @@ test_that("combine_SignalpResult works as intended",
               input_obj = inp2,
               version = 2,
               organism = 'euk',
-              run_mode = 'starter'
+              run_mode = 'starter',
+              legacy_method = 'hmm'
             )
             
             sp2 <- signalp(
               input_obj = inp3,
               version = 2,
               organism = 'euk',
-              run_mode = 'starter'
+              run_mode = 'starter',
+              legacy_method = 'hmm'
             )
             sp3 <- suppressWarnings(signalp(
               input_obj = inp4,
               version = 2,
               organism = 'euk',
-              run_mode = 'starter'
+              run_mode = 'starter',
+              legacy_method = 'hmm'
             ))
             
             obj <- list(sp1, sp2, sp3)

@@ -35,7 +35,8 @@ test_that("targetp correctly responds to invalid inputs",
              s1_sp2 <- signalp(inp,
                                version = 2,
                                organism = 'euk',
-                               run_mode = "starter")
+                               run_mode = "starter",
+                               legacy_method = 'hmm')
              s2_tp <- targetp(s1_sp2,
                               network = 'P',
                               run_mode = "piper")

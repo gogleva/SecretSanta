@@ -10,7 +10,8 @@ test_that("tmhmm outputs are correctly parsed for system calls",
           s1_sp2 <- signalp(inp,
                             version = 2, 
                             organism = 'euk',
-                            run_mode = "starter")
+                            run_mode = "starter",
+                            legacy_method = 'hmm')
             
           # run tmhmm on the output of signalp step  
           expect_is(tmhmm(s1_sp2, TM = 1), 'TMhmmResult')

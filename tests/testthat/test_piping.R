@@ -29,12 +29,14 @@ test_that("workflows work",
             # ----- Stringent workflow: sp2 -> sp3 -> sp4 -> TMHMM -> wolf -> (K/H)DEL
             
             # ------- #Step1: signalp2
-            s1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter")
+            s1_sp2 <- signalp(inp, version = 2, 'euk', run_mode = "starter",
+                              legacy_method = 'hmm')
             expect_is(s1_sp2, 'SignalpResult')
             
             # ------- #Step2: signalp3
             
-            s2_sp3 <- signalp(s1_sp2, version = 3, 'euk', run_mode = 'piper')
+            s2_sp3 <- signalp(s1_sp2, version = 3, 'euk', run_mode = 'piper',
+                              legacy_method = 'nn')
             expect_is(s2_sp3, 'SignalpResult')
             
             # ------- #Step3: signalp4
@@ -96,7 +98,8 @@ test_that("workflows work",
             
             # Create missing input types:
             
-            s1_sp3 <- signalp(inp, version = 3, 'euk', run_mode = "starter")
+            s1_sp3 <- signalp(inp, version = 3, 'euk', run_mode = "starter",
+                              legacy_method = 'hmm')
             expect_is(s1_sp3, 'SignalpResult')
             
             s1_tp <- targetp(inp, network = 'N', run_mode = 'starter')
@@ -125,7 +128,7 @@ test_that("workflows work",
             check_sp <- function(x, v, m) {
                 result  <-  suppressMessages(
                                 signalp(x, version = v, organism = 'euk',
-                                        run_mode = m)
+                                        run_mode = m, legacy_method = 'hmm')
                                                         )
                                 return(is(result, 'CBSResult')) 
                                      } 

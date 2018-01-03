@@ -23,7 +23,8 @@ test_that("terminal KHDEL/HDEL motifs are detected",
               signalp(inp,
                       version = 2,
                       organism = 'euk',
-                      run_mode = "starter")
+                      run_mode = "starter",
+                      legacy_method = 'hmm')
             expect_is(check_khdel(sp, pattern = 'prosite'), 'ErResult')
             expect_message(check_khdel(sp, pattern = 'prosite'),
                            'Submitted sequences... 1')
@@ -41,7 +42,8 @@ test_that("terminal KHDEL/HDEL motifs are detected",
             sp2 <- signalp(inp,
                            version = 2,
                            organism = 'euk',
-                           run_mode = "starter")
+                           run_mode = "starter",
+                           legacy_method = 'hmm')
             
             expect_message(
               check_khdel(sp2, pattern = 'prosite'),

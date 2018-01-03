@@ -14,7 +14,8 @@ test_that("m-slicer treats input objects correctly",
             s1_sp2 <- signalp(inp,
                               version = 2,
                               organism = 'euk',
-                              run_mode = "starter")
+                              run_mode = "starter",
+                              legacy_method = 'hmm')
             
             # test with valid inputs
             
