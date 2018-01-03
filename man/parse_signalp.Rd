@@ -35,7 +35,7 @@ or \code{signalp3} system call
 
 \item{version}{version of SignalP used: 2.0 or 3.0}
 
-\item{source_fasta}{source fasta file, required to resque names when signalp2, nn method is used}
+\item{source_fasta}{source fasta file, required to rescue names when signalp2, nn method is used}
 }
 \value{
 parsed \code{signalp2}
@@ -49,12 +49,12 @@ Alternatively, \code{parse_signalp} can be called independently on outputs of
 }
 \examples{
 # Example 1: parse signalp2 output, stored in a file:
-s_path <- system.file("extdata", "sample_prot_signalp2_out2",
+s_path <- system.file("extdata", "sample_prot_sp2_hmm_out",
 package = "SecretSanta")
-parse_signalp(input = s_path, input_type = "path", pred_filter = "Signal anchor")
+parse_signalp(input = s_path, input_type = "path", pred_filter = "Signal peptide", version = 3, method = 'hmm')
 
 # alternatively users can select for all prediction filters
-parse_signalp(input = s_path, input_type = "path", pred_filter = "all")
+parse_signalp(input = s_path, input_type = "path", pred_filter = "all", method = 'hmm', version = 2)
 
 # Example2: parse signalp2 output
 # captured in a system call. Note, here we assume that
@@ -65,9 +65,9 @@ package = "SecretSanta")
 con_hmm <- system(paste('signalp2 -t euk -f short -m hmm -trunc 70', s_fasta), intern = TRUE)
 con_nn <- system(paste('signalp3 -t euk -f short -m nn -trunc 70', s_fasta), intern = TRUE)
 # parse captured system call:
-parse_signalp(input = con_hmm, input_type = "system_call", method = 'hmm')
+parse_signalp(input = con_hmm, input_type = "system_call", method = 'hmm', version = 2)
 parse_signalp(input = con_nn, input_type = "system_call",
-method = 'nn')
+method = 'nn', version = 3, pred_filter = 'all')
 }
 \seealso{
 \code{\link{signalp}}

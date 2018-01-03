@@ -6,7 +6,7 @@
 \usage{
 signalp(input_obj, version, organism = c("euk", "gram+", "gram-"),
   run_mode = c("starter", "piper"), paths = NULL, truncate = NULL,
-  cores = 1)
+  cores = 1, legacy_method)
 }
 \arguments{
 \item{input_obj}{an instance of class \code{CBSResult} containing protein
@@ -41,6 +41,12 @@ truncated to this length limit and renamed
 Default is \code{truncate = TRUE}.}
 
 \item{cores}{number of cores for multicore processing. Default is \code{cores = 1}.}
+
+\item{legacymethod}{optional argument, which prediction method to use when running SiganlP 2.0 and SignalP 3.0:
+\itemize{
+\item \code{legacy_method = "hmm"} - for HMM-based predictions
+\item \code{legacy_method = "nn"} - for prediction based on neural networks
+}}
 }
 \value{
 an object of SignalpResult class
@@ -62,7 +68,9 @@ package = "SecretSanta"))
 # of empty CBSResult object
 inp <- CBSResult(in_fasta = aa[1:10])
 # run signalp2 on the initial file:
-r1 <- signalp(inp, version = 2, organism = 'euk', run_mode = "starter")
+r1 <- signalp(inp, version = 2, organism = 'euk', run_mode = "starter",
+legacy_method = 'hmm')
+r4 <- signalp(inp, version = 4, organism = 'euk', run_mode = "starter")
 }
 \seealso{
 \code{\link{parse_signalp}}
