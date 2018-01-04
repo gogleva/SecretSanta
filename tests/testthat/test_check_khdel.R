@@ -25,6 +25,7 @@ test_that("terminal KHDEL/HDEL motifs are detected",
                       organism = 'euk',
                       run_mode = "starter",
                       legacy_method = 'hmm')
+            
             expect_is(check_khdel(sp, pattern = 'prosite'), 'ErResult')
             expect_message(check_khdel(sp, pattern = 'prosite'),
                            'Submitted sequences... 1')

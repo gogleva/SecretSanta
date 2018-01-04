@@ -125,6 +125,12 @@ combine_SpResult <- function(arguments) {
 #' \item \code{legacy_method = "hmm"} - for HMM-based predictions
 #' \item \code{legacy_method = "nn"} - for prediction based on neural networks
 #' }
+#' @param sensitive optional argument, a logical indicating:
+#' \itemize{
+#' \item \code{sensitive = TRUE} - if SignalP version 4.1 is used, it will be run in sensitive mode ().
+#' \item \code{sensitive = FALSE} - if SignalP version 4.1 is used, it will be run with the default cut-off.
+#' }
+#' Default is \code{sensitive = FALSE}. For more details about SignalP 4.1 sensitive mode please see \url{http://www.cbs.dtu.dk/services/SignalP/performance.php}
 #' @return an object of SignalpResult class
 #' @export
 #' @examples
@@ -147,6 +153,7 @@ signalp <- function(input_obj,
                     paths = NULL,
                     truncate = NULL,
                     cores = 1,
+                    sensitive = FALSE,
                     legacy_method) {
 
   if (!is.numeric(cores))
@@ -204,9 +211,9 @@ signalp <- function(input_obj,
     }
 
     # check that version number is valid:
-    if (is.element(version, c(2, 3, 4))) {
+    if (is.element(version, c(2, 3, 4, 4.1))) {
     } else {
-        stop('version is invalid, allowed versions: c(2,3,4)', call. = FALSE)
+        stop('version is invalid, allowed versions: c(2, 3, 4, 4.1)', call. = FALSE)
     }
 
     # ----- Set default value for parameters if not provided:
@@ -250,7 +257,8 @@ signalp <- function(input_obj,
 
         if (version == 4) {
             # runing signalp versios 4 and 4.1, potentially should work for 5
-
+            # check actual version of the tool used:
+            
             sp <-
                 tibble::as.tibble(read.table(text = (system(
                     paste(full_pa, "-t", organism, out_tmp),

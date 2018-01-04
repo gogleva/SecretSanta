@@ -6,7 +6,7 @@
 \usage{
 signalp(input_obj, version, organism = c("euk", "gram+", "gram-"),
   run_mode = c("starter", "piper"), paths = NULL, truncate = NULL,
-  cores = 1, legacy_method)
+  cores = 1, sensitive = FALSE, legacy_method)
 }
 \arguments{
 \item{input_obj}{an instance of class \code{CBSResult} containing protein
@@ -41,6 +41,13 @@ truncated to this length limit and renamed
 Default is \code{truncate = TRUE}.}
 
 \item{cores}{number of cores for multicore processing. Default is \code{cores = 1}.}
+
+\item{sensitive}{optional argument, a logical indicating:
+\itemize{
+\item \code{sensitive = TRUE} - if SignalP version 4.1 is used, it will be run in sensitive mode ().
+\item \code{sensitive = FALSE} - if SignalP version 4.1 is used, it will be run with the default cut-off.
+}
+Default is \code{sensitive = FALSE}. For more details about SignalP 4.1 sensitive mode please see \url{http://www.cbs.dtu.dk/services/SignalP/performance.php}}
 
 \item{legacy_method}{optional argument, which prediction method to use when running SiganlP 2.0 and SignalP 3.0:
 \itemize{
