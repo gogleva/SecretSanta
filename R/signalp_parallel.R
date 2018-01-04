@@ -144,6 +144,7 @@ combine_SpResult <- function(arguments) {
 #' r1 <- signalp(inp, version = 2, organism = 'euk', run_mode = "starter",
 #' legacy_method = 'hmm')
 #' r4 <- signalp(inp, version = 4, organism = 'euk', run_mode = "starter")
+#' r4_sensitive <- signalp(inp, version = 4.1, organism = 'euk', run_mode = 'starter')
 #' @seealso \code{\link{parse_signalp}}
 
 signalp <- function(input_obj,
@@ -212,10 +213,24 @@ signalp <- function(input_obj,
 
     # check that version number is valid:
     if (is.element(version, c(2, 3, 4, 4.1))) {
+        version <- round(version) # versions 4.1 and 4 produce the same out format
     } else {
         stop('version is invalid, allowed versions: c(2, 3, 4, 4.1)', call. = FALSE)
     }
+    
+    # check that legacy_method is provided for versions 2 and 3:
+    
+    if (all(version < 4, missing(legacy_method))) {
+        stop('missing argument: legacy_method')
+    }
+    
+    # check for extra arguments
+    
+    if (all(version > 3, !missing(legacy_method))) {
+        message('version > 3, legacy_method is not required')
+    }
 
+    
     # ----- Set default value for parameters if not provided:
 
     if (is.null(truncate))
@@ -285,6 +300,7 @@ signalp <- function(input_obj,
                }
                 
                if (sensitive == TRUE) {
+                   message('using sensitive method...')
                    # update cutoff scores
                    if (organism == 'euk') D_cutoff = 0.34
                    if (organism == 'gram+') D_cutoff = 0.42

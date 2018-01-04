@@ -25,7 +25,7 @@ test_that("signalp correctly responds to invalid inputs",
                                              version = 2,
                                              organism = 'euk',
                                              run_mode = "starter")),
-                    'argument "legacy_method" is missing, with no default')
+                    'missing argument: legacy_method')
           
           # test starters with valid input options:
           
@@ -76,6 +76,12 @@ test_that("signalp correctly responds to invalid inputs",
                             run_mode = "piper")
           expect_is(s3_sp4, "SignalpResult")
           
+          s4_sp41 <- signalp(s2_sp3,
+                            version = 4.1,
+                            organism = 'euk',
+                            run_mode = "piper")
+          expect_is(s4_sp41, "SignalpResult")
+          
           # test starter with empty in_fasta attribute
           
           emp <- SignalpResult()
@@ -122,4 +128,37 @@ test_that("signalp correctly responds to invalid inputs",
                                                 version = 3, 
                                                 organism = 'gram',
                                                 run_mode = "starter"))) 
+          
+          
+          ## test sensitive mode when signalp4.1 is used:
+          
+          
+          expect_is(signalp(inp,
+                  version = 3,
+                  organism = 'euk',
+                  run_mode = 'starter',
+                  sensitive = TRUE,
+                  legacy_method = 'hmm'), 
+                  "SignalpResult")
+          
+          expect_message(signalp(inp,
+                  version = 4,
+                  organism = 'euk',
+                  run_mode = 'starter',
+                  sensitive = TRUE,
+                  legacy_method = 'hmm'),
+                  'version > 3, legacy_method is not required')
+          
+          expect_equal(nrow(getSPtibble(signalp(inp = CBSResult(in_fasta = aa),
+                  version = 4,
+                  organism = 'euk',
+                  run_mode = 'starter',
+                  sensitive = TRUE))), 7) 
+          
+          expect_equal(nrow(getSPtibble(signalp(inp = CBSResult(in_fasta = aa),
+                  version = 4,
+                  organism = 'euk',
+                  run_mode = 'starter',
+                  sensitive = FALSE))), 5)
+
         })
