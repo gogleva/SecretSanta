@@ -270,11 +270,33 @@ signalp <- function(input_obj,
                            "Prediction", "Dmaxcut",
                            "Networks-used")
 
+            # here we need to update prediction if sensitive mode is requested
+            
+            verify_version <- system(paste(full_pa, '-V', intern = TRUE) 
+                                     
+            if (verify_version == 'signalp 4.1') {
+               # check if sensitive param is correct and provided
+               if (!is.logical(sensitive)) {
+                   stop('sensitive must be a logical')
+               }
+                
+               if (sensitive == TRUE) {
+                   # update cutoff scores
+                   if (organism == 'euk') D_cutoff = 0.34
+                   if (organism == 'gram+') D_cutoff = 0.42
+                   if (organism == 'gram-') D_cutoff == 0.42
+                   
+                   # here transform table by cutoff: update Prediction column
+                   
+                   }
+               }
+                
+            
+            
             # reorder columns to match sp2/3 output:
             sp <- sp[c("gene_id", "Cmax", "Cpos",
                        "Ymax", "Ypos", "Smax",
                        "Spos", "Smean", "Prediction")]
-
             sp <- sp[sp$Prediction == 'Y',]
             sp$Prediction <- ifelse(sp$Prediction == 'Y', 'Signal peptide', "none")
 
