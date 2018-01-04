@@ -255,7 +255,7 @@ signalp <- function(input_obj,
 
         # decide how to run signalp depending on a version provided
 
-        if (version == 4) {
+        if (version >= 4) {
             # runing signalp versios 4 and 4.1, potentially should work for 5
             # check actual version of the tool used:
             
@@ -272,7 +272,11 @@ signalp <- function(input_obj,
 
             # here we need to update prediction if sensitive mode is requested
             
-            verify_version <- system(paste(full_pa, '-V', intern = TRUE) 
+            verify_version <- system(paste(full_pa, '-V'), intern = TRUE) 
+            
+            if (all(verify_version != 'signalp 4.1', sensitive == TRUE)){
+                stop('sensitive mode is enabled for SignalP 4.1 version only')
+            }
                                      
             if (verify_version == 'signalp 4.1') {
                # check if sensitive param is correct and provided
@@ -286,11 +290,15 @@ signalp <- function(input_obj,
                    if (organism == 'gram+') D_cutoff = 0.42
                    if (organism == 'gram-') D_cutoff == 0.42
                    
-                   # here transform table by cutoff: update Prediction column
-                   
+                   # transform table output by cutoff: update Prediction column
+                   sp <- sp %>% dplyr::mutate(Prediction = case_when(
+                       D >= D_cutoff ~ 'Y',
+                       D < D_cutoff ~ 'N'))
                    }
-               }
-                
+            }
+            
+            
+            # patch ends
             
             
             # reorder columns to match sp2/3 output:
