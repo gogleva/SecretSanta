@@ -78,6 +78,7 @@ inp <- CBSResult(in_fasta = aa[1:10])
 r1 <- signalp(inp, version = 2, organism = 'euk', run_mode = "starter",
 legacy_method = 'hmm')
 r4 <- signalp(inp, version = 4, organism = 'euk', run_mode = "starter")
+r4_sensitive <- signalp(inp, version = 4.1, organism = 'euk', run_mode = 'starter')
 }
 \seealso{
 \code{\link{parse_signalp}}
