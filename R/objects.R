@@ -56,7 +56,7 @@ CBSResult <- setClass("CBSResult",
     }
 
     if (any(grepl('[*$]', object@in_fasta))) {
-        return("Input fasta contains stop ctop codon symbols '*'")
+        return("Input fasta contains stop codon symbols '*'")
     }
 
     if (any(duplicated(names(object@in_fasta)))) {
