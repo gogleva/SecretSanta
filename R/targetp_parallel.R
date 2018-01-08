@@ -173,8 +173,9 @@ targetp <- function(input_obj,
         out_fasta_tp <- aaSet[candidate_ids]
         
         # generate output object:
-        out_obj <- TargetpResult(in_fasta = aaSet, out_fasta = out_fasta_tp,
-                                    tp_tibble = tp)
+        out_obj <- TargetpResult(tp_tibble = tp)
+        out_obj <- setInfasta(out_obj, in_fasta = aaSet)
+        out_obj <- setOutfasta(out_obj, out_fasta = out_fasta_tp)
         
         if (validObject(out_obj)) {
             return(out_obj)

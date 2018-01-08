@@ -510,7 +510,7 @@ setMethod(f = 'initialize',
           definition = function(.Object,
                                 wolf_tibble = tibble::tibble()) {
               .Object@wolf_tibble <- wolf_tibble
-               validObject(.Object)
+          #     validObject(.Object)
               .Object
           }
 )
@@ -643,6 +643,8 @@ TMhmmResult <- setClass(
         }
     }
 )
+
+
 
 
 #' Accessors for TMhmmResul objects
@@ -831,10 +833,12 @@ setMethod(
 TargetpResult <- setClass(
     "TargetpResult",
     contains = "CBSResult",
-    slots = list(tp_tibble = "tbl_df"),
+    slots = c(tp_tibble = "tbl_df"))
 
-    validity = function(object) {
-        # check that there are o duplicated ids in the input
+# validity function for TargetpResult class
+
+validTargetpResult <- function(object) {
+        # check that there are no duplicated ids in the input
         # and output fastas and tm_tibble
         if (nrow(object@tp_tibble) > 0) {
             if (any(duplicated(object@tp_tibble$gene_id))) {
@@ -842,7 +846,37 @@ TargetpResult <- setClass(
             }
         }
     }
+
+# set validity function
+setValidity("TargetpResult", validTargetpResult)
+
+# constructor for TargetpResult objects:
+
+setMethod(f = 'initialize',
+          signature = "TargetpResult",
+          definition = function(.Object,
+                                tp_tibble = tibble::tibble()) {
+              .Object@tp_tibble <- tp_tibble
+          #    validObject(.Object)
+              .Object
+          }
 )
+
+# show method for TargetpResult object
+setMethod("show",
+          signature = 'TargetpResult',
+          definition = function(object){
+              cat(paste("An object of class", class(object), "\n"))
+              if (length(object@seqList) != 0) {
+                  print(elementNROWS(object@seqList))
+              } else {
+                  cat("all fasta slots are empty", '\n')          
+              }
+              cat('TargetP tabular output:', '\n')
+              print(object@tp_tibble)
+              
+          })
+
 
 #' Accessors for TargetpResult objects
 #' @param theObject an object of TargetpResult class
