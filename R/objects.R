@@ -5,7 +5,7 @@
 #' @slot out_fasta       output fasta file with only positive candidates,
 #'                       i.e those that passed tool filters
 #' @export CBSResult
-#' @return CBSREsult object
+#' @return CBSResult object
 #' @rdname CBS_methods
 #' @examples
 #' library(Biostrings)
@@ -298,6 +298,19 @@ setMethod(f = 'initialize',
               .Object
           }
          )
+
+# define show method for SignalpResult class:
+
+setMethod("show",
+          signature = 'SignalpResult',
+          definition = function(object){
+              cat(paste("An object of class", class(object), "\n"))
+              print(elementNROWS(object@seqList))
+              cat(paste('SignalP version ... ', object@sp_version, "\n"))
+              cat('SignalP tabular output:', '\n')
+              print(object@sp_tibble)
+              
+          })
 
 #' accessors for SignalpResult objects
 #' @param theObject \code{\link{SignalpResult}} object
