@@ -231,19 +231,12 @@ SignalpResult <- setClass(
     slots = list(
         mature_fasta = "AAStringSet",
         sp_version = "numeric",
-        sp_tibble = "tbl_df"
-    ),
+        sp_tibble = "tbl_df"))
 
-    prototype = list(
-        mature_fasta = Biostrings::AAStringSet(),
-        sp_version = numeric(0),
-        sp_tibble = tibble::tibble()
-    ),
-
-    validity = function(object)
-    {
+validSignalpResult <- function(object) {
+    
         # check that mature sequences are shorter than full-length sequences
-        if (sum(Biostrings::width(object@out_fasta)) <
+        if (sum(Biostrings::width(object@seqList$out_fasta)) <
             sum(Biostrings::width(object@mature_fasta))) {
             return("Mature sequences can not be shorter that full length ones")
         }
@@ -259,13 +252,13 @@ SignalpResult <- setClass(
         # in out_fasta
 
         if (!(identical(names(object@mature_fasta),
-                        names(object@out_fasta)))) {
+                        names(object@seqList@out_fasta)))) {
             return("Out_fasta ids do not match mature_fasta ids")
         }
 
         # check that ids of mature_fasta are present in in_fasta
         if (!(all(names(object@mature_fasta) %in%
-                    names(object@in_fasta)))) {
+                    names(object@seqList$in_fasta)))) {
             return("Out_fasta ids do not match in_fasta ids")
         }
 
@@ -275,7 +268,31 @@ SignalpResult <- setClass(
             return('mature fasta contains sequences of 0 length')
         }
     }
-)
+
+# set validity function for SignalpResult objects
+setValidity("SignalpResult", validSignalpResult)
+
+# define constructor to add mature_fasta to seqList slot, together with in_fasta
+# and out_fasta, oragnised AAStringSetList
+
+setMethod(f = 'initialize',
+          signature = "SignalpResult",
+          definition = function(.Object,
+                                mature_fasta = Biostrigs::AAStringSet(),
+                                sp_version = numeric(0),
+                                sp_tibble = tibble::tibble()
+                                ) {
+              .Object@seqList <- Biostrings::AAStringSetList(
+                  'in_fasta' = .Object@seqList$in_fasta,
+                  'out_fasta' = .Object@seqList$out_fasta,
+                  'mature_fasta' = mature_fasta)
+              .Object@sp_version <- sp_version
+              .Object@sp_tibble <- sp_tibble
+              validObject(.Object)
+              .Object
+          }
+         )
+
 
 #' accessors for SignalpResult objects
 #' @param theObject \code{\link{SignalpResult}} object
