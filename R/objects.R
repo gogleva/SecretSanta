@@ -262,7 +262,7 @@ validSignalpResult <- function(object) {
         # check that mature sequences are shorter than full-length sequences
         if (sum(Biostrings::width(object@out_fasta)) <
             sum(Biostrings::width(object@mature_fasta))) {
-            return("Mature sequences can not be shorter that full length ones")
+            return("Mature sequences can not be longer that full length ones")
         }
 
         # check that there are no duplicated gene ids in sp_tibble
@@ -612,13 +612,13 @@ setMethod(
 TMhmmResult <- setClass(
     "TMhmmResult",
     contains = "CBSResult",
-    slots = list(
+    slots = c(
         in_mature_fasta = "AAStringSet",
         out_mature_fasta = "AAStringSet",
-        tm_tibble = "tbl_df"
-    ),
-
-    validity = function(object) {
+        tm_tibble = "tbl_df"))
+    
+    
+validTMhmmResult <- function(object) {    
         # check that there are o duplicated ids in the input
         # and output fastas and tm_tibble
         if (nrow(object@tm_tibble) > 0) {
@@ -642,10 +642,41 @@ TMhmmResult <- setClass(
             return("out_fasta ids do not match out_mature_fasta ids")
         }
     }
+
+
+# constructor
+setMethod(f = 'initialize',
+          signature = "TMhmmResult",
+          definition = function(.Object,
+                                in_mature_fasta = Biostrings::AAStringSet(),
+                                out_mature_fasta = Biostrings::AAStringSet(),
+                                tm_tibble = tibble::tibble()) {
+              .Object@seqList <- Biostrings::AAStringSetList(
+                  'in_fasta' = .Object@in_fasta,
+                  'out_fasta' = .Object@out_fasta,
+                  'in_mature_fasta' = in_mature_fasta,
+                  'out_mature_fasta' = out_mature_fasta)
+              .Object@tm_tibble <- tm_tibble
+              validObject(.Object)
+              .Object
+          }
 )
 
+# show method ~ CBSResult object + show tm_tibble
 
-
+setMethod("show",
+          signature = 'TMhmmResult',
+          definition = function(object){
+              cat(paste("An object of class", class(object), "\n"))
+              if (length(object@seqList) != 0) {
+                  print(elementNROWS(object@seqList))
+              } else {
+                  cat("all fasta slots are empty", '\n')          
+              }
+              cat('TMHMM tabular output:', '\n')
+              print(object@tm_tibble)
+              
+          })
 
 #' Accessors for TMhmmResul objects
 #' @param theObject object of TMhmmREsult class
@@ -770,7 +801,6 @@ setMethod("show",
               } else {
                   cat("all fasta slots are empty", '\n')          
               }
-              
         })
 
 #' accessors for ErResult objects

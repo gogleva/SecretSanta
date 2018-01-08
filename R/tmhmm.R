@@ -80,7 +80,6 @@ tmhmm <- function(input_obj, TM, paths = NULL) {
     con <- system(paste(full_pa, out_tmp, '--short'), intern = TRUE)
     con_tmp <- tempfile()
     write(con, con_tmp)
- #  tm <- suppressMessages(readr::read_delim(con_tmp, '\t', col_names = FALSE))
     tm <- tibble::as.tibble(read.table(con_tmp, sep = '\t', header = FALSE,
                                        stringsAsFactors = FALSE))
     
@@ -121,17 +120,14 @@ tmhmm <- function(input_obj, TM, paths = NULL) {
         unlist(use.names = FALSE)
     out_fasta_tm <- full_fasta[candidate_ids]
     
-    out_obj <-
-        TMhmmResult(
-            in_fasta = getOutfasta(input_obj),
-            # original in fasta
-            out_fasta = out_fasta_tm,
-            # out fasta, full length
+    out_obj <- TMhmmResult(
             in_mature_fasta = fasta,
             out_mature_fasta = fasta[candidate_ids],
-            tm_tibble = tm
-        )
-    
+            tm_tibble = tm)
+    # original in fasta
+    out_obj <- setInfasta(out_obj, in_fasta = getOutfasta(input_obj))
+    # out fasta, full length
+    out_obj <- setOutfasta(out_obj,  out_fasta = out_fasta_tm)
     # clean TMP files before exiting:
     
     junk <- dir(pattern = 'TMHMM*')
