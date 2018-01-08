@@ -24,52 +24,72 @@
 #' getOutfasta(cbs)
 
 CBSResult <- setClass("CBSResult",
-    slots = list(in_fasta = "AAStringSet", out_fasta = "AAStringSet"),
-    prototype = list(in_fasta = Biostrings::AAStringSet(),
-                    out_fasta = Biostrings::AAStringSet()
-    ),
+    contains = "AAStringSetList"                  
+    slots = list(in_fasta = "AAStringSet",
+                 out_fasta = "AAStringSet",
+                 input = "AAStringSetList")
+    #prototype = list(in_fasta = Biostrings::AAStringSet(),
+    #                out_fasta = Biostrings::AAStringSet()
+    )
 
-    validity = function(object)
-    {
-    #check that input is not dna or rna
+# define validity fuction for CBSResult class:
 
+validCBSResult <- function(object) {
     al <- Biostrings::alphabetFrequency(object@in_fasta)
-
+    
     if (nrow(al) == 1) {
         most_frequent <- names(rev(sort(al[ , colSums(al != 0) > 0])))[1:4]
     } else {
         most_frequent <-
             names(rev(sort(colSums(al[, colSums(al != 0) > 0])))[1:4])
     }
-
+    
     if (all(c("A", "C", "G", "T") %in% most_frequent)) {
         return("Input sequence is DNA, please provide amino acid sequence.")
     }
-
+    
     if (all(c("A", "C", "G", "U") %in% most_frequent)) {
         return("Input sequence is RNA, amino acid sequence required.")
     }
-
-
+    
+    
     if (length(object@in_fasta) < length(object@out_fasta)) {
         return("Number of output sequences > the number of input sequences.")
     }
-
+    
     if (any(grepl('[*$]', object@in_fasta))) {
         return("Input fasta contains stop codon symbols '*'")
     }
-
+    
     if (any(duplicated(names(object@in_fasta)))) {
         return("Duplicated gene ids in in_fasta")
     }
-
+    
     if (any(duplicated(names(object@out_fasta)))) {
         return("Duplicated gene ids in out_fasta")
     }
-
+    
     return(TRUE)
-    }
+}
+    
+# set validity function
+setValidity("CBSResult", validCBSResult)
+
+
+# define custom constructor to pack in_fasta and out_fasta slots in 
+# AAStringSetList
+
+
+setMethod(f = 'initialize',
+          signature = "CBSResult",
+          definition = function(.Object, in_fasta, out_fasta) {
+              .Object@input <- Biostrings::AAStringSetList(
+                  'in_fasta' = in_fasta,
+                  'out_fasta' = out_fasta)                                                          validObject(.Object)
+              .Object
+          }
 )
+
 
 # define accessors for CBSResult objects
 
