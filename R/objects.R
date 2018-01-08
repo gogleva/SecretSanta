@@ -82,7 +82,9 @@ setValidity("CBSResult", validCBSResult)
 
 setMethod(f = 'initialize',
           signature = "CBSResult",
-          definition = function(.Object, in_fasta, out_fasta) {
+          definition = function(.Object,
+                                in_fasta = AAStringSet(),
+                                out_fasta = AAStringSet()) {
               .Object@seqList <- Biostrings::AAStringSetList('in_fasta' = in_fasta, 
                                                             'out_fasta' = out_fasta)
               validObject(.Object)
