@@ -25,7 +25,7 @@
 
 CBSResult <- setClass("CBSResult",
     contains = "AAStringSetList",                  
-    slots = list(in_fasta = "AAStringSet",
+    slots = c(in_fasta = "AAStringSet",
                  out_fasta = "AAStringSet",
                  seqList = "AAStringSetList")
     )
@@ -33,7 +33,7 @@ CBSResult <- setClass("CBSResult",
 # define validity fuction for CBSResult class:
 
 validCBSResult <- function(object) {
-    al <- Biostrings::alphabetFrequency(object@in_fasta)
+    al <- Biostrings::alphabetFrequency(object@seqList$in_fasta)
     
     if (nrow(al) == 1) {
         most_frequent <- names(rev(sort(al[ , colSums(al != 0) > 0])))[1:4]
@@ -51,19 +51,19 @@ validCBSResult <- function(object) {
     }
     
     
-    if (length(object@in_fasta) < length(object@out_fasta)) {
+    if (length(object@seqList$in_fasta) < length(object@seqList$out_fasta)) {
         return("Number of output sequences > the number of input sequences.")
     }
     
-    if (any(grepl('[*$]', object@in_fasta))) {
+    if (any(grepl('[*$]', object@seqList$in_fasta))) {
         return("Input fasta contains stop codon symbols '*'")
     }
     
-    if (any(duplicated(names(object@in_fasta)))) {
+    if (any(duplicated(names(object@seqList$in_fasta)))) {
         return("Duplicated gene ids in in_fasta")
     }
     
-    if (any(duplicated(names(object@out_fasta)))) {
+    if (any(duplicated(names(object@seqList$out_fasta)))) {
         return("Duplicated gene ids in out_fasta")
     }
     
@@ -73,10 +73,8 @@ validCBSResult <- function(object) {
 # set validity function
 setValidity("CBSResult", validCBSResult)
 
-
 # define custom constructor to pack in_fasta and out_fasta slots in 
 # AAStringSetList
-
 
 setMethod(f = 'initialize',
           signature = "CBSResult",
@@ -90,6 +88,15 @@ setMethod(f = 'initialize',
           }
 )
 
+# define show method for CBSResult class:
+
+setMethod("show",
+          signature = 'CBSResult',
+          definition = function(object){
+              cat(paste("An object of class", class(object), "\n"))
+              print(elementNROWS(object@seqList))
+              
+          })
 
 # define accessors for CBSResult objects
 
