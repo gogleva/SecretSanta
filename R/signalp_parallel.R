@@ -355,13 +355,22 @@ signalp <- function(input_obj,
         cropped_fasta <- subseq(out_fasta_sp, start = sp$Cpos, end = -1)
 
         # construct output object
-        out_obj <- SignalpResult(
-            in_fasta = aaSet,
-            out_fasta = out_fasta_sp,
-            mature_fasta = cropped_fasta,
-            sp_version = version,
-            sp_tibble = sp
-        )
+        # out_obj <- SignalpResult(
+        #     in_fasta = aaSet,
+        #     out_fasta = out_fasta_sp,
+        #     mature_fasta = cropped_fasta,
+        #     sp_version = version,
+        #     sp_tibble = sp
+        # )
+        
+        out_obj <- SignalpResult(mature_fasta = cropped_fasta,
+                             sp_version = version,
+                             sp_tibble = sp)
+        out_obj <- setInfasta(out_obj, in_fasta = aaSet)
+        out_obj <- setOutfasta(out_obj, out_fasta = out_fasta_sp)
+        # out_obj <- setMatfasta(out_obj, mature_fasta = cropped_fasta)
+        # out_obj <- setSPversion(out_obj, sp_version = version)
+        # out_obj <- setSPtibble(out_obj, sp_tibble = sp)
 
         # check that intended output is valid
         if (validObject(out_obj)) {

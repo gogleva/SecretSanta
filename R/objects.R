@@ -28,8 +28,6 @@ CBSResult <- setClass("CBSResult",
     slots = list(in_fasta = "AAStringSet",
                  out_fasta = "AAStringSet",
                  seqList = "AAStringSetList")
-    #prototype = list(in_fasta = Biostrings::AAStringSet(),
-    #                out_fasta = Biostrings::AAStringSet()
     )
 
 # define validity fuction for CBSResult class:
@@ -236,7 +234,7 @@ SignalpResult <- setClass(
 validSignalpResult <- function(object) {
     
         # check that mature sequences are shorter than full-length sequences
-        if (sum(Biostrings::width(object@seqList$out_fasta)) <
+        if (sum(Biostrings::width(object@out_fasta)) <
             sum(Biostrings::width(object@mature_fasta))) {
             return("Mature sequences can not be shorter that full length ones")
         }
@@ -252,16 +250,17 @@ validSignalpResult <- function(object) {
         # in out_fasta
 
         if (!(identical(names(object@mature_fasta),
-                        names(object@seqList@out_fasta)))) {
+                        names(object@out_fasta)))) {
             return("Out_fasta ids do not match mature_fasta ids")
         }
+        
 
         # check that ids of mature_fasta are present in in_fasta
         if (!(all(names(object@mature_fasta) %in%
-                    names(object@seqList$in_fasta)))) {
+                    names(object@in_fasta)))) {
             return("Out_fasta ids do not match in_fasta ids")
         }
-
+    
         # check that there are no zero length mature peptides
 
         if (any(width(object@mature_fasta) == 0)) {
@@ -278,13 +277,13 @@ setValidity("SignalpResult", validSignalpResult)
 setMethod(f = 'initialize',
           signature = "SignalpResult",
           definition = function(.Object,
-                                mature_fasta = Biostrigs::AAStringSet(),
+                                mature_fasta = Biostrings::AAStringSet(),
                                 sp_version = numeric(0),
                                 sp_tibble = tibble::tibble()
                                 ) {
               .Object@seqList <- Biostrings::AAStringSetList(
-                  'in_fasta' = .Object@seqList$in_fasta,
-                  'out_fasta' = .Object@seqList$out_fasta,
+                  'in_fasta' = .Object@in_fasta,
+                  'out_fasta' = .Object@out_fasta,
                   'mature_fasta' = mature_fasta)
               .Object@sp_version <- sp_version
               .Object@sp_tibble <- sp_tibble
@@ -292,7 +291,6 @@ setMethod(f = 'initialize',
               .Object
           }
          )
-
 
 #' accessors for SignalpResult objects
 #' @param theObject \code{\link{SignalpResult}} object
@@ -321,7 +319,7 @@ setMethod(
     signature = "SignalpResult",
     definition = function(theObject, mature_fasta)
     {
-        theObject@mature_fasta <- mature_fasta
+        theObject@seqList@mature_fasta <- mature_fasta
         validObject(theObject)
         return(theObject)
     }
@@ -344,7 +342,7 @@ setMethod(
     signature = "SignalpResult",
     definition = function(theObject)
     {
-        return(theObject@mature_fasta)
+        return(theObject@seqList$mature_fasta)
     }
 )
 
