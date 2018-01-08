@@ -191,6 +191,25 @@ setMethod(
     }
 )
 
+setGeneric(name = "getFastas",
+           def = function(theObject)
+           {
+               standardGeneric("getFastas")
+           }
+)
+
+#' @export
+#' @rdname  CBS_methods
+#' @aliases getFastas
+
+setMethod(f = "getFastas",
+          signature = "CBSResult",
+          definition = function(theObject)
+          {
+              return(theObject@seqList)
+          }
+)
+
 #' accessor functions for objects of SignalpResult S4 class, intermediate and
 #' final outputs of the signalp prediction step
 #'
