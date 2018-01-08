@@ -24,10 +24,10 @@
 #' getOutfasta(cbs)
 
 CBSResult <- setClass("CBSResult",
-    contains = "AAStringSetList"                  
+    contains = "AAStringSetList",                  
     slots = list(in_fasta = "AAStringSet",
                  out_fasta = "AAStringSet",
-                 input = "AAStringSetList")
+                 seqList = "AAStringSetList")
     #prototype = list(in_fasta = Biostrings::AAStringSet(),
     #                out_fasta = Biostrings::AAStringSet()
     )
@@ -83,9 +83,9 @@ setValidity("CBSResult", validCBSResult)
 setMethod(f = 'initialize',
           signature = "CBSResult",
           definition = function(.Object, in_fasta, out_fasta) {
-              .Object@input <- Biostrings::AAStringSetList(
-                  'in_fasta' = in_fasta,
-                  'out_fasta' = out_fasta)                                                          validObject(.Object)
+              .Object@seqList <- Biostrings::AAStringSetList('in_fasta' = in_fasta, 
+                                                            'out_fasta' = out_fasta)
+              validObject(.Object)
               .Object
           }
 )
@@ -116,7 +116,7 @@ setMethod(f = "setInfasta",
         signature = "CBSResult",
         definition = function(theObject, in_fasta)
         {
-            theObject@in_fasta <- in_fasta
+            theObject@seqList$in_fasta <- in_fasta
             validObject(theObject)
             return(theObject)
         }
@@ -137,7 +137,7 @@ setMethod(f = "getInfasta",
             signature = "CBSResult",
             definition = function(theObject)
             {
-            return(theObject@in_fasta)
+            return(theObject@seqList$in_fasta)
             }
 )
 
@@ -157,7 +157,7 @@ setMethod(
     signature = "CBSResult",
     definition = function(theObject, out_fasta)
     {
-        theObject@out_fasta <- out_fasta
+        theObject@seqList$out_fasta <- out_fasta
         validObject(theObject)
         return(theObject)
     }
@@ -180,7 +180,7 @@ setMethod(
     signature = "CBSResult",
     definition = function(theObject)
     {
-        return(theObject@out_fasta)
+        return(theObject@seqList$out_fasta)
     }
 )
 
