@@ -745,8 +745,33 @@ setMethod(
 #' class(er)
 
 ErResult <- setClass("ErResult", contains = "CBSResult",
-                        slots = list(retained_fasta = "AAStringSet"))
+                        slots = c(retained_fasta = "AAStringSet"))
 
+# constructor
+setMethod(f = 'initialize',
+          signature = "ErResult",
+          definition = function(.Object,
+                                retained_fasta = Biostrings::AAStringSet()) {
+              .Object@seqList <- Biostrings::AAStringSetList(
+                  'in_fasta' = .Object@in_fasta,
+                  'out_fasta' = .Object@out_fasta,
+                  'retained_fasta' = retained_fasta)
+              .Object
+          }
+)
+
+# show method
+setMethod("show",
+          signature = 'ErResult',
+          definition = function(object){
+              cat(paste("An object of class", class(object), "\n"))
+              if (length(object@seqList) != 0) {
+                  print(elementNROWS(object@seqList))
+              } else {
+                  cat("all fasta slots are empty", '\n')          
+              }
+              
+        })
 
 #' accessors for ErResult objects
 #' @param theObject an object of ErResult class

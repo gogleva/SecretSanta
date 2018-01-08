@@ -28,8 +28,10 @@ combine_TpResult <- function(arguments) {
     c_out_fasta <- do.call(c, (lapply(arguments, getOutfasta)))
     c_tp_tibble <- do.call(rbind, (lapply(arguments, getTPtibble)))
     
-    c_obj <- TargetpResult(in_fasta = c_in_fasta, out_fasta = c_out_fasta,
-                            tp_tibble = c_tp_tibble)
+    c_obj <- TargetpResult(tp_tibble = c_tp_tibble)
+    c_obj <- setInfasta(c_obj, in_fasta = c_in_fasta)
+    c_obj <- setOutfasta(c_obj, out_fasta = c_out_fasta)
+    
 }
 
 #' predict subcellular protein localization with TargetP
