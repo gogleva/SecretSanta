@@ -12,6 +12,8 @@
 \alias{setOutfasta}
 \alias{getOutfasta,CBSResult-method}
 \alias{getOutfasta}
+\alias{getFastas,CBSResult-method}
+\alias{getFastas}
 \title{accessor functions for objects of \code{\link{CBSResult}} S4 class, minimal parent class for
 SecretSanat outputs}
 \usage{
@@ -24,6 +26,8 @@ setInfasta(theObject, in_fasta)
 \S4method{setOutfasta}{CBSResult}(theObject, out_fasta)
 
 \S4method{getOutfasta}{CBSResult}(theObject)
+
+\S4method{getFastas}{CBSResult}(theObject)
 }
 \arguments{
 \item{theObject}{\code{\link{CBSResult}} object}
@@ -33,7 +37,7 @@ setInfasta(theObject, in_fasta)
 \item{out_fasta}{output fasta, AAStringSet object}
 }
 \value{
-CBSREsult object
+CBSResult object
 }
 \description{
 accessor functions for objects of \code{\link{CBSResult}} S4 class, minimal parent class for
