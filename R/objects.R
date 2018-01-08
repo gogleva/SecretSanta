@@ -499,8 +499,36 @@ setMethod(
 #' getInfasta(w)
 #' getOutfasta(w)
 
-WolfResult <- setClass("WolfResult", contains = "CBSResult",
-                        slots = list(wolf_tibble = "tbl_df"))
+WolfResult <- setClass("WolfResult", 
+                       contains = "CBSResult",
+                       slots = list(wolf_tibble = "tbl_df"))
+
+# constructor for WolfResult objects
+
+setMethod(f = 'initialize',
+          signature = "WolfResult",
+          definition = function(.Object,
+                                wolf_tibble = tibble::tibble()) {
+              .Object@wolf_tibble <- wolf_tibble
+               validObject(.Object)
+              .Object
+          }
+)
+
+# show method for WolfResult object
+setMethod("show",
+          signature = 'WolfResult',
+          definition = function(object){
+              cat(paste("An object of class", class(object), "\n"))
+              if (length(object@seqList) != 0) {
+              print(elementNROWS(object@seqList))
+              } else {
+              cat("all fasta slots are empty", '\n')          
+                  }
+              cat('WoLFPSort tabular output:', '\n')
+              print(object@wolf_tibble)
+              
+          })
 
 #' accessors for WolfResult objects
 #' @param theObject an object of WolfResult class
