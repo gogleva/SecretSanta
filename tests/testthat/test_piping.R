@@ -201,7 +201,7 @@ test_that("workflows work",
             expect_true(all(unlist(er_pipers)))
             
             
-            tm_inputs <- c(s1_sp2, s1_sp3, s1_sp4)
+            tm_inputs <- list(s1_sp2, s1_sp3, s1_sp4)
             
             # ----- exhaustive unit tests for TMHMMm, should have mature fastas
             
