@@ -74,9 +74,9 @@ check_khdel <- function(input_obj, pattern = c('prosite', 'elm', 'strict')) {
     # replace long names with cropped names
     names(fasta) <- cropped_names
     
-    out_obj <- ErResult(in_fasta = fasta,
-                        out_fasta = fasta[!to_retain],
-                        retained_fasta = fasta[to_retain])
+    out_obj <- ErResult(retained_fasta = fasta[to_retain])
+    out_obj <- setInfasta(out_obj, in_fasta = fasta)
+    out_obj <- setOutfasta(out_obj, out_fasta = fasta[!to_retain])
     
     ret_count <- sum(to_retain)
     non_ret_count <- sum(!to_retain)

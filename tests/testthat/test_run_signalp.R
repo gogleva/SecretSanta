@@ -7,13 +7,17 @@ test_that("signalp correctly responds to invalid inputs",
                                             "sample_prot_100.fasta",
                                             package = "SecretSanta"),
                                 use.names = TRUE)
-          inp <- SignalpResult(in_fasta = aa[1:10])
+          inp <- SignalpResult()
+          inp <- setInfasta(inp, in_fasta = aa[1:10])
           
           # test with dna set in the in_fasta slot:
+          
           dna <- readAAStringSet(system.file("extdata",
                                              "sample_dna.fasta",
                                              package = "SecretSanta"))
+          
           expect_error(CBSResult(in_fasta = dna)) 
+          
           
           # test with inp_object belonging to an incorrect class:
           expect_error(suppressMessages(signalp(aa,
@@ -131,7 +135,6 @@ test_that("signalp correctly responds to invalid inputs",
           
           
           ## test sensitive mode when signalp4.1 is used:
-          
           
           expect_is(signalp(inp,
                   version = 3,

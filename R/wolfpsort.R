@@ -116,8 +116,9 @@ wolfpsort <- function(input_obj, organism = c('plant', 'animal', 'fungi'),
     ))
     
     #assemble wolf result object:
-    out_obj <- WolfResult(in_fasta = fasta, out_fasta = fasta[wolf_tbl$gene_id],
-                            wolf_tibble = wolf_tbl)
+    out_obj <- WolfResult(wolf_tibble = wolf_tbl)
+    out_obj <- setInfasta(out_obj, in_fasta = fasta)
+    out_obj <- setOutfasta(out_obj, out_fasta = fasta[wolf_tbl$gene_id])
     
     if (validObject(out_obj)) {
         return(out_obj)

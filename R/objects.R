@@ -5,7 +5,7 @@
 #' @slot out_fasta       output fasta file with only positive candidates,
 #'                       i.e those that passed tool filters
 #' @export CBSResult
-#' @return CBSREsult object
+#' @return CBSResult object
 #' @rdname CBS_methods
 #' @examples
 #' library(Biostrings)
@@ -24,52 +24,79 @@
 #' getOutfasta(cbs)
 
 CBSResult <- setClass("CBSResult",
-    slots = list(in_fasta = "AAStringSet", out_fasta = "AAStringSet"),
-    prototype = list(in_fasta = Biostrings::AAStringSet(),
-                    out_fasta = Biostrings::AAStringSet()
-    ),
+    contains = "AAStringSetList",                  
+    slots = c(in_fasta = "AAStringSet",
+                 out_fasta = "AAStringSet",
+                 seqList = "AAStringSetList")
+    )
 
-    validity = function(object)
-    {
-    #check that input is not dna or rna
+# define validity fuction for CBSResult class:
 
-    al <- Biostrings::alphabetFrequency(object@in_fasta)
-
+validCBSResult <- function(object) {
+    al <- Biostrings::alphabetFrequency(object@seqList$in_fasta)
+    
     if (nrow(al) == 1) {
         most_frequent <- names(rev(sort(al[ , colSums(al != 0) > 0])))[1:4]
     } else {
         most_frequent <-
             names(rev(sort(colSums(al[, colSums(al != 0) > 0])))[1:4])
     }
-
+    
     if (all(c("A", "C", "G", "T") %in% most_frequent)) {
         return("Input sequence is DNA, please provide amino acid sequence.")
     }
-
+    
     if (all(c("A", "C", "G", "U") %in% most_frequent)) {
         return("Input sequence is RNA, amino acid sequence required.")
     }
-
-
-    if (length(object@in_fasta) < length(object@out_fasta)) {
+    
+    
+    if (length(object@seqList$in_fasta) < length(object@seqList$out_fasta)) {
         return("Number of output sequences > the number of input sequences.")
     }
-
-    if (any(grepl('[*$]', object@in_fasta))) {
+    
+    if (any(grepl('[*$]', object@seqList$in_fasta))) {
         return("Input fasta contains stop codon symbols '*'")
     }
-
-    if (any(duplicated(names(object@in_fasta)))) {
+    
+    if (any(duplicated(names(object@seqList$in_fasta)))) {
         return("Duplicated gene ids in in_fasta")
     }
-
-    if (any(duplicated(names(object@out_fasta)))) {
+    
+    if (any(duplicated(names(object@seqList$out_fasta)))) {
         return("Duplicated gene ids in out_fasta")
     }
-
+    
     return(TRUE)
-    }
+}
+    
+# set validity function
+setValidity("CBSResult", validCBSResult)
+
+# define custom constructor to pack in_fasta and out_fasta slots in 
+# AAStringSetList
+
+setMethod(f = 'initialize',
+          signature = "CBSResult",
+          definition = function(.Object,
+                                in_fasta = AAStringSet(),
+                                out_fasta = AAStringSet()) {
+              .Object@seqList <- Biostrings::AAStringSetList('in_fasta' = in_fasta, 
+                                                            'out_fasta' = out_fasta)
+              validObject(.Object)
+              .Object
+          }
 )
+
+# define show method for CBSResult class:
+
+setMethod("show",
+          signature = 'CBSResult',
+          definition = function(object){
+              cat(paste("An object of class", class(object), "\n"))
+              print(elementNROWS(object@seqList))
+              
+          })
 
 # define accessors for CBSResult objects
 
@@ -96,7 +123,7 @@ setMethod(f = "setInfasta",
         signature = "CBSResult",
         definition = function(theObject, in_fasta)
         {
-            theObject@in_fasta <- in_fasta
+            theObject@seqList$in_fasta <- in_fasta
             validObject(theObject)
             return(theObject)
         }
@@ -117,7 +144,7 @@ setMethod(f = "getInfasta",
             signature = "CBSResult",
             definition = function(theObject)
             {
-            return(theObject@in_fasta)
+            return(theObject@seqList$in_fasta)
             }
 )
 
@@ -137,7 +164,7 @@ setMethod(
     signature = "CBSResult",
     definition = function(theObject, out_fasta)
     {
-        theObject@out_fasta <- out_fasta
+        theObject@seqList$out_fasta <- out_fasta
         validObject(theObject)
         return(theObject)
     }
@@ -160,8 +187,27 @@ setMethod(
     signature = "CBSResult",
     definition = function(theObject)
     {
-        return(theObject@out_fasta)
+        return(theObject@seqList$out_fasta)
     }
+)
+
+setGeneric(name = "getFastas",
+           def = function(theObject)
+           {
+               standardGeneric("getFastas")
+           }
+)
+
+#' @export
+#' @rdname  CBS_methods
+#' @aliases getFastas
+
+setMethod(f = "getFastas",
+          signature = "CBSResult",
+          definition = function(theObject)
+          {
+              return(theObject@seqList)
+          }
 )
 
 #' accessor functions for objects of SignalpResult S4 class, intermediate and
@@ -209,21 +255,14 @@ SignalpResult <- setClass(
     slots = list(
         mature_fasta = "AAStringSet",
         sp_version = "numeric",
-        sp_tibble = "tbl_df"
-    ),
+        sp_tibble = "tbl_df"))
 
-    prototype = list(
-        mature_fasta = Biostrings::AAStringSet(),
-        sp_version = numeric(0),
-        sp_tibble = tibble::tibble()
-    ),
-
-    validity = function(object)
-    {
+validSignalpResult <- function(object) {
+    
         # check that mature sequences are shorter than full-length sequences
         if (sum(Biostrings::width(object@out_fasta)) <
             sum(Biostrings::width(object@mature_fasta))) {
-            return("Mature sequences can not be shorter that full length ones")
+            return("Mature sequences can not be longer that full length ones")
         }
 
         # check that there are no duplicated gene ids in sp_tibble
@@ -240,20 +279,57 @@ SignalpResult <- setClass(
                         names(object@out_fasta)))) {
             return("Out_fasta ids do not match mature_fasta ids")
         }
+        
 
         # check that ids of mature_fasta are present in in_fasta
         if (!(all(names(object@mature_fasta) %in%
                     names(object@in_fasta)))) {
             return("Out_fasta ids do not match in_fasta ids")
         }
-
+    
         # check that there are no zero length mature peptides
 
         if (any(width(object@mature_fasta) == 0)) {
             return('mature fasta contains sequences of 0 length')
         }
     }
-)
+
+# set validity function for SignalpResult objects
+setValidity("SignalpResult", validSignalpResult)
+
+# define constructor to add mature_fasta to seqList slot, together with in_fasta
+# and out_fasta, oragnised AAStringSetList
+
+setMethod(f = 'initialize',
+          signature = "SignalpResult",
+          definition = function(.Object,
+                                mature_fasta = Biostrings::AAStringSet(),
+                                sp_version = numeric(0),
+                                sp_tibble = tibble::tibble()
+                                ) {
+              .Object@seqList <- Biostrings::AAStringSetList(
+                  'in_fasta' = .Object@in_fasta,
+                  'out_fasta' = .Object@out_fasta,
+                  'mature_fasta' = mature_fasta)
+              .Object@sp_version <- sp_version
+              .Object@sp_tibble <- sp_tibble
+              validObject(.Object)
+              .Object
+          }
+         )
+
+# define show method for SignalpResult class:
+
+setMethod("show",
+          signature = 'SignalpResult',
+          definition = function(object){
+              cat(paste("An object of class", class(object), "\n"))
+              print(elementNROWS(object@seqList))
+              cat(paste('SignalP version ... ', object@sp_version, "\n"))
+              cat('SignalP tabular output:', '\n')
+              print(object@sp_tibble)
+              
+          })
 
 #' accessors for SignalpResult objects
 #' @param theObject \code{\link{SignalpResult}} object
@@ -282,7 +358,7 @@ setMethod(
     signature = "SignalpResult",
     definition = function(theObject, mature_fasta)
     {
-        theObject@mature_fasta <- mature_fasta
+        theObject@seqList@mature_fasta <- mature_fasta
         validObject(theObject)
         return(theObject)
     }
@@ -305,7 +381,7 @@ setMethod(
     signature = "SignalpResult",
     definition = function(theObject)
     {
-        return(theObject@mature_fasta)
+        return(theObject@seqList$mature_fasta)
     }
 )
 
@@ -423,8 +499,36 @@ setMethod(
 #' getInfasta(w)
 #' getOutfasta(w)
 
-WolfResult <- setClass("WolfResult", contains = "CBSResult",
-                        slots = list(wolf_tibble = "tbl_df"))
+WolfResult <- setClass("WolfResult", 
+                       contains = "CBSResult",
+                       slots = list(wolf_tibble = "tbl_df"))
+
+# constructor for WolfResult objects
+
+setMethod(f = 'initialize',
+          signature = "WolfResult",
+          definition = function(.Object,
+                                wolf_tibble = tibble::tibble()) {
+              .Object@wolf_tibble <- wolf_tibble
+          #     validObject(.Object)
+              .Object
+          }
+)
+
+# show method for WolfResult object
+setMethod("show",
+          signature = 'WolfResult',
+          definition = function(object){
+              cat(paste("An object of class", class(object), "\n"))
+              if (length(object@seqList) != 0) {
+              print(elementNROWS(object@seqList))
+              } else {
+              cat("all fasta slots are empty", '\n')          
+                  }
+              cat('WoLFPSort tabular output:', '\n')
+              print(object@wolf_tibble)
+              
+          })
 
 #' accessors for WolfResult objects
 #' @param theObject an object of WolfResult class
@@ -508,13 +612,13 @@ setMethod(
 TMhmmResult <- setClass(
     "TMhmmResult",
     contains = "CBSResult",
-    slots = list(
+    slots = c(
         in_mature_fasta = "AAStringSet",
         out_mature_fasta = "AAStringSet",
-        tm_tibble = "tbl_df"
-    ),
-
-    validity = function(object) {
+        tm_tibble = "tbl_df"))
+    
+    
+validTMhmmResult <- function(object) {    
         # check that there are o duplicated ids in the input
         # and output fastas and tm_tibble
         if (nrow(object@tm_tibble) > 0) {
@@ -538,8 +642,41 @@ TMhmmResult <- setClass(
             return("out_fasta ids do not match out_mature_fasta ids")
         }
     }
+
+
+# constructor
+setMethod(f = 'initialize',
+          signature = "TMhmmResult",
+          definition = function(.Object,
+                                in_mature_fasta = Biostrings::AAStringSet(),
+                                out_mature_fasta = Biostrings::AAStringSet(),
+                                tm_tibble = tibble::tibble()) {
+              .Object@seqList <- Biostrings::AAStringSetList(
+                  'in_fasta' = .Object@in_fasta,
+                  'out_fasta' = .Object@out_fasta,
+                  'in_mature_fasta' = in_mature_fasta,
+                  'out_mature_fasta' = out_mature_fasta)
+              .Object@tm_tibble <- tm_tibble
+              validObject(.Object)
+              .Object
+          }
 )
 
+# show method ~ CBSResult object + show tm_tibble
+
+setMethod("show",
+          signature = 'TMhmmResult',
+          definition = function(object){
+              cat(paste("An object of class", class(object), "\n"))
+              if (length(object@seqList) != 0) {
+                  print(elementNROWS(object@seqList))
+              } else {
+                  cat("all fasta slots are empty", '\n')          
+              }
+              cat('TMHMM tabular output:', '\n')
+              print(object@tm_tibble)
+              
+          })
 
 #' Accessors for TMhmmResul objects
 #' @param theObject object of TMhmmREsult class
@@ -639,8 +776,32 @@ setMethod(
 #' class(er)
 
 ErResult <- setClass("ErResult", contains = "CBSResult",
-                        slots = list(retained_fasta = "AAStringSet"))
+                        slots = c(retained_fasta = "AAStringSet"))
 
+# constructor
+setMethod(f = 'initialize',
+          signature = "ErResult",
+          definition = function(.Object,
+                                retained_fasta = Biostrings::AAStringSet()) {
+              .Object@seqList <- Biostrings::AAStringSetList(
+                  'in_fasta' = .Object@in_fasta,
+                  'out_fasta' = .Object@out_fasta,
+                  'retained_fasta' = retained_fasta)
+              .Object
+          }
+)
+
+# show method
+setMethod("show",
+          signature = 'ErResult',
+          definition = function(object){
+              cat(paste("An object of class", class(object), "\n"))
+              if (length(object@seqList) != 0) {
+                  print(elementNROWS(object@seqList))
+              } else {
+                  cat("all fasta slots are empty", '\n')          
+              }
+        })
 
 #' accessors for ErResult objects
 #' @param theObject an object of ErResult class
@@ -727,10 +888,12 @@ setMethod(
 TargetpResult <- setClass(
     "TargetpResult",
     contains = "CBSResult",
-    slots = list(tp_tibble = "tbl_df"),
+    slots = c(tp_tibble = "tbl_df"))
 
-    validity = function(object) {
-        # check that there are o duplicated ids in the input
+# validity function for TargetpResult class
+
+validTargetpResult <- function(object) {
+        # check that there are no duplicated ids in the input
         # and output fastas and tm_tibble
         if (nrow(object@tp_tibble) > 0) {
             if (any(duplicated(object@tp_tibble$gene_id))) {
@@ -738,7 +901,37 @@ TargetpResult <- setClass(
             }
         }
     }
+
+# set validity function
+setValidity("TargetpResult", validTargetpResult)
+
+# constructor for TargetpResult objects:
+
+setMethod(f = 'initialize',
+          signature = "TargetpResult",
+          definition = function(.Object,
+                                tp_tibble = tibble::tibble()) {
+              .Object@tp_tibble <- tp_tibble
+          #    validObject(.Object)
+              .Object
+          }
 )
+
+# show method for TargetpResult object
+setMethod("show",
+          signature = 'TargetpResult',
+          definition = function(object){
+              cat(paste("An object of class", class(object), "\n"))
+              if (length(object@seqList) != 0) {
+                  print(elementNROWS(object@seqList))
+              } else {
+                  cat("all fasta slots are empty", '\n')          
+              }
+              cat('TargetP tabular output:', '\n')
+              print(object@tp_tibble)
+              
+          })
+
 
 #' Accessors for TargetpResult objects
 #' @param theObject an object of TargetpResult class

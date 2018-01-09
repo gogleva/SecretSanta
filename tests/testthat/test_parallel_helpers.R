@@ -38,26 +38,25 @@ test_that("combine_SignalpResult works as intended",
             expect_is(combined_sp, 'SignalpResult')
             
             expect_identical(sum(unlist(lapply(
-              lapply(c(sp1, sp2, sp3), getInfasta), length
+              lapply(list(sp1, sp2, sp3), getInfasta), length
             ))),
             length(getInfasta(combined_sp)))
             
             expect_identical(sum(unlist(lapply(
-              lapply(c(sp1, sp2, sp3), getOutfasta), length
+              lapply(list(sp1, sp2, sp3), getOutfasta), length
             ))),
             length(getOutfasta(combined_sp)))
             
             expect_identical(sum(unlist(lapply(
-              lapply(c(sp1, sp2, sp3), getSPtibble), nrow
+              lapply(list(sp1, sp2, sp3), getSPtibble), nrow
             ))),
             nrow(getSPtibble(combined_sp)))
             
             expect_identical(sum(unlist(lapply(
-              lapply(c(sp1, sp2, sp3), getMatfasta), length
+              lapply(list(sp1, sp2, sp3), getMatfasta), length
             ))),
             length(getMatfasta(combined_sp)))
             
-            alist <- c(inp2, inp3, inp4)
-            expect_error(combine_SpResult(alist))
+            expect_error(combine_SpResult(c(inp2, inp3, inp4)))
             
           })
