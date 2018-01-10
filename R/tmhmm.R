@@ -36,7 +36,7 @@ tmhmm <- function(input_obj, TM, paths = NULL) {
     }
     
     if (TM >= 2) {
-        warning('Recommended TM threshold values for mature peprides is 1')
+        warning('Recommended TM threshold values for mature peptides is 1')
     }
     
     # check that input object belongs to a valid class
