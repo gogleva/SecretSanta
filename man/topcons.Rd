@@ -2,7 +2,7 @@
 % Please edit documentation in R/topcons.R
 \name{topcons}
 \alias{topcons}
-\title{parse TOPCONS output with prediction of transmenbrane domains}
+\title{parse TOPCONS output}
 \usage{
 topcons(input_obj, parse_dir, topcons_mode = c("API", "WEB-server",
   "stand-alone"), TM, SP = FALSE)
@@ -10,7 +10,8 @@ topcons(input_obj, parse_dir, topcons_mode = c("API", "WEB-server",
 \arguments{
 \item{input_obj}{an instance of CBSResult class, produced by previous step;}
 
-\item{parse_dir}{dir with archived topcons output}
+\item{parse_dir}{dir with archived topcons output (for WSDL-API or WEB outputs)
+or dir with output produced by stand-alone version.}
 
 \item{topcons_mode}{\itemize{
 \item    WEB - output from TOPCOS2 web-server \url{http://topcons.net/}
@@ -27,7 +28,5 @@ recommended value <= 1; use TM = 0 for strict filtering}
 TopconsResult object
 }
 \description{
-This function parses TOPCONS outputs.
-Will be restricted to work in the piper mode \cr
-\cr
+This function parses results of TOPCONS method, used to predict transmembrane domains. The parser is restricted to 'piper'-like behaviour.\cr
 }
