@@ -2,26 +2,28 @@
 % Please edit documentation in R/topcons.R
 \name{topcons}
 \alias{topcons}
-\title{predict transmembrane domains with TOPCONS}
+\title{parse TOPCONS output with prediction of transmenbrane domains}
 \usage{
-topcons()
+topcons(input_obj = NULL, parse_dir, topcons_mode = c("API", "WEB-server",
+  "stand-alone"), TM, SP = TRUE)
 }
 \arguments{
-\item{input_obj}{an instance of SignalpResult class, \cr
-input should contain mature_fasta slot;}
+\item{input_obj}{an instance of CBSResult class, produced by previous step;}
+
+\item{parse_dir}{dir with archived topcons output}
+
+\item{topcons_mode}{WEB / WSDL-API / stand-alone}
 
 \item{TM}{allowed number of TM domains in mature peptides,
 recommended value <= 1; use TM = 0 for strict filtering}
 
-\item{paths}{if topcons is not acessible globally, a file
-conatining a full path to it's executable should be provided; for details
-please check SecretSanta vignette.}
+\item{SP}{do we need to filter for presence of SP? probably yes? By default - TRUE}
 }
 \value{
 TopconsResult object
 }
 \description{
-This function calls local TOPCONS to predict transmembarne domains in protein
-sequence. \cr
+This function parses TOPCONS outputs.
+Will be restricted to work in the piper mode \cr
 \cr
 }

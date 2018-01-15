@@ -897,7 +897,7 @@ validTargetpResult <- function(object) {
         # and output fastas and tm_tibble
         if (nrow(object@tp_tibble) > 0) {
             if (any(duplicated(object@tp_tibble$gene_id))) {
-                return("Duplicated gene ids in sp_tibble! ")
+                return("Duplicated gene ids in tp_tibble! ")
             }
         }
     }
@@ -984,3 +984,118 @@ setMethod(
         return(theObject@tp_tibble)
     }
 )
+
+#' accessor functions for objects of TopconsResult S4 class
+#'
+#' @slot top_tibble        tibble with outputs obtained from topcons
+#' \itemize{
+#' \item    seq - intermediate sequence id
+#' \item    length - length of the protein sequence
+#' \item    TM - number of transmembrane domains predicted
+#' \item    SP - logical, True if signal peptide is predicted, False - otherwise
+#' \item    source - run type: new or cached
+#' \item    run_time - run time in seconds
+#' \item    gene_id - cropped sequence id (any description if present - removed) #' }
+#' @export TopconsResult
+#' @rdname TopconsResult_methods
+#' @examples
+
+TopconsResult <- setClass(
+    "TopconsResult",
+    contains = "CBSResult",
+    slots = c(top_tibble = "tbl_df"))
+
+# validity function for TopconsResult class
+
+validTopconsResult <- function(object) {
+    # check that there are no duplicated ids in the input
+    # and output fastas and tm_tibble
+    if (nrow(object@top_tibble) > 0) {
+        if (any(duplicated(object@top_tibble$gene_id))) {
+            return("Duplicated gene ids in top_tibble! ")
+        }
+    }
+}
+
+# set validity function
+setValidity("TopconsResult", validTopconsResult)
+
+# constructor for TopconsResult objects:
+
+setMethod(f = 'initialize',
+          signature = "TopconsResult",
+          definition = function(.Object,
+                                top_tibble = tibble::tibble()) {
+              .Object@top_tibble <- top_tibble
+              .Object
+          }
+)
+
+# show method for TopconsResult object
+# hide in_fasta slot, it is npt very meaningful
+setMethod("show",
+          signature = 'TopconsResult',
+          definition = function(object){
+              cat(paste("An object of class", class(object), "\n"))
+              if (length(object@seqList) != 0) {
+                  print(elementNROWS(object@seqList)[-1])
+              } else {
+                  cat("all fasta slots are empty", '\n')          
+              }
+              cat('Topcons tabular output:', '\n')
+              print(object@top_tibble)
+              
+          })
+
+#' Accessors for TopconsResult objects
+#' @param theObject an object of TopconsResult class
+#' @param top_tibble parsed TOPCONS output in tabular format
+#' @export
+#' @return TopconsResult object
+#' @docType methods
+#' @rdname TopconsResult_methods
+
+setGeneric(
+    name = "setTOPtibble",
+    def = function(theObject, top_tibble)
+    {
+        standardGeneric("setTOPtibble")
+    }
+)
+
+#' @export
+#' @rdname  TopconsResult_methods
+#' @aliases setTOPtibble
+
+setMethod(
+    f = "setTOPtibble",
+    signature = "TopconsResult",
+    definition = function(theObject, top_tibble)
+    {
+        theObject@top_tibble <- top_tibble
+        validObject(theObject)
+        return(theObject)
+    }
+)
+
+setGeneric(
+    name = "getTOPtibble",
+    def = function(theObject)
+    {
+        standardGeneric("getTOPtibble")
+    }
+)
+
+#' @export
+#' @rdname  TopconsResult_methods
+#' @aliases getTOPtibble
+
+setMethod(
+    f = "getTOPtibble",
+    signature = "TopconsResult",
+    definition = function(theObject)
+    {
+        return(theObject@top_tibble)
+    }
+)
+

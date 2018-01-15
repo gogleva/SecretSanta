@@ -83,15 +83,16 @@ topcons <- function(input_obj = NULL,
         topcons_tibble$seqID <- sapply(crop_names, topcons_tibble$seqID)
         
         # filter based on TM threshold
-        
+        topcons_tibble <- (topcons_tibble %>% dplyr::filter_( ~ TM <= TM))
         
         # filter based on SP threshold
-        
+        if (SP == TRUE) {
+        topcons_tibble <- topcons_tibble %>% dplyr::filter_( ~ SP == 'True')
+        }
         
         # assemble TOPCONS object
         
-    
-    }
+        }
 
 }
 
