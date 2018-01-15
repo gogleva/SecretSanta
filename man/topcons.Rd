@@ -4,8 +4,8 @@
 \alias{topcons}
 \title{parse TOPCONS output with prediction of transmenbrane domains}
 \usage{
-topcons(input_obj = NULL, parse_dir, topcons_mode = c("API", "WEB-server",
-  "stand-alone"), TM, SP = TRUE)
+topcons(input_obj, parse_dir, topcons_mode = c("API", "WEB-server",
+  "stand-alone"), TM, SP = FALSE)
 }
 \arguments{
 \item{input_obj}{an instance of CBSResult class, produced by previous step;}

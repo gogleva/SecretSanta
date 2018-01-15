@@ -52,13 +52,18 @@ topcons <- function(input_obj,
             stop('out_fasta attribute is empty')
         }
 
-    # All checked, produce an encouragig message
+    # All checked, produce an encouragig/status messages
+    
     message(paste("running topcons parser for", topcons_mode, "format"))
     
-    # for tests:
-    dir_to_parse <- "/home/anna/anna/Labjournal/SecretSanta_external/rst_SVw4hG.zip"
-    fasta <- getOutfasta(sp)
-
+    if (SP == FALSE) {
+        message('verify SP predictions ... YES')
+    } else {
+        message("verify SP predictions ... NO")
+    }
+       
+    message(paste('TM domains allowed ... '), TM)
+    
     parse_topcons <- function(dir_to_parse) {
         
         # first, unzip the archive
@@ -97,6 +102,7 @@ topcons <- function(input_obj,
         topcons_tibble <- topcons_tibble %>% dplyr::filter_( ~ SP == 'True')
         }
         
+        message(paste('Number of result proteins ...', nrow(topcons_tibble)))
         # assemble TOPCONS object
         
         out_obj <- TopconsResult(top_tibble = topcons_tibble)
@@ -110,14 +116,3 @@ topcons <- function(input_obj,
     parse_topcons(parse_dir)
 
 }
-
-
-# tests: 
-#dir_to_parse = "/home/anna/anna/Labjournal/SecretSanta_external/TOPCONS2_API/rst_ArIQg1.zip"
-
-
-
-
-
-
-
