@@ -1032,13 +1032,12 @@ setMethod(f = 'initialize',
 )
 
 # show method for TopconsResult object
-# hide in_fasta slot, it is npt very meaningful
 setMethod("show",
           signature = 'TopconsResult',
           definition = function(object){
               cat(paste("An object of class", class(object), "\n"))
               if (length(object@seqList) != 0) {
-                  print(elementNROWS(object@seqList)[-1])
+                  print(elementNROWS(object@seqList))
               } else {
                   cat("all fasta slots are empty", '\n')          
               }

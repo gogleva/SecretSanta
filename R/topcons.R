@@ -43,7 +43,7 @@ topcons <- function(input_obj,
     # check TM threshold value
     if (!(is.numeric(TM))) stop('TM argument should be numeric')
     if (TM >= 2) warning(
-        'Recommended TM threshold values for mature peptides is 0')
+        'Recommended TM threshold values for secreted peptides is 0')
     
     # check that input_obj contains non-empty out_fasta slot
     if (length(getOutfasta(input_obj)) != 0) {
@@ -53,7 +53,7 @@ topcons <- function(input_obj,
         }
 
     # All checked, produce an encouragig message
-    message(paste("running topcons in the", topcons_mode, "mode"))
+    message(paste("running topcons parser for", topcons_mode, "format"))
     
     # for tests:
     dir_to_parse <- "/home/anna/anna/Labjournal/SecretSanta_external/rst_SVw4hG.zip"
@@ -106,6 +106,7 @@ topcons <- function(input_obj,
         if (validObject(out_obj)) { return(out_obj)}
 
     }
+    
     parse_topcons(parse_dir)
 
 }

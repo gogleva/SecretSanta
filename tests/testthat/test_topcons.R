@@ -13,7 +13,7 @@ test_that("TOPCONS outputs are integrated seamlessly",
                                    "rst_SVw4hG.zip",
                                    package = "SecretSanta")
               
-              inp <- CBSResult(in_fasta = aa[1:10])
+              inp <- CBSResult(in_fasta = aa)
               
               # try to input AAstringSet object:
               expect_error(topcons(input_obj = aa,
@@ -40,7 +40,7 @@ test_that("TOPCONS outputs are integrated seamlessly",
               # create some meaningful CBSResult object
               sp <-
                   signalp(inp,
-                          version = 4,
+                          version = 2,
                           organism = 'euk',
                           run_mode = "starter",
                           legacy_method = 'hmm')
@@ -49,9 +49,22 @@ test_that("TOPCONS outputs are integrated seamlessly",
                       parse_dir = p_dir,
                       topcons_mode = "WEB-server",
                       TM = 0,
-                      SP = FALSE)
+                      SP = TRUE)
+              
+              
+              expect_warning(topcons(input_obj = sp,
+                             parse_dir = p_dir,
+                             topcons_mode = "WEB-server",
+                             TM = 2,
+                             SP = FALSE),
+                             "Recommended TM threshold values for mature peptides is 0")
               
               expect_is(tpc, 'TopconsResult')
-              expect_true(nrow(getTOPtibble(tpc)) == 1)
+              expect_true(nrow(getTOPtibble(tpc)) == 9)
+              
+              
+              # try with a larger file
 
           })
+
+
