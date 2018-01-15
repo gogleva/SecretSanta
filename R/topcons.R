@@ -14,7 +14,8 @@ stretch_parse <- function(str, core_pattern){
 #' @param TM  allowed number of TM domains in mature peptides,
 #' recommended value <= 1; use TM = 0 for strict filtering
 #' @param SP filter according to TOPCONS prediction of signal peptides. TRUE - keep only proteins containg signal peptides according to TOPCONS; FALSE - disable filtering for TOPCONS-based predictions of signal peptides. Deafault = FALSE.
-#' @param parse_dir dir with archived topcons output
+#' @param parse_dir dir with archived topcons output (for WSDL-API or WEB outputs)
+#' or dir with output produced by stand-alone version.
 #' @param topcons_mode
 #' \itemize{
 #' \item    WEB - output from TOPCOS2 web-server \url{http://topcons.net/}
@@ -39,9 +40,18 @@ topcons <- function(input_obj,
     
     # check that topcons output file exists:
     
-    if (!file.exists(parse_dir)) {
+    if ((topcons_mode %in% ('API', 'WEB-server')) & (!file.exists(parse_dir))) {
         stop('Please provide valid path to the zipped TOPCONS output')
-    }   
+    }
+    
+    if (topcons_mode == 'stand-alone') {
+        if (!(file.exists(paste(parse_dir, 'time.txt', sep = '')))) {
+            stop('could not find "time.txt" file, please check the path')
+        }
+        if (!(any(grepl('seq_', list.files(parse_dir))))) {
+            stop('could not find "seq_*" subdirectories, please check the path')
+        }
+    }
     
     # check that input object belongs to a valid class,
     if (!(is(input_obj, "CBSResult"))){
@@ -84,7 +94,7 @@ topcons <- function(input_obj,
         
         # parser bifurcation based on input format:
         
-        if (topcons_mode %in% c("WSDL-API", "WEB-server")) {
+        if (topcons_mode %in% c("API", "WEB-server")) {
         
         # first, unzip the archive
         rst_id <- strsplit(basename(dir_to_parse), split = '.zip')[[1]]
@@ -133,7 +143,9 @@ topcons <- function(input_obj,
         }
         
         # stand-alone mode does not produce summary table, need to extract
-        if (topcons_mode == 'stand-alone') {}
+        if (topcons_mode == 'stand-alone') {
+            #
+        }
 
     }
     
