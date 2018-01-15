@@ -1,14 +1,17 @@
-#' parse TOPCONS output with prediction of transmenbrane domains
-#'
-#' This function parses TOPCONS outputs.
-#' Will be restricted to work in the piper mode \cr
-#' \cr
+#' parse TOPCONS output 
+#' 
+#' This function parses results of TOPCONS method, used to predict transmembrane domains. The parser is restricted to 'piper'-like behaviour.\cr
 #' @param input_obj an instance of CBSResult class, produced by previous step;
 #' @param TM  allowed number of TM domains in mature peptides,
 #' recommended value <= 1; use TM = 0 for strict filtering
-#' @param SP do we need to filter for presence of SP? probably yes? By default - TRUE
+#' @param SP filter according to TOPCONS prediction of signal peptides. TRUE - keep only proteins containg signal peptides according to TOPCONS; FALSE - disable filtering for TOPCONS-based predictions of signal peptides. Deafault = FALSE.
 #' @param parse_dir dir with archived topcons output
-#' @param topcons_mode WEB / WSDL-API / stand-alone              
+#' @param topcons_mode
+#' \itemize{
+#' \item    WEB - output from TOPCOS2 web-server \url{http://topcons.net/}
+#' \item    WSDL-API - output returned by WSDL API script \url{http://topcons.net/pred/help-wsdl-api/}
+#' \item    stand-alone - results of TOPCONS stand-alone version \url{https://github.com/ElofssonLab/TOPCONS2}
+#' }
 #' @export
 #' @return TopconsResult object
 #' @examples 
@@ -51,6 +54,8 @@ topcons <- function(input_obj,
         } else {
             stop('out_fasta attribute is empty')
         }
+    
+    if (!(is.logical(SP))) {stop('SP argument must be logical')}
 
     # All checked, produce an encouragig/status messages
     
@@ -87,7 +92,7 @@ topcons <- function(input_obj,
         names(topcons_tibble) <- c('seq', 'length', 'TM',
                                    'SP', 'source', 'run_time',
                                    'gene_id')
-        
+
         # crop names, to remove additional annotations:
         topcons_tibble$gene_id <- unname(sapply(topcons_tibble$gene_id, crop_names))
         

@@ -12,12 +12,16 @@ topcons(input_obj, parse_dir, topcons_mode = c("API", "WEB-server",
 
 \item{parse_dir}{dir with archived topcons output}
 
-\item{topcons_mode}{WEB / WSDL-API / stand-alone}
+\item{topcons_mode}{\itemize{
+\item    WEB - output from TOPCOS2 web-server \url{http://topcons.net/}
+\item    WSDL-API - output returned by WSDL API script \url{http://topcons.net/pred/help-wsdl-api/}
+\item    stand-alone - results of TOPCONS stand-alone version \url{https://github.com/ElofssonLab/TOPCONS2}
+}}
 
 \item{TM}{allowed number of TM domains in mature peptides,
 recommended value <= 1; use TM = 0 for strict filtering}
 
-\item{SP}{do we need to filter for presence of SP? probably yes? By default - TRUE}
+\item{SP}{filter according to TOPCONS prediction of signal peptides. TRUE - keep only proteins containg signal peptides according to TOPCONS; FALSE - disable filtering for TOPCONS-based predictions of signal peptides. Deafault = FALSE.}
 }
 \value{
 TopconsResult object

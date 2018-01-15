@@ -51,6 +51,12 @@ test_that("TOPCONS outputs are integrated seamlessly",
                       TM = 0,
                       SP = TRUE)
               
+              expect_error(topcons(input_obj = sp,
+                      parse_dir = p_dir,
+                      topcons_mode = "WEB-server",
+                      TM = 0,
+                      SP = 1),
+                      "SP argument must be logical")
               
               expect_warning(topcons(input_obj = sp,
                              parse_dir = p_dir,
