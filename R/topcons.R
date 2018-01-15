@@ -1,3 +1,12 @@
+# helper function to extract number of TM domains or check for presence of SP 
+# based on stand-alone TOPCONS predictions
+# sample input string: ('iiioooMMMMMMMMMMMMMMMMooooMMMMMMMiiioooo')
+
+stretch_parse <- function(str, core_pattern){
+    runs <- paste(rle(strsplit(str, "")[[1]])$values, collapse="")
+    str_count(run, core_pattern)
+}
+
 #' parse TOPCONS output 
 #' 
 #' This function parses results of TOPCONS method, used to predict transmembrane domains. The parser is restricted to 'piper'-like behaviour.\cr
@@ -69,7 +78,13 @@ topcons <- function(input_obj,
        
     message(paste('TM domains allowed ... '), TM)
     
-    parse_topcons <- function(dir_to_parse) {
+    #essential fucntion to run simple topcons parser:
+    
+    parse_topcons <- function(dir_to_parse, topcons_mode) {
+        
+        # parser bifurcation based on input format:
+        
+        if (topcons_mode %in% c("WSDL-API", "WEB-server")) {
         
         # first, unzip the archive
         rst_id <- strsplit(basename(dir_to_parse), split = '.zip')[[1]]
@@ -115,9 +130,14 @@ topcons <- function(input_obj,
         out_obj <- setOutfasta(out_obj, out_fasta = fasta[topcons_tibble$gene_id])
 
         if (validObject(out_obj)) { return(out_obj)}
+        }
+        
+        # stand-alone mode does not produce summary table, need to extract
+        if (topcons_mode == 'stand-alone') {}
 
     }
     
     parse_topcons(parse_dir)
 
 }
+
