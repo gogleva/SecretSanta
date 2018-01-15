@@ -36,6 +36,12 @@ test_that("TOPCONS outputs are integrated seamlessly",
                           run_mode = "starter",
                           legacy_method = 'hmm')
               
+              tpc <- topcons(input_obj = sp,
+                      parse_dir = p_dir,
+                      topcons_mode = "WEB-server",
+                      TM = 0,
+                      SP = FALSE)
+              
               # check object with empty out_fasta:
               
               expect_error(check_khdel(inp, pattern = 'strict'),

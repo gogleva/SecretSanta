@@ -17,7 +17,7 @@ topcons <- function(input_obj,
                     parse_dir,
                     topcons_mode = c('API', 'WEB-server', 'stand-alone'),
                     TM,
-                    SP = TRUE){
+                    SP = FALSE){
     
     # ----- Check the input parameters:
     
@@ -54,6 +54,10 @@ topcons <- function(input_obj,
 
     # All checked, produce an encouragig message
     message(paste("running topcons in the", topcons_mode, "mode"))
+    
+    # for tests:
+    dir_to_parse <- "/home/anna/anna/Labjournal/SecretSanta_external/rst_SVw4hG.zip"
+    fasta <- getOutfasta(sp)
 
     parse_topcons <- function(dir_to_parse) {
         
@@ -77,10 +81,13 @@ topcons <- function(input_obj,
         
         names(topcons_tibble) <- c('seq', 'length', 'TM',
                                    'SP', 'source', 'run_time',
-                                   'seqID')
+                                   'gene_id')
         
         # crop names, to remove additional annotations:
-        topcons_tibble$seqID <- sapply(crop_names, topcons_tibble$seqID)
+        topcons_tibble$gene_id <- unname(sapply(topcons_tibble$gene_id, crop_names))
+        
+        # keep gene_ids only present in the input object
+        topcons_tibble <- topcons_tibble[topcons_tibble$gene_id %in% names(fasta),]
         
         # filter based on TM threshold
         topcons_tibble <- (topcons_tibble %>% dplyr::filter_( ~ TM <= TM))
@@ -98,8 +105,8 @@ topcons <- function(input_obj,
 
         if (validObject(out_obj)) { return(out_obj)}
 
-                
-        }
+    }
+    parse_topcons(parse_dir)
 
 }
 
