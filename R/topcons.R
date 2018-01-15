@@ -28,7 +28,7 @@ topcons <- function(input_obj = NULL,
     
     # check that path to zipped output is provided:
     
-    if (missing(parse_dir) {stop('missing argument: topcons_mode')}
+    if (missing(parse_dir)) {stop('missing argument: topcons_mode')}
     
     # check that topcons output file exists:
     
