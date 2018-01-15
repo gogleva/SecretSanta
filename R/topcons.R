@@ -40,7 +40,7 @@ topcons <- function(input_obj,
     
     # check that topcons output file exists:
     
-    if ((topcons_mode %in% ('API', 'WEB-server')) & (!file.exists(parse_dir))) {
+    if ((topcons_mode %in% c('API', 'WEB-server')) & (!file.exists(parse_dir))) {
         stop('Please provide valid path to the zipped TOPCONS output')
     }
     
@@ -144,7 +144,9 @@ topcons <- function(input_obj,
         
         # stand-alone mode does not produce summary table, need to extract
         if (topcons_mode == 'stand-alone') {
-            #
+            # collate/extract majority of the fields from isolated files
+            # for the output to match WEB format
+            
         }
 
     }
