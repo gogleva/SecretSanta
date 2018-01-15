@@ -13,18 +13,13 @@
 #' @return TopconsResult object
 #' @examples 
 
-topcons <- function(input_obj = NULL,
+topcons <- function(input_obj,
                     parse_dir,
                     topcons_mode = c('API', 'WEB-server', 'stand-alone'),
                     TM,
                     SP = TRUE){
     
     # ----- Check the input parameters:
-    
-    # check run_mode value
-    
-    if (missing(run_mode)) { stop('missing argument: run_mode')}
-    run_mode <- match.arg(run_mode)
     
     # check that path to zipped output is provided:
     
@@ -75,6 +70,11 @@ topcons <- function(input_obj = NULL,
                                                        sep = '\t',
                                                        header = FALSE,
                                                        quote = ""))
+        
+        # remove unpacked dir
+        unlink(paste(dirname(dir_to_parse), '/', rst_id, sep = ''),
+               recursive = TRUE)
+        
         names(topcons_tibble) <- c('seq', 'length', 'TM',
                                    'SP', 'source', 'run_time',
                                    'seqID')
@@ -92,6 +92,13 @@ topcons <- function(input_obj = NULL,
         
         # assemble TOPCONS object
         
+        out_obj <- TopconsResult(top_tibble = topcons_tibble)
+        out_obj <- setInfasta(out_obj, in_fasta = fasta)
+        out_obj <- setOutfasta(out_obj, out_fasta = fasta[topcons_tibble$gene_id])
+
+        if (validObject(out_obj)) { return(out_obj)}
+
+                
         }
 
 }
@@ -99,9 +106,6 @@ topcons <- function(input_obj = NULL,
 
 # tests: 
 #dir_to_parse = "/home/anna/anna/Labjournal/SecretSanta_external/TOPCONS2_API/rst_ArIQg1.zip"
-
-#unzip(zipfile = "/home/anna/anna/Labjournal/SecretSanta_external/TOPCONS2_API/rst_ArIQg1.zip", exdir= di"/home/anna/anna/Labjournal/SecretSanta_external/TOPCONS2_API/rst_unzip")
-
 
 
 
