@@ -14,6 +14,15 @@ test_that("TOPCONS outputs are integrated seamlessly",
                                    package = "SecretSanta")
               
               inp <- CBSResult(in_fasta = aa[1:10])
+              
+              # try to input AAstringSet object:
+              expect_error(topcons(input_obj = aa,
+                             parse_dir = p_dir,
+                             topcons_mode = "WEB-server",
+                             TM = 0,
+                             SP = FALSE),
+                           "input_object does not belong to CBSResult class")
+              
               # try to input CBSResult object with empty out_fasta slot
               
               expect_error(topcons(input_obj = inp,
@@ -42,46 +51,7 @@ test_that("TOPCONS outputs are integrated seamlessly",
                       TM = 0,
                       SP = FALSE)
               
-              # check object with empty out_fasta:
-              
-              expect_error(check_khdel(inp, pattern = 'strict'),
-                           'the input object contains empty out_fasta slot'
-              )
-              
-              # chek outputs of signalp
-              sp <-
-                  signalp(inp,
-                          version = 2,
-                          organism = 'euk',
-                          run_mode = "starter",
-                          legacy_method = 'hmm')
-              
-              
-              
-              expect_is(check_khdel(sp, pattern = 'prosite'), 'ErResult')
-              expect_message(check_khdel(sp, pattern = 'prosite'),
-                             'Submitted sequences... 1')
-              expect_message(
-                  check_khdel(sp, pattern = 'strict'),
-                  'Sequences with terminal ER retention signals detected... 0'
-              )
-              
-              # check with fasta containing KDEL/HDEL motifs
-              br <-
-                  readAAStringSet(system.file("extdata", "er_prot.fasta", 
-                                              package = "SecretSanta"),
-                                  use.names = TRUE)
-              inp <- setInfasta(inp, br)
-              sp2 <- signalp(inp,
-                             version = 2,
-                             organism = 'euk',
-                             run_mode = "starter",
-                             legacy_method = 'hmm')
-              
-              expect_message(
-                  check_khdel(sp2, pattern = 'prosite'),
-                  'Sequences with terminal ER retention signals detected... 2'
-              )
-              
-              
+              expect_is(tpc, 'TopconsResult')
+              expect_true(nrow(getTOPtibble(tpc)) == 1)
+
           })
