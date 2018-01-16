@@ -33,6 +33,9 @@ accessors for ErResult objects
 \examples{
 aa <- readAAStringSet(system.file("extdata","small_prot.fasta",
 package = "SecretSanta"), use.names = TRUE)
-er <- check_khdel(CBSResult(in_fasta = aa), run_mode = 'starter')
+inp <- CBSResult(in_fasta = aa)
+sp <- signalp(input_obj = inp, version = 4, organism = 'euk',
+run_mode = 'starter')
+er <- check_khdel(sp, pattern = "prosite")
 class(er)
 }

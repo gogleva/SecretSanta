@@ -34,11 +34,11 @@
 #' # CBSResult object
 #' inp <- CBSResult(in_fasta = aa[1:10])
 #' s1_sp2 <- signalp(inp, version = 2, organism = 'euk',
-#' run_mode = "starter")
+#' run_mode = "starter", legacy_method = 'hmm')
 #' slices <- m_slicer(s1_sp2, min_len = 100, run_mode = 'rescue')
 #' inp_slices <- CBSResult(in_fasta = slices)
 #' s2_sp2_rescue <- signalp(inp_slices, version = 2, organism = 'euk',
-#' run_mode = 'starter')
+#' run_mode = 'starter', legacy_method = 'hmm')
 
 m_slicer <- function(input_obj, min_len, run_mode = c('slice', 'rescue')) {
 

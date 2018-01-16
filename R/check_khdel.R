@@ -17,7 +17,7 @@
 #' # predictions:
 #' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta",
 #'                                     package = "SecretSanta"))
-#' inp <- SignalpResult(in_fasta = aa[1:10])
+#' inp <- CBSResult(in_fasta = aa[1:10])
 #' # generate signalp predictions:
 #' step1_sp2 <- signalp(inp, version = 4, organism = 'euk', 
 #'     run_mode = 'starter')
