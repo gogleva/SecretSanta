@@ -45,7 +45,10 @@ test_that("TOPCONS outputs are integrated seamlessly",
                           run_mode = "starter",
                           legacy_method = 'hmm')
               
-              tpc <- topcons(input_obj = sp, parse_dir = p_dir, topcons_mode = "WEB-server", TM = 0, SP = TRUE)
+              tpc <- topcons(input_obj = sp,
+                             parse_dir = p_dir,
+                             topcons_mode = "WEB-server",
+                             TM = 0, SP = TRUE)
               
               expect_error(topcons(input_obj = sp,
                       parse_dir = p_dir,
@@ -65,8 +68,31 @@ test_that("TOPCONS outputs are integrated seamlessly",
               expect_true(nrow(getTOPtibble(tpc)) == 9)
               
               
-              # try with a larger file
+              # test stand-alone mode
+              q_file  <- system.file("extdata", "multiple_seqs/query.fasta", 
+                                     package = "SecretSanta")
+              
+              inp2 <- CBSResult(in_fasta = readAAStringSet(q_file))
+              
+              dir_to_parse <- dirname(q_file)
 
-          })
+              
+              sp2 <- signalp(inp2,
+                             version = 2,
+                             organism = 'euk',
+                             run_mode = "starter",
+                             legacy_method = 'hmm')
+              
+              expect_is(topcons(input_obj = sp2,
+                      parse_dir = dir_to_parse,
+                      topcons_mode = "stand-alone",
+                      TM = 0, SP = FALSE), 'TopconsResult')
+              
+              
+              expect_warning(topcons(input_obj = sp2,
+                                parse_dir = dir_to_parse,
+                                topcons_mode = "stand-alone",
+                                TM = 7, SP = FALSE))
+              })
 
 

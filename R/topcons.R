@@ -51,7 +51,7 @@ topcons <- function(input_obj,
 
     
     if (topcons_mode == 'stand-alone') {
-        if (!(file.exists(paste(parse_dir, 'time.txt', sep = '')))) {
+        if (!(file.exists(paste(parse_dir, 'time.txt', sep = '/')))) {
             stop('could not find "time.txt" file, please check the path')
         }
         if (!(any(grepl('seq_', list.files(parse_dir))))) {
@@ -224,9 +224,20 @@ topcons <- function(input_obj,
 
 }
 
-#dir_to_parse <- "/home/anna/anna/Labjournal/SecretSanta_external/TOPCONS2_stand-alone/rst_milti/multiple_seqs"
+dir_to_parse <- "/home/anna/anna/Labjournal/SecretSanta_external/TOPCONS2_stand-alone/rst_milti/multiple_seqs/"
 
-#inp <- CBSResult(in_fasta = readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/TOPCONS2_stand-alone/rst_milti/multiple_seqs/query.fasta"))
+inp <- CBSResult(in_fasta = readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/TOPCONS2_stand-alone/rst_milti/multiple_seqs/query.fasta"))
+
+sp2 <- signalp(inp,
+       version = 2,
+       organism = 'euk',
+       run_mode = "starter",
+       legacy_method = 'hmm')
+
+tpc2 <- topcons(input_obj = sp2,
+               parse_dir = dir_to_parse,
+               topcons_mode = "stand-alone",
+               TM = 0, SP = TRUE)
 
     
     
