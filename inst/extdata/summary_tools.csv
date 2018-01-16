@@ -5,5 +5,6 @@ Signalp-4.1,signalp,predict signal peptides,"eukaryotes, gram+, gram-",Yes,Yes,Y
 Targetp-1.1,targetp,predict subcelluar localisation,"plants, not plants",Yes,Yes,Yes
 wolfpsort,wolfpsort,predict subcelluar localisation,"plant, animal, fungi",Yes,Yes,No
 Tmhmm-2.0,tmhmm,predict transmembrane domains,all taxons,No,Yes,No
+TOPCONS2,topcons,predict transmembrane domains,all taxons, No, Yes, No
 NA,check_khdel,scan for ER-retention motifs,"eukaryotes",No,Yes,No
 NA,m_slicer,generate sequences with \newline alternative translation start sites,all taxons,Yes,Yes,No
