@@ -4,7 +4,7 @@
 
 stretch_parse <- function(str, core_pattern){
     runs <- paste(rle(strsplit(str, "")[[1]])$values, collapse="")
-    str_count(run, core_pattern)
+    str_count(runs, core_pattern)
 }
 
 #' parse TOPCONS output 
@@ -119,35 +119,79 @@ topcons <- function(input_obj,
                                    'gene_id')
 
         # crop names, to remove additional annotations:
-        topcons_tibble$gene_id <- unname(sapply(topcons_tibble$gene_id, crop_names))
-        
-        # keep gene_ids only present in the input object
-        topcons_tibble <- topcons_tibble[topcons_tibble$gene_id %in% names(fasta),]
-        
-        # filter based on TM threshold
-        topcons_tibble <- (topcons_tibble %>% dplyr::filter_( ~ TM <= TM))
-        
-        # filter based on SP threshold
-        if (SP == TRUE) {
-        topcons_tibble <- topcons_tibble %>% dplyr::filter_( ~ SP == 'True')
+        topcons_tibble$gene_id <- sapply(topcons_tibble$gene_id, crop_names,
+                                         USE.NAMES = FALSE)
         }
         
+        # stand-alone mode does not produce summary table
+        # we need to collate/extract relevant fields from isolated files and 
+        # dirs to match WEB/API format
+        
+        if (topcons_mode == 'stand-alone') {
+
+            # extract seq_ids and run times from time.txt
+            t_file <- read.table(paste(dir_to_parse, '/time.txt', sep = ''),
+                                 sep = ';')
+            # crop names, just in case
+            gene_id <- sapply(t_file$V1, crop_names)
+            run_times <- t_file$V2
+            
+            # extract lengths from seq_*/dg.txt files -> combine
+            
+            dirs <- list.files(path = dir_to_parse, pattern = "seq_")
+            dgs  <- sapply(dirs, function(x) paste(dir_to_parse,
+                                                   x,
+                                                   'dg.txt',
+                                                   sep = '/'))
+            lengths <- system(paste("cat ", dir_to_parse, '/seq_*/dg.txt ',
+                         "| grep SeqLength: | awk '{print $2}'",
+                         sep = ''), intern = TRUE) %>% as.numeric()
+            
+            # extract number of TM and SP domains
+            raw_preds <- system(paste("cat ", dir_to_parse,
+                                      '/seq_*/Topcons/topcons.top',
+                                      sep = ''), intern = TRUE)
+            
+            # extract number of TM domains:
+            TM_num <- sapply(raw_preds, function(x) stretch_parse(x, 'M'),
+                         USE.NAMES = FALSE)
+            
+            SP_if <- sapply(raw_preds, function(x) stretch_parse(x, 'S'),
+                         USE.NAMES = FALSE) %>% as.logical()
+            
+            # assemble the tibble now
+            topcons_tibble <- tibble::tibble('seq' = dirs,
+                                             'length' = lengths,
+                                             'TM' = TM_num,
+                                             'SP' = SP_if,
+                                             'source' = 'stand-alone',
+                                             'run_time' = run_times,
+                                             'gene_id' = gene_id
+                                             )
+            
+        }
+    
+        # ----filter the tibble and assemble result object
+    
+        # keep gene_ids only present in the input object
+        topcons_tibble <- topcons_tibble[topcons_tibble$gene_id %in% names(fasta),]
+    
+        # filter based on TM threshold
+        topcons_tibble <- (topcons_tibble %>% dplyr::filter_( ~ TM <= TM))
+    
+        # filter based on SP threshold
+        if (SP == TRUE) {
+            topcons_tibble <- topcons_tibble %>% dplyr::filter_( ~ SP == 'True')
+        }
+    
         message(paste('Number of result proteins ...', nrow(topcons_tibble)))
         # assemble TOPCONS object
-        
+    
         out_obj <- TopconsResult(top_tibble = topcons_tibble)
         out_obj <- setInfasta(out_obj, in_fasta = fasta)
         out_obj <- setOutfasta(out_obj, out_fasta = fasta[topcons_tibble$gene_id])
-
+    
         if (validObject(out_obj)) { return(out_obj)}
-        }
-        
-        # stand-alone mode does not produce summary table, need to extract
-        if (topcons_mode == 'stand-alone') {
-            # collate/extract majority of the fields from isolated files
-            # for the output to match WEB format
-            
-        }
 
     }
     
@@ -155,3 +199,8 @@ topcons <- function(input_obj,
 
 }
 
+#dir_to_parse <- "/home/anna/anna/Labjournal/SecretSanta_external/TOPCONS2_stand-alone/rst_milti/multiple_seqs"
+#sp <- 
+    
+    
+    
