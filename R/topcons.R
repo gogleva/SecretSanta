@@ -36,13 +36,19 @@ topcons <- function(input_obj,
     
     # check that path to zipped output is provided:
     
-    if (missing(parse_dir)) {stop('missing argument: topcons_mode')}
+    if (missing(parse_dir)) {stop('missing argument: parse_dir')}
+    
+    
+    # check topcons mode
+    if (missing(topcons_mode)) {stop('missing argument: topcons_mode')}
+    topcons_mode <- match.arg(topcons_mode)
     
     # check that topcons output file exists:
     
     if ((topcons_mode %in% c('API', 'WEB-server')) & (!file.exists(parse_dir))) {
         stop('Please provide valid path to the zipped TOPCONS output')
     }
+
     
     if (topcons_mode == 'stand-alone') {
         if (!(file.exists(paste(parse_dir, 'time.txt', sep = '')))) {
@@ -58,10 +64,7 @@ topcons <- function(input_obj,
         stop('input_object does not belong to CBSResult class')
     } 
 
-    # check topcons mode
-    if (missing(topcons_mode)) {stop('missing argument: topcons_mode')}
-    topcons_mode <- match.arg(topcons_mode)
-    
+
     # check TM threshold value
     if (!(is.numeric(TM))) stop('TM argument should be numeric')
     if (TM >= 2) warning(
@@ -90,11 +93,11 @@ topcons <- function(input_obj,
     
     #essential fucntion to run simple topcons parser:
     
-    parse_topcons <- function(dir_to_parse, topcons_mode) {
+    parse_topcons <- function(dir_to_parse) {
         
         # parser bifurcation based on input format:
         
-        if (topcons_mode %in% c("API", "WEB-server")) {
+        if (topcons_mode == "API" | topcons_mode == "WEB-server") {
         
         # first, unzip the archive
         rst_id <- strsplit(basename(dir_to_parse), split = '.zip')[[1]]
@@ -222,7 +225,9 @@ topcons <- function(input_obj,
 }
 
 #dir_to_parse <- "/home/anna/anna/Labjournal/SecretSanta_external/TOPCONS2_stand-alone/rst_milti/multiple_seqs"
-#inp <- readAAStringSet("")
+
+#inp <- CBSResult(in_fasta = readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/TOPCONS2_stand-alone/rst_milti/multiple_seqs/query.fasta"))
+
     
     
     

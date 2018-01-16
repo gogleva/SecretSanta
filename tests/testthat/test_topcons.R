@@ -45,11 +45,7 @@ test_that("TOPCONS outputs are integrated seamlessly",
                           run_mode = "starter",
                           legacy_method = 'hmm')
               
-              tpc <- topcons(input_obj = sp,
-                      parse_dir = p_dir,
-                      topcons_mode = "WEB-server",
-                      TM = 0,
-                      SP = TRUE)
+              tpc <- topcons(input_obj = sp, parse_dir = p_dir, topcons_mode = "WEB-server", TM = 0, SP = TRUE)
               
               expect_error(topcons(input_obj = sp,
                       parse_dir = p_dir,
@@ -63,7 +59,7 @@ test_that("TOPCONS outputs are integrated seamlessly",
                              topcons_mode = "WEB-server",
                              TM = 2,
                              SP = FALSE),
-                             "Recommended TM threshold values for mature peptides is 0")
+                             "Recommended TM threshold values for secreted peptides is 0")
               
               expect_is(tpc, 'TopconsResult')
               expect_true(nrow(getTOPtibble(tpc)) == 9)
