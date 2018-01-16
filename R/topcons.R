@@ -139,18 +139,40 @@ topcons <- function(input_obj,
             # extract lengths from seq_*/dg.txt files -> combine
             
             dirs <- list.files(path = dir_to_parse, pattern = "seq_")
+            
+            # make sure that ordering of seq_folders is correct, we don't need the
+            # default ordering
+            vals <- as.numeric(gsub("seq_", "", dirs))
+            dirs <- dirs[order(vals)]
+            
+            # exact paths to dg.txt files
             dgs  <- sapply(dirs, function(x) paste(dir_to_parse,
                                                    x,
                                                    'dg.txt',
                                                    sep = '/'))
-            lengths <- system(paste("cat ", dir_to_parse, '/seq_*/dg.txt ',
-                         "| grep SeqLength: | awk '{print $2}'",
-                         sep = ''), intern = TRUE) %>% as.numeric()
             
+            # helper function to extract length field w/o reading the whole file
+            get_length <- function(dg_path) {
+                system(paste('cat', dg_path, "| grep SeqLength: | awk '{print $2}'"),
+                       intern = TRUE) %>% as.numeric()
+            }
+            
+            lengths <- sapply(dgs, get_length)
+                    
+
             # extract number of TM and SP domains
-            raw_preds <- system(paste("cat ", dir_to_parse,
-                                      '/seq_*/Topcons/topcons.top',
-                                      sep = ''), intern = TRUE)
+            
+            tops <- sapply(dirs, function(x) paste(dir_to_parse,
+                                                        x,
+                                                        'Topcons/topcons.top',
+                                                        sep = '/'))
+                
+            # helper function to extract raw preds in correct order:
+            get_preds <- function(top_path) {
+                system(paste("cat", top_path, sep = ' '), intern = TRUE)
+            }
+            
+            raw_preds <- sapply(tops, get_preds)
             
             # extract number of TM domains:
             TM_num <- sapply(raw_preds, function(x) stretch_parse(x, 'M'),
@@ -200,7 +222,7 @@ topcons <- function(input_obj,
 }
 
 #dir_to_parse <- "/home/anna/anna/Labjournal/SecretSanta_external/TOPCONS2_stand-alone/rst_milti/multiple_seqs"
-#sp <- 
+#inp <- readAAStringSet("")
     
     
     
