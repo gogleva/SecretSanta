@@ -25,7 +25,19 @@ stretch_parse <- function(str, core_pattern){
 #' @export
 #' @return TopconsResult object
 #' @examples 
+#' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta",
+#'            package = "SecretSanta"), use.names = TRUE)
 
+#' inp <- CBSResult(in_fasta = aa)
+#' # predict signal peptides:
+#' sp <- signalp(inp, version = 2, organism = 'euk', run_mode = "starter",
+#' legacy_method = 'hmm')
+#' # integrate topcons predictions
+#' p_dir <- system.file("extdata", "rst_SVw4hG.zip", package = "SecretSanta")
+#' tpc <- topcons(input_obj = sp, parse_dir = p_dir, topcons_mode = "WEB-server",
+#'               TM = 0, SP = TRUE)
+               
+               
 topcons <- function(input_obj,
                     parse_dir,
                     topcons_mode = c('API', 'WEB-server', 'stand-alone'),
