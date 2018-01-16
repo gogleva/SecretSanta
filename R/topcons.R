@@ -223,22 +223,3 @@ topcons <- function(input_obj,
     parse_topcons(parse_dir)
 
 }
-
-dir_to_parse <- "/home/anna/anna/Labjournal/SecretSanta_external/TOPCONS2_stand-alone/rst_milti/multiple_seqs/"
-
-inp <- CBSResult(in_fasta = readAAStringSet("/home/anna/anna/Labjournal/SecretSanta_external/TOPCONS2_stand-alone/rst_milti/multiple_seqs/query.fasta"))
-
-sp2 <- signalp(inp,
-       version = 2,
-       organism = 'euk',
-       run_mode = "starter",
-       legacy_method = 'hmm')
-
-tpc2 <- topcons(input_obj = sp2,
-               parse_dir = dir_to_parse,
-               topcons_mode = "stand-alone",
-               TM = 0, SP = TRUE)
-
-    
-    
-    
