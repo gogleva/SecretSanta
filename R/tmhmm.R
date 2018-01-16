@@ -22,8 +22,9 @@
 #' @examples 
 #' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta",
 #' package = "SecretSanta"))
-#' inp <- CBSResult(in_fasta = aa[1:10])
-#' s1_sp2 <- signalp(inp, version = 2, organism = 'euk', run_mode = "starter")
+#' inp <- CBSResult(in_fasta = aa[1:20])
+#' s1_sp2 <- signalp(inp, version = 2, organism = 'euk', run_mode = "starter",
+#' legacy_method = 'hmm')
 #' tm <- tmhmm(s1_sp2, TM = 1)
 
 tmhmm <- function(input_obj, TM, paths = NULL) {

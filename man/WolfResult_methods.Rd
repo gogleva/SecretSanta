@@ -47,7 +47,7 @@ aa <- readAAStringSet(system.file("extdata","sample_prot_100.fasta",
 package = "SecretSanta"))
 inp <- CBSResult(in_fasta = aa[1:10])
 s1_sp2 <- signalp(inp, version = 2, organism = 'euk',
-run_mode = "starter")
+run_mode = "starter", legacy_method = 'hmm')
 w <- wolfpsort(s1_sp2, 'fungi')
 class(w)
 #access result tibble:

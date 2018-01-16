@@ -63,9 +63,9 @@ helices in the first 60 amino acids of the protein
 \examples{
 aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta",
 package = "SecretSanta"))
-inp <- CBSResult(in_fasta = aa[1:10])
+inp <- CBSResult(in_fasta = aa[1:20])
 s1_sp2 <- signalp(inp, version = 2, organism = 'euk',
-run_mode = "starter")
+run_mode = "starter", legacy_method = 'hmm')
 tm <- tmhmm(s1_sp2, TM = 1)
 class(tm)
 getTMtibble(tm)

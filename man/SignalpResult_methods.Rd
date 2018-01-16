@@ -83,7 +83,8 @@ package = "SecretSanta"))
 sr <- CBSResult(in_fasta = aa[1:20])
 # run signalpeptide prediction and create fully populated instance of
 # SignalpResult class
-step1_sp2 <- signalp(sr, version = 2, organism = 'euk', run_mode = "starter")
+step1_sp2 <- signalp(sr, version = 2, organism = 'euk', run_mode = "starter",
+legacy_method = 'hmm')
 # access specific slots:
 getOutfasta(step1_sp2)
 getInfasta(step1_sp2)

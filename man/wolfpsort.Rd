@@ -42,7 +42,7 @@ package = "SecretSanta"))
 inp <- CBSResult(in_fasta = aa[1:10])
 # run signalp2 on the initial file:
 step1_sp2 <- signalp(inp, version = 2, organism ='euk',
-run_mode = "starter")
+run_mode = "starter", legacy_method = 'hmm')
 # run wolfpsort on the signalp output:
 w <- wolfpsort(step1_sp2, 'fungi', run_mode = 'piper')
 }

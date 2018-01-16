@@ -240,7 +240,8 @@ setMethod(f = "getFastas",
 #' sr <- CBSResult(in_fasta = aa[1:20])
 #' # run signalpeptide prediction and create fully populated instance of
 #' # SignalpResult class
-#' step1_sp2 <- signalp(sr, version = 2, organism = 'euk', run_mode = "starter")
+#' step1_sp2 <- signalp(sr, version = 2, organism = 'euk', run_mode = "starter",
+#' legacy_method = 'hmm')
 #' # access specific slots:
 #' getOutfasta(step1_sp2)
 #' getInfasta(step1_sp2)
@@ -490,7 +491,7 @@ setMethod(
 #' package = "SecretSanta"))
 #' inp <- CBSResult(in_fasta = aa[1:10])
 #' s1_sp2 <- signalp(inp, version = 2, organism = 'euk',
-#' run_mode = "starter")
+#' run_mode = "starter", legacy_method = 'hmm')
 #' w <- wolfpsort(s1_sp2, 'fungi')
 #' class(w)
 #' #access result tibble:
@@ -602,9 +603,9 @@ setMethod(
 #' @examples
 #' aa <- readAAStringSet(system.file("extdata", "sample_prot_100.fasta",
 #' package = "SecretSanta"))
-#' inp <- CBSResult(in_fasta = aa[1:10])
+#' inp <- CBSResult(in_fasta = aa[1:20])
 #' s1_sp2 <- signalp(inp, version = 2, organism = 'euk',
-#' run_mode = "starter")
+#' run_mode = "starter", legacy_method = 'hmm')
 #' tm <- tmhmm(s1_sp2, TM = 1)
 #' class(tm)
 #' getTMtibble(tm)
