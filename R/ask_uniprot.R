@@ -5,7 +5,7 @@
 #' @return a list of locations
 #' @examples 
 #' id_list <- c('P39864', 'D0N4E2', 'Q5BUB4', 'D0N381', 'B1NNT7', 'D0NP26')
-#' known_locations <- ask_uniprot(id_list)
+#' res <- ask_uniprot(id_list)
 
 ask_uniprot <- function(uniprotID_list) {
     
@@ -38,10 +38,10 @@ ask_uniprot <- function(uniprotID_list) {
             keys <- 'not present'
         }
         
-        result <- list(loc, keys)
+        result <- tibble(UniprotID = uniprotID,
+                         Subcellular.Location = loc,
+                         Key.Words = keys)
     }
     
-    all_res <- sapply(uniprotID_list, simple_fetch, simplify = TRUE)
+    all_res <- dplyr::bind_rows(lapply(uniprotID_list, simple_fetch))
 }
-
-### experiments
