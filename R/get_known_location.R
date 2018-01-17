@@ -13,7 +13,7 @@ fetch_uniprot_loc <- function(uniprotID_list) {
         base <- 'http://www.uniprot.org/uniprot/'
         fetch_url <- paste(base, uniprotID, '.txt', sep = '')
         resp <- httr::GET(fetch_url)
-        cont <- stringr::str_split(content(resp, "text"), '\n', simplify = TRUE)
+        cont <- stringr::str_split(httr::content(resp, "text"), '\n', simplify = TRUE)
         match_pattern <- 'SUBCELLULAR LOCATION:'
         if (any(stringr::str_detect(cont, match_pattern))) {
             raw_loc <- cont[stringr::str_detect(cont, match_pattern)]
