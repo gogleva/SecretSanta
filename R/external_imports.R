@@ -17,9 +17,11 @@
 #' @importFrom methods validObject
 #' @importFrom utils read.table
 #' @importFrom utils tail
+#' @importFrom utils unzip
 #' @importFrom tibble as_tibble
 #' @importFrom stringr str_split
 #' @importFrom stringr str_detect
+#' @importFrom stringr str_replace
 #' @importFrom httr GET
 #' @importFrom httr content
 NULL

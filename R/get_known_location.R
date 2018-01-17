@@ -17,9 +17,13 @@ fetch_uniprot_loc <- function(uniprotID_list) {
         match_pattern <- 'SUBCELLULAR LOCATION:'
         if (any(stringr::str_detect(cont, match_pattern))) {
             raw_loc <- cont[stringr::str_detect(cont, match_pattern)]
+            raw_loc <- stringr::str_replace(raw_loc, 
+                                            'CC   -!- SUBCELLULAR LOCATION: ',
+                                            '')
         } else {
             raw_loc <- 'not present'
         }
+        
         raw_loc
         }
     
