@@ -24,7 +24,8 @@ ask_uniprot <- function(uniprotID_list) {
             warning(paste('location retrival for provided UniprotID', uniprotID,
                           'failed due to:', '\n', msg,
                           '\n', 
-                          'please check the offending id', sep = ' '), call. = FALSE)
+                          'please check the offending id', sep = ' '), 
+                    call. = FALSE)
             
         } else {
             cont <- stringr::str_split(httr::content(resp, "text"),
