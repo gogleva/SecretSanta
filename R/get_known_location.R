@@ -7,19 +7,21 @@
 #' id_list <- c('P39864', 'D0N4E2', 'Q5BUB4', 'D0N381', 'B1NNT7', 'D0NP26')
 #' known_locations <- fetch_uniprot_loc(id_list)
 
-fetch_uniprot_loc <- function(uniprotID_list) {
+ask_uniprot <- function(uniprotID_list) {
     
     simple_fetch <- function(uniprotID) {
         base <- 'http://www.uniprot.org/uniprot/'
         fetch_url <- paste(base, uniprotID, '.txt', sep = '')
         resp <- httr::GET(fetch_url)
         cont <- stringr::str_split(httr::content(resp, "text"), '\n', simplify = TRUE)
-        match_pattern <- 'SUBCELLULAR LOCATION:'
-        if (any(stringr::str_detect(cont, match_pattern))) {
-            raw_loc <- cont[stringr::str_detect(cont, match_pattern)]
+        loc_pattern <- 'SUBCELLULAR LOCATION:'
+        
+        if (any(stringr::str_detect(cont, loc_pattern))) {
+            raw_loc <- cont[stringr::str_detect(cont, loc_pattern)]
             raw_loc <- stringr::str_replace(raw_loc, 
                                             'CC   -!- SUBCELLULAR LOCATION: ',
                                             '')
+            
         } else {
             raw_loc <- 'not present'
         }
