@@ -6,7 +6,7 @@
 #' @examples 
 #' id_list <- c('P39864', 'D0N4E2', 'Q5BUB4', 'D0N381', 'B1NNT7', 'D0NP26')
 #' res2 <- ask_uniprot(id_list)
-#' #try submitting a list with non-existing UniprotIDs:
+#' #try submitting a list containing some non-existing UniprotIDs:
 #' bad_list <- c('P39864', 'D0N4E2', 'Q5BUB4', 'D0N381', 'B1NNT7', 'D0NP2688', 'D0N4E2222')
 #' res2 <- ask_uniprot(bad_list)
 
