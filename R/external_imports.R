@@ -19,4 +19,7 @@
 #' @importFrom utils tail
 #' @importFrom tibble as_tibble
 #' @importFrom stringr str_split
+#' @importFrom stringr str_detect
+#' @importFrom httr GET
+#' @importFrom httr content
 NULL
