@@ -22,8 +22,10 @@
 #' @importFrom stringr str_split
 #' @importFrom stringr str_detect
 #' @importFrom stringr str_replace
+#' @importFrom stringr str_count
 #' @importFrom httr GET
 #' @importFrom httr content
 #' @importFrom httr http_status
 #' @importFrom httr http_error
+#' @importFrom S4Vectors elementNROWS
 NULL

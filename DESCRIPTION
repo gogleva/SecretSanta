@@ -6,7 +6,8 @@ Description: Flexible pipelines for automated prediction of secreted proteins.
 Depends: R (>= 3.4.0),
          Biostrings,
          dplyr,
-         stringr
+         stringr,
+         S4Vectors (>= 0.14.4)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -23,7 +24,7 @@ Suggests:
 SystemRequirements: SignalP,
                     TargetP,
                     TMHMM,
-                    WoLFPsort
+                    WoLF PSORT
 VignetteBuilder: knitr
 biocViews: Software,
            Proteomics,

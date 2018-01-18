@@ -4,7 +4,7 @@
 
 stretch_parse <- function(str, core_pattern){
     runs <- paste(rle(strsplit(str, "")[[1]])$values, collapse="")
-    str_count(runs, core_pattern)
+    stringr::str_count(runs, core_pattern)
 }
 
 #' parse TOPCONS output 

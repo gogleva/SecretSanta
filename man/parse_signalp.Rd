@@ -51,7 +51,8 @@ Alternatively, \code{parse_signalp} can be called independently on outputs of
 # Example 1: parse signalp2 output, stored in a file:
 s_path <- system.file("extdata", "sample_prot_sp2_hmm_out",
 package = "SecretSanta")
-parse_signalp(input = s_path, input_type = "path", pred_filter = "Signal peptide", version = 3, method = 'hmm')
+parse_signalp(input = s_path, input_type = "path", 
+pred_filter = "Signal peptide", version = 3, method = 'hmm')
 
 # alternatively users can select for all prediction filters
 parse_signalp(input = s_path, input_type = "path", pred_filter = "all", method = 'hmm', version = 2)

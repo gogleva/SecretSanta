@@ -33,7 +33,8 @@
 #' # Example 1: parse signalp2 output, stored in a file:
 #' s_path <- system.file("extdata", "sample_prot_sp2_hmm_out",
 #' package = "SecretSanta")
-#' parse_signalp(input = s_path, input_type = "path", pred_filter = "Signal peptide", version = 3, method = 'hmm')
+#' parse_signalp(input = s_path, input_type = "path", 
+#' pred_filter = "Signal peptide", version = 3, method = 'hmm')
 #'
 #' # alternatively users can select for all prediction filters
 #' parse_signalp(input = s_path, input_type = "path", pred_filter = "all", method = 'hmm', version = 2)
@@ -162,7 +163,7 @@ parse_signalp <-
         # reformat table to be compatible with siganlp4++ output
         
         gene_id <- Cmax <- Cpos <- Ymax <- Ypos <- Smax <- NULL
-        Spos <- Smean <- Prediction <- NULL
+        Spos <- Smean <- Prediction <- Prediction_YN <- NULL
         res <- dplyr::select(data, gene_id, Cmax,
                              Cpos, Ymax, Ypos, Smax,
                              Spos, Smean, Prediction)             
