@@ -742,7 +742,7 @@ setMethod(
     signature = "TMhmmResult",
     definition = function(theObject)
     {
-        return(theObject@in_mature_fasta)
+        return(theObject@seqList$in_mature_fasta)
     }
 )
 
@@ -761,7 +761,7 @@ setMethod(
     signature = "TMhmmResult",
     definition = function(theObject)
     {
-        return(theObject@out_mature_fasta)
+        return(theObject@seqList$out_mature_fasta)
     }
 )
 
