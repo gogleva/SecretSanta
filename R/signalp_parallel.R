@@ -18,10 +18,10 @@
 
 split_XStringSet <- function(string_set, chunk_size) {
     if (!(is(string_set, 'XStringSet'))) {
-        stop('Input string_set does not belong to XStringSet class')
+        stop('Input string_set does not belong to XStringSet class.')
     }
     lss <- length(string_set)
-    if (chunk_size > lss) {stop('Chunk size exceeds total seq number')}
+    if (chunk_size > lss) {stop('Chunk size exceeds total seq number.')}
 
     total_seq  <- c(1:lss)
     chunks <- split(total_seq,
@@ -56,11 +56,11 @@ split_XStringSet <- function(string_set, chunk_size) {
 
 combine_SpResult <- function(arguments) {
     if ((all(sapply(arguments, is, 'SignalpResult'))) == FALSE) {
-    stop('Some objects from argument list do not belong to SignalpResult class')
+    stop('Some objects from argument list do not belong to SignalpResult class.')
     }
 
     if (length(unique(sapply(arguments, getSPversion))) != 1) {
-    stop('Supplied objects were generated with different versions of signalp')
+    stop('Supplied objects were generated with different versions of SignalP.')
     }
 
     # combine accesors for fasta slots in a list
@@ -158,33 +158,33 @@ signalp <- function(input_obj,
                     legacy_method) {
 
   if (!is.numeric(cores))
-    stop('cores argument must be numeric', call. = FALSE)
+    stop('Cores argument must be numeric.', call. = FALSE)
 
   if (parallel::detectCores() < cores)
     stop(
-      "your machine has only ",
+      "Your machine has only ",
       parallel::detectCores() ,
       " cores ... you specified: ",
       cores,
-      " cores. please fix ...",
+      " cores. Please fix.",
       call. = FALSE
     )
     
     # ----- Check that inputs are valid
     # arguments are present and have valid values:
     if (missing(organism)) {
-        stop('missing argument: organism', call. = FALSE)
+        stop('Missing argument: organism.', call. = FALSE)
     }
 
     if (!is.element(organism, c("euk", "gram+", "gram-")))
-      stop("please specify an organism that is supported by this function ...", call. = FALSE)
+      stop("Please specify an organism that is supported by this function.", call. = FALSE)
 
     if (missing(run_mode)) {
-        stop('missing argument: run_mode', call. = FALSE)
+        stop('Missing argument: run_mode.', call. = FALSE)
     }
     
     if (!is.element(run_mode, c("starter", "piper")))
-      stop("please specify a run_mode that is supported by this function ...", call. = FALSE)
+      stop("Please specify a run_mode that is supported by this function.", call. = FALSE)
     organism <- match.arg(organism)
     run_mode <- match.arg(run_mode)
 
@@ -192,7 +192,7 @@ signalp <- function(input_obj,
     # check that input object belongs to CBSResult class
     if (is(input_obj, "CBSResult")) {
     } else {
-        stop('input_object does not belong to CBSResult superclass')
+        stop('Input_object does not belong to CBSResult superclass.')
     }
 
     # check that input_object contains non-empty in/out_fasta for starter/piper
@@ -200,14 +200,14 @@ signalp <- function(input_obj,
         if (length(getInfasta(input_obj)) != 0) {
             fasta <- getInfasta(input_obj)
         } else {
-            stop('in_fasta attribute is empty ...', call. = FALSE)
+            stop('in_fasta attribute is empty.', call. = FALSE)
         }
 
     } else if (run_mode == 'piper') {
         if (length(getOutfasta(input_obj)) != 0) {
             fasta <- getOutfasta(input_obj)
         } else {
-            stop('out_fasta attribute is empty ...', call. = FALSE)
+            stop('out_fasta attribute is empty.', call. = FALSE)
         }
     }
 
@@ -215,19 +215,19 @@ signalp <- function(input_obj,
     if (is.element(version, c(2, 3, 4, 4.1))) {
         version <- round(version) # versions 4.1 and 4 produce the same out format
     } else {
-        stop('version is invalid, allowed versions: c(2, 3, 4, 4.1)', call. = FALSE)
+        stop('Sersion is invalid, allowed versions: c(2, 3, 4, 4.1)', call. = FALSE)
     }
     
     # check that legacy_method is provided for versions 2 and 3:
     
     if (all(version < 4, missing(legacy_method))) {
-        stop('missing argument: legacy_method')
+        stop('Missing argument: legacy_method.')
     }
     
     # check for extra arguments
     
     if (all(version > 3, !missing(legacy_method))) {
-        message('version > 3, legacy_method is not required')
+        message('version > 3, legacy_method is not required.')
     }
 
     
@@ -238,13 +238,13 @@ signalp <- function(input_obj,
     else
         truncate
     if (!is.logical(truncate))
-      stop("truncate can only be TRUE or FALSE ...", call. = FALSE)
+      stop("Truncate can only be TRUE or FALSE.", call. = FALSE)
 
     # ------ Produce encouraging status messages, inputs should be ok.
     # create actual tool name with version number provided
     signalp_version <- paste("signalp", version, sep = '')
     message(paste('Version used ...', signalp_version))
-    message("running signalp locally ...")
+    message("Running signalp locally ...")
 
     # simple signalp, takes single AAStringSet as an input and runs
     # signalp prediction on it
@@ -290,17 +290,17 @@ signalp <- function(input_obj,
             verify_version <- system(paste(full_pa, '-V'), intern = TRUE) 
             
             if (all(verify_version != 'signalp 4.1', sensitive == TRUE)){
-                stop('sensitive mode is enabled for SignalP 4.1 version only')
+                stop('Sensitive mode is enabled for SignalP 4.1 version only')
             }
                                      
             if (verify_version == 'signalp 4.1') {
                # check if sensitive param is correct and provided
                if (!is.logical(sensitive)) {
-                   stop('sensitive must be a logical')
+                   stop('Sensitive must be a logical.')
                }
                 
                if (sensitive == TRUE) {
-                   message('using sensitive method...')
+                   message('Using sensitive method...')
                    # update cutoff scores
                    if (organism == 'euk') D_cutoff = 0.34
                    if (organism == 'gram+') D_cutoff = 0.42
@@ -326,7 +326,7 @@ signalp <- function(input_obj,
 
         } else if (version < 4) {
             # running signalp versions 2 and 3, call parse_signalp
-            message('signalp < 4, calling parser for the output...')
+            message('signalp < 4, calling parser for the output ...')
             con <-
                 system(paste(full_pa, "-t", organism, "-f short -trunc 70",
                              "-m", legacy_method, out_tmp), intern = TRUE)
@@ -340,7 +340,7 @@ signalp <- function(input_obj,
         }
         
         
-        message(paste('Candidate sequences with signal peptides...', nrow(sp)))
+        message(paste('Candidate sequences with signal peptides ...', nrow(sp)))
 
         if (nrow(sp) == 0) {
             warning('Signal peptide prediction yeilded 0 candidates ... ', call. = FALSE)
@@ -375,10 +375,10 @@ signalp <- function(input_obj,
 
     fasta <- truncate_seq(truncate = truncate, fasta, 2000)
     if (length(fasta) <= 600) {
-        message('Ok for single processing')
+        message('Ok for single processing.')
         return(simple_signalp(estimate_lim(fasta, truncate)))
     } else {
-        message('Input fasta contains >600 sequences, entering batch mode...')
+        message('Input fasta contains >600 sequences, entering batch mode.')
 
         #split and check that chunks do not exceed 200K residue limit
         split_fasta <-
@@ -396,7 +396,7 @@ signalp <- function(input_obj,
         combined_SignalpResult <- combine_SpResult(unname(res_comb))
 
         sp_count <- nrow(getSPtibble(combined_SignalpResult))
-        message(paste('Candidate sequences with signal peptides...', sp_count))
+        message(paste('Candidate sequences with signal peptides ...', sp_count))
         if (sp_count == 0) {
             warning('Signal peptide prediction yeilded 0 candidates ...', call. = FALSE)
         }

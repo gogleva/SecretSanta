@@ -28,28 +28,28 @@ check_khdel <- function(input_obj, pattern = c('prosite', 'elm', 'strict')) {
     
     # check the input
     if (is(input_obj, "CBSResult")) {} else {stop(
-        'input_object does not belong to CBSResult superclass')
+        'Input_object does not belong to CBSResult superclass.')
     }
     
     if (length(getOutfasta(input_obj)) == 0) {
-        stop('the input object contains empty out_fasta slot')
+        stop('Input object contains empty out_fasta slot.')
     }
     
     # check pattern argument
     
     # check organism argument
     if (missing(pattern)) {
-        stop('missing argument: pattern')
+        stop('Missing argument: pattern.')
     }
     pattern <- match.arg(pattern)
     
     # starting message:
-    message(paste("checking for terminal ER retention signals,", pattern, 'pattern'))
+    message(paste("Checking for terminal ER retention signals ...", pattern, 'pattern.'))
     
     # select out_fasta slot
     fasta <- getOutfasta(input_obj)
     
-    message(paste('Submitted sequences...', length(fasta)))
+    message(paste('Submitted sequences ...', length(fasta)))
     
     # find and remove termial ER retention motifs
     
@@ -80,9 +80,9 @@ check_khdel <- function(input_obj, pattern = c('prosite', 'elm', 'strict')) {
     
     ret_count <- sum(to_retain)
     non_ret_count <- sum(!to_retain)
-    message(paste('Sequences with terminal ER retention signals detected...',
+    message(paste('Sequences with terminal ER retention signals detected ...',
                                 ret_count))
-    message(paste('Candidate without terminal ER retention signals detected...',
+    message(paste('Candidate without terminal ER retention signals detected ...',
                                 non_ret_count))
     
     if (validObject(out_obj)) {return(out_obj)}

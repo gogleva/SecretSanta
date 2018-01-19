@@ -43,16 +43,16 @@
 m_slicer <- function(input_obj, min_len, run_mode = c('slice', 'rescue')) {
 
     # check that inputs are present and valid
-    if (missing(run_mode)) {stop('missing argument: run_mode')}
+    if (missing(run_mode)) {stop('Missing argument: run_mode.')}
    
     run_mode = match.arg(run_mode)
     
     if (is(input_obj, 'AAStringSet') && (run_mode != 'slice')) {
-        stop("Use run_mode 'slice' for an input object of AAStringSet class")
+        stop("Use run_mode = 'slice' for an input object of AAStringSet class.")
         }
     
     if (is(input_obj, 'CBSResult') && (run_mode != 'rescue')) {
-    stop("Use run_mode 'rescue' for an input object of CBSResult class")
+    stop("Use run_mode = 'rescue' for an input object of CBSResult class.")
         }
     
     # transform input_object if necessary

@@ -66,9 +66,9 @@ estimate_lim <- function(fasta_chunk, truncate) {
     len_lim <- (200000 / length(fasta_chunk) + 50)
     if (sum(Biostrings::width(fasta_chunk)) >= 200000) {
         message(paste(
-                'fasta size exceedes maximal total residue limit, seqs > ',
+                'Fasta size exceedes maximal total residue limit, seqs > ',
                 round(len_lim),
-                ' residues will be truncated ...'
+                ' residues will be truncated.'
             )
         )
         fasta_trunc <-

@@ -56,15 +56,15 @@ validCBSResult <- function(object) {
     }
     
     if (any(grepl('[*$]', object@seqList$in_fasta))) {
-        return("Input fasta contains stop codon symbols '*'")
+        return("Input fasta contains stop codon symbols '*'.")
     }
     
     if (any(duplicated(names(object@seqList$in_fasta)))) {
-        return("Duplicated gene ids in in_fasta")
+        return("Duplicated gene ids in in_fasta.")
     }
     
     if (any(duplicated(names(object@seqList$out_fasta)))) {
-        return("Duplicated gene ids in out_fasta")
+        return("Duplicated gene ids in out_fasta.")
     }
     
     return(TRUE)
@@ -263,13 +263,13 @@ validSignalpResult <- function(object) {
         # check that mature sequences are shorter than full-length sequences
         if (sum(Biostrings::width(object@out_fasta)) <
             sum(Biostrings::width(object@mature_fasta))) {
-            return("Mature sequences can not be longer that full length ones")
+            return("Mature sequences can not be longer that full length ones.")
         }
 
         # check that there are no duplicated gene ids in sp_tibble
         if (nrow(object@sp_tibble) > 0) {
             if (any(duplicated(object@sp_tibble$gene_id))) {
-                return("Duplicated gene ids in sp_tibble! ")
+                return("Duplicated gene ids in sp_tibble!")
             }
         }
 
@@ -278,20 +278,20 @@ validSignalpResult <- function(object) {
 
         if (!(identical(names(object@mature_fasta),
                         names(object@out_fasta)))) {
-            return("Out_fasta ids do not match mature_fasta ids")
+            return("Out_fasta ids do not match mature_fasta ids.")
         }
         
 
         # check that ids of mature_fasta are present in in_fasta
         if (!(all(names(object@mature_fasta) %in%
                     names(object@in_fasta)))) {
-            return("Out_fasta ids do not match in_fasta ids")
+            return("Out_fasta ids do not match in_fasta ids.")
         }
     
         # check that there are no zero length mature peptides
 
         if (any(width(object@mature_fasta) == 0)) {
-            return('mature fasta contains sequences of 0 length')
+            return('Mature fasta contains sequences of 0 length.')
         }
     }
 
@@ -624,23 +624,23 @@ validTMhmmResult <- function(object) {
         # and output fastas and tm_tibble
         if (nrow(object@tm_tibble) > 0) {
             if (any(duplicated(object@tm_tibble$gene_id))) {
-                return("Duplicated gene ids in sp_tibble! ")
+                return("Duplicated gene ids in sp_tibble!")
             }
         }
 
         if (any(duplicated(names(object@in_mature_fasta)))) {
-            return("Duplicated gene ids in in_mature_fasta")
+            return("Duplicated gene ids in in_mature_fasta.")
         }
 
         if (any(duplicated(names(object@out_mature_fasta)))) {
-            return("Duplicated gene ids in out_mature_fasta")
+            return("Duplicated gene ids in out_mature_fasta.")
         }
 
         # check that ids in out_mature_fasta match ids in out_fasta
 
         if (!(identical(names(object@out_mature_fasta),
                         names(object@out_fasta)))) {
-            return("out_fasta ids do not match out_mature_fasta ids")
+            return("out_fasta ids do not match out_mature_fasta ids.")
         }
     }
 
@@ -901,7 +901,7 @@ validTargetpResult <- function(object) {
         # and output fastas and tm_tibble
         if (nrow(object@tp_tibble) > 0) {
             if (any(duplicated(object@tp_tibble$gene_id))) {
-                return("Duplicated gene ids in tp_tibble! ")
+                return("Duplicated gene ids in tp_tibble!")
             }
         }
     }
@@ -1031,7 +1031,7 @@ validTopconsResult <- function(object) {
     # and output fastas and tm_tibble
     if (nrow(object@top_tibble) > 0) {
         if (any(duplicated(object@top_tibble$gene_id))) {
-            return("Duplicated gene ids in top_tibble! ")
+            return("Duplicated gene ids in top_tibble!")
         }
     }
 }

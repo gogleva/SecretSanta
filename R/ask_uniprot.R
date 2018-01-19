@@ -21,10 +21,10 @@ ask_uniprot <- function(uniprotID_list) {
         if (httr::http_error(resp)) {
             msg <- httr::http_status(resp)$message
             keys <- loc <- go_cc <- msg
-            warning(paste('location retrival for provided UniprotID', uniprotID,
+            warning(paste('Location retrival for provided UniprotID', uniprotID,
                           'failed due to:', '\n', msg,
                           '\n', 
-                          'please check the offending id', sep = ' '), 
+                          'please check the offending id.', sep = ' '), 
                     call. = FALSE)
             
         } else {

@@ -65,13 +65,13 @@ parse_signalp <-
         input_type <- match.arg(input_type)
         
         if (missing(method)) {
-            stop('missing argument: method')
+            stop('Missing argument: method.')
         }
         
         method <- match.arg(method)
         
         if (missing(version)) {
-            stop('missing argument: version')
+            stop('Missing argument: version.')
         }
 
         # ----- source_fasta set to default or complain if not provided
@@ -79,21 +79,21 @@ parse_signalp <-
         
         if (all(version == 2, method == 'nn')) {
             if (is.null(source_fasta)) {
-                stop("please provide source_fasta")
+                stop("Please provide source_fasta.")
             } else {
                 if (!(file.exists(source_fasta))) {
-                    stop('source_fasta file does not exist, please check the supplied file name')
+                    stop('source_fasta file does not exist, please check the supplied file name.')
                 }
             }
         }
 
         if (!is.element(input_type, c('path', 'system_call')))
-          stop("please specify either input_type = 'path' or input_type = 'system_call'.", call. = FALSE)
+          stop("Please specify either input_type = 'path' or input_type = 'system_call'.", call. = FALSE)
 
         if (!is.element(pred_filter, c("Signal peptide", "Signal anchor", "Non-secretory protein", "all")))
-          stop("please provide a valid filter type ...", call. = FALSE)
+          stop("Please provide a valid filter type.", call. = FALSE)
 
-        message("signalp output is imported and filter '", pred_filter,"' is applied ...")
+        message("signalp output is imported and filter '", pred_filter,"' is applied.")
         
         # read data
         if (input_type == 'path') {
@@ -119,7 +119,7 @@ parse_signalp <-
                 
                 data$Prediction_YN <- data$Ymax 
                 
-                fasta <- readAAStringSet(source_fasta)
+                fasta <- Biostrings::readAAStringSet(source_fasta)
                 cropped_names <- unname(sapply(names(fasta), crop_names))
                 data$gene_id <- cropped_names
                 
@@ -156,7 +156,7 @@ parse_signalp <-
         
         # check that there are no duplicated gene ids:
         if (any(duplicated(data$gene_id))) {
-            stop('gene_ids vector contains duplicated elements ...', 
+            stop('gene_ids vector contains duplicated elements.', 
                  call. = FALSE)
         }
         
@@ -175,6 +175,6 @@ parse_signalp <-
 
         #Smean to numeric
         res$Smean <- as.numeric(as.character(res$Smean))
-        message("import completed!")
+        message("Import completed!")
         return(res)
     }

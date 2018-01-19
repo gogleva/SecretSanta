@@ -1,0 +1,16 @@
+File Name: Phytophthora_infestans_protein_uniprot.faa.gz
+Organism Name: Phytophthora infestans
+Database: NCBI uniprot
+URL: http://www.uniprot.org/uniprot/?query=organism:%22Phytophthora%20infestans%22&sort=score&columns=id,protein%20names,genes,sequence&format=fasta
+Download_Date: Fri Jan 19 11:16:56 2018
+refseq_category: 
+assembly_accession: 
+bioproject: 
+biosample: 
+taxid: 403677
+infraspecific_name: 
+version_status: 
+release_type: 
+genome_rep: 
+seq_rel_date: 
+submitter: 

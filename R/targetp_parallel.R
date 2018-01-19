@@ -21,7 +21,7 @@ combine_TpResult <- function(arguments) {
     if (all(sapply(arguments, is, 'TargetpResult'))) {
         
     } else {
-    stop('Some objects from argument list do not belong to TargetpResult class')
+    stop('Some objects from argument list do not belong to TargetpResult class.')
     }
     
     c_in_fasta <- do.call(c, (lapply(arguments, getInfasta)))
@@ -76,10 +76,10 @@ targetp <- function(input_obj,
     
     # check that arguments are present and valid
     if (missing(network)) {
-        stop('missing argument: network')
+        stop('Missing argument: network.')
     }
     if (missing(run_mode)) {
-        stop('missing argument: run_mode')
+        stop('Missing argument: run_mode.')
     }
     organism <- match.arg(network)
     run_mode <- match.arg(run_mode)
@@ -90,16 +90,16 @@ targetp <- function(input_obj,
         cores
     if (is.numeric(cores)) {
     } else {
-        stop('cores argument must be numeric')
+        stop('Cores argument must be numeric.')
     }
     if (cores > detectCores()) {
-        stop('cores value > available core number')
+        stop('Cores value > available core number.')
     }
     
     # check that input object belong to CBSResult class
     if (is(input_obj, "CBSResult")) {
     } else {
-        stop('input_obj does not belong to CBSResult superclass')
+        stop('input_obj does not belong to CBSResult superclass.')
     }
     
     # check that input_obj contains non-empty in/out_fasta for starter/piper
@@ -107,13 +107,13 @@ targetp <- function(input_obj,
         if (length(getInfasta(input_obj)) != 0) {
             fasta <- getInfasta(input_obj)
         } else {
-            stop('in_fasta attribute is empty')
+            stop('in_fasta attribute is empty.')
         }
     } else if (run_mode == 'piper') {
         if (length(getOutfasta(input_obj)) != 0) {
             fasta <- getOutfasta(input_obj)
         } else {
-            stop('out_fasta attribute is empty')
+            stop('out_fasta attribute is empty.')
         }
     }
     
@@ -166,6 +166,8 @@ targetp <- function(input_obj,
                             'TP_localization', 'RC')
         }
         
+        # replace gene_id with the full ones, TargetP crops everything to 20 characters
+        tp$gene_id <- names(aaSet)
         tp <- tp %>% dplyr::filter_( ~ TP_localization == 'S')
         message(paste('Number of candidate secreted sequences', nrow(tp)))
         
@@ -200,7 +202,6 @@ targetp <- function(input_obj,
         cl <- makeCluster(cores)
         # clusterEvalQ(cl, library(SecretSanta))
         
-        #  works oly with my_pa, not paths!
         clusterExport(cl = cl, varlist = c("paths"), envir = environment())
         
         # run parallel targetp:

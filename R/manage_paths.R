@@ -72,9 +72,9 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
   if (in_path) {
     message('Checking dependencies accessible via $PATH ...')
     if (is.null(path_file)) {
-      message("No path has been specified ...")
+      message("No path has been specified.")
     } else {
-      message('Path file provided, but not required ...')
+      message('Path file provided, but not required.')
     }
     pp <- NA
   }
@@ -108,14 +108,14 @@ manage_paths <- function(in_path = c(TRUE, FALSE),
       pp$exists <- file.exists(pp$path)
 
       if (all(pp$exists)) {
-        message('All paths are valid ...')
+        message('All paths are valid.')
         # convert all the tool names to lower case to avoid confusion
         pp$tool <- tolower(pp$tool)
 
       } else {
-        message('Supplied file path does not exist ...')
+        message('Supplied file path does not exist.')
         message(sapply(pp[pp$exists == TRUE, ]$path, paste, '\n'))
-        stop('Please check that supplied paths are correct!')
+        stop('Please check that supplied paths are correct.')
       }
     }
     pp
