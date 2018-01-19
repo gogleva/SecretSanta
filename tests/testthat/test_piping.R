@@ -86,13 +86,13 @@ test_that("workflows work",
             #------- #Start with TMHMM:
             
             expect_error(tmhmm(input_obj = inp, TM = 0),
-                         'input_object does not belong to SignalpResult class')
+                         'Input object does not belong to SignalpResult class.')
             
             expect_error(tmhmm(input_obj = s4_khdel, TM = 0),
-                         'input_object does not belong to SignalpResult class')
+                         'Input object does not belong to SignalpResult class.')
             
             expect_error(tmhmm(input_obj = s3_tm, paths = my_pa, TM = 1),
-                         'input_object does not belong to SignalpResult class')
+                         'Input object does not belong to SignalpResult class.')
             
             # ----- Exhaustive input tests
             

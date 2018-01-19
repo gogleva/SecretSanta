@@ -39,13 +39,13 @@ test_that("signalp outputs are correctly parsed for system calls",
             expect_error(
                 parse_signalp(input = nn_in, input_type = i_type,
                               method = 'nn'),
-                'missing argument: version')
+                'Missing argument: version.')
             
             if (version == 2) {
             expect_error(
                 parse_signalp(input = nn_in, input_type = i_type,
                               method = 'nn', version = version),
-                'please provide source_fasta')
+                'Please provide source_fasta.')
             }
             
             parse_nn_system <-
@@ -65,6 +65,7 @@ test_that("signalp outputs are correctly parsed for system calls",
                         "Spos",
                         "Smean",
                         "Prediction")
+            
             expect_equal(names(parse_hmm_system), fields)
             expect_equal(names(parse_nn_system), fields)
             

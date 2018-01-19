@@ -48,57 +48,57 @@ topcons <- function(input_obj,
     
     # check that path to zipped output is provided:
     
-    if (missing(parse_dir)) {stop('missing argument: parse_dir')}
+    if (missing(parse_dir)) {stop('Missing argument: parse_dir.')}
     
     
     # check topcons mode
-    if (missing(topcons_mode)) {stop('missing argument: topcons_mode')}
+    if (missing(topcons_mode)) {stop('Missing argument: topcons_mode')}
     topcons_mode <- match.arg(topcons_mode)
     
     # check that topcons output file exists:
     
     if ((topcons_mode %in% c('API', 'WEB-server')) & (!file.exists(parse_dir))) {
-        stop('Please provide valid path to the zipped TOPCONS output')
+        stop('Please provide valid path to the zipped TOPCONS output.')
     }
 
     
     if (topcons_mode == 'stand-alone') {
         if (!(file.exists(paste(parse_dir, 'time.txt', sep = '/')))) {
-            stop('could not find "time.txt" file, please check the path')
+            stop('Could not find "time.txt" file, please check the path.')
         }
         if (!(any(grepl('seq_', list.files(parse_dir))))) {
-            stop('could not find "seq_*" subdirectories, please check the path')
+            stop('Could not find "seq_*" subdirectories, please check the path.')
         }
     }
     
     # check that input object belongs to a valid class,
     if (!(is(input_obj, "CBSResult"))){
-        stop('input_object does not belong to CBSResult class')
+        stop('Input object does not belong to CBSResult class.')
     } 
 
 
     # check TM threshold value
-    if (!(is.numeric(TM))) stop('TM argument should be numeric')
+    if (!(is.numeric(TM))) stop('TM argument must be numeric.')
     if (TM >= 2) warning(
-        'Recommended TM threshold values for secreted peptides is 0')
+        'Recommended TM threshold value for secreted peptides is 0.')
     
     # check that input_obj contains non-empty out_fasta slot
     if (length(getOutfasta(input_obj)) != 0) {
             fasta <- getOutfasta(input_obj)
         } else {
-            stop('out_fasta attribute is empty')
+            stop('out_fasta slot is empty.')
         }
     
-    if (!(is.logical(SP))) {stop('SP argument must be logical')}
+    if (!(is.logical(SP))) {stop('SP argument must be a logical.')}
 
     # All checked, produce an encouragig/status messages
     
-    message(paste("running topcons parser for", topcons_mode, "format"))
+    message(paste("Running topcons parser for", topcons_mode, "format ..."))
     
     if (SP == FALSE) {
-        message('verify SP predictions ... YES')
+        message('Verify SP predictions ... YES')
     } else {
-        message("verify SP predictions ... NO")
+        message("Verify SP predictions ... NO")
     }
        
     message(paste('TM domains allowed ... '), TM)

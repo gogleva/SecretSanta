@@ -24,12 +24,12 @@ test_that("signalp correctly responds to invalid inputs",
                                                 organism = 'euk',
                                                 version = 2, 
                                                 run_mode = "starter")),
-                       "input_object does not belong to CBSResult superclass")
+                       "Input_object does not belong to CBSResult superclass.")
           expect_error(suppressMessages(signalp(inp,
                                              version = 2,
                                              organism = 'euk',
                                              run_mode = "starter")),
-                    'missing argument: legacy_method')
+                    'Missing argument: legacy_method.')
           
           # test starters with valid input options:
           

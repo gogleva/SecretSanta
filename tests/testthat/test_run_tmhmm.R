@@ -18,16 +18,16 @@ test_that("tmhmm outputs are correctly parsed for system calls",
           
           # run tmhmm on XStringSetObject:
           expect_error(tmhmm(aa, TM = 0),
-                       'input_object does not belong to SignalpResult class')
+                       'Input object does not belong to SignalpResult class.')
           
           # run tmhmm on CBSresult object with empty mature_fasta slot:
           expect_error(tmhmm(inp, TM = 0),
-                       'input_object does not belong to SignalpResult class')
+                       'Input object does not belong to SignalpResult class.')
           
           # run tmhmm on object without mature_fasta slot
           cb <- CBSResult()
           cb <- setInfasta(cb, aa)
           expect_error(tmhmm(cb, TM = 0),
-                       'input_object does not belong to SignalpResult class')
+                       'Input object does not belong to SignalpResult class.')
           
           })

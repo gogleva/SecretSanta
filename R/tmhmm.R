@@ -33,17 +33,17 @@ tmhmm <- function(input_obj, TM, paths = NULL) {
     
     if (is.numeric(TM)) {
     } else {
-        stop('TM argument should be numeric')
+        stop('TM argument must be numeric.')
     }
     
     if (TM >= 2) {
-        warning('Recommended TM threshold values for mature peptides is 1')
+        warning('Recommended TM threshold values for mature peptides is 1.')
     }
     
     # check that input object belongs to a valid class
     if (is(input_obj, "SignalpResult")) {
     } else {
-        stop('input_object does not belong to SignalpResult class')
+        stop('Input object does not belong to SignalpResult class.')
     }
     
     # check that input object contains non-empty mature fasta slot
@@ -51,20 +51,20 @@ tmhmm <- function(input_obj, TM, paths = NULL) {
     
     if ('mature_fasta' %in% names(s)) {
         if (length(getMatfasta(input_obj)) == 0) {
-            stop('the input object contains an empty mature_fasta slot')
+            stop('Input object contains an empty mature_fasta slot.')
         }
     } else {
-        stop('the input object does not contain mature_fasta slot')
+        stop('Input object does not contain mature_fasta slot.')
     }
     
     #----- Run tmhmm
-    message("running TMHMM locally...")
+    message("Running TMHMM locally ...")
     
     fasta <- getMatfasta(input_obj)
     out_tmp <- tempfile()
     Biostrings::writeXStringSet(fasta, out_tmp)
     
-    message(paste('Submitted sequences...', length(fasta)))
+    message(paste('Submitted sequences ...', length(fasta)))
     
     # get and check paths to tmhmm
     if (is.null(paths)) {
@@ -104,7 +104,7 @@ tmhmm <- function(input_obj, TM, paths = NULL) {
     tm <- (tm %>% dplyr::filter_( ~ PredHel <= TM))
     
     message(paste(
-        'Candidates with signal peptides and 0 TM domains in mature seq',
+        'Candidates with signal peptides and 0 TM domains in mature seq ...',
         nrow(tm)
     ))
     

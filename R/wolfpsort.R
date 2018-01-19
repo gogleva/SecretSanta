@@ -39,17 +39,17 @@ wolfpsort <- function(input_obj, organism = c('plant', 'animal', 'fungi'),
     
     # check organism argument
     if (missing(organism)) {
-        stop('missing argument: organism')
+        stop('Missing argument: organism.')
     }
     organism <- match.arg(organism)
     
     # check input_obj
     if (is(input_obj, "CBSResult")) {
     } else {
-        stop('input_object does not belong to CBSResult superclass')
+        stop('input_object does not belong to CBSResult superclass.')
     }
 
-    message("running WoLF PSORT locally...")
+    message("Running WoLF PSORT locally ...")
     
    # fasta <- getOutfasta(input_obj)
 
@@ -58,17 +58,17 @@ wolfpsort <- function(input_obj, organism = c('plant', 'animal', 'fungi'),
         if (length(getInfasta(input_obj)) != 0) {
             fasta <- getInfasta(input_obj)
         } else {
-            stop('in_fasta attribute is empty')
+            stop('in_fasta slot is empty.')
         }
     } else if (run_mode == 'piper') {
         if (length(getOutfasta(input_obj)) != 0) {
             fasta <- getOutfasta(input_obj)
         } else {
-            stop('out_fasta attribute is empty')
+            stop('out_fasta slot is empty')
         }
     }
    
-    message(paste("Number of submitted sequences...", length(fasta)))
+    message(paste("Number of submitted sequences ...", length(fasta)))
     
     # prep fasta:
     # generate cropped names for input fasta
@@ -111,7 +111,7 @@ wolfpsort <- function(input_obj, organism = c('plant', 'animal', 'fungi'),
         filter_( ~ localization == 'extr')
     
     message(paste(
-        'Candidate sequences with extracellular localisation...',
+        'Candidate sequences with extracellular localisation ...',
         nrow(wolf_tbl)
     ))
     

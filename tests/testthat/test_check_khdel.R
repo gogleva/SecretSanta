@@ -15,7 +15,7 @@ test_that("terminal KHDEL/HDEL motifs are detected",
 
             # check object with empty out_fasta:
             expect_error(check_khdel(inp, pattern = 'strict'),
-              'the input object contains empty out_fasta slot'
+              'Input object contains empty out_fasta slot.'
             )
 
             # chek outputs of signalp
@@ -28,10 +28,10 @@ test_that("terminal KHDEL/HDEL motifs are detected",
             
             expect_is(check_khdel(sp, pattern = 'prosite'), 'ErResult')
             expect_message(check_khdel(sp, pattern = 'prosite'),
-                           'Submitted sequences... 1')
+                           'Submitted sequences ... 1')
             expect_message(
               check_khdel(sp, pattern = 'strict'),
-              'Sequences with terminal ER retention signals detected... 0'
+              'Sequences with terminal ER retention signals detected ... 0'
             )
 
             # check with fasta containing KDEL/HDEL motifs
@@ -48,7 +48,7 @@ test_that("terminal KHDEL/HDEL motifs are detected",
             
             expect_message(
               check_khdel(sp2, pattern = 'prosite'),
-              'Sequences with terminal ER retention signals detected... 2'
+              'Sequences with terminal ER retention signals detected ... 2'
             )
             
             

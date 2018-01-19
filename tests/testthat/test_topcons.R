@@ -21,7 +21,7 @@ test_that("TOPCONS outputs are integrated seamlessly",
                              topcons_mode = "WEB-server",
                              TM = 0,
                              SP = FALSE),
-                           "input_object does not belong to CBSResult class")
+                           "Input object does not belong to CBSResult class.")
               
               # try to input CBSResult object with empty out_fasta slot
               
@@ -29,7 +29,7 @@ test_that("TOPCONS outputs are integrated seamlessly",
                                    parse_dir = p_dir,
                                    topcons_mode = 'WEB-server',
                                    TM = 0),
-                                   'out_fasta attribute is empty')
+                                   'out_fasta slot is empty.')
               # wrong file path
               expect_error(topcons(input_obj = inp,
                                    parse_dir = paste(p_dir, '000', sep = ''),
@@ -55,14 +55,14 @@ test_that("TOPCONS outputs are integrated seamlessly",
                       topcons_mode = "WEB-server",
                       TM = 0,
                       SP = 1),
-                      "SP argument must be logical")
+                      "SP argument must be a logical.")
               
               expect_warning(topcons(input_obj = sp,
                              parse_dir = p_dir,
                              topcons_mode = "WEB-server",
                              TM = 2,
                              SP = FALSE),
-                             "Recommended TM threshold values for secreted peptides is 0")
+                             "Recommended TM threshold value for secreted peptides is 0.")
               
               expect_is(tpc, 'TopconsResult')
               expect_true(nrow(getTOPtibble(tpc)) == 9)
