@@ -12,6 +12,17 @@
 
 ask_uniprot <- function(uniprotID_list) {
     
+    # convert long ids to short uniprot ids:
+    mnchar <- mean(sapply(uniprotID_list, nchar, simplify = TRUE)) > 10
+    pipech <- sapply(uniprotID_list, stringr::str_count, pattern = "\\|",
+                     USE.NAMES = FALSE) 
+        
+    if (mnchar & all(pipech > 1)) { 
+        # extract short uniprot ids
+        message('Detected long ids, converting to short UniprotIDs ...')
+        uniprotID_list <- sapply(uniprotID_list, function(x) str_split(x, "\\|")[[1]][2], simplify = TRUE, USE.NAMES = FALSE)
+    }
+
     simple_fetch <- function(uniprotID) {
         base <- 'http://www.uniprot.org/uniprot/'
         fetch_url <- paste(base, uniprotID, '.txt', sep = '')
@@ -73,5 +84,6 @@ ask_uniprot <- function(uniprotID_list) {
                          GO.CC = go_cc)
     }
     
+    message("Fetching location from UniprotKB ...")
     all_res <- dplyr::bind_rows(lapply(uniprotID_list, simple_fetch))
 }
