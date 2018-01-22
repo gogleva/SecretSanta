@@ -53,5 +53,8 @@ S4 classes and accessor methods:
 \itemize{
 \item{\code{getRetainedfasta():} extract \code{retained_fasta} slot.}
 }}
+
+\cr
 }
+For detailed manual please see the vignette \url{https://gogleva.github.io/SecretSanta/vignettes/SecretSanta-vignette.html}.
 }
