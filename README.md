@@ -187,7 +187,13 @@ install_github("gogleva/SecretSanta")
 library("SecretSanta")
 ```
 
-Use cases are documented in the [vignette](https://gogleva.github.io/SecretSanta/vignettes/SecretSanta-vignette.html).
+Details about individual functions, pipeline assemblies and
+use case scenarios are documented in the [vignette](https://gogleva.github.io/SecretSanta/vignettes/SecretSanta-vignette.html).
+
+For a short-form documentation please use:
+``` r
+?SecretSanta
+```
 
 ### Reporting bugs
 
