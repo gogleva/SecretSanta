@@ -11,19 +11,31 @@ prediction of extracellular proteins that are secreted via classical pathways.
 
 Secretome prediction often involves multiple steps. Typically, it starts with prediction of short signal peptides at the N-terminal end of a protein. Next, it is crucial to ensure the absence of motifs and domains preventing the protein from being secreted despite the presence of the signal peptide. These sequences include transmembrane domains, short ER lumen retention signals,and mitochondria/plastid targeting signals.
 
-A number of excellent command line tools and web-interfaces exist to perform predictions of individual motifs and domains ([signalp](http://www.cbs.dtu.dk/services/SignalP/), [targetp](http://www.cbs.dtu.dk/services/TargetP/), [TMHMM](http://www.cbs.dtu.dk/services/TMHMM/), [WolfPsort](https://github.com/fmaguire/WoLFPSort)), however the interface allowing to combine the outputs in a single flexible workflow is lacking.
+A number of excellent command line tools and web-interfaces exist to perform predictions of individual motifs and domains ([signalp](http://www.cbs.dtu.dk/services/SignalP/), [targetp](http://www.cbs.dtu.dk/services/TargetP/), [TMHMM](http://www.cbs.dtu.dk/services/TMHMM/), [WolfPsort](https://github.com/fmaguire/WoLFPSort)), [TOPCONS](http://topcons.net/) however the interface allowing to combine the outputs in a single flexible workflow is lacking.
 
-**SecretSanta** package attempts to bridge this gap. It provides wrapper functions around existing command line tools for prediction of signal peptides and protein subcellular localisation. The wrappers are designed to work together by producing standardized output. This allows to pipe results between individual predictors easily to create flexible custom pipelines and also to compare predictions between similar methods.
+**SecretSanta** package attempts to bridge this gap. It provides wrapper and parser functions around existing command line tools for prediction of signal peptides and protein subcellular localisation. The functions are designed to work together by producing standardized output. This allows the user to pipe results between individual predictors easily to create flexible custom pipelines and also to compare predictions between similar methods.
 
-To speed-up processing of large input fasta files initial steps of the pipeline are automatically run as an embarrassingly parallel process when the number of input sequences exceeds a certain limit.
+To speed-up processing of large input fasta files initial steps of the pipeline are automatically run as a massive parallel process when the number of input sequences exceeds a certain limit.
 
 Taken together **SecretSanta** provides a platform to build automated multi-step secretome prediction pipelines that can be applied to large protein sets to facilitate comparison of secretomes across multiple species or under various conditions.
 
+Below is a summary of main functionality:
+
+- `manage_paths()`: run tests with the external dependencies to ensure correct installation;
+- `signalp()`: predict signal peptides with SignalP 2.0, SignalP 3.0 or SignalP 4.1;
+- `tmhmm()`: predict transmembrane domains with TMHMM 2.0
+- `topcons()`: parse predictions of transmemrane domains performed by TOPCONS2;
+- `targetp()`: predict subcellular localisation with TargetP 1.1;
+- `wolfpsort()`: predict subcellular localisation with WoLF PSORT;
+- `check_khdel()`: check C-terminal ER-retention signals;
+- `m_slicer()`: generate proteins with alternative translation start sites;
+- `ask_uniprot()`: fetch known subcellular location data from UniprotKB based on uniprot ids.
+
 ## 2. External dependencies
 
-SecretSanta relies on a set of existing command line tools to predict secreted proteins. Please install them and configure according to the listed instructions. Due to limitations imposed by the external dependencies, some of SecretSanta wrapper functions won't work in Windows, however are fully functional on Linux.
+SecretSanta relies on a set of existing command line tools to predict secreted proteins. Please install them and configure according to the listed instructions. Due to limitations imposed by the external dependencies, some of SecretSanta wrapper functions won't work in Windows or Mac, however are fully functional on Linux.
 
-### 2.1 Automatic installation of external dependencies
+#### 2.1 Automatic installation of external dependencies
 
 Download the external dependencies:
 
@@ -36,9 +48,9 @@ Download the external dependencies:
 
 Place all the tarballs in a dedicated directory and run the [installation script](https://gist.github.com/gogleva/3d60be51328ca7703cbd52b5fba2baee) inside it.
 
-### 2.2 Manual installation of external dependencies
+#### 2.2 Manual installation of external dependencies
 
-#### Tools for prediction of signal peptides and cleavage sites:
+##### Tools for prediction of signal peptides and cleavage sites:
 
 -   **signalp-2.0**
     -   This version can run under IRIX, IRIX64, Linux, OSF1, SunOS.
@@ -103,7 +115,7 @@ Place all the tarballs in a dedicated directory and run the [installation script
     cd targetp-1.1
     ```
 
-    -   Edit the paragraph labeled "GENERAL SETTINGS, customize" at the top of the **targetp** file. Set values for 'TARGETP' and 'TMP' variables. Ensure, that the path to **targetp** does not exceed 60 characters, otherwise **targetp-1.1** might fail.
+    -   Edit the paragraph labelled "GENERAL SETTINGS, customize" at the top of the **targetp** file. Set values for 'TARGETP' and 'TMP' variables. Ensure, that the path to **targetp** does not exceed 60 characters, otherwise **targetp-1.1** might fail.
 -   **WoLFPsort**
     -   Clone WoLFPsort
 
@@ -120,7 +132,7 @@ Place all the tarballs in a dedicated directory and run the [installation script
     mv runWolfPsortSummary wolfpsort
     ```
 
-#### Tools for prediction of transmembrane domains
+##### Tools for prediction of transmembrane domains
 
 -   **tmhmm-2.0**
     -   **tmhmm-2.0** will run on the most common UNIX platforms
@@ -135,13 +147,14 @@ Place all the tarballs in a dedicated directory and run the [installation script
     -   Set correct path for Perl 5.x in the first line of `bin/tmhmm` and `bin/tmhmmformat.pl` scripts.
     -   For more details please check the `README` file.
 
-#### Organise access to the external dependencies
+##### Organise access to the external dependencies
 
 The best option would be to make all the external dependencies are accessible from any location. This requires modification of `$PATH` environment variable.
 
-To make the change permanent, edit `.profile`: Open ./profile:
+To make the change permanent, edit `.profile`:
 
 ``` sh
+# Open .profile:
 gedit ~/.profile
 ```
 
@@ -158,13 +171,13 @@ export PATH=
 $PATH"
 ```
 
-Reload `/.profile`:
+Reload `.profile`:
 
 ``` sh
 . ~/.profile
 ```
 
-Reboot, to make changes visible to R.
+Reboot, to make changes visible to R. If you are using csh or tsh, edit ``.login`` instead of ``.profile`` and use the ``setenv`` command instead of ``export``.
 
 ### 3. Installation
 
@@ -181,4 +194,3 @@ Use cases are documented in the [vignette](https://gogleva.github.io/SecretSanta
 ### Reporting bugs
 
 email <anna.gogleva@slcu.cam.ac.uk> about bugs and strange things.
-###
