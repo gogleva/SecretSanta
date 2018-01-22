@@ -2,8 +2,6 @@
 [![minimal R version](https://img.shields.io/badge/R%3E%3D-3.4.0-6666ff.svg)](https://cran.r-project.org/)
 [![Linux Build Status](https://travis-ci.org/gogleva/SecretSanta.svg?branch=master)](https://travis-ci.org/gogleva/SecretSanta)
 
-<img src="vignettes/Santa_hexagon.png" width="200"/>
-
 ## 1. Background
 
 The **SecretSanta** package provides an R interface for the integrative
@@ -11,7 +9,7 @@ prediction of extracellular proteins that are secreted via classical pathways.
 
 Secretome prediction often involves multiple steps. Typically, it starts with prediction of short signal peptides at the N-terminal end of a protein. Next, it is crucial to ensure the absence of motifs and domains preventing the protein from being secreted despite the presence of the signal peptide. These sequences include transmembrane domains, short ER lumen retention signals,and mitochondria/plastid targeting signals.
 
-A number of excellent command line tools and web-interfaces exist to perform predictions of individual motifs and domains ([signalp](http://www.cbs.dtu.dk/services/SignalP/), [targetp](http://www.cbs.dtu.dk/services/TargetP/), [TMHMM](http://www.cbs.dtu.dk/services/TMHMM/), [WolfPsort](https://github.com/fmaguire/WoLFPSort)), [TOPCONS](http://topcons.net/) however the interface allowing to combine the outputs in a single flexible workflow is lacking.
+A number of excellent command line tools and web-interfaces exist to perform predictions of individual motifs and domains ([signalp](http://www.cbs.dtu.dk/services/SignalP/), [targetp](http://www.cbs.dtu.dk/services/TargetP/), [TMHMM](http://www.cbs.dtu.dk/services/TMHMM/), [WolfPsort](https://github.com/fmaguire/WoLFPSort), [TOPCONS](http://topcons.net/)) however the interface allowing to combine the outputs in a single flexible workflow is lacking.
 
 **SecretSanta** package attempts to bridge this gap. It provides wrapper and parser functions around existing command line tools for prediction of signal peptides and protein subcellular localisation. The functions are designed to work together by producing standardized output. This allows the user to pipe results between individual predictors easily to create flexible custom pipelines and also to compare predictions between similar methods.
 
