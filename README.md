@@ -31,7 +31,7 @@ Below is a summary of main functionality:
 
 ## 2. External dependencies
 
-SecretSanta relies on a set of existing command line tools to predict secreted proteins. Please install them and configure according to the listed instructions. Due to limitations imposed by the external dependencies, some of SecretSanta wrapper functions won't work in Windows or Mac, however are fully functional on Linux.
+SecretSanta relies on a set of existing command line tools to predict secreted proteins. Please install them and configure according to the listed instructions. Due to limitations imposed by the external dependencies, some of SecretSanta wrapper functions won't work in Windows or Mac, however are fully functional on Linux. Please note, `signlap()` wrapper provides access and can work with legacy versions of SignlP (2.0 and 3.0), as well as the most recent version (4.1). If your application does not require multiple SignalP versions the respective version-specific installation instructions could be skipped.
 
 #### 2.1 Automatic installation of external dependencies
 
