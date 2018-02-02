@@ -21,7 +21,7 @@ Below is a summary of main functionality:
 
 - `manage_paths()`: run tests with the external dependencies to ensure correct installation;
 - `signalp()`: predict signal peptides with SignalP 2.0, SignalP 3.0 or SignalP 4.1;
-- `tmhmm()`: predict transmembrane domains with TMHMM 2.0
+- `tmhmm()`: predict transmembrane domains with TMHMM 2.0;
 - `topcons()`: parse predictions of transmemrane domains performed by TOPCONS2;
 - `targetp()`: predict subcellular localisation with TargetP 1.1;
 - `wolfpsort()`: predict subcellular localisation with WoLF PSORT;
