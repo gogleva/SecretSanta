@@ -31,6 +31,11 @@ Below is a summary of main functionality:
 
 Please see the the pre-build [vignette](https://gogleva.github.io/SecretSanta/vignettes/SecretSanta-vignette.html) for detailed documentation and use-case scenarios.
 
+## Citation:
+
+If you find SecretSanta useful for your work, please cite the following paper:
+> Gogleva A, Drost HG, Schornack S. **SecretSanta: flexible pipelines for functional secretome prediction.** *Bioinformatics (2018)*. doi:10.1093/bioinformatics/bty088
+
 ## 2. External dependencies
 
 SecretSanta relies on a set of existing command line tools to predict secreted proteins. Please install them and configure according to the listed instructions. Due to limitations imposed by the external dependencies, some of SecretSanta wrapper functions won't work in Windows or Mac, however are fully functional on Linux. Please note, `signlap()` wrapper provides access and can work with legacy versions of SignlP (2.0 and 3.0), as well as the most recent version (4.1). If your application does not require multiple SignalP versions the respective version-specific installation instructions could be skipped.
@@ -177,7 +182,7 @@ Reload `.profile`:
 . ~/.profile
 ```
 
-Reboot, to make changes visible to R. If you are using csh or tsh, edit ``.login`` instead of ``.profile`` and use the ``setenv`` command instead of ``export``.
+Reboot, to make changes visible to R. If you are using csh or tcsh, edit ``.login`` instead of ``.profile`` and use the ``setenv`` command instead of ``export``.
 
 ### 3. Installation
 
