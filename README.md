@@ -34,7 +34,7 @@ Please see the the pre-build [vignette](https://gogleva.github.io/SecretSanta/vi
 ## Citation:
 
 If you find SecretSanta useful for your work, please cite the following paper:
-> Gogleva A, Drost HG, Schornack S. **SecretSanta: flexible pipelines for functional secretome prediction.** *Bioinformatics (2018)*. doi:10.1093/bioinformatics/bty088
+> Anna Gogleva, Hajk-Georg Drost, Sebastian Schornack. **SecretSanta: flexible pipelines for functional secretome prediction**. *Bioinformatics* (2018). https://doi.org/10.1093/bioinformatics/bty088
 
 ## 2. External dependencies
 
