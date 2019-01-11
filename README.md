@@ -203,4 +203,4 @@ For a short-form documentation please use:
 
 ### Reporting bugs
 
-email <anna.gogleva@slcu.cam.ac.uk> about bugs and strange things.
+email <gogleva.a.a@gmail.com> about bugs and strange things.
