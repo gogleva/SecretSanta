@@ -2,6 +2,8 @@
 [![minimal R version](https://img.shields.io/badge/R%3E%3D-3.4.0-6666ff.svg)](https://cran.r-project.org/)
 [![Linux Build Status](https://travis-ci.org/gogleva/SecretSanta.svg?branch=master)](https://travis-ci.org/gogleva/SecretSanta)
 
+## Please note, SecretSanta is currently undergoing updates, meanwhile please use it with R 3.4 and the previous releases of Bioconductor (3.5-3.6).
+
 ## 1. Background
 
 The **SecretSanta** package provides an R interface for the integrative
@@ -203,4 +205,4 @@ For a short-form documentation please use:
 
 ### Reporting bugs
 
-email <gogleva.a.a@gmail.com> about bugs and strange things.
+please raise an issue (preferred option) or email <gogleva.a.a@gmail.com> about bugs and strange things.
